@@ -11,6 +11,7 @@ import Foundation
 extension OneTapFlow {
     func startPaymentFlow() {
         guard let paymentFlow = model.paymentFlow else {
+            model.paymentData.cleanToken()
             return
         }
         model.invalidESCReason = nil
