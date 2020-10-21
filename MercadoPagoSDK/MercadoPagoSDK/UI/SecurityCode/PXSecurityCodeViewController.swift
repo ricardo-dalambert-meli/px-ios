@@ -38,9 +38,6 @@ final class PXSecurityCodeViewController: MercadoPagoUIViewController {
         self.finishButtonAnimationCallback = finishButtonAnimationCallback
         self.collectSecurityCodeCallback = collectSecurityCodeCallback
         super.init(nibName: nil, bundle: nil)
-        view.backgroundColor = .white
-        setNavBarBackgroundColor(color: .white)
-        setNavBarTextColor(color: .red)
     }
 
     required init?(coder: NSCoder) {
@@ -50,13 +47,15 @@ final class PXSecurityCodeViewController: MercadoPagoUIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         trackScreenView()
+        setNavBarBackgroundColor(color: .white)
+        setNavBarTextColor(color: .black)
         renderViews()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UIApplication.shared.statusBarStyle = .default
         setupKeyboardNotifications()
+        setupNavBarStyle(style: .default)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -66,9 +65,9 @@ final class PXSecurityCodeViewController: MercadoPagoUIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        UIApplication.shared.statusBarStyle = ThemeManager.shared.statusBarStyle()
         removeKeyboardNotifications()
         loadingButtonComponent?.dismissSnackbar()
+        setupNavBarStyle(style: ThemeManager.shared.navigationControllerMemento?.navBarStyle ?? .black)
     }
 }
 
@@ -132,7 +131,6 @@ extension PXSecurityCodeViewController: PXAnimatedButtonDelegate {
     }
 
     func didFinishAnimation() {
-        hideNavBar()
         finishButtonAnimationCallback()
     }
 
@@ -180,12 +178,21 @@ private extension PXSecurityCodeViewController {
 
 // MARK: UI
 private extension PXSecurityCodeViewController {
+    func setupNavBarStyle(style: UIBarStyle) {
+        navigationController?.navigationBar.barStyle = style
+    }
+
     func renderViews() {
+        setupView()
         setupTitle()
         viewModel.shouldShowCard() ? setupCardContainerView() : setupSubtitle()
         setupAndesTextFieldCode()
         setupLoadingButton()
         setupTextFieldAndButtonConstraints()
+    }
+
+    func setupView() {
+        view.backgroundColor = .white
     }
 
     func setupTitle() {
@@ -197,6 +204,7 @@ private extension PXSecurityCodeViewController {
         titleLabel.numberOfLines = 2
         titleLabel.textColor = UIColor.black.withAlphaComponent(0.8)
         titleLabel.alpha = 0
+        titleLabel.layer.zPosition = 1
         view.addSubview(titleLabel)
 
         titleLabelTopConstraint = titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: -300)
@@ -323,6 +331,7 @@ private extension PXSecurityCodeViewController {
             var animator = PXAnimator(duration: 0.8, dampingRatio: 0.8)
             animator.addAnimation(animation: { [weak self] in
                 guard let self = self else { return }
+                self.titleLabel.layer.zPosition = 0
                 self.subtitleTopConstraint.constant = PXLayout.XXS_MARGIN
                 self.subtitleLabel.alpha = 1
                 self.textFieldContainerTopConstraint.constant = self.viewModel.shouldShowCard() ? -self.getVerticalCardSpace() : 0
