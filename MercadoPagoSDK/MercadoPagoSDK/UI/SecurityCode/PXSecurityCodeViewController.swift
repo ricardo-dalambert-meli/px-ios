@@ -20,6 +20,7 @@ final class PXSecurityCodeViewController: MercadoPagoUIViewController {
     var cardDrawer: MLCardDrawerController?
     var attemptsWithInternetError: Int = 0
     var andesTextFieldCode = AndesTextFieldCode()
+    var andesTextFieldCodeIsComplete = false
 
     // MARK: Constraints
     var loadingButtonBottomConstraint = NSLayoutConstraint()
@@ -38,10 +39,6 @@ final class PXSecurityCodeViewController: MercadoPagoUIViewController {
         self.finishButtonAnimationCallback = finishButtonAnimationCallback
         self.collectSecurityCodeCallback = collectSecurityCodeCallback
         super.init(nibName: nil, bundle: nil)
-        view.backgroundColor = .white
-        setNavBarBackgroundColor(color: .white)
-        setupNavBarStyle(style: .default)
-        setNavBarTextColor(color: .black)
     }
 
     required init?(coder: NSCoder) {
@@ -51,12 +48,15 @@ final class PXSecurityCodeViewController: MercadoPagoUIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         trackScreenView()
+        setNavBarBackgroundColor(color: .white)
+        setNavBarTextColor(color: .black)
         renderViews()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupKeyboardNotifications()
+        setupNavBarStyle(style: .default)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -105,7 +105,11 @@ private extension PXSecurityCodeViewController {
     func enableUI(_ enabled: Bool) {
         view.isUserInteractionEnabled = enabled
         navigationController?.navigationBar.isUserInteractionEnabled = enabled
-        loadingButtonComponent?.isUserInteractionEnabled = enabled
+        if enabled, andesTextFieldCodeIsComplete {
+            loadingButtonComponent?.isUserInteractionEnabled = true
+        } else {
+            loadingButtonComponent?.isUserInteractionEnabled = false
+        }
     }
 
     func unsubscribeFromNotifications() {
@@ -120,7 +124,7 @@ extension PXSecurityCodeViewController: PXAnimatedButtonDelegate {
         enableUI(true)
         unsubscribeFromNotifications()
         UIView.animate(withDuration: 0.3, animations: {
-            self.loadingButtonComponent?.backgroundColor = ThemeManager.shared.getAccentColor()
+            self.loadingButtonComponent?.backgroundColor = self.andesTextFieldCodeIsComplete ? ThemeManager.shared.getAccentColor() : ThemeManager.shared.greyColor()
         })
     }
 
@@ -132,7 +136,6 @@ extension PXSecurityCodeViewController: PXAnimatedButtonDelegate {
     }
 
     func didFinishAnimation() {
-        hideNavBar()
         finishButtonAnimationCallback()
     }
 
@@ -180,7 +183,12 @@ private extension PXSecurityCodeViewController {
 
 // MARK: UI
 private extension PXSecurityCodeViewController {
+    func setupNavBarStyle(style: UIBarStyle) {
+        navigationController?.navigationBar.barStyle = style
+    }
+
     func renderViews() {
+        setupView()
         setupTitle()
         viewModel.shouldShowCard() ? setupCardContainerView() : setupSubtitle()
         setupAndesTextFieldCode()
@@ -188,8 +196,8 @@ private extension PXSecurityCodeViewController {
         setupTextFieldAndButtonConstraints()
     }
 
-    func setupNavBarStyle(style: UIBarStyle) {
-        navigationController?.navigationBar.barStyle = style
+    func setupView() {
+        view.backgroundColor = .white
     }
 
     func setupTitle() {
@@ -201,6 +209,7 @@ private extension PXSecurityCodeViewController {
         titleLabel.numberOfLines = 2
         titleLabel.textColor = UIColor.black.withAlphaComponent(0.8)
         titleLabel.alpha = 0
+        titleLabel.layer.zPosition = 1
         view.addSubview(titleLabel)
 
         titleLabelTopConstraint = titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: -300)
@@ -311,11 +320,12 @@ private extension PXSecurityCodeViewController {
     }
 
     func setupAnimations() {
+        view.layoutIfNeeded()
+        andesTextFieldCode.setFocus()
         if viewModel.shouldShowCard() {
             cardContainerView.alpha = 1
             cardDrawer?.showSecurityCode()
         }
-        andesTextFieldCode.setFocus()
         var animator = PXAnimator(duration: 0.8, dampingRatio: 0.8)
         animator.addAnimation(animation: { [weak self] in
             guard let self = self else { return }
@@ -327,6 +337,7 @@ private extension PXSecurityCodeViewController {
             var animator = PXAnimator(duration: 0.8, dampingRatio: 0.8)
             animator.addAnimation(animation: { [weak self] in
                 guard let self = self else { return }
+                self.titleLabel.layer.zPosition = 0
                 self.subtitleTopConstraint.constant = PXLayout.XXS_MARGIN
                 self.subtitleLabel.alpha = 1
                 self.textFieldContainerTopConstraint.constant = self.viewModel.shouldShowCard() ? -self.getVerticalCardSpace() : 0
@@ -356,6 +367,7 @@ extension PXSecurityCodeViewController: AndesTextFieldCodeDelegate {
     }
 
     func textDidComplete(_ isComplete: Bool) {
+        andesTextFieldCodeIsComplete = isComplete
         isComplete ? loadingButtonComponent?.setEnabled() : loadingButtonComponent?.setDisabled()
     }
 }

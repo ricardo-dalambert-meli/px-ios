@@ -153,8 +153,8 @@ extension PXAnimatedButton: ProgressViewDelegate, CAAnimationDelegate {
     }
 
     func completeSnackbarDismiss() {
-        animationDelegate?.shakeDidFinish()
         isUserInteractionEnabled = true
+        animationDelegate?.shakeDidFinish()
     }
 
     // MARK: Uncomment for Shake button
