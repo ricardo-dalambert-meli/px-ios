@@ -20,6 +20,7 @@ final class PXSecurityCodeViewController: MercadoPagoUIViewController {
     var cardDrawer: MLCardDrawerController?
     var attemptsWithInternetError: Int = 0
     var andesTextFieldCode = AndesTextFieldCode()
+    var andesTextFieldCodeIsComplete = false
 
     // MARK: Constraints
     var loadingButtonBottomConstraint = NSLayoutConstraint()
@@ -104,7 +105,11 @@ private extension PXSecurityCodeViewController {
     func enableUI(_ enabled: Bool) {
         view.isUserInteractionEnabled = enabled
         navigationController?.navigationBar.isUserInteractionEnabled = enabled
-        loadingButtonComponent?.isUserInteractionEnabled = enabled
+        if enabled, andesTextFieldCodeIsComplete {
+            loadingButtonComponent?.isUserInteractionEnabled = true
+        } else {
+            loadingButtonComponent?.isUserInteractionEnabled = false
+        }
     }
 
     func unsubscribeFromNotifications() {
@@ -119,7 +124,7 @@ extension PXSecurityCodeViewController: PXAnimatedButtonDelegate {
         enableUI(true)
         unsubscribeFromNotifications()
         UIView.animate(withDuration: 0.3, animations: {
-            self.loadingButtonComponent?.backgroundColor = ThemeManager.shared.getAccentColor()
+            self.loadingButtonComponent?.backgroundColor = self.andesTextFieldCodeIsComplete ? ThemeManager.shared.getAccentColor() : ThemeManager.shared.greyColor()
         })
     }
 
@@ -315,11 +320,12 @@ private extension PXSecurityCodeViewController {
     }
 
     func setupAnimations() {
+        view.layoutIfNeeded()
+        andesTextFieldCode.setFocus()
         if viewModel.shouldShowCard() {
             cardContainerView.alpha = 1
             cardDrawer?.showSecurityCode()
         }
-        andesTextFieldCode.setFocus()
         var animator = PXAnimator(duration: 0.8, dampingRatio: 0.8)
         animator.addAnimation(animation: { [weak self] in
             guard let self = self else { return }
@@ -361,6 +367,7 @@ extension PXSecurityCodeViewController: AndesTextFieldCodeDelegate {
     }
 
     func textDidComplete(_ isComplete: Bool) {
+        andesTextFieldCodeIsComplete = isComplete
         isComplete ? loadingButtonComponent?.setEnabled() : loadingButtonComponent?.setDisabled()
     }
 }

@@ -11,6 +11,7 @@ import Foundation
 internal extension PXPaymentFlow {
     func createPaymentWithPlugin(plugin: PXSplitPaymentProcessor?) {
         guard let plugin = plugin else {
+            showError()
             return
         }
 
