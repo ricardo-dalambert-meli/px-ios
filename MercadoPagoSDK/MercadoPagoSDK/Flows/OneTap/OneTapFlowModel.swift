@@ -218,7 +218,7 @@ internal extension OneTapFlowModel {
 
         if isCustomerCard && !paymentData.hasToken() && hasInstallmentsIfNeeded {
             if let customOptionSearchItem = search.getPayerPaymentMethod(id: paymentOptionSelectedId) {
-                if hasSavedESC() {
+                if hasSavedESC(), false {
                     if customOptionSearchItem.escStatus == PXESCStatus.REJECTED.rawValue {
                         invalidESCReason = .ESC_CAP
                         return true
