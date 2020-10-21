@@ -216,7 +216,7 @@ internal extension OneTapFlowModel {
         let paymentOptionSelectedId = paymentOptionSelected.getId()
         let isCustomerCard = paymentOptionSelected.isCustomerPaymentMethod() && paymentOptionSelectedId != PXPaymentTypes.ACCOUNT_MONEY.rawValue && paymentOptionSelectedId != PXPaymentTypes.CONSUMER_CREDITS.rawValue
 
-        if isCustomerCard && !paymentData.hasToken() && hasInstallmentsIfNeeded {
+        if isCustomerCard && !paymentData.hasToken() && hasInstallmentsIfNeeded {s
             if let customOptionSearchItem = search.payerPaymentMethods.first(where: { $0.id == paymentOptionSelectedId}) {
                 // For mds we dont want the esc feature
                 if hasSavedESC(), false {
