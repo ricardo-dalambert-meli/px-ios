@@ -97,6 +97,9 @@ class ViewController: UIViewController {
         // Set expressEnabled true to use one-tap instead of groups flow
         configuration.expressEnabled = true
         
+        // Add custom PXDynamicViewController component
+        configuration.dynamicViewControllersConfiguration = [CustomPXDynamicComponent()]
+        
         // Configure the builder object
         builder.setAdvancedConfiguration(config: configuration)
         
