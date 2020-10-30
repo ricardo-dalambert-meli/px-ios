@@ -373,7 +373,7 @@ extension PXResultViewModel: PXViewModelTrackingDataProtocol {
         properties = PXCongratsTracking.getProperties(dataProtocol: self, properties: properties)
 
         if let rawAmount = amountHelper.getPaymentData().getRawAmount() {
-            properties["preference_amount"] = rawAmount.decimalValue
+            properties["total_amount"] = rawAmount.decimalValue // TODO: Replace with total_amount
         }
 
         let paymentStatus = paymentResult.status
