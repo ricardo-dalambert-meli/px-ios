@@ -125,6 +125,29 @@ extension PXCardSliderPagerCell {
         PXFeedbackGenerator.selectionFeedback()
         addNewMethodDelegate?.addNewOfflineMethod()
     }
+    
+    func renderHybridAMCard(isDisabled: Bool, cardSize: CGSize, bottomMessage: PXCardBottomMessage? = nil, accessibilityData: AccessibilityCardData) {
+        containerView.layer.masksToBounds = false
+        containerView.backgroundColor = .clear
+        containerView.removeAllSubviews()
+        containerView.layer.cornerRadius = cornerRadius
+        
+        let hybridAMCard = HybridAMCard()
+        cardHeader = MLCardDrawerController(HybridAMCard(), PXCardDataFactory(), isDisabled)
+        cardHeader?.view.frame = CGRect(origin: CGPoint.zero, size: cardSize)
+        cardHeader?.animated(false)
+        cardHeader?.show()
+
+        if let headerView = cardHeader?.view {
+            containerView.addSubview(headerView)
+            HybridAMCard.render(containerView: containerView, isDisabled: isDisabled, size: cardSize)
+            PXLayout.centerHorizontally(view: headerView).isActive = true
+            PXLayout.centerVertically(view: headerView).isActive = true
+        }
+        
+        addBottomMessageView(message: bottomMessage)
+        accessibilityLabel = getAccessibilityMessage(accessibilityData)
+    }
 
     func renderAccountMoneyCard(isDisabled: Bool, cardSize: CGSize, bottomMessage: PXCardBottomMessage? = nil, accessibilityData: AccessibilityCardData) {
         containerView.layer.masksToBounds = false
