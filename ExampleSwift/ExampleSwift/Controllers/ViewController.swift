@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     private let publicKey : String = "TEST-e28d5a35-dece-45c9-9618-e8cc5dec6c42"
     
     // Preference ID
-    private let preferenceId : String = "656525290-c715a5b1-7fe2-4ad4-af22-4d538cc649ac" //"656525290-7bda964b-26d9-4352-a04c-1b04801627ee"
+    private let preferenceId : String = "656525290-2184df26-5283-41da-9a1c-9346735e73d2" //"656525290-7bda964b-26d9-4352-a04c-1b04801627ee"
     
     // Payer private key
     private let privateKey : String = "TEST-7215456036166479-101915-223c2540d9126044887a840cfae544a9-660760647"

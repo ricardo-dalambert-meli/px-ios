@@ -131,9 +131,7 @@ extension PXCardSliderPagerCell {
         containerView.backgroundColor = .clear
         containerView.removeAllSubviews()
         containerView.layer.cornerRadius = cornerRadius
-        
-        let hybridAMCard = HybridAMCard()
-        cardHeader = MLCardDrawerController(HybridAMCard(), PXCardDataFactory(), isDisabled)
+        cardHeader = MLCardDrawerController(HybridAMCard(isDisabled), PXCardDataFactory(), isDisabled)
         cardHeader?.view.frame = CGRect(origin: CGPoint.zero, size: cardSize)
         cardHeader?.animated(false)
         cardHeader?.show()
