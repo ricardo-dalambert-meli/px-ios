@@ -108,7 +108,7 @@
     //  Dynamic View Controller
 //    TestComponent *dynamicViewControllersConfigObject = [self getReviewScreenDynamicViewControllerConfigurationObject];
 //    [advancedConfig setDynamicViewControllersConfiguration: [NSArray arrayWithObjects: dynamicViewControllersConfigObject, nil]];
-//    [advancedConfig setReviewConfTODO:irmDynamicViewsConfiguration:[self getReviewScreenDynamicViewsConfigurationObject]];
+//    [advancedConfig setReviewConfirmDynamicViewsConfiguration:[self getReviewScreenDynamicViewsConfigurationObject]];
 
     //PAYMENT RESULT
     [advancedConfig setPaymentResultConfiguration: [self getPaymentResultConfiguration]];

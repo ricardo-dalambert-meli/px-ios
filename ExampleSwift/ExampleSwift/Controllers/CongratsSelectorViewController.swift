@@ -153,20 +153,6 @@ class CongratsSelectorViewController: UITableViewController, PXTrackerListener {
                                 .withPaymentMethodInfo(PXCongratsPaymentInfo(paidAmount: "$ 1.000", rawAmount: "$ 10.000", paymentMethodName: "dasdasd", paymentMethodLastFourDigits: "9876", paymentMethodDescription: nil, paymentMethodIconURL: "https://www.google.com", paymentMethodType: .CREDIT_CARD, installmentsRate: nil, installmentsCount: 1, installmentsAmount: nil, installmentsTotalAmount: "$ 1.000", discountName: "90% OFF")))
     }()
     
-    private lazy var businessCongrats : CongratsType = {
-        return CongratsType(congratsName: "Business", congratsData: PXPaymentCongrats()
-                                .withCongratsType(.approved)
-                                .withHeader(title: "¡Listo! Ya le pagaste a SuperMarket", imageURL: "https://mla-s2-p.mlstatic.com/600619-MLA32239048138_092019-O.jpg") {
-                                    self.navigationController?.popViewController(animated: true)
-                                }
-                                .withReceipt(shouldShowReceipt:true, receiptId: "123", action: nil)
-                                .withFooterMainAction(PXAction(label: "Continuar", action: {
-                                    self.navigationController?.popViewController(animated: true)
-                                }))
-                                .shouldShowPaymentMethod(true)
-                                .withPaymentMethodInfo(PXCongratsPaymentInfo(paidAmount: "$ 1.000", rawAmount: "$ 10.000", paymentMethodName: "dasdasd", paymentMethodLastFourDigits: "9876", paymentMethodDescription: nil, paymentMethodIconURL: "https://www.google.com", paymentMethodType: .CREDIT_CARD, installmentsRate: nil, installmentsCount: 1, installmentsAmount: nil, installmentsTotalAmount: "$ 1.000", discountName: "90% OFF")))
-    }()
-    
     func fillCongratsData() {
         congratsData = [
             commonCongrats, congratsWithOutDiscountsAndPoints, congratsWithInstallments,
@@ -174,6 +160,7 @@ class CongratsSelectorViewController: UITableViewController, PXTrackerListener {
             congratsWithAccountMoney, congratsWithDiscount
         ]
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         fillCongratsData()

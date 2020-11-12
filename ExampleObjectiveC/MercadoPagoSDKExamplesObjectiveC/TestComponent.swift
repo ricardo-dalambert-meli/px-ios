@@ -103,7 +103,7 @@ extension TestComponent: PXDynamicViewControllerProtocol {
     }
 
     public func position(store: PXCheckoutStore) -> PXDynamicViewControllerPosition {
-        return PXDynamicViewControllerPosition.DID_TAP_ONETAP_HEADER//.DID_ENTER_REVIEW_AND_CONFIRM
+        return PXDynamicViewControllerPosition.DID_ENTER_REVIEW_AND_CONFIRM
     }
 
     public func navigationHandler(navigationHandler: PXPluginNavigationHandler) {
