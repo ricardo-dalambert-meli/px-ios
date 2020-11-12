@@ -30,8 +30,7 @@ class ViewController: UIViewController {
     
     @IBAction func initDefault(_ sender: Any) {
         // runMercadoPagoCheckout()
-//         runMercadoPagoCheckoutWithLifecycle()
-        runMercadoPagoCheckoutWithLifecycleAndCustomProcessor()
+        runMercadoPagoCheckoutWithLifecycle()
     }
 
     override func viewDidLoad() {
@@ -55,63 +54,6 @@ class ViewController: UIViewController {
         // 3) Start with your navigation controller.
         if let myNavigationController = navigationController {
             checkout?.start(navigationController: myNavigationController)
-        }
-    }
-    
-    private func runMercadoPagoCheckoutWithLifecycleAndCustomProcessor() {
-        
-        // Create charge rules
-        var pxPaymentTypeChargeRules : [PXPaymentTypeChargeRule] = []
-        
-        pxPaymentTypeChargeRules.append(PXPaymentTypeChargeRule.init(paymentTypeId: PXPaymentTypes.ACCOUNT_MONEY.rawValue, amountCharge: 10.00 ))
-
-//        // Charge rule with custom dialog
-//
-//        let alertController : UIAlertController = UIAlertController.init(title: "Detalle del cargo", message: "Este es el detalle del cargo que visualizás", preferredStyle: .alert)
-//
-//        pxPaymentTypeChargeRules.append(PXPaymentTypeChargeRule.init(paymentTypeId: PXPaymentTypes.CREDIT_CARD.rawValue, amountCharge: 15.00, detailModal: alertController ))
-//
-  
-        // Free charge rule
-        pxPaymentTypeChargeRules.append(PXPaymentTypeChargeRule.init(paymentTypeId: PXPaymentTypes.CREDIT_CARD.rawValue, message: "Mensaje de resaltado"))
-        
-        // Create an instance of your custom payment processor
-        let paymentProcessor : PXPaymentProcessor = CustomPaymentProcessor()
-        
-        // Create a payment configuration instance using the recently created payment processor
-        let paymentConfiguration = PXPaymentConfiguration(paymentProcessor: paymentProcessor)
-        
-        // Add charge rules
-        paymentConfiguration.addChargeRules(charges: pxPaymentTypeChargeRules)
-        
-        // Create a Builder with your publicKey, preferenceId and paymentConfiguration
-        let builder = MercadoPagoCheckoutBuilder(publicKey: publicKey, preferenceId: preferenceId, paymentConfiguration: paymentConfiguration).setLanguage("es")
-        
-//        let checkoutPreference = PXCheckoutPreference.init(preferenceId: preferenceId)
-//
-//        let builder = MercadoPagoCheckoutBuilder.init(publicKey: publicKey, checkoutPreference: checkoutPreference, paymentConfiguration: paymentConfiguration)
-        
-        // Instantiate a configuration object
-        let configuration = PXAdvancedConfiguration()
-         
-        // Set expressEnabled true to use one-tap instead of groups flow
-        configuration.expressEnabled = true
-        
-        // Add custom PXDynamicViewController component
-        configuration.dynamicViewControllersConfiguration = [CustomPXDynamicComponent()]
-        
-        // Configure the builder object
-        builder.setAdvancedConfiguration(config: configuration)
-        
-        // Set the payer private key
-        builder.setPrivateKey(key: privateKey)
-
-        // Create Checkout reference
-        checkout = MercadoPagoCheckout(builder: builder)
-
-        // Start with your navigation controller.
-        if let myNavigationController = navigationController {
-            checkout?.start(navigationController: myNavigationController, lifeCycleProtocol: self)
         }
     }
 
