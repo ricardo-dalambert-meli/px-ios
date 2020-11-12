@@ -133,7 +133,7 @@ extension PXBusinessResultViewModel: PXViewModelTrackingDataProtocol {
        properties = PXCongratsTracking.getProperties(dataProtocol: self, properties: properties)
 
        if let rawAmount = amountHelper.getPaymentData().getRawAmount() {
-           properties["total_amount"] = rawAmount.decimalValue // TODO: Replace with total_amount
+           properties["total_amount"] = rawAmount.decimalValue
        }
 
        return properties

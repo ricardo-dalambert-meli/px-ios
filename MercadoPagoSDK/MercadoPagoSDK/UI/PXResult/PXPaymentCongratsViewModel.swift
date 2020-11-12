@@ -251,7 +251,7 @@ extension PXPaymentCongratsViewModel: PXNewResultViewModelInterface {
             properties["payment_method_type"] = extConf.paymentMethodType
             properties["payment_id"] = extConf.paymentId
             properties["payment_status"] = paymentCongrats.type.getRawValue()
-            properties["total_amount"] = extConf.totalAmount // TODO: Replace with total_amount
+            properties["total_amount"] = extConf.totalAmount
             properties["payment_status_detail"] = extConf.paymentStatusDetail
 
             if let campaingId = extConf.campaingId {
