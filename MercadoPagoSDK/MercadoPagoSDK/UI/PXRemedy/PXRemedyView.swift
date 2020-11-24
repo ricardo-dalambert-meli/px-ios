@@ -164,7 +164,8 @@ class PXRemedyView: UIView {
         var cardUI: CardUI
         if oneTapDto.accountMoney != nil {
             cardData = PXCardDataFactory()
-            cardUI = AccountMoneyCard()
+//            cardUI = AccountMoneyCard()
+            cardUI = HybridAMCard()
         } else if let oneTapCardUI = oneTapDto.oneTapCard?.cardUI,
             let cardName = oneTapCardUI.name,
             let cardNumber = oneTapCardUI.lastFourDigits,
@@ -211,7 +212,8 @@ class PXRemedyView: UIView {
 
         if oneTapDto.accountMoney != nil {
             let view = controller.getCardView()
-            AccountMoneyCard.render(containerView: view, isDisabled: false, size: view.bounds.size)
+//            AccountMoneyCard.render(containerView: view, isDisabled: false, size: view.bounds.size)
+            HybridAMCard.render(containerView: view, isDisabled: false, size: view.bounds.size)
         } else if let consumerCreditsCard = cardUI as? ConsumerCreditsCard,
                   let consumerCredits = oneTapDto.oneTapCreditsInfo {
             let customConsumerCredits = PXOneTapCreditsDto(displayInfo: PXDisplayInfoDto(color: consumerCredits.displayInfo.color,

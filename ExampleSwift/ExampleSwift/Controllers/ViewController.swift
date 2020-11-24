@@ -23,15 +23,15 @@ class ViewController: UIViewController {
     private let publicKey : String = "TEST-e28d5a35-dece-45c9-9618-e8cc5dec6c42"
     
     // Preference ID
-    private let preferenceId : String = "656525290-2184df26-5283-41da-9a1c-9346735e73d2" //"656525290-7bda964b-26d9-4352-a04c-1b04801627ee"
+    private let preferenceId : String = "656525290-40cfbd89-5eb8-4b2f-8b22-5ae90227255b" //"656525290-2184df26-5283-41da-9a1c-9346735e73d2" //"656525290-7bda964b-26d9-4352-a04c-1b04801627ee"
     
     // Payer private key
-    private let privateKey : String = "TEST-7215456036166479-101915-223c2540d9126044887a840cfae544a9-660760647"
+    private let privateKey : String = "TEST-7215456036166479-101915-223c2540d9126044887a840cfae544a9-660760647" //"APP_USR-7215456036166479-101915-cfa0c8ee6ae855962e7b48fabd8a928d-660760647" //"TEST-7215456036166479-101915-223c2540d9126044887a840cfae544a9-660760647"
     
     @IBAction func initDefault(_ sender: Any) {
-        // runMercadoPagoCheckout()
-//         runMercadoPagoCheckoutWithLifecycle()
-        runMercadoPagoCheckoutWithLifecycleAndCustomProcessor()
+//         runMercadoPagoCheckout()
+         runMercadoPagoCheckoutWithLifecycle()
+//        runMercadoPagoCheckoutWithLifecycleAndCustomProcessor()
     }
 
     override func viewDidLoad() {
@@ -121,7 +121,7 @@ class ViewController: UIViewController {
         
         let configuration = PXAdvancedConfiguration()
         
-//        configuration.expressEnabled = true
+        configuration.expressEnabled = true
         
         builder.setAdvancedConfiguration(config: configuration)
         

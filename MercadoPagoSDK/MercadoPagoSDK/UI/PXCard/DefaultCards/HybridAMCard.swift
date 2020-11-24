@@ -25,7 +25,8 @@ class HybridAMCard: NSObject, CustomCardDrawerUI {
     var ownGradient: CAGradientLayer
     
     
-    init(_ isDisabled: Bool) {
+    init(_ isDisabled: Bool = false) {
+        
         let backgroundColor = isDisabled ? UIColor(red: 204 / 255, green: 204 / 255, blue: 204 / 255, alpha: 1.0) : UIColor(red: 16 / 255, green: 24 / 255, blue: 32 / 255, alpha: 1.0)
         
         self.cardBackgroundColor = backgroundColor
@@ -59,22 +60,6 @@ extension HybridAMCard {
         PXLayout.pinTop(view: amImage).isActive = true
         PXLayout.pinRight(view: amImage).isActive = true
 
-        // Pattern
-//        if !isDisabled {
-//            let patternView = UIImageView()
-//            patternView.contentMode = .scaleAspectFit
-//            patternView.image = ResourceManager.shared.getImage("hybridAmPattern")
-//            containerView.addSubview(patternView)
-//
-//            let height = size.height
-//            let width = height * 1.1
-//
-//            PXLayout.setHeight(owner: patternView, height: height).isActive = true
-//            PXLayout.setWidth(owner: patternView, width: width).isActive = true
-//            PXLayout.pinTop(view: patternView).isActive = true
-//            PXLayout.pinRight(view: patternView).isActive = true
-//        }
-
         // Logo
         let amLogo = UIImageView()
         amLogo.backgroundColor = .clear
@@ -82,7 +67,8 @@ extension HybridAMCard {
         let logoImage = ResourceManager.shared.getImage("hybridAmLogo")
         amLogo.image = logoImage
         containerView.addSubview(amLogo)
-        PXLayout.setWidth(owner: amLogo, width: size.width * 0.15).isActive = true
+        
+        PXLayout.setWidth(owner: amLogo, width: size.height * 0.15).isActive = true
         PXLayout.setHeight(owner: amLogo, height: size.height * 0.15).isActive = true
         PXLayout.pinTop(view: amLogo, withMargin: PXLayout.M_MARGIN).isActive = true
         PXLayout.pinLeft(view: amLogo, withMargin: PXLayout.M_MARGIN).isActive = true
