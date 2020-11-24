@@ -110,12 +110,16 @@ final class PXOneTapViewController: PXComponentContainerViewController {
         slider.update(cardSliderViewModel)
         installmentInfoRow?.update(model: viewModel.getInstallmentInfoViewModel())
 
-        if let index = cardSliderViewModel.firstIndex(where: { $0.cardId == cardId }) {
-            selectCardInSliderAtIndex(index)
-        } else {
-            //Select first item
-            selectFirstCardInSlider()
+        DispatchQueue.main.async {
+            // Trick to wait for the slider to finish the update
+            if let index = cardSliderViewModel.firstIndex(where: { $0.cardId == cardId }) {
+                self.selectCardInSliderAtIndex(index)
+            } else {
+                //Select first item
+                self.selectFirstCardInSlider()
+            }
         }
+        
         if let navigationController = navigationController,
             let cardFormViewController = navigationController.viewControllers.first(where: { $0 is MLCardFormViewController }) as? MLCardFormViewController {
             cardFormViewController.dismissLoadingAndPop()
@@ -668,11 +672,13 @@ extension PXOneTapViewController: PXCardSliderProtocol {
         let siteId = viewModel.siteId
         let flowId = MPXTracker.sharedInstance.getFlowName() ?? "unknown"
         let builder: MLCardFormBuilder
+        
         if let privateKey = viewModel.privateKey {
             builder = MLCardFormBuilder(privateKey: privateKey, siteId: siteId, flowId: flowId, lifeCycleDelegate: self)
         } else {
             builder = MLCardFormBuilder(publicKey: viewModel.publicKey, siteId: siteId, flowId: flowId, lifeCycleDelegate: self)
         }
+        
         builder.setLanguage(Localizator.sharedInstance.getLanguage())
         builder.setExcludedPaymentTypes(viewModel.excludedPaymentTypeIds)
         builder.setNavigationBarCustomColor(backgroundColor: ThemeManager.shared.navigationBar().backgroundColor, textColor: ThemeManager.shared.navigationBar().tintColor)
