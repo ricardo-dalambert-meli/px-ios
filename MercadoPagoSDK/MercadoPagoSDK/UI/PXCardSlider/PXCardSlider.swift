@@ -50,7 +50,7 @@ extension PXCardSlider: FSPagerViewDataSource {
             if let cardData = targetModel.cardData, let cell = pagerView.dequeueReusableCell(withReuseIdentifier: PXCardSliderPagerCell.identifier, at: index) as? PXCardSliderPagerCell {
                 let bottomMessage = targetModel.bottomMessage
 
-                if targetModel.cardUI is AccountMoneyCard {
+                if targetModel.cardUI is AccountMoneyCard {                    
                     // AM card.
 //                    cell.renderAccountMoneyCard(isDisabled: targetModel.status.isDisabled(), cardSize: pagerView.itemSize, bottomMessage: bottomMessage, accessibilityData: accessibilityData)
                     
