@@ -23,30 +23,52 @@ class HybridAMCard: NSObject, CustomCardDrawerUI {
     var fontType: String = "light"
     var ownOverlayImage: UIImage? = UIImage()
     var ownGradient: CAGradientLayer
+    var cardLogoImageUrl: String?
     
-    
-    init(_ isDisabled: Bool = false) {
+    init(isDisabled: Bool = false, cardLogoImageUrl: String?, color: String?, gradientColors: [String]?) {
         
-        let backgroundColor = isDisabled ? UIColor(red: 204 / 255, green: 204 / 255, blue: 204 / 255, alpha: 1.0) : UIColor(red: 16 / 255, green: 24 / 255, blue: 32 / 255, alpha: 1.0)
+        let disabledColor = UIColor(red: 204 / 255, green: 204 / 255, blue: 204 / 255, alpha: 1.0)
         
-        self.cardBackgroundColor = backgroundColor
+        var backgroundColor : UIColor?
+        
+        if let color = color {
+            backgroundColor = UIColor.fromHex(color)
+        } else {
+            backgroundColor = UIColor(red: 16 / 255, green: 24 / 255, blue: 32 / 255, alpha: 1.0)
+        }
+        
+        self.cardBackgroundColor = isDisabled ? disabledColor : backgroundColor!
         
         self.ownGradient = { () -> CAGradientLayer in
             let gradient = CAGradientLayer()
             
             gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
             gradient.endPoint = CGPoint(x: 1.6, y: 0.5)
-
-            gradient.colors = [backgroundColor.cgColor, backgroundColor.cgColor]
+            
+            if let gradientColors = gradientColors, gradientColors.count > 0 {
+                // If gradient colors has been set on backend
+                if gradientColors.count == 2 {
+                    // If there is 2 colors
+                    gradient.colors = [UIColor.fromHex(gradientColors[0]).cgColor, UIColor.fromHex(gradientColors[1]).cgColor]
+                } else {
+                    // If there is only one color
+                    gradient.colors = [UIColor.fromHex(gradientColors[0]).cgColor, UIColor.fromHex(gradientColors[0]).cgColor]
+                }
+            } else {
+                // If gradient colors hasn't been set
+                gradient.colors = [backgroundColor!.cgColor, backgroundColor!.cgColor]
+            }
             
             return gradient
         }()
+        
+        self.cardLogoImageUrl = cardLogoImageUrl
     }
     
 }
 
 extension HybridAMCard {
-    static func render(containerView: UIView, isDisabled: Bool, size: CGSize) {
+    func render(containerView: UIView, isDisabled: Bool, size: CGSize) {
         // Image
         let amImage = UIImageView()
         amImage.backgroundColor = .clear
@@ -61,16 +83,22 @@ extension HybridAMCard {
         PXLayout.pinRight(view: amImage).isActive = true
 
         // Logo
-        let amLogo = UIImageView()
-        amLogo.backgroundColor = .clear
-        amLogo.contentMode = .scaleAspectFit
-        let logoImage = ResourceManager.shared.getImage("hybridAmLogo")
-        amLogo.image = logoImage
-        containerView.addSubview(amLogo)
-        
-        PXLayout.setWidth(owner: amLogo, width: size.height * 0.15).isActive = true
-        PXLayout.setHeight(owner: amLogo, height: size.height * 0.15).isActive = true
-        PXLayout.pinTop(view: amLogo, withMargin: PXLayout.M_MARGIN).isActive = true
-        PXLayout.pinLeft(view: amLogo, withMargin: PXLayout.M_MARGIN).isActive = true
+        guard let imageURL = self.cardLogoImageUrl, imageURL.isNotEmpty else {
+            let image = ResourceManager.shared.getImage("hybridAmLogo")
+            
+            let amLogo = PXUIImageView(image: image, showAsCircle: false, showBorder: false, shouldAddInsets: true)
+            
+            amLogo.backgroundColor = .clear
+            amLogo.contentMode = .scaleAspectFit
+            
+            containerView.addSubview(amLogo)
+            
+            PXLayout.setWidth(owner: amLogo, width: size.height * 0.15).isActive = true
+            PXLayout.setHeight(owner: amLogo, height: size.height * 0.15).isActive = true
+            PXLayout.pinTop(view: amLogo, withMargin: PXLayout.M_MARGIN).isActive = true
+            PXLayout.pinLeft(view: amLogo, withMargin: PXLayout.M_MARGIN).isActive = true
+            
+            return
+        }
     }
 }

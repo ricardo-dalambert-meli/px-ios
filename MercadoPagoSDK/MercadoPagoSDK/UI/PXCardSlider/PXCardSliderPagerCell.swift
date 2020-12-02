@@ -126,19 +126,20 @@ extension PXCardSliderPagerCell {
         addNewMethodDelegate?.addNewOfflineMethod()
     }
     
-    func renderHybridAMCard(isDisabled: Bool, cardSize: CGSize, bottomMessage: PXCardBottomMessage? = nil, accessibilityData: AccessibilityCardData) {
+    func renderHybridAMCard(cardUI: HybridAMCard, isDisabled: Bool, cardSize: CGSize, bottomMessage: PXCardBottomMessage? = nil, accessibilityData: AccessibilityCardData) {
+        
         containerView.layer.masksToBounds = false
         containerView.backgroundColor = .clear
         containerView.removeAllSubviews()
         containerView.layer.cornerRadius = cornerRadius
-        cardHeader = MLCardDrawerController(HybridAMCard(isDisabled), PXCardDataFactory(), isDisabled)
+        cardHeader = MLCardDrawerController(cardUI, PXCardDataFactory(), isDisabled)
         cardHeader?.view.frame = CGRect(origin: CGPoint.zero, size: cardSize)
         cardHeader?.animated(false)
         cardHeader?.show()
 
         if let headerView = cardHeader?.view {
             containerView.addSubview(headerView)
-            HybridAMCard.render(containerView: containerView, isDisabled: isDisabled, size: cardSize)
+            cardUI.render(containerView: containerView, isDisabled: isDisabled, size: cardSize)
             PXLayout.centerHorizontally(view: headerView).isActive = true
             PXLayout.centerVertically(view: headerView).isActive = true
         }
@@ -147,19 +148,19 @@ extension PXCardSliderPagerCell {
         accessibilityLabel = getAccessibilityMessage(accessibilityData)
     }
 
-    func renderAccountMoneyCard(isDisabled: Bool, cardSize: CGSize, bottomMessage: PXCardBottomMessage? = nil, accessibilityData: AccessibilityCardData) {
+    func renderAccountMoneyCard(cardUI: AccountMoneyCard, isDisabled: Bool, cardSize: CGSize, bottomMessage: PXCardBottomMessage? = nil, accessibilityData: AccessibilityCardData) {
         containerView.layer.masksToBounds = false
         containerView.backgroundColor = .clear
         containerView.removeAllSubviews()
         containerView.layer.cornerRadius = cornerRadius
-        cardHeader = MLCardDrawerController(AccountMoneyCard(), PXCardDataFactory(), isDisabled)
+        cardHeader = MLCardDrawerController(cardUI, PXCardDataFactory(), isDisabled)
         cardHeader?.view.frame = CGRect(origin: CGPoint.zero, size: cardSize)
         cardHeader?.animated(false)
         cardHeader?.show()
 
         if let headerView = cardHeader?.view {
             containerView.addSubview(headerView)
-            AccountMoneyCard.render(containerView: containerView, isDisabled: isDisabled, size: cardSize)
+            cardUI.render(containerView: containerView, isDisabled: isDisabled, size: cardSize)
             PXLayout.centerHorizontally(view: headerView).isActive = true
             PXLayout.centerVertically(view: headerView).isActive = true
         }
@@ -235,7 +236,7 @@ extension PXCardSliderPagerCell {
     }
 
     func flipToBack() {
-        if !(cardHeader?.cardUI is AccountMoneyCard) {
+        if !(cardHeader?.cardUI is AccountMoneyCard || cardHeader?.cardUI is HybridAMCard) {
             cardHeader?.showSecurityCode()
         }
     }
