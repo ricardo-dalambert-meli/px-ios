@@ -21,7 +21,6 @@ class AccountMoneyCard: NSObject, CustomCardDrawerUI {
     var securityCodePattern = 3
     var fontType: String = "light"
     var ownOverlayImage: UIImage? = UIImage()
-    var ownGradient: CAGradientLayer
     var cardLogoImageUrl: String?
     
     init(isDisabled: Bool = false, cardLogoImageUrl: String?, color: String?, gradientColors: [String]?) {
@@ -37,29 +36,6 @@ class AccountMoneyCard: NSObject, CustomCardDrawerUI {
         }
         
         self.cardBackgroundColor = isDisabled ? disabledColor : backgroundColor!
-        
-        self.ownGradient = { () -> CAGradientLayer in
-            let gradient = CAGradientLayer()
-            
-            gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
-            gradient.endPoint = CGPoint(x: 1.6, y: 0.5)
-            
-            if let gradientColors = gradientColors, gradientColors.count > 0 {
-                // If gradient colors has been set on backend
-                if gradientColors.count == 2 {
-                    // If there is 2 colors
-                    gradient.colors = [UIColor.fromHex(gradientColors[0]).cgColor, UIColor.fromHex(gradientColors[1]).cgColor]
-                } else {
-                    // If there is only one color
-                    gradient.colors = [UIColor.fromHex(gradientColors[0]).cgColor, UIColor.fromHex(gradientColors[0]).cgColor]
-                }
-            } else {
-                // If gradient colors hasn't been set
-                gradient.colors = [backgroundColor!.cgColor, backgroundColor!.cgColor]
-            }
-            
-            return gradient
-        }()
         
         self.cardLogoImageUrl = cardLogoImageUrl
     }

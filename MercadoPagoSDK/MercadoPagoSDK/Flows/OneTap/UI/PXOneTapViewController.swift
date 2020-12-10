@@ -613,6 +613,10 @@ extension PXOneTapViewController: PXCardSliderProtocol {
             }
         } else if status.isDisabled() {
             showDisabledCardModal(status: status)
+        } else if let selectedCard = selectedCard {
+            if let tapCardBehaviour = selectedCard.behaviours?[PXBehaviour.Behaviours.tapCard.rawValue] {
+                handleBehaviour(tapCardBehaviour, isSplit: false)
+            }
         }
     }
 
