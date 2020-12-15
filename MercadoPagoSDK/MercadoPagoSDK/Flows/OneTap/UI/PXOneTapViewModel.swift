@@ -90,8 +90,16 @@ extension PXOneTapViewModel {
                 let cardData = PXCardDataFactory().create(cardName: displayTitle, cardNumber: "", cardCode: "", cardExpiration: "")
                 let amountConfiguration = amountHelper.paymentConfigurationService.getAmountConfigurationForPaymentMethod(accountMoney.getId())
                 
-                let cardUI : CardUI = accountMoney.cardType == .defaultType ? AccountMoneyCard(isDisabled: targetNode.status.isDisabled(), cardLogoImageUrl: accountMoney.paymentMethodImageURL, color: accountMoney.color, gradientColors: accountMoney.gradientColors) : HybridAMCard(isDisabled: targetNode.status.isDisabled(), cardLogoImageUrl: accountMoney.paymentMethodImageURL, color: accountMoney.color, gradientColors: accountMoney.gradientColors)
-
+                let isDefaultCardType = accountMoney.cardType == .defaultType
+                let isDisabled = targetNode.status.isDisabled()
+                let cardLogoImageUrl = accountMoney.paymentMethodImageURL
+                let color = accountMoney.color
+                let gradientColors = accountMoney.gradientColors
+                
+                let cardUI: CardUI = isDefaultCardType ?
+                                    AccountMoneyCard(isDisabled: isDisabled, cardLogoImageUrl: cardLogoImageUrl, color: color, gradientColors: gradientColors) :
+                                    HybridAMCard(isDisabled: isDisabled, cardLogoImageUrl: cardLogoImageUrl, color: color, gradientColors: gradientColors)
+                
                 let viewModelCard = PXCardSliderViewModel(paymentMethodId, targetNode.paymentTypeId, "", cardUI, cardData, [PXPayerCost](), nil, accountMoney.getId(), false, amountConfiguration: amountConfiguration, status: statusConfig, bottomMessage: chargeRuleMessage, benefits: benefits, payerPaymentMethod: getPayerPaymentMethod(targetNode.paymentTypeId, nil), behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo)
 
                 viewModelCard.setAccountMoney(accountMoneyBalance: accountMoney.availableBalance)
