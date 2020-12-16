@@ -42,9 +42,7 @@ internal extension PXPaymentFlow {
 
         model.mercadoPagoServices.createPayment(url: PXServicesURLConfigs.MP_API_BASE_URL, uri: PXServicesURLConfigs.MP_PAYMENTS_URI, paymentDataJSON: paymentBody, query: nil, headers: headers, callback: { [weak self] (payment) in
             self?.handlePayment(payment: payment)
-
         }, failure: { [weak self] (error) in
-
             guard let self = self else { return }
             self.trackPaymentsApiError()
             let mpError = MPSDKError.convertFrom(error, requestOrigin: ApiUtil.RequestOrigin.CREATE_PAYMENT.rawValue)
@@ -103,13 +101,16 @@ internal extension PXPaymentFlow {
         let ifpe = false
 
         var headers: [String: String] = [:]
+        
         if let productId = model.productId {
             headers[MercadoPagoService.HeaderField.productId.rawValue] = productId
         }
+        
+        headers[MercadoPagoService.HeaderField.locationEnabled.rawValue] = LocationService.isLocationEnabled() ? "true" : "false"
 
         model.shouldSearchPointsAndDiscounts = false
         let platform = MLBusinessAppDataService().getAppIdentifier().rawValue
-        model.mercadoPagoServices.getPointsAndDiscounts(url: PXServicesURLConfigs.MP_API_BASE_URL, uri: PXServicesURLConfigs.MP_POINTS_URI, paymentIds: paymentIds, paymentMethodsIds: paymentMethodsIds, campaignId: campaignId, platform: platform, ifpe: ifpe, headers: headers, callback: { [weak self] (pointsAndBenef) in
+        model.mercadoPagoServices.getPointsAndDiscounts(url: PXServicesURLConfigs.MP_API_BASE_URL, uri: PXServicesURLConfigs.MP_POINTS_URI, paymentIds: paymentIds, paymentMethodsIds: paymentMethodsIds, campaignId: campaignId, prefId: model.checkoutPreference?.id, platform: platform, ifpe: ifpe, headers: headers, callback: { [weak self] (pointsAndBenef) in
                 guard let strongSelf = self else { return }
                 strongSelf.model.pointsAndDiscounts = pointsAndBenef
                 strongSelf.executeNextStep()

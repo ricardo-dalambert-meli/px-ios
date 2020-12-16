@@ -1,3 +1,26 @@
+# v4.36.9 
+🚀Private Release - 4.36.9 🚀
+MercadoPagoSDKV4 - Private Version
+- Added location header to congrats
+
+# v4.36.8
+🚀Private Release - 4.36.8 🚀
+MercadoPagoSDKV4 - Private Version
+- Support WebPay cards payments
+- Fix crash adding a new card
+
+# v4.36.7
+🚀Private Release - 4.36.7 🚀
+MercadoPagoSDKV4 - Private Version
+- Autoreturn improvements
+- Tracking fix (total_amount)
+
+# v4.36.6 
+🚀Private Release - 4.36.6 🚀
+MercadoPagoSDKV4 - Private Version
+- Make lib static
+- Add additional discount params
+
 # v4.36.5
 🚀Private Release - 4.36.5 🚀
 MercadoPagoSDKV4 - Private Version

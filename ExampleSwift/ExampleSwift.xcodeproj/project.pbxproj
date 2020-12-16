@@ -13,9 +13,6 @@
 		23EDA13E2147DFC90085CA7A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23EDA13D2147DFC90085CA7A /* Assets.xcassets */; };
 		23EDA1412147DFC90085CA7A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23EDA13F2147DFC90085CA7A /* LaunchScreen.storyboard */; };
 		3BF796944AEC371EF5E3193D /* Pods_ExampleSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F5AD59E71D4EA2B06CFEEF1 /* Pods_ExampleSwift.framework */; };
-		5A44BD47253F659E004884F3 /* CustomPaymentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A44BD46253F659E004884F3 /* CustomPaymentProcessor.swift */; };
-		5A4FA3AE2549BB0A00570159 /* CustomPXDynamicComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FA3AD2549BB0A00570159 /* CustomPXDynamicComponent.swift */; };
-		5A4FA3B12549BC3900570159 /* CustomPXDynamicComponentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A4FA3B02549BC3900570159 /* CustomPXDynamicComponentView.xib */; };
 		A36F0F1B24DC3E7D00F3457D /* CongratsSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36F0F1A24DC3E7D00F3457D /* CongratsSelectorViewController.swift */; };
 		F9DF596424803FFD00B1FDBF /* CustomCheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9DF596324803FFD00B1FDBF /* CustomCheckoutViewController.swift */; };
 /* End PBXBuildFile section */
@@ -29,9 +26,6 @@
 		23EDA1402147DFC90085CA7A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		23EDA1422147DFC90085CA7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3F5AD59E71D4EA2B06CFEEF1 /* Pods_ExampleSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ExampleSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5A44BD46253F659E004884F3 /* CustomPaymentProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPaymentProcessor.swift; sourceTree = "<group>"; };
-		5A4FA3AD2549BB0A00570159 /* CustomPXDynamicComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPXDynamicComponent.swift; sourceTree = "<group>"; };
-		5A4FA3B02549BC3900570159 /* CustomPXDynamicComponentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomPXDynamicComponentView.xib; sourceTree = "<group>"; };
 		99370F01A1046BF2A7CF23EC /* Pods-ExampleSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleSwift/Pods-ExampleSwift.release.xcconfig"; sourceTree = "<group>"; };
 		A36F0F1A24DC3E7D00F3457D /* CongratsSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongratsSelectorViewController.swift; sourceTree = "<group>"; };
 		DFDCC3FA5A49D0CD1D1BD714 /* Pods-ExampleSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleSwift/Pods-ExampleSwift.debug.xcconfig"; sourceTree = "<group>"; };
@@ -55,8 +49,6 @@
 			children = (
 				23EDA1352147DFC90085CA7A /* ExampleSwift */,
 				23EDA1362147DFC90085CA7A /* AppDelegate.swift */,
-				5A44BD46253F659E004884F3 /* CustomPaymentProcessor.swift */,
-				5A4FA3AD2549BB0A00570159 /* CustomPXDynamicComponent.swift */,
 				23EDA1342147DFC90085CA7A /* Products */,
 				E78B46C2DAA0D8FEAEDDB9E1 /* Pods */,
 				435E4A121A2F1015230619CA /* Frameworks */,
@@ -86,7 +78,6 @@
 			children = (
 				23EDA13A2147DFC90085CA7A /* Main.storyboard */,
 				23EDA13F2147DFC90085CA7A /* LaunchScreen.storyboard */,
-				5A4FA3B02549BC3900570159 /* CustomPXDynamicComponentView.xib */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -190,7 +181,6 @@
 			files = (
 				23EDA1412147DFC90085CA7A /* LaunchScreen.storyboard in Resources */,
 				23EDA13E2147DFC90085CA7A /* Assets.xcassets in Resources */,
-				5A4FA3B12549BC3900570159 /* CustomPXDynamicComponentView.xib in Resources */,
 				23EDA13C2147DFC90085CA7A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -255,11 +245,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A44BD47253F659E004884F3 /* CustomPaymentProcessor.swift in Sources */,
 				A36F0F1B24DC3E7D00F3457D /* CongratsSelectorViewController.swift in Sources */,
 				23EDA1392147DFC90085CA7A /* ViewController.swift in Sources */,
 				23EDA1372147DFC90085CA7A /* AppDelegate.swift in Sources */,
-				5A4FA3AE2549BB0A00570159 /* CustomPXDynamicComponent.swift in Sources */,
 				F9DF596424803FFD00B1FDBF /* CustomCheckoutViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
