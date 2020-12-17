@@ -32,6 +32,15 @@ class ViewController: UIViewController {
         let col2 = UIColor(red: 145/255.0, green: 72.0/255.0, blue: 203/255.0, alpha: 1)
         gradient.colors = [col1.cgColor, col2.cgColor]
         view.layer.insertSublayer(gradient, at: 0)
+        
+        if let path = Bundle.main.path(forResource:"Info", ofType: "plist") {
+            let infoPlist = NSDictionary(contentsOfFile: path)
+            
+            let MP_ENVIRONMENT = infoPlist!["MP_ENVIRONMENT"] as? String ?? "prod"
+            
+            print("Scheme: " + MP_ENVIRONMENT)
+        }
+        
     }
 
     private func runMercadoPagoCheckout() {

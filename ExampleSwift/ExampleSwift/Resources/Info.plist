@@ -41,5 +41,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>MP_ENVIRONMENT</key>
+	<string>${MP_ENVIRONMENT}</string>
 </dict>
 </plist>
