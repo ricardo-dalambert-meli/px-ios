@@ -26,6 +26,7 @@
 		23EDA1402147DFC90085CA7A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		23EDA1422147DFC90085CA7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3F5AD59E71D4EA2B06CFEEF1 /* Pods_ExampleSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ExampleSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AE825D2258BA664002C7F74 /* ReleaseConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ReleaseConfig.xcconfig; sourceTree = "<group>"; };
 		99370F01A1046BF2A7CF23EC /* Pods-ExampleSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleSwift/Pods-ExampleSwift.release.xcconfig"; sourceTree = "<group>"; };
 		A36F0F1A24DC3E7D00F3457D /* CongratsSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongratsSelectorViewController.swift; sourceTree = "<group>"; };
 		D6B5A38D3B18B42D3F014D32 /* Pods-ExampleSwift.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleSwift.alpha.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleSwift/Pods-ExampleSwift.alpha.xcconfig"; sourceTree = "<group>"; };
@@ -50,6 +51,7 @@
 			children = (
 				23EDA1352147DFC90085CA7A /* ExampleSwift */,
 				23EDA1362147DFC90085CA7A /* AppDelegate.swift */,
+				5AE825D2258BA664002C7F74 /* ReleaseConfig.xcconfig */,
 				23EDA1342147DFC90085CA7A /* Products */,
 				E78B46C2DAA0D8FEAEDDB9E1 /* Pods */,
 				435E4A121A2F1015230619CA /* Frameworks */,
