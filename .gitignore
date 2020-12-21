@@ -40,4 +40,4 @@ ExampleSwift/Podfile.lock
 mobile-cd
 
 # Swift DemoApp configurations
-ExampleSwift/*Config.xcconfig
+ExampleSwift/ExampleSwift/Resources/*Config.xcconfig

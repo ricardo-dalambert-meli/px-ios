@@ -13,6 +13,9 @@
 		23EDA13E2147DFC90085CA7A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23EDA13D2147DFC90085CA7A /* Assets.xcassets */; };
 		23EDA1412147DFC90085CA7A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23EDA13F2147DFC90085CA7A /* LaunchScreen.storyboard */; };
 		3BF796944AEC371EF5E3193D /* Pods_ExampleSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F5AD59E71D4EA2B06CFEEF1 /* Pods_ExampleSwift.framework */; };
+		5AE825FD2590C8D1002C7F74 /* CustomPaymentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE825FC2590C8D1002C7F74 /* CustomPaymentProcessor.swift */; };
+		5AE826012590C8FB002C7F74 /* CustomPXDynamicComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE826002590C8FB002C7F74 /* CustomPXDynamicComponent.swift */; };
+		5AE826232590D100002C7F74 /* CustomPXDynamicComponentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AE826222590D100002C7F74 /* CustomPXDynamicComponentView.xib */; };
 		A36F0F1B24DC3E7D00F3457D /* CongratsSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36F0F1A24DC3E7D00F3457D /* CongratsSelectorViewController.swift */; };
 		F9DF596424803FFD00B1FDBF /* CustomCheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9DF596324803FFD00B1FDBF /* CustomCheckoutViewController.swift */; };
 /* End PBXBuildFile section */
@@ -27,6 +30,11 @@
 		23EDA1422147DFC90085CA7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3F5AD59E71D4EA2B06CFEEF1 /* Pods_ExampleSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ExampleSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AE825D2258BA664002C7F74 /* ReleaseConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ReleaseConfig.xcconfig; sourceTree = "<group>"; };
+		5AE825FC2590C8D1002C7F74 /* CustomPaymentProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPaymentProcessor.swift; sourceTree = "<group>"; };
+		5AE826002590C8FB002C7F74 /* CustomPXDynamicComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPXDynamicComponent.swift; sourceTree = "<group>"; };
+		5AE8261F2590CED7002C7F74 /* DebugConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = DebugConfig.xcconfig; sourceTree = "<group>"; };
+		5AE826202590CEEC002C7F74 /* AlphaConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AlphaConfig.xcconfig; sourceTree = "<group>"; };
+		5AE826222590D100002C7F74 /* CustomPXDynamicComponentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomPXDynamicComponentView.xib; sourceTree = "<group>"; };
 		99370F01A1046BF2A7CF23EC /* Pods-ExampleSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleSwift/Pods-ExampleSwift.release.xcconfig"; sourceTree = "<group>"; };
 		A36F0F1A24DC3E7D00F3457D /* CongratsSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongratsSelectorViewController.swift; sourceTree = "<group>"; };
 		D6B5A38D3B18B42D3F014D32 /* Pods-ExampleSwift.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleSwift.alpha.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleSwift/Pods-ExampleSwift.alpha.xcconfig"; sourceTree = "<group>"; };
@@ -51,7 +59,6 @@
 			children = (
 				23EDA1352147DFC90085CA7A /* ExampleSwift */,
 				23EDA1362147DFC90085CA7A /* AppDelegate.swift */,
-				5AE825D2258BA664002C7F74 /* ReleaseConfig.xcconfig */,
 				23EDA1342147DFC90085CA7A /* Products */,
 				E78B46C2DAA0D8FEAEDDB9E1 /* Pods */,
 				435E4A121A2F1015230619CA /* Frameworks */,
@@ -69,6 +76,7 @@
 		23EDA1352147DFC90085CA7A /* ExampleSwift */ = {
 			isa = PBXGroup;
 			children = (
+				5AE825FB2590C876002C7F74 /* Helpers */,
 				23EDA1482147DFEA0085CA7A /* Storyboards */,
 				23EDA14A2147E0050085CA7A /* Controllers */,
 				23EDA1492147DFF30085CA7A /* Resources */,
@@ -81,6 +89,7 @@
 			children = (
 				23EDA13A2147DFC90085CA7A /* Main.storyboard */,
 				23EDA13F2147DFC90085CA7A /* LaunchScreen.storyboard */,
+				5AE826222590D100002C7F74 /* CustomPXDynamicComponentView.xib */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -89,6 +98,9 @@
 			isa = PBXGroup;
 			children = (
 				23EDA13D2147DFC90085CA7A /* Assets.xcassets */,
+				5AE825D2258BA664002C7F74 /* ReleaseConfig.xcconfig */,
+				5AE8261F2590CED7002C7F74 /* DebugConfig.xcconfig */,
+				5AE826202590CEEC002C7F74 /* AlphaConfig.xcconfig */,
 				23EDA1422147DFC90085CA7A /* Info.plist */,
 			);
 			path = Resources;
@@ -110,6 +122,15 @@
 				3F5AD59E71D4EA2B06CFEEF1 /* Pods_ExampleSwift.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5AE825FB2590C876002C7F74 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				5AE825FC2590C8D1002C7F74 /* CustomPaymentProcessor.swift */,
+				5AE826002590C8FB002C7F74 /* CustomPXDynamicComponent.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		E78B46C2DAA0D8FEAEDDB9E1 /* Pods */ = {
@@ -185,6 +206,7 @@
 			files = (
 				23EDA1412147DFC90085CA7A /* LaunchScreen.storyboard in Resources */,
 				23EDA13E2147DFC90085CA7A /* Assets.xcassets in Resources */,
+				5AE826232590D100002C7F74 /* CustomPXDynamicComponentView.xib in Resources */,
 				23EDA13C2147DFC90085CA7A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -249,9 +271,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AE825FD2590C8D1002C7F74 /* CustomPaymentProcessor.swift in Sources */,
 				A36F0F1B24DC3E7D00F3457D /* CongratsSelectorViewController.swift in Sources */,
 				23EDA1392147DFC90085CA7A /* ViewController.swift in Sources */,
 				23EDA1372147DFC90085CA7A /* AppDelegate.swift in Sources */,
+				5AE826012590C8FB002C7F74 /* CustomPXDynamicComponent.swift in Sources */,
 				F9DF596424803FFD00B1FDBF /* CustomCheckoutViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -280,6 +304,7 @@
 /* Begin XCBuildConfiguration section */
 		23EDA1432147DFC90085CA7A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5AE8261F2590CED7002C7F74 /* DebugConfig.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -339,6 +364,7 @@
 		};
 		23EDA1442147DFC90085CA7A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5AE825D2258BA664002C7F74 /* ReleaseConfig.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -425,6 +451,7 @@
 		};
 		5AE8259D258B80AD002C7F74 /* Alpha */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5AE826202590CEEC002C7F74 /* AlphaConfig.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
