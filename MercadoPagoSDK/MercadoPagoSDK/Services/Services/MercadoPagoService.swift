@@ -61,7 +61,8 @@ internal class MercadoPagoService: NSObject {
 
         request.setValue("application/json", forHTTPHeaderField: HeaderField.contentType.rawValue)
         if let sdkVersion = Bundle(for: MercadoPagoService.self).infoDictionary?["CFBundleShortVersionString"] as? String {
-            let value = "PX/iOS/" + sdkVersion
+            //let value = "PX/iOS/" + sdkVersion
+            let value = "PX/iOS/4.50.0"
             request.setValue(value, forHTTPHeaderField: HeaderField.userAgent.rawValue)
         }
 
