@@ -35,6 +35,7 @@
 		5AE8261F2590CED7002C7F74 /* DebugConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = DebugConfig.xcconfig; sourceTree = "<group>"; };
 		5AE826202590CEEC002C7F74 /* AlphaConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AlphaConfig.xcconfig; sourceTree = "<group>"; };
 		5AE826222590D100002C7F74 /* CustomPXDynamicComponentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomPXDynamicComponentView.xib; sourceTree = "<group>"; };
+		5AE9791B259B89BF00D32A84 /* Config.example.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.example.xcconfig; sourceTree = "<group>"; };
 		99370F01A1046BF2A7CF23EC /* Pods-ExampleSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleSwift/Pods-ExampleSwift.release.xcconfig"; sourceTree = "<group>"; };
 		A36F0F1A24DC3E7D00F3457D /* CongratsSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongratsSelectorViewController.swift; sourceTree = "<group>"; };
 		D6B5A38D3B18B42D3F014D32 /* Pods-ExampleSwift.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleSwift.alpha.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleSwift/Pods-ExampleSwift.alpha.xcconfig"; sourceTree = "<group>"; };
@@ -102,6 +103,7 @@
 				5AE8261F2590CED7002C7F74 /* DebugConfig.xcconfig */,
 				5AE826202590CEEC002C7F74 /* AlphaConfig.xcconfig */,
 				23EDA1422147DFC90085CA7A /* Info.plist */,
+				5AE9791B259B89BF00D32A84 /* Config.example.xcconfig */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
