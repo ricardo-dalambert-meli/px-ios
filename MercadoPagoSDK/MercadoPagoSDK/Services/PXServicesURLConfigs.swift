@@ -34,7 +34,6 @@ internal class PXServicesURLConfigs {
     
     static let PAYMENT_METHODS = "/payment_methods"
     static let CARD_ISSSUERS = "\(PAYMENT_METHODS)/card_issuers"
-    
     static let PAYMENTS = "/payments"
     
     static let MP_CREATE_TOKEN_URI = MP_OP_ENVIROMENT + "/card_tokens"
