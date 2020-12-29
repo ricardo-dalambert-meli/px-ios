@@ -12,6 +12,6 @@ target 'ExampleSwift' do
   use_frameworks!
 
   # Pods for ExampleSwift
-  pod 'MercadoPagoSDK', :path => '../'
+  pod 'MercadoPagoSDKV4', :path => '../'
   pod 'AndesUI/AndesBottomSheet', '~> 3.0'
 end

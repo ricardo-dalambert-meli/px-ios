@@ -9,7 +9,11 @@ import Foundation
 
 import UIKit
 
-import MercadoPagoSDK
+#if PX_PRIVATE_POD
+    import MercadoPagoSDKV4
+#else
+    import MercadoPagoSDK
+#endif
 
 public class CustomPXDynamicComponent: UIView {
 
