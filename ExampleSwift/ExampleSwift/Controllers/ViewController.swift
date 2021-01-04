@@ -8,11 +8,7 @@
 //
 import UIKit
 
-#if PX_PRIVATE_POD
-    import MercadoPagoSDKV4
-#else
-    import MercadoPagoSDK
-#endif
+import MercadoPagoSDKV4
 
 // Check full documentation: http://mercadopago.github.io/px-ios/v4/
 class ViewController: UIViewController {
@@ -36,10 +32,18 @@ class ViewController: UIViewController {
 
     private func runMercadoPagoCheckout() {
         // 1) Create Builder with your publicKey and preferenceId.
-        let builder = MercadoPagoCheckoutBuilder(publicKey: "TEST-4763b824-93d7-4ca2-a7f7-93539c3ee5bd", preferenceId: "243966003-0812580b-6082-4104-9bce-1a4c48a5bc44").setLanguage("es")
+        let builder = MercadoPagoCheckoutBuilder(publicKey: "TEST-e28d5a35-dece-45c9-9618-e8cc5dec6c42", preferenceId: "656525290-7bda964b-26d9-4352-a04c-1b04801627ee").setLanguage("es")
 
         // 2) Create Checkout reference
         checkout = MercadoPagoCheckout(builder: builder)
+        
+        let config = PXAdvancedConfiguration()
+        
+        config.expressEnabled = true
+        
+        builder.setAdvancedConfiguration(config: config)
+        
+        builder.setPrivateKey(key: "TEST-7169122440478352-062213-d23fa9fb38e4b3e94feee29864f0fae2-443064294")
 
         // 3) Start with your navigation controller.
         if let myNavigationController = navigationController {
