@@ -33,7 +33,6 @@ internal class PXServicesURLConfigs {
     static let MP_OP_ENVIROMENT = "/v1"
     
     static let PAYMENT_METHODS = "/payment_methods"
-    static let CARD_ISSSUERS = "\(PAYMENT_METHODS)/card_issuers"
     static let PAYMENTS = "/payments"
     
     static let MP_CREATE_TOKEN_URI = MP_OP_ENVIROMENT + "/card_tokens"
@@ -92,7 +91,6 @@ internal class PXServicesURLConfigs {
 
         self.MP_REMEDY_URI = NEW_API_SELECTED_ENV + "/px_mobile/v1/remedies/${payment_id}"
         self.MP_INSTRUCTIONS_URI = MP_ENVIROMENT + PXServicesURLConfigs.PAYMENTS + "/${payment_id}/results"
-        self.MP_SUMMARY_AMOUNT_URI = "\(MP_SELECTED_ENV)/px_mobile_api/summary_amount"
         self.MP_PAYMENTS_URI = MP_SELECTED_ENV + "/px_mobile" + PXServicesURLConfigs.PAYMENTS
 
         self.MP_INIT_URI = NEW_API_SELECTED_ENV + "/px_mobile/v2/checkout"
