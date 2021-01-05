@@ -45,8 +45,6 @@ internal class PXServicesURLConfigs {
     var NEW_API_SELECTED_ENV = NEW_API_PROD_ENV
     
     var MP_ENVIROMENT : String
-        
-    var MP_ISSUERS_URI : String
 
     var MP_REMEDY_URI : String
     var MP_INSTRUCTIONS_URI : String
@@ -86,8 +84,6 @@ internal class PXServicesURLConfigs {
         let MP_ENVIROMENT = MP_SELECTED_ENV  + "/checkout"
         
         self.MP_ENVIROMENT = MP_ENVIROMENT
-            
-        self.MP_ISSUERS_URI = MP_ENVIROMENT + PXServicesURLConfigs.CARD_ISSSUERS
 
         self.MP_REMEDY_URI = NEW_API_SELECTED_ENV + "/px_mobile/v1/remedies/${payment_id}"
         self.MP_INSTRUCTIONS_URI = MP_ENVIROMENT + PXServicesURLConfigs.PAYMENTS + "/${payment_id}/results"
