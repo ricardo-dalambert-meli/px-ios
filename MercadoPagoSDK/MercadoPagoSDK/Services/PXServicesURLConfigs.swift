@@ -48,7 +48,6 @@ internal class PXServicesURLConfigs {
 
     var MP_REMEDY_URI : String
     var MP_INSTRUCTIONS_URI : String
-    var MP_SUMMARY_AMOUNT_URI : String
     var MP_PAYMENTS_URI : String
 
     var MP_INIT_URI : String
