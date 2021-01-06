@@ -43,7 +43,7 @@ internal class MercadoPagoServices: NSObject {
     }
 
     func resetESCCap(cardId: String, onCompletion : @escaping () -> Void) {
-        var uri = PXServicesURLConfigs.MP_RESET_ESC_CAP
+        var uri = PXServicesURLConfigs.shared().MP_RESET_ESC_CAP
         uri.append("/\(cardId)")
 
         let params = MercadoPagoServices.getParamsAccessToken(privateKey)
