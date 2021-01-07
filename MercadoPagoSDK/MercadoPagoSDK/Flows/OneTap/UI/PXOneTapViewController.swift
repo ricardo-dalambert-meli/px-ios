@@ -119,10 +119,12 @@ final class PXOneTapViewController: PXComponentContainerViewController {
                 self.selectFirstCardInSlider()
             }
         }
-        
-        if let navigationController = navigationController,
-            let cardFormViewController = navigationController.viewControllers.first(where: { $0 is MLCardFormViewController }) as? MLCardFormViewController {
-            cardFormViewController.dismissLoadingAndPop()
+
+        if let viewControllers = navigationController?.viewControllers {
+            viewControllers.filter{ $0 is MLCardFormViewController || $0 is MLCardFormWebPayViewController }.forEach{
+                ($0 as? MLCardFormViewController)?.dismissLoadingAndPop()
+                ($0 as? MLCardFormWebPayViewController)?.dismissLoadingAndPop()
+            }
         }
     }
 
@@ -635,21 +637,22 @@ extension PXOneTapViewController: PXCardSliderProtocol {
         if viewModel.shouldUseOldCardForm() {
             callbackPaymentData(viewModel.getClearPaymentData())
         } else {
-            // TODO: Uncomment below code after CardForm with webpay support release
-//            if let newCard = viewModel.expressData?.compactMap({ $0.newCard }).first {
-//                if newCard.sheetOptions != nil {
-//                    // Present sheet to pick standard card form or webpay
-//                    let sheet = buildBottomSheet(newCard: newCard)
-//                    present(sheet, animated: true, completion: nil)
-//                } else {
-//                    // Add new card using card form based on init type
-//                    // There might be cases when there's a different option besides standard type
-//                    // Eg: Money In for Chile should use only debit, therefor init type shuld be webpay_tbk
-//                    addNewCard(initType: newCard.cardFormInitType)
-//                }
-//            }
-            // Add new card using standard card form
-            addNewCard()
+            if let newCard = viewModel.expressData?.compactMap({ $0.newCard }).first {
+                if newCard.sheetOptions != nil {
+                    // Present sheet to pick standard card form or webpay
+                    let sheet = buildBottomSheet(newCard: newCard)
+                    present(sheet, animated: true, completion: nil)
+                } else {
+                    // Add new card using card form based on init type
+                    // There might be cases when there's a different option besides standard type
+                    // Eg: Money In for Chile should use only debit, therefor init type shuld be webpay_tbk
+                    addNewCard(initType: newCard.cardFormInitType)
+                }
+            } else {
+                // This is a fallback. There should be always a newCard in expressData
+                // Add new card using standard card form
+                addNewCard()
+            }
         }
     }
 
@@ -670,24 +673,22 @@ extension PXOneTapViewController: PXCardSliderProtocol {
         let siteId = viewModel.siteId
         let flowId = MPXTracker.sharedInstance.getFlowName() ?? "unknown"
         let builder: MLCardFormBuilder
-        
+
         if let privateKey = viewModel.privateKey {
             builder = MLCardFormBuilder(privateKey: privateKey, siteId: siteId, flowId: flowId, lifeCycleDelegate: self)
         } else {
             builder = MLCardFormBuilder(publicKey: viewModel.publicKey, siteId: siteId, flowId: flowId, lifeCycleDelegate: self)
         }
-        
+
         builder.setLanguage(Localizator.sharedInstance.getLanguage())
         builder.setExcludedPaymentTypes(viewModel.excludedPaymentTypeIds)
         builder.setNavigationBarCustomColor(backgroundColor: ThemeManager.shared.navigationBar().backgroundColor, textColor: ThemeManager.shared.navigationBar().tintColor)
-        builder.setAnimated(true)
         var cardFormVC: UIViewController
         switch initType {
         case "webpay_tbk":
-            // TODO: Uncomment below code after CardForm with webpay support release
-            //cardFormVC = MLCardForm(builder: builder).setupWebPayController()
-            cardFormVC = MLCardForm(builder: builder).setupController()
+            cardFormVC = MLCardForm(builder: builder).setupWebPayController()
         default:
+            builder.setAnimated(true)
             cardFormVC = MLCardForm(builder: builder).setupController()
         }
         navigationController?.pushViewController(cardFormVC, animated: true)

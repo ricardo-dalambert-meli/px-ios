@@ -46,7 +46,7 @@ internal class MercadoPagoService: NSObject {
         if cache {
             cachePolicy = .returnCacheDataElseLoad
         }
-
+        
         let urlRequest = URL(string: requesturl)
         guard let url = urlRequest else {
             let error: NSError = NSError(domain: "com.mercadopago.sdk", code: NSURLErrorCannotFindHost, userInfo: nil)
