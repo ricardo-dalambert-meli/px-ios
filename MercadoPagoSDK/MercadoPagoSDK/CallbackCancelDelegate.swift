@@ -35,12 +35,12 @@ open class CallbackCancelTableViewCell: UITableViewCell {
         self.callbackCancel!()
     }
 
-    func invokeDefaultCallback() {
+    @objc func invokeDefaultCallback() {
         if self.defaultCallback != nil {
             self.defaultCallback!()
         }
     }
-    func invokeCallback() {
+    @objc func invokeCallback() {
         if let paymentResult = paymentResult, let callbackStatusTracking = self.callbackStatusTracking, let status = status {
             callbackStatusTracking(paymentResult, status)
         } else if let callbackStatus = self.callbackStatus, let status = status {

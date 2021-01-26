@@ -73,10 +73,10 @@ class CardNotAvailableErrorView: UIView {
         return CGRect(x: margin, y: margin, width: errorMessageWidth, height: height)
     }
 
-    func handleTap () {
+    @objc func handleTap () {
         guard let callback = self.showAvaibleCardsCallback else {
             return
         }
-        callback()
+        callback(())
     }
 }

@@ -104,10 +104,10 @@ open class CardFormViewController: MercadoPagoUIViewController, UITextFieldDeleg
             var titleDict: NSDictionary = [:]
             //Navigation bar colors
             let fontChosed = Utils.getFont(size: 18)
-            titleDict = [NSForegroundColorAttributeName: UIColor.systemFontColor(), NSFontAttributeName: fontChosed]
+            titleDict = [NSAttributedStringKey.foregroundColor: UIColor.systemFontColor(), NSAttributedStringKey.font: fontChosed]
 
             if self.navigationController != nil {
-                self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
+                self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [NSAttributedStringKey : AnyObject]
                 self.navigationItem.hidesBackButton = true
                 self.navigationController!.interactivePopGestureRecognizer?.delegate = self
                 self.navigationController?.navigationBar.barTintColor = UIColor.primaryColor()
@@ -118,7 +118,7 @@ open class CardFormViewController: MercadoPagoUIViewController, UITextFieldDeleg
                 if viewModel.showBankDeals() {
                     let promocionesButton: UIBarButtonItem = UIBarButtonItem(title: "Ver promociones".localized, style: UIBarButtonItemStyle.plain, target: self, action: #selector(CardFormViewController.verPromociones))
                     promocionesButton.tintColor = UIColor.systemFontColor()
-                    promocionesButton.setTitleTextAttributes([NSFontAttributeName: Utils.getFont(size: 20)], for: .normal)
+                    promocionesButton.setTitleTextAttributes([NSAttributedStringKey.font: Utils.getFont(size: 20)], for: .normal)
                     self.navigationItem.rightBarButtonItem = promocionesButton
                 }
 
@@ -170,7 +170,7 @@ open class CardFormViewController: MercadoPagoUIViewController, UITextFieldDeleg
             if viewModel.showBankDeals() {
                 let promocionesButton: UIBarButtonItem = UIBarButtonItem(title: "Ver promociones".localized, style: UIBarButtonItemStyle.plain, target: self, action: #selector(CardFormViewController.verPromociones))
                 promocionesButton.tintColor = UIColor.systemFontColor()
-                promocionesButton.setTitleTextAttributes([NSFontAttributeName: Utils.getFont(size: 20)], for: .normal)
+                promocionesButton.setTitleTextAttributes([NSAttributedStringKey.font: Utils.getFont(size: 20)], for: .normal)
                 self.navigationItem.rightBarButtonItem = promocionesButton
             }
         }
@@ -243,7 +243,7 @@ open class CardFormViewController: MercadoPagoUIViewController, UITextFieldDeleg
         cardView.addSubview(cardFront!)
 
     }
-    func keyboardWillShow(notification: Notification) {
+    @objc func keyboardWillShow(notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             self.keyboardHeightConstraint.constant = keyboardSize.height - 40
             self.view.layoutIfNeeded()
@@ -295,7 +295,7 @@ open class CardFormViewController: MercadoPagoUIViewController, UITextFieldDeleg
         return value
     }
 
-    open func verPromociones() {
+    @objc open func verPromociones() {
         guard let promos = self.viewModel.promos else {
             return
         }
@@ -307,7 +307,7 @@ open class CardFormViewController: MercadoPagoUIViewController, UITextFieldDeleg
         return PromoViewController(promos : promos, callback : callback)
     }
 
-    open func editingChanged(_ textField: UITextField) {
+    @objc open func editingChanged(_ textField: UITextField) {
         hideMessage()
         if editingLabel == cardNumberLabel {
             showOnlyOneCardMessage()
@@ -513,8 +513,8 @@ open class CardFormViewController: MercadoPagoUIViewController, UITextFieldDeleg
             let buttonPrev = UIBarButtonItem(title: "Anterior".localized, style: .plain, target: self, action: #selector(CardFormViewController.leftArrowKeyTapped))
 
             let font = Utils.getFont(size: 14)
-            buttonNext.setTitleTextAttributes([NSFontAttributeName: font], for: .normal)
-            buttonPrev.setTitleTextAttributes([NSFontAttributeName: font], for: .normal)
+            buttonNext.setTitleTextAttributes([NSAttributedStringKey.font: font], for: .normal)
+            buttonPrev.setTitleTextAttributes([NSAttributedStringKey.font: font], for: .normal)
 
             buttonNext.setTitlePositionAdjustment(UIOffset(horizontal: UIScreen.main.bounds.size.width / 8, vertical: 0), for: UIBarMetrics.default)
             buttonPrev.setTitlePositionAdjustment(UIOffset(horizontal: -UIScreen.main.bounds.size.width / 8, vertical: 0), for: UIBarMetrics.default)
@@ -597,7 +597,7 @@ open class CardFormViewController: MercadoPagoUIViewController, UITextFieldDeleg
         self.textBox.becomeFirstResponder()
     }
 
-    func leftArrowKeyTapped() {
+    @objc func leftArrowKeyTapped() {
         switch editingLabel! {
         case cardNumberLabel! :
             return
@@ -618,7 +618,7 @@ open class CardFormViewController: MercadoPagoUIViewController, UITextFieldDeleg
         self.updateLabelsFontColors()
     }
 
-    func rightArrowKeyTapped() {
+    @objc func rightArrowKeyTapped() {
         switch editingLabel! {
 
         case cardNumberLabel! :

@@ -128,7 +128,7 @@ open class PaymentVaultViewController: MercadoPagoUIScrollViewController, UIColl
 
     }
 
-    func updateCoupon(_ notification: Notification) {
+    @objc func updateCoupon(_ notification: Notification) {
         if let discount = notification.userInfo?["coupon"] as? DiscountCoupon {
             self.viewModel.discount = discount
             self.collectionSearch.reloadData()

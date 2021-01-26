@@ -31,7 +31,7 @@ open class SecurityCodeViewController: MercadoPagoUIViewController, UITextFieldD
         MPXTracker.trackScreen(screenId: screenId, screenName: screenName, metadata: metadata)
     }
 
-    func keyboardWillShow(notification: Notification) {
+    @objc func keyboardWillShow(notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             self.keyboardHeightConstraint.constant = keyboardSize.height - 40
             self.view.layoutIfNeeded()
@@ -102,8 +102,8 @@ open class SecurityCodeViewController: MercadoPagoUIViewController, UITextFieldD
         let buttonPrev = UIBarButtonItem(title: "Anterior".localized, style: .plain, target: self, action: #selector(self.backAction))
 
         let font = Utils.getFont(size: 14)
-        buttonNext.setTitleTextAttributes([NSFontAttributeName: font], for: .normal)
-        buttonPrev.setTitleTextAttributes([NSFontAttributeName: font], for: .normal)
+        buttonNext.setTitleTextAttributes([NSAttributedStringKey.font: font], for: .normal)
+        buttonPrev.setTitleTextAttributes([NSAttributedStringKey.font: font], for: .normal)
 
         buttonNext.setTitlePositionAdjustment(UIOffset(horizontal: UIScreen.main.bounds.size.width / 8, vertical: 0), for: UIBarMetrics.default)
         buttonPrev.setTitlePositionAdjustment(UIOffset(horizontal: -UIScreen.main.bounds.size.width / 8, vertical: 0), for: UIBarMetrics.default)
@@ -117,7 +117,7 @@ open class SecurityCodeViewController: MercadoPagoUIViewController, UITextFieldD
         self.securityCodeTextField.inputAccessoryView = toolbar
     }
 
-    func continueAction() {
+    @objc func continueAction() {
         securityCodeTextField.resignFirstResponder()
         guard securityCodeTextField.text?.characters.count == viewModel.secCodeLenght() else {
             let errorMessage: String = ("Ingresa los %1$s números del código de seguridad".localized as NSString).replacingOccurrences(of: "%1$s", with: ((self.viewModel.secCodeLenght()) as NSNumber).stringValue)
@@ -127,7 +127,7 @@ open class SecurityCodeViewController: MercadoPagoUIViewController, UITextFieldD
         self.viewModel.executeCallback(secCode:  securityCodeTextField.text)
     }
 
-    func backAction() {
+    @objc func backAction() {
         self.executeBack()
     }
 
@@ -158,7 +158,7 @@ open class SecurityCodeViewController: MercadoPagoUIViewController, UITextFieldD
         return true
     }
 
-    open func editingChanged(_ textField: UITextField) {
+    @objc open func editingChanged(_ textField: UITextField) {
         hideErrorMessage()
         securityCodeLabel.text = textField.text
         self.ccvLabelEmpty = (textField.text != nil && textField.text!.characters.count == 0)

@@ -41,7 +41,7 @@ open class CountdownTimer: NSObject {
         return self.timer != nil
     }
 
-    open func updateTimer() {
+    @objc open func updateTimer() {
 
         //print("timer retain count \(CFGetRetainCount(self))")
 

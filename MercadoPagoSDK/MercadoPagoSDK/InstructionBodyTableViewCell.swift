@@ -218,11 +218,11 @@ class InstructionBodyTableViewCell: UITableViewCell {
             NSLayoutConstraint.activate(heightConstraints)
         }
     }
-    func getAttributes(fontSize: Int, color: UIColor)-> [String:AnyObject] {
-        return [NSFontAttributeName: Utils.getFont(size: CGFloat(fontSize)), NSForegroundColorAttributeName: color]
+    func getAttributes(fontSize: Int, color: UIColor)-> [NSAttributedStringKey:AnyObject] {
+        return [NSAttributedStringKey.font: Utils.getFont(size: CGFloat(fontSize)), NSAttributedStringKey.foregroundColor: color]
     }
 
-    func goToURL(sender: MPButton!) {   if let link = sender.actionLink {
+    @objc func goToURL(sender: MPButton!) {   if let link = sender.actionLink {
         UIApplication.shared.openURL(URL(string: link)!)
         }
     }

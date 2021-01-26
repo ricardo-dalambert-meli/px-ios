@@ -54,8 +54,7 @@ open class MercadoPagoUIViewController: UIViewController, UIGestureRecognizerDel
             if let inData = try? Data(contentsOf: URL(fileURLWithPath: path)) {
                 var error: Unmanaged<CFError>?
                 let cfdata = CFDataCreate(nil, (inData as NSData).bytes.bindMemory(to: UInt8.self, capacity: inData.count), inData.count)
-                if let provider = CGDataProvider(data: cfdata!) {
-                    let font = CGFont(provider)
+                if let provider = CGDataProvider(data: cfdata!), let font = CGFont(provider)  {
                     if (!CTFontManagerRegisterGraphicsFont(font, &error)) {
                         print("Failed to load font: \(error)")
                     }
@@ -90,10 +89,10 @@ open class MercadoPagoUIViewController: UIViewController, UIGestureRecognizerDel
             var titleDict: NSDictionary = [:]
             //Navigation bar colors
             let fontChosed = Utils.getFont(size: 18)
-            titleDict = [NSForegroundColorAttributeName: UIColor.systemFontColor(), NSFontAttributeName: fontChosed]
+            titleDict = [NSAttributedStringKey.foregroundColor: UIColor.systemFontColor(), NSAttributedStringKey.font: fontChosed]
 
             if titleDict.count > 0 {
-                self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
+                self.navigationController!.navigationBar.titleTextAttributes = titleDict as? [NSAttributedStringKey : AnyObject]
             }
             self.navigationItem.hidesBackButton = true
             self.navigationController!.interactivePopGestureRecognizer?.delegate = self
@@ -126,14 +125,14 @@ open class MercadoPagoUIViewController: UIViewController, UIGestureRecognizerDel
         DecorationPreference.applyAppNavBarDecorationPreferencesTo(navigationController: navController)
     }
 
-    internal func invokeCallbackCancelShowingNavBar() {
+    @objc internal func invokeCallbackCancelShowingNavBar() {
         if self.callbackCancel != nil {
             self.showNavBar()
             self.callbackCancel!()
         }
 
     }
-    internal func invokeCallbackCancel() {
+    @objc internal func invokeCallbackCancel() {
         if self.callbackCancel != nil {
             self.callbackCancel!()
         }
@@ -198,7 +197,7 @@ open class MercadoPagoUIViewController: UIViewController, UIGestureRecognizerDel
         self.navigationItem.leftBarButtonItem = nil
     }
 
-    internal func executeBack() {
+    @objc internal func executeBack() {
         self.navigationController!.popViewController(animated: true)
     }
 
@@ -282,8 +281,8 @@ open class MercadoPagoUIViewController: UIViewController, UIGestureRecognizerDel
             }
 
             let font: UIFont = Utils.getFont(size: navBarFontSize)
-            let titleDict: NSDictionary = [NSForegroundColorAttributeName: self.navBarTextColor, NSFontAttributeName: font]
-            self.navigationController?.navigationBar.titleTextAttributes = titleDict as? [String : AnyObject]
+            let titleDict: NSDictionary = [NSAttributedStringKey.foregroundColor: font]
+            self.navigationController?.navigationBar.titleTextAttributes = titleDict as? [NSAttributedStringKey : AnyObject]
         }
 
     }

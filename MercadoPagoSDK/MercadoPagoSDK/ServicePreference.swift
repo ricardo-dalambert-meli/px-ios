@@ -47,7 +47,7 @@ open class ServicePreference: NSObject {
         customerAdditionalInfo = additionalInfo
     }
 
-    public func setCreatePayment(baseURL: String = URLConfigs.MP_API_BASE_URL, URI: String = URLConfigs.MP_PAYMENTS_URI + "?api_version=" + URLConfigs.API_VERSION, additionalInfo: NSDictionary = [:]) {
+    public func setCreatePayment(baseURL: String = "https://api.mercadopago.com", URI: String = "/v1/checkout/payments" + "?api_version=" + "1.4.X", additionalInfo: NSDictionary = [:]) {
         paymentURL = baseURL
         paymentURI = URI
         paymentAdditionalInfo = additionalInfo

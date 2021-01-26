@@ -86,7 +86,7 @@ import UIKit
         return false
     }
 
-    open class func getBundle() -> Bundle? {
+    @objc open class func getBundle() -> Bundle? {
        return Bundle(for:MercadoPago.self)
     }
 

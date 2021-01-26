@@ -41,21 +41,21 @@ class SecondaryExitButtonTableViewCell: CallbackCancelTableViewCell {
 
     }
 
-    func rejectedCallback() {
+    @objc func rejectedCallback() {
         if let paymentResult = paymentResult, let customCallback = paymentResultScreenPreference?.getRejectedSecondaryButtonCallback() {
             customCallback(paymentResult)
         } else {
             invokeCallback()
         }
     }
-    func pendingCallback() {
+    @objc func pendingCallback() {
         if let paymentResult = paymentResult, let customCallback = paymentResultScreenPreference?.getPendingSecondaryButtonCallback() {
             customCallback(paymentResult)
         } else {
             invokeCallback()
         }
     }
-    func approvedCallback() {
+    @objc func approvedCallback() {
         if let paymentResult = paymentResult, let customCallback = paymentResultScreenPreference?.getApprovedSecondaryButtonCallback() {
             customCallback(paymentResult)
         } else {

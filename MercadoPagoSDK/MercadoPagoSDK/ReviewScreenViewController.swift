@@ -40,7 +40,7 @@ open class ReviewScreenViewController: MercadoPagoUIScrollViewController, UITabl
         self.initCommon()
         self.viewModel = viewModel
         self.callbackPaymentData = callbackPaymentData
-        self.callbackExit = callbackExit
+//        self.callbackExit = callbackExit
         self.callbackConfirm = callbackConfirm
     }
 
@@ -358,7 +358,7 @@ open class ReviewScreenViewController: MercadoPagoUIScrollViewController, UITabl
         return tycCell
     }
 
-	func changePaymentMethodSelected() {
+    @objc func changePaymentMethodSelected() {
         self.callbackPaymentData(self.viewModel.getClearPaymentData())
 	}
 
@@ -376,8 +376,8 @@ open class ReviewScreenViewController: MercadoPagoUIScrollViewController, UITabl
 
     }
 
-    internal func exitCheckoutFlow() {
-        self.callbackExit()
+    @objc internal func exitCheckoutFlow() {
+        self.callbackExit(())
     }
 
     override func getNavigationBarTitle() -> String {
