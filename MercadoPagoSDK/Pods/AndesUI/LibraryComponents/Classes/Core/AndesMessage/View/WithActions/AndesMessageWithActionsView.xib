@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AndesMessageWithActionsView" customModule="AndesUI">
+            <connections>
+                <outlet property="bodyTextView" destination="d73-Ie-8ZP" id="Exd-N6-Lxd"/>
+                <outlet property="dismissButton" destination="AH2-H9-2Dt" id="Xox-4a-AFE"/>
+                <outlet property="iconContainerView" destination="Mbf-ep-nbj" id="yea-3i-LtJ"/>
+                <outlet property="iconView" destination="KSx-w5-sbK" id="Qwx-DJ-uKG"/>
+                <outlet property="leftPipeView" destination="kN4-J7-3O6" id="RyG-j8-Xwq"/>
+                <outlet property="messageView" destination="XXP-Ea-Yt4" id="pvy-Cx-eNO"/>
+                <outlet property="primaryAction" destination="HbG-CF-Oqd" id="RZJ-M4-73O"/>
+                <outlet property="secondaryAction" destination="UDP-xQ-Pdx" id="ob2-GU-6z7"/>
+                <outlet property="spacingBetweenBodyAndActions" destination="b5z-mV-ODV" id="SVk-xd-tCa"/>
+                <outlet property="titleLabel" destination="KcW-WK-QzY" id="pau-ca-pFK"/>
+                <outlet property="titleToDismissConstraint" destination="ndm-ak-doY" id="DG1-v9-dga"/>
+                <outlet property="titleToSafeAreaConstraint" destination="JEr-pg-mxz" id="ubT-XX-3F2"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="XXP-Ea-Yt4">
+            <rect key="frame" x="0.0" y="0.0" width="294" height="115"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kN4-J7-3O6">
+                    <rect key="frame" x="0.0" y="0.0" width="5" height="115"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="5" id="4I8-v2-Tbe"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AH2-H9-2Dt">
+                    <rect key="frame" x="258" y="14" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="AXB-bb-WRs"/>
+                        <constraint firstAttribute="width" constant="20" id="hBZ-Cn-puC"/>
+                    </constraints>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="imageEdgeInsets" minX="-4" minY="-4" maxX="-4" maxY="-4"/>
+                    <connections>
+                        <action selector="dismissPressed:" destination="-1" eventType="touchUpInside" id="ifH-Nw-MyO"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mbf-ep-nbj">
+                    <rect key="frame" x="16" y="16" width="16" height="16"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KSx-w5-sbK">
+                            <rect key="frame" x="0.5" y="0.5" width="15" height="15"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="15" id="Azp-5H-50Z"/>
+                                <constraint firstAttribute="width" constant="15" id="kI5-LL-ebw"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="16" id="9DK-zf-oCZ"/>
+                        <constraint firstItem="KSx-w5-sbK" firstAttribute="centerY" secondItem="Mbf-ep-nbj" secondAttribute="centerY" id="B43-XY-PYD"/>
+                        <constraint firstItem="KSx-w5-sbK" firstAttribute="centerX" secondItem="Mbf-ep-nbj" secondAttribute="centerX" id="Kwt-U0-huF"/>
+                        <constraint firstAttribute="width" constant="16" id="sSy-W2-rWg"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="8"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="CPr-he-XXd">
+                    <rect key="frame" x="48" y="15.5" width="194" height="67.5"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KcW-WK-QzY">
+                            <rect key="frame" x="0.0" y="0.0" width="194" height="20.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <textView opaque="NO" multipleTouchEnabled="YES" contentMode="left" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" text="body" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="d73-Ie-8ZP">
+                            <rect key="frame" x="0.0" y="25.5" width="194" height="42"/>
+                            <accessibility key="accessibilityConfiguration">
+                                <accessibilityTraits key="traits" staticText="YES"/>
+                            </accessibility>
+                            <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                    </subviews>
+                </stackView>
+                <view contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="21.5" translatesAutoresizingMaskIntoConstraints="NO" id="HbG-CF-Oqd" customClass="AndesButton" customModule="AndesUI">
+                    <rect key="frame" x="48" y="99" width="50" height="0.0"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <accessibility key="accessibilityConfiguration" identifier="andesMessagePrimaryAction"/>
+                    <connections>
+                        <action selector="primaryButtonTapped:" destination="-1" eventType="touchUpInside" id="kho-RD-LfD"/>
+                    </connections>
+                </view>
+                <view contentMode="scaleToFill" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" placeholderIntrinsicWidth="322" placeholderIntrinsicHeight="21.5" translatesAutoresizingMaskIntoConstraints="NO" id="UDP-xQ-Pdx" customClass="AndesButton" customModule="AndesUI">
+                    <rect key="frame" x="114" y="88.5" width="164" height="21.5"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <accessibility key="accessibilityConfiguration" identifier="andesMessageSecondaryAction"/>
+                    <connections>
+                        <action selector="secondaryButtonTapped:" destination="-1" eventType="touchUpInside" id="XnA-f6-yEG"/>
+                    </connections>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="HbG-CF-Oqd" firstAttribute="leading" secondItem="CPr-he-XXd" secondAttribute="leading" id="4sR-oV-1av"/>
+                <constraint firstItem="UDP-xQ-Pdx" firstAttribute="centerY" secondItem="HbG-CF-Oqd" secondAttribute="centerY" id="6ju-kP-yfd"/>
+                <constraint firstItem="CPr-he-XXd" firstAttribute="leading" secondItem="Mbf-ep-nbj" secondAttribute="trailing" constant="16" id="950-sz-xGi"/>
+                <constraint firstItem="Mbf-ep-nbj" firstAttribute="leading" secondItem="Cit-nC-uGc" secondAttribute="leading" constant="16" id="DMY-o7-nfT"/>
+                <constraint firstItem="kN4-J7-3O6" firstAttribute="top" secondItem="XXP-Ea-Yt4" secondAttribute="top" id="EX0-Ps-HuH"/>
+                <constraint firstItem="UDP-xQ-Pdx" firstAttribute="leading" secondItem="HbG-CF-Oqd" secondAttribute="trailing" constant="16" id="F3N-MN-Exb"/>
+                <constraint firstAttribute="trailing" secondItem="CPr-he-XXd" secondAttribute="trailing" priority="249" constant="32" id="JEr-pg-mxz"/>
+                <constraint firstItem="Mbf-ep-nbj" firstAttribute="top" secondItem="XXP-Ea-Yt4" secondAttribute="top" constant="16" id="S3U-Fd-wym"/>
+                <constraint firstItem="CPr-he-XXd" firstAttribute="top" secondItem="KSx-w5-sbK" secondAttribute="top" constant="-1" id="W2W-es-ou0"/>
+                <constraint firstItem="HbG-CF-Oqd" firstAttribute="top" secondItem="CPr-he-XXd" secondAttribute="bottom" constant="16" id="b5z-mV-ODV"/>
+                <constraint firstItem="AH2-H9-2Dt" firstAttribute="centerY" secondItem="Mbf-ep-nbj" secondAttribute="centerY" id="bwB-Z1-RRr"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="UDP-xQ-Pdx" secondAttribute="trailing" constant="16" id="cbE-wm-b1g"/>
+                <constraint firstItem="AH2-H9-2Dt" firstAttribute="leading" secondItem="CPr-he-XXd" secondAttribute="trailing" priority="999" constant="16" id="ndm-ak-doY"/>
+                <constraint firstAttribute="bottom" secondItem="HbG-CF-Oqd" secondAttribute="bottom" constant="16" id="oMz-ah-sEg"/>
+                <constraint firstAttribute="trailing" secondItem="AH2-H9-2Dt" secondAttribute="trailing" constant="16" id="q8W-lZ-aiI"/>
+                <constraint firstItem="kN4-J7-3O6" firstAttribute="bottom" secondItem="XXP-Ea-Yt4" secondAttribute="bottom" id="qip-QH-gNJ"/>
+                <constraint firstItem="kN4-J7-3O6" firstAttribute="leading" secondItem="XXP-Ea-Yt4" secondAttribute="leading" id="tva-Vh-hRB"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="Cit-nC-uGc"/>
+            <point key="canvasLocation" x="53.623188405797109" y="-148.32589285714286"/>
+        </view>
+    </objects>
+</document>

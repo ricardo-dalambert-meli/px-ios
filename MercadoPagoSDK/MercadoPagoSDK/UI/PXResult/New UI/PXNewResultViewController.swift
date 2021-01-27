@@ -82,7 +82,7 @@ class PXNewResultViewController: MercadoPagoUIViewController {
     }
 
     @objc func keyboardWillBeShown(notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
             scrollView.contentInset = contentInset
             scrollView.scrollIndicatorInsets = contentInset
@@ -706,10 +706,10 @@ extension PXNewResultViewController: PXAnimatedButtonDelegate {
     func expandAnimationInProgress() {
         UIView.animate(withDuration: 0.5, animations: { [weak self] in
             if let scrollView = self?.scrollView {
-                self?.view.bringSubviewToFront(scrollView)
+                self?.view.bringSubview(toFront: scrollView)
             }
             if let footerView = self?.scrollView.subviews.first(where: { $0 is PXFooterView }) {
-                self?.scrollView.sendSubviewToBack(footerView)
+                self?.scrollView.sendSubview(toBack: footerView)
             }
         })
     }
@@ -742,14 +742,14 @@ extension PXNewResultViewController: PXRemedyViewProtocol {
 extension PXNewResultViewController {
     func subscribeToKeyboardNotifications() {
         let center = NotificationCenter.default
-        center.addObserver(self, selector: #selector(keyboardWillBeShown(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(keyboardWillBeHidden(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(keyboardWillBeShown(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        center.addObserver(self, selector: #selector(keyboardWillBeHidden(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
 
     func unsubscribeFromKeyboardNotifications() {
         let center = NotificationCenter.default
-        center.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        center.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        center.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        center.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
 
     func subscribeToAnimatedButtonNotifications(button: PXAnimatedButton) {

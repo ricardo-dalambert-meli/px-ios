@@ -45,7 +45,8 @@ class PXTermsAndConditionView: PXComponentView {
 
         addSubview(termsAndConditionsText)
 
-        let URLAttribute: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: UIFont(name: ResourceManager.shared.DEFAULT_FONT_NAME, size: 12) ?? UIFont.systemFont(ofSize: 12), NSAttributedString.Key.foregroundColor: ThemeManager.shared.secondaryColor()]
+        let URLAttribute: [String: Any] = [NSAttributedString.Key.font.rawValue: UIFont(name: ResourceManager.shared.DEFAULT_FONT_NAME, size: 12) ?? UIFont.systemFont(ofSize: 12),
+                                           NSAttributedString.Key.foregroundColor.rawValue: ThemeManager.shared.secondaryColor()]
 
         termsAndConditionsText.linkTextAttributes = URLAttribute
 

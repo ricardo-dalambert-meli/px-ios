@@ -590,7 +590,7 @@ open class FSPagerView: UIView, UICollectionViewDataSource, UICollectionViewDele
             return
         }
         self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(self.automaticSlidingInterval), target: self, selector: #selector(self.flipNext(sender:)), userInfo: nil, repeats: true)
-        RunLoop.current.add(self.timer!, forMode: RunLoop.Mode.common)
+        RunLoop.current.add(self.timer!, forMode: RunLoopMode.commonModes)
     }
 
     @objc

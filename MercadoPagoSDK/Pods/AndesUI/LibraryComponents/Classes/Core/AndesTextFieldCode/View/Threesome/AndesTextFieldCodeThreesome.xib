@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AndesTextFieldCodeThreesome" customModule="AndesUIResources" customModuleProvider="target">
+            <connections>
+                <outlet property="andesCodeTextFieldView" destination="YvZ-R9-lMO" id="s0d-jy-Itu"/>
+                <outlet property="helpLabel" destination="EWf-KP-xK8" id="gtk-LP-nPe"/>
+                <outlet property="helperIconImageView" destination="nyk-Tq-aUF" id="eA4-6P-HoO"/>
+                <outlet property="label" destination="fZO-AW-6YD" id="gQ5-Iq-EbA"/>
+                <outlet property="stackView" destination="rVP-DC-gaQ" id="wT3-ah-tx1"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YvZ-R9-lMO" userLabel="AndesCodeTextFieldView">
+                    <rect key="frame" x="142" y="404.5" width="130" height="97"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fZO-AW-6YD" userLabel="Label">
+                            <rect key="frame" x="2" y="0.0" width="128" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="rVP-DC-gaQ">
+                            <rect key="frame" x="0.0" y="17" width="130" height="64"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ane-HU-Xpw" customClass="AndesTextField" customModule="AndesUI">
+                                    <rect key="frame" x="0.0" y="0.0" width="38" height="64"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="64" id="ITd-03-KaW"/>
+                                        <constraint firstAttribute="width" constant="38" id="U3j-Ha-L9P"/>
+                                    </constraints>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="counter">
+                                            <integer key="value" value="0"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="reL-gl-8DI" customClass="AndesTextField" customModule="AndesUI">
+                                    <rect key="frame" x="46" y="0.0" width="38" height="64"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="38" id="VzI-R2-NgI"/>
+                                        <constraint firstAttribute="height" constant="64" id="lQh-zb-aAi"/>
+                                    </constraints>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Us-4B-7qT" customClass="AndesTextField" customModule="AndesUI">
+                                    <rect key="frame" x="92" y="0.0" width="38" height="64"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="38" id="a7y-sA-eLt"/>
+                                        <constraint firstAttribute="height" constant="64" id="vu7-B3-Ti0"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
+                        </stackView>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nyk-Tq-aUF" userLabel="HelperIcon">
+                            <rect key="frame" x="2" y="83" width="12" height="12"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="12" id="2Ux-4M-OWH"/>
+                                <constraint firstAttribute="height" constant="12" id="CA1-EV-qR1"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="6"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Helper Text" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EWf-KP-xK8" userLabel="HelpLabel">
+                            <rect key="frame" x="20" y="81" width="110" height="16"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="rVP-DC-gaQ" firstAttribute="leading" secondItem="YvZ-R9-lMO" secondAttribute="leading" id="0N6-ZE-pzT"/>
+                        <constraint firstItem="rVP-DC-gaQ" firstAttribute="top" secondItem="fZO-AW-6YD" secondAttribute="bottom" id="2UI-fU-QcJ"/>
+                        <constraint firstAttribute="trailing" secondItem="EWf-KP-xK8" secondAttribute="trailing" id="83G-VX-x4y"/>
+                        <constraint firstItem="EWf-KP-xK8" firstAttribute="top" secondItem="rVP-DC-gaQ" secondAttribute="bottom" id="Hh1-6n-gWz"/>
+                        <constraint firstItem="nyk-Tq-aUF" firstAttribute="top" secondItem="EWf-KP-xK8" secondAttribute="top" constant="2" id="Iuq-jU-BE4"/>
+                        <constraint firstItem="EWf-KP-xK8" firstAttribute="leading" secondItem="nyk-Tq-aUF" secondAttribute="trailing" constant="6" placeholder="YES" id="RKp-R9-itM"/>
+                        <constraint firstItem="fZO-AW-6YD" firstAttribute="leading" secondItem="YvZ-R9-lMO" secondAttribute="leading" constant="2" id="ZHQ-En-hAC"/>
+                        <constraint firstItem="fZO-AW-6YD" firstAttribute="top" secondItem="YvZ-R9-lMO" secondAttribute="top" id="aBc-PD-C1c"/>
+                        <constraint firstAttribute="bottom" secondItem="EWf-KP-xK8" secondAttribute="bottom" id="bok-TL-hTx"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="rVP-DC-gaQ" secondAttribute="trailing" id="gt2-yC-ftA"/>
+                        <constraint firstItem="nyk-Tq-aUF" firstAttribute="leading" secondItem="YvZ-R9-lMO" secondAttribute="leading" constant="2" id="oKw-wA-FkA"/>
+                        <constraint firstAttribute="trailing" secondItem="fZO-AW-6YD" secondAttribute="trailing" id="z9f-wv-WmB"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="YvZ-R9-lMO" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="U1l-O9-tWm"/>
+                <constraint firstItem="YvZ-R9-lMO" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="V8W-qo-BR4"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="139" y="109"/>
+        </view>
+    </objects>
+</document>

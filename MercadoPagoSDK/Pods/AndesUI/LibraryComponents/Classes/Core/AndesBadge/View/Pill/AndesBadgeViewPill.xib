@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AndesBadgeViewPill" customModule="AndesUI">
+            <connections>
+                <outlet property="badgeView" destination="iN0-l3-epB" id="LDz-Kq-IfT"/>
+                <outlet property="bottom" destination="bE3-jP-EC9" id="hDT-2O-Ash"/>
+                <outlet property="heightConstraint" destination="dWg-EZ-9t9" id="C0H-z5-GBA"/>
+                <outlet property="left" destination="ChZ-tO-mYd" id="vFw-0c-rWp"/>
+                <outlet property="right" destination="wOi-2e-QJB" id="uQ3-X4-4tG"/>
+                <outlet property="textLabel" destination="bRV-6v-b1s" id="tcS-0L-3aY"/>
+                <outlet property="top" destination="Cfv-ha-fi6" id="wLq-sZ-eiK"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="58" height="24"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ehB-6q-bz2">
+                    <rect key="frame" x="0.0" y="0.0" width="58" height="24"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bRV-6v-b1s">
+                            <rect key="frame" x="0.0" y="0.0" width="58" height="24"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="bRV-6v-b1s" firstAttribute="top" secondItem="ehB-6q-bz2" secondAttribute="top" id="Cfv-ha-fi6"/>
+                        <constraint firstItem="bRV-6v-b1s" firstAttribute="leading" secondItem="ehB-6q-bz2" secondAttribute="leading" id="ChZ-tO-mYd"/>
+                        <constraint firstAttribute="bottom" secondItem="bRV-6v-b1s" secondAttribute="bottom" id="bE3-jP-EC9"/>
+                        <constraint firstAttribute="height" constant="24" id="dWg-EZ-9t9"/>
+                        <constraint firstAttribute="trailing" secondItem="bRV-6v-b1s" secondAttribute="trailing" id="wOi-2e-QJB"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="ehB-6q-bz2" secondAttribute="bottom" id="WOd-Xh-fap"/>
+                <constraint firstAttribute="trailing" secondItem="ehB-6q-bz2" secondAttribute="trailing" id="dJx-zV-ABG"/>
+                <constraint firstItem="ehB-6q-bz2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="mDy-Ed-Frj"/>
+                <constraint firstItem="ehB-6q-bz2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="tYr-DN-n42"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-69.565217391304358" y="-133.92857142857142"/>
+        </view>
+    </objects>
+</document>

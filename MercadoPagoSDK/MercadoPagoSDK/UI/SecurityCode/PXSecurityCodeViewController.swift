@@ -158,8 +158,8 @@ extension PXSecurityCodeViewController: PXAnimatedButtonDelegate {
 private extension PXSecurityCodeViewController {
     func setupKeyboardNotifications() {
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(keyboardDidChange), name: UIResponder.keyboardWillHideNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(keyboardDidChange), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyboardDidChange), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyboardDidChange), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
     }
 
     func removeKeyboardNotifications() {
@@ -167,7 +167,7 @@ private extension PXSecurityCodeViewController {
     }
 
     @objc func keyboardDidChange(notification: Notification) {
-        if let userInfo = notification.userInfo, let keyboardScreenEndFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        if let userInfo = notification.userInfo, let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
 
             var animator = PXAnimator(duration: 0.8, dampingRatio: 0.8)

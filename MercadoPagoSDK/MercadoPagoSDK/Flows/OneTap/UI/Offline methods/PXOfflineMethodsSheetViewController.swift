@@ -90,7 +90,7 @@ class PXOfflineMethodsSheetViewController: SheetViewController {
             totalLabel.centerYAnchor.constraint(equalTo: closeButton.centerYAnchor)
         ])
 
-        view.sendSubviewToBack(totalView)
+        view.sendSubview(toBack: totalView)
 
         self.totalView = totalView
     }

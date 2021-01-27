@@ -143,7 +143,7 @@ extension PXNewResultUtil {
     static let discountAmountAttributes: [NSAttributedString.Key: Any] = [
         NSAttributedString.Key.font: Utils.getSemiBoldFont(size: PXLayout.XS_FONT),
         NSAttributedString.Key.foregroundColor: UIColor.black.withAlphaComponent(0.45),
-        NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue
+        NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue
     ]
 
     //PAYMENT METHOD ICON URL

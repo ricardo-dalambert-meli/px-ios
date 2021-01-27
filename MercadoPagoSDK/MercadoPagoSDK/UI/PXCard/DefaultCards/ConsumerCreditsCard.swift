@@ -122,7 +122,7 @@ extension ConsumerCreditsCard {
 
     private func getTermsAndConditionsTextView(terms: PXTermsDto, selectedInstallments: Int?) -> UITextView {
         let termsAndConditionsText = UITextView()
-        termsAndConditionsText.linkTextAttributes = [.foregroundColor: UIColor.white]
+        termsAndConditionsText.linkTextAttributes = [NSAttributedString.Key.foregroundColor.rawValue: UIColor.white]
         termsAndConditionsText.delegate = self
         termsAndConditionsText.isUserInteractionEnabled = true
         termsAndConditionsText.isEditable = false
@@ -159,7 +159,7 @@ extension ConsumerCreditsCard {
             }
             if let customLink = customLink {
                 let tycLinkRange = (tycText as NSString).range(of: linkablePhrase.phrase)
-                attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: tycLinkRange)
+                attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: tycLinkRange)
                 attributedString.addAttribute(NSAttributedString.Key.link, value: customLink, range: tycLinkRange)
             }
         }

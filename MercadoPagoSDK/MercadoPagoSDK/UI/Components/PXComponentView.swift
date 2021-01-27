@@ -119,12 +119,12 @@ import Foundation
         self.contentView.addSubview(view)
     }
 
-    override func bringSubviewToFront(_ view: UIView) {
-        self.contentView.bringSubviewToFront(view)
+    override func bringSubview(toFront view: UIView) {
+        self.contentView.bringSubview(toFront: view)
     }
 
-    override func sendSubviewToBack(_ view: UIView) {
-        self.contentView.sendSubviewToBack(view)
+    override func sendSubview(toBack view: UIView) {
+        self.contentView.sendSubview(toBack: view)
     }
 
     func addSubviewToComponentView(_ view: UIView) {

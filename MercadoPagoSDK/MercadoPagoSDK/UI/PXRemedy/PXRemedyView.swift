@@ -300,7 +300,7 @@ class PXRemedyView: UIView {
             let discountAmountAttributes: [NSAttributedString.Key: Any] = [
                 NSAttributedString.Key.font: defaultFont,
                 NSAttributedString.Key.foregroundColor: defaultTextColor,
-                NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue
+                NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue
             ]
             let string = Utils.getAmountFormated(amount: transactionAmount.doubleValue, forCurrency: currency)
             let attributedAmount = NSAttributedString(string: string, attributes: discountAmountAttributes)

@@ -56,7 +56,7 @@ final class PXOfflineMethodsViewController: MercadoPagoUIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        sheetViewController?.scrollView = tableView
+//        sheetViewController?.scrollView = tableView
         trackScreen(path: TrackingPaths.Screens.OneTap.getOfflineMethodsPath(), properties: viewModel.getScreenTrackingProperties())
     }
 
@@ -105,7 +105,7 @@ final class PXOfflineMethodsViewController: MercadoPagoUIViewController {
 
         //Inactivity View - rendered but hidden
         renderInactivityView(text: viewModel.getTitleForLastSection())
-        view.bringSubviewToFront(footerView)
+        view.bringSubview(toFront: footerView)
     }
 
     private func autoSelectPaymentMethodIfNeeded() {

@@ -1,0 +1,26 @@
+{
+  "images" : [
+    {
+      "filename" : "andes_ui_placeholder_imagen_32.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "andes_ui_placeholder_imagen_32-1.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "andes_ui_placeholder_imagen_32-2.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "template-rendering-intent" : "template"
+  }
+}

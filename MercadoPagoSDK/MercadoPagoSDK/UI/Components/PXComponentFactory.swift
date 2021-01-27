@@ -47,7 +47,7 @@ struct PXComponentFactory {
 
     struct SnackBar {
         static func showShortDurationMessage(message: String, type: MLSnackbarType, dismissBlock: @escaping (() -> Void)) {
-            UIAccessibility.post(notification: .announcement, argument: message)
+            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, message)
             MLSnackbar.show(withTitle: message, type: type, duration: .short) { (_) in
                 dismissBlock()
             }

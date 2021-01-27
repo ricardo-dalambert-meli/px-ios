@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AndesSnackbarView" customModule="AndesUI">
+            <connections>
+                <outlet property="snackbarActionButton" destination="l01-KF-l6a" id="ccc-D4-onk"/>
+                <outlet property="snackbarTextLabel" destination="ieb-5w-SBg" id="Q5G-P5-yTF"/>
+                <outlet property="snackbarView" destination="iN0-l3-epB" id="EAc-g3-mly"/>
+                <outletCollection property="buttonOnTrailingConstraints" destination="7C2-qC-waG" collectionClass="NSMutableArray" id="iZf-Mf-64S"/>
+                <outletCollection property="buttonOnTrailingConstraints" destination="72t-sg-Stb" collectionClass="NSMutableArray" id="Fn5-9c-jAz"/>
+                <outletCollection property="buttonOnTrailingConstraints" destination="UfL-ri-rcc" collectionClass="NSMutableArray" id="U12-x1-Lt4"/>
+                <outletCollection property="buttonOnTrailingConstraints" destination="9r5-NS-C84" collectionClass="NSMutableArray" id="Dkx-7N-lle"/>
+                <outletCollection property="buttonOnBottomLeadingConstraints" destination="wRc-Fu-196" collectionClass="NSMutableArray" id="wZa-AQ-mfo"/>
+                <outletCollection property="buttonOnBottomLeadingConstraints" destination="QFz-nR-mTc" collectionClass="NSMutableArray" id="kQH-rU-TdD"/>
+                <outletCollection property="buttonOnBottomLeadingConstraints" destination="Rtr-q5-thH" collectionClass="NSMutableArray" id="7Zb-lh-UDS"/>
+                <outletCollection property="buttonOnBottomLeadingConstraints" destination="rDh-ab-pqq" collectionClass="NSMutableArray" id="Pxl-nr-VLk"/>
+                <outletCollection property="hideButtonConstraints" destination="rDh-ab-pqq" collectionClass="NSMutableArray" id="Tro-TO-wzo"/>
+                <outletCollection property="hideButtonConstraints" destination="9r5-NS-C84" collectionClass="NSMutableArray" id="ZTR-vU-MIl"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="385" height="131"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v4f-SO-RQ9">
+                    <rect key="frame" x="0.0" y="0.0" width="385" height="131"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Showing a beautiful snackbar longer" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ieb-5w-SBg">
+                            <rect key="frame" x="16" y="16" width="253" height="99"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="44" translatesAutoresizingMaskIntoConstraints="NO" id="l01-KF-l6a" customClass="AndesButton" customModule="AndesUI">
+                            <rect key="frame" x="277" y="43.5" width="100" height="44"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <connections>
+                                <action selector="snackbarActionTapped:" destination="-1" eventType="touchUpInside" id="NCN-ne-OAS"/>
+                            </connections>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="l01-KF-l6a" secondAttribute="trailing" priority="750" constant="8" id="72t-sg-Stb"/>
+                        <constraint firstItem="l01-KF-l6a" firstAttribute="leading" secondItem="ieb-5w-SBg" secondAttribute="trailing" priority="750" constant="8" id="7C2-qC-waG"/>
+                        <constraint firstAttribute="bottom" secondItem="ieb-5w-SBg" secondAttribute="bottom" priority="750" constant="16" id="9r5-NS-C84"/>
+                        <constraint firstAttribute="bottom" secondItem="l01-KF-l6a" secondAttribute="bottom" priority="250" constant="8" id="QFz-nR-mTc"/>
+                        <constraint firstItem="l01-KF-l6a" firstAttribute="top" secondItem="ieb-5w-SBg" secondAttribute="bottom" priority="250" constant="8" id="Rtr-q5-thH"/>
+                        <constraint firstItem="l01-KF-l6a" firstAttribute="centerY" secondItem="ieb-5w-SBg" secondAttribute="centerY" priority="750" id="UfL-ri-rcc"/>
+                        <constraint firstItem="ieb-5w-SBg" firstAttribute="top" secondItem="v4f-SO-RQ9" secondAttribute="top" constant="16" id="bPI-yb-uOy"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="48" id="iFH-44-0ZL"/>
+                        <constraint firstItem="ieb-5w-SBg" firstAttribute="leading" secondItem="v4f-SO-RQ9" secondAttribute="leading" constant="16" id="ocb-nK-z4o"/>
+                        <constraint firstAttribute="trailing" secondItem="ieb-5w-SBg" secondAttribute="trailing" priority="250" constant="16" id="rDh-ab-pqq"/>
+                        <constraint firstItem="l01-KF-l6a" firstAttribute="leading" secondItem="v4f-SO-RQ9" secondAttribute="leading" priority="250" constant="8" id="wRc-Fu-196"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="v4f-SO-RQ9" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="3mR-HX-XVn"/>
+                <constraint firstAttribute="trailing" secondItem="v4f-SO-RQ9" secondAttribute="trailing" id="5B8-My-Kho"/>
+                <constraint firstAttribute="bottom" secondItem="v4f-SO-RQ9" secondAttribute="bottom" id="JBn-Zj-Ax3"/>
+                <constraint firstItem="v4f-SO-RQ9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="is3-7h-OxC"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-163" y="-416"/>
+        </view>
+    </objects>
+</document>

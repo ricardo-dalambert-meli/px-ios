@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AndesRadioButtonDefaultView" customModule="AndesUI">
+            <connections>
+                <outlet property="labelToLeadingConstraint" destination="TeU-4P-92b" id="cz2-NV-JNX"/>
+                <outlet property="labelToLeftButtonConstraint" destination="uO2-4H-fYY" id="pui-wR-Uww"/>
+                <outlet property="labelToRightButtonConstraint" destination="4EE-Lz-XmI" id="Egd-0J-89L"/>
+                <outlet property="labelToTrailingConstraint" destination="uGC-e4-iLB" id="imv-0u-fW5"/>
+                <outlet property="leftRadioButton" destination="tMQ-xe-WWY" id="PBZ-Bc-jzP"/>
+                <outlet property="radioButtonLabel" destination="1Wf-Ci-oc3" id="a7t-p2-MHu"/>
+                <outlet property="radioButtonView" destination="d18-F7-uIb" id="noE-Bx-L1L"/>
+                <outlet property="rightRadioButton" destination="UBx-hG-Q69" id="okz-4K-g8x"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="d18-F7-uIb">
+            <rect key="frame" x="0.0" y="0.0" width="180" height="48"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Radio Button" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Wf-Ci-oc3">
+                    <rect key="frame" x="40" y="12" width="100" height="24"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tMQ-xe-WWY" customClass="AndesRadioButtonControl" customModule="AndesUI">
+                    <rect key="frame" x="4" y="6" width="32" height="32"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="32" id="DZq-eE-jax"/>
+                        <constraint firstAttribute="height" constant="32" id="aj5-H1-qiM"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="j3V-iJ-cCP"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UBx-hG-Q69" customClass="AndesRadioButtonControl" customModule="AndesUI">
+                    <rect key="frame" x="144" y="6" width="32" height="32"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="32" id="94b-Xg-F6T"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="C1K-vJ-jZ4"/>
+                        <constraint firstAttribute="width" constant="32" id="CMd-z4-Rdi"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="UBx-hG-Q69" firstAttribute="leading" secondItem="1Wf-Ci-oc3" secondAttribute="trailing" priority="750" constant="4" id="4EE-Lz-XmI"/>
+                <constraint firstItem="tMQ-xe-WWY" firstAttribute="leading" secondItem="d18-F7-uIb" secondAttribute="leading" constant="4" id="E7V-gY-uPh"/>
+                <constraint firstItem="1Wf-Ci-oc3" firstAttribute="leading" secondItem="d18-F7-uIb" secondAttribute="leading" priority="250" constant="12" id="TeU-4P-92b"/>
+                <constraint firstItem="1Wf-Ci-oc3" firstAttribute="top" secondItem="d18-F7-uIb" secondAttribute="top" constant="12" id="aXd-WI-HlA"/>
+                <constraint firstAttribute="bottom" secondItem="1Wf-Ci-oc3" secondAttribute="bottom" constant="12" id="exm-ys-R35"/>
+                <constraint firstItem="1Wf-Ci-oc3" firstAttribute="top" secondItem="UBx-hG-Q69" secondAttribute="top" constant="6" id="r3N-2i-xfx"/>
+                <constraint firstItem="1Wf-Ci-oc3" firstAttribute="top" secondItem="tMQ-xe-WWY" secondAttribute="top" constant="6" id="saY-fX-DBu"/>
+                <constraint firstAttribute="trailing" secondItem="UBx-hG-Q69" secondAttribute="trailing" constant="4" id="uFe-6X-uGh"/>
+                <constraint firstAttribute="trailing" secondItem="1Wf-Ci-oc3" secondAttribute="trailing" priority="250" constant="12" id="uGC-e4-iLB"/>
+                <constraint firstItem="1Wf-Ci-oc3" firstAttribute="leading" secondItem="tMQ-xe-WWY" secondAttribute="trailing" constant="4" id="uO2-4H-fYY"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-36.231884057971016" y="-244.41964285714283"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

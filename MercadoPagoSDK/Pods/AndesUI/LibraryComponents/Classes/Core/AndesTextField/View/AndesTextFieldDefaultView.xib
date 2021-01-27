@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AndesTextFieldDefaultView" customModule="AndesUI">
+            <connections>
+                <outlet property="counterLabel" destination="YmT-3i-NBb" id="bVK-WX-1QE"/>
+                <outlet property="fieldView" destination="lLV-cM-jBL" id="cNc-m9-Yzo"/>
+                <outlet property="helperIconImageView" destination="f5h-Q0-DR8" id="LUf-by-mWd"/>
+                <outlet property="helperLabel" destination="c0B-sk-Ywe" id="eTG-7W-Pum"/>
+                <outlet property="helperLeadingToLabelLeading" destination="eJw-IB-ZIx" id="Sit-HN-D4q"/>
+                <outlet property="labelLabel" destination="n6d-3f-bsv" id="yMB-8U-rM9"/>
+                <outlet property="textField" destination="lLV-cM-jBL" id="oFO-OR-FfT"/>
+                <outlet property="view" destination="iN0-l3-epB" id="cmL-Se-j8w"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="412" height="159"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n6d-3f-bsv">
+                    <rect key="frame" x="6" y="44" width="35.5" height="17"/>
+                    <accessibility key="accessibilityConfiguration" identifier="internalLabel"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lLV-cM-jBL" customClass="TextField" customModule="AndesUI">
+                    <rect key="frame" x="2" y="67" width="408" height="48"/>
+                    <accessibility key="accessibilityConfiguration" identifier="internalField"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="UmW-SX-auS"/>
+                    </constraints>
+                    <color key="textColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 / 100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YmT-3i-NBb" userLabel="Counter">
+                    <rect key="frame" x="370" y="123" width="42" height="16"/>
+                    <accessibility key="accessibilityConfiguration" identifier="internalCounter"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="500" text="Helper Text" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c0B-sk-Ywe">
+                    <rect key="frame" x="24" y="123" width="69.5" height="36"/>
+                    <accessibility key="accessibilityConfiguration" identifier="internalLabel" label="Helper Text"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="f5h-Q0-DR8">
+                    <rect key="frame" x="6" y="125" width="12" height="12"/>
+                    <accessibility key="accessibilityConfiguration" identifier="internalHelperImage"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="12" id="AQq-VJ-QLu"/>
+                        <constraint firstAttribute="height" constant="12" id="Gmq-Gl-c3W"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="6"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </imageView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="lLV-cM-jBL" secondAttribute="trailing" constant="2" id="0XP-QF-805"/>
+                <constraint firstItem="f5h-Q0-DR8" firstAttribute="leading" secondItem="n6d-3f-bsv" secondAttribute="leading" id="6sy-WV-hdJ"/>
+                <constraint firstItem="lLV-cM-jBL" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="2" id="AS9-9g-NqZ"/>
+                <constraint firstItem="YmT-3i-NBb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="c0B-sk-Ywe" secondAttribute="trailing" constant="8" id="QAf-GH-DTb"/>
+                <constraint firstItem="YmT-3i-NBb" firstAttribute="top" secondItem="lLV-cM-jBL" secondAttribute="bottom" constant="8" id="Wlh-QM-MYX"/>
+                <constraint firstItem="c0B-sk-Ywe" firstAttribute="leading" secondItem="f5h-Q0-DR8" secondAttribute="trailing" priority="500" constant="6" id="X59-Xm-Ong"/>
+                <constraint firstItem="lLV-cM-jBL" firstAttribute="top" secondItem="n6d-3f-bsv" secondAttribute="bottom" constant="6" id="an7-iV-HJP"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="YmT-3i-NBb" secondAttribute="trailing" id="bsx-9i-W6M"/>
+                <constraint firstItem="c0B-sk-Ywe" firstAttribute="leading" secondItem="n6d-3f-bsv" secondAttribute="leading" priority="250" id="eJw-IB-ZIx"/>
+                <constraint firstItem="n6d-3f-bsv" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="hTA-gz-Gkx"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="YmT-3i-NBb" secondAttribute="bottom" id="rH7-Dy-tks"/>
+                <constraint firstItem="f5h-Q0-DR8" firstAttribute="top" secondItem="c0B-sk-Ywe" secondAttribute="top" constant="2" id="tJt-Vo-GgY"/>
+                <constraint firstItem="c0B-sk-Ywe" firstAttribute="top" secondItem="lLV-cM-jBL" secondAttribute="bottom" constant="8" id="x4w-an-T75"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="c0B-sk-Ywe" secondAttribute="bottom" id="xKT-lc-8X7"/>
+                <constraint firstItem="n6d-3f-bsv" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="6" id="zDO-u1-uuy"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-179.71014492753625" y="23.102678571428569"/>
+        </view>
+    </objects>
+</document>
