@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_MercadoPagoSDK_MercadoPagoSDKTestsVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_MercadoPagoSDK_MercadoPagoSDKTestsVersionString[];
+FOUNDATION_EXPORT double Pods_MercadoPagoSDK_SDKTestsVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_MercadoPagoSDK_SDKTestsVersionString[];
 

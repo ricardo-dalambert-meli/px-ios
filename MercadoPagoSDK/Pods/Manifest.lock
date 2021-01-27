@@ -1,8 +1,6 @@
 PODS:
   - AndesUI (3.19.0):
     - AndesUI/Core (= 3.19.0)
-  - AndesUI/AndesBottomSheet (3.19.0):
-    - AndesUI/Core
   - AndesUI/Core (3.19.0):
     - AndesUI/LocalIcons
   - AndesUI/LocalIcons (3.19.0)
@@ -134,7 +132,6 @@ PODS:
   - MLUI/StyleSheet (5.25.0)
 
 DEPENDENCIES:
-  - AndesUI/AndesBottomSheet
   - MLBusinessComponents
   - MLCardDrawer
   - MLCardForm
@@ -159,6 +156,6 @@ SPEC CHECKSUMS:
   MLCardForm: aea4547115723110dff67df988b6d11584cceb75
   MLUI: db4e5bb3aae6884212dcf1213d76b65c5cd26464
 
-PODFILE CHECKSUM: 9e59bd729086669b2b701b6a71c53583bc7d82fd
+PODFILE CHECKSUM: 819aee3ee54bc11a7231496f870fe57d178f8616
 
 COCOAPODS: 1.8.4

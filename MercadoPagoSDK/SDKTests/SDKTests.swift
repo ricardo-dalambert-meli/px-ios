@@ -6,6 +6,7 @@
 //  Copyright © 2021 MercadoPago. All rights reserved.
 //
 
+@testable import MercadoPagoSDK
 import XCTest
 
 class SDKTests: XCTestCase {
@@ -19,6 +20,8 @@ class SDKTests: XCTestCase {
     }
 
     func testExample() throws {
+        let builder = MercadoPagoCheckoutBuilder(publicKey: "", preferenceId: "")
+        XCTAssert(true)
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
