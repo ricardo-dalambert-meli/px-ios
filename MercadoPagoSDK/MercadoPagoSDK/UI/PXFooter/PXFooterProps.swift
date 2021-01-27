@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class PXFooterProps: NSObject {
     var buttonAction: PXAction?

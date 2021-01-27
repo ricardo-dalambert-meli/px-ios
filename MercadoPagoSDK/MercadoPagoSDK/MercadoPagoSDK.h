@@ -2,13 +2,10 @@
 //  MercadoPagoSDK.h
 //  MercadoPagoSDK
 //
-//  Created by Matias Gualino on 6/4/15.
-//  Copyright (c) 2015 MercadoPago. All rights reserved.
+//  Created by Matheus Leandro Martins on 27/01/21.
 //
 
-#import <UIKit/UIKit.h>
-
-
+#import <Foundation/Foundation.h>
 
 //! Project version number for MercadoPagoSDK.
 FOUNDATION_EXPORT double MercadoPagoSDKVersionNumber;

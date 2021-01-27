@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 internal class PXInstructionsSubtitleComponent: PXComponentizable {
     var props: PXInstructionsSubtitleProps

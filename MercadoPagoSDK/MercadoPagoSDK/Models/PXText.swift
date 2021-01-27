@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 @objcMembers
 public class PXText: NSObject, Codable {

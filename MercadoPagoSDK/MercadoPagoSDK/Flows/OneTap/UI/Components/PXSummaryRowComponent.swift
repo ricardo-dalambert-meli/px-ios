@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 typealias PXSummaryRowProps = (title: String, subTitle: String?, rightText: String, backgroundColor: UIColor?)
 

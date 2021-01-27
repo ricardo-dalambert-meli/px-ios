@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import UIKit
+
 final internal class PXFooterAnimatedView: UIView {
     var animatedButton: PXAnimatedButton?
 }

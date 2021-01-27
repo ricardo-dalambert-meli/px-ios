@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class PXOneTapSummaryRowRenderer: PXXibRenderer {
     private var props: PXSummaryRowProps?

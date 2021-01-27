@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class PXInstructionsAccreditationCommentComponent: NSObject, PXComponentizable {
     var props: PXInstructionsAccreditationCommentProps

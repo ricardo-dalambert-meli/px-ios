@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 /**
  Protocol to define advanced customization of your UI.

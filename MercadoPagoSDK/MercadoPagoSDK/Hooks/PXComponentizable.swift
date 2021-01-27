@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 @objc internal protocol PXComponentizable {
     func render() -> UIView

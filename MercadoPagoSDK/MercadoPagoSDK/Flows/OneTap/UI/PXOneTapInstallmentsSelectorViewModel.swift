@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 typealias PXOneTapInstallmentsSelectorData = (title: NSAttributedString, topValue: NSAttributedString?, bottomValue: NSAttributedString?, isSelected: Bool)
 

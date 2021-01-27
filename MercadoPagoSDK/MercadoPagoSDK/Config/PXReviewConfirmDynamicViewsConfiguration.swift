@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 @available(*, deprecated, message: "Groups flow will no longer be available")
 @objc public protocol PXReviewConfirmDynamicViewsConfiguration: NSObjectProtocol {

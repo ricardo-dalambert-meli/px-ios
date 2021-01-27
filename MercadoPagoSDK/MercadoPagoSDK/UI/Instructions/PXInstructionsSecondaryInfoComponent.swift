@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 internal class PXInstructionsSecondaryInfoComponent: PXComponentizable {
     var props: PXInstructionsSecondaryInfoProps

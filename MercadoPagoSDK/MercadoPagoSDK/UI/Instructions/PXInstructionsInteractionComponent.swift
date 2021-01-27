@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class PXInstructionsInteractionComponent: NSObject, PXComponentizable {
     var props: PXInstructionsInteractionProps

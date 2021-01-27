@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 /**
  Implement this protocol to create your custom Payment Processor.

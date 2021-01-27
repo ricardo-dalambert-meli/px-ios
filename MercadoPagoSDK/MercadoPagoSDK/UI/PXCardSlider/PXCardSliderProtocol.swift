@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol PXCardSliderProtocol: NSObjectProtocol {
     func newCardDidSelected(targetModel: PXCardSliderViewModel)

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 /**
  This object declares custom preferences (customizations) for "Congrats" screen.

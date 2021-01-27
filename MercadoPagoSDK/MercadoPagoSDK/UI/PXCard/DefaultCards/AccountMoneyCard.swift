@@ -7,6 +7,7 @@
 
 import Foundation
 import MLCardDrawer
+import UIKit
 
 class AccountMoneyCard: NSObject, CustomCardDrawerUI {
     var placeholderName = ""

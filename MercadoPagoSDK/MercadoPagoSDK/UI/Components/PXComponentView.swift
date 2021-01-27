@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 @objcMembers internal class PXComponentView: UIView {
 

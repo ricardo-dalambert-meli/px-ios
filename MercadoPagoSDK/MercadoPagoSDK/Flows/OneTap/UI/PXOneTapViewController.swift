@@ -44,7 +44,7 @@ final class PXOneTapViewController: PXComponentContainerViewController {
     var cardSliderMarginConstraint: NSLayoutConstraint?
     private var navigationBarTapGesture: UITapGestureRecognizer?
     var installmentRow = PXOneTapInstallmentInfoView()
-    private var andesBottomSheet: AndesBottomSheetViewController?
+//    private var andesBottomSheet: AndesBottomSheetViewController?
 
     // MARK: Lifecycle/Publics
     init(viewModel: PXOneTapViewModel, timeOutPayButton: TimeInterval = 15, callbackPaymentData : @escaping ((PXPaymentData) -> Void), callbackConfirm: @escaping ((PXPaymentData, Bool) -> Void), callbackUpdatePaymentOption: @escaping ((PaymentMethodOption) -> Void), callbackRefreshInit: @escaping ((String) -> Void), callbackExit: @escaping (() -> Void), finishButtonAnimation: @escaping (() -> Void)) {
@@ -640,8 +640,8 @@ extension PXOneTapViewController: PXCardSliderProtocol {
             if let newCard = viewModel.expressData?.compactMap({ $0.newCard }).first {
                 if newCard.sheetOptions != nil {
                     // Present sheet to pick standard card form or webpay
-                    let sheet = buildBottomSheet(newCard: newCard)
-                    present(sheet, animated: true, completion: nil)
+//                    let sheet = buildBottomSheet(newCard: newCard)
+//                    present(sheet, animated: true, completion: nil)
                 } else {
                     // Add new card using card form based on init type
                     // There might be cases when there's a different option besides standard type
@@ -656,18 +656,18 @@ extension PXOneTapViewController: PXCardSliderProtocol {
         }
     }
 
-    private func buildBottomSheet(newCard: PXOneTapNewCardDto) -> AndesBottomSheetViewController {
-        if let andesBottomSheet = andesBottomSheet {
-            return andesBottomSheet
-        }
-        let viewController = PXOneTapSheetViewController(newCard: newCard)
-        viewController.delegate = self
-        let sheet = AndesBottomSheetViewController(rootViewController: viewController)
-        sheet.titleBar.text = newCard.label.message
-        sheet.titleBar.textAlignment = .center
-        andesBottomSheet = sheet
-        return sheet
-    }
+//    private func buildBottomSheet(newCard: PXOneTapNewCardDto) -> AndesBottomSheetViewController {
+//        if let andesBottomSheet = andesBottomSheet {
+//            return andesBottomSheet
+//        }
+//        let viewController = PXOneTapSheetViewController(newCard: newCard)
+//        viewController.delegate = self
+//        let sheet = AndesBottomSheetViewController(rootViewController: viewController)
+//        sheet.titleBar.text = newCard.label.message
+//        sheet.titleBar.textAlignment = .center
+//        andesBottomSheet = sheet
+//        return sheet
+//    }
 
     private func addNewCard(initType: String? = "standard") {
         let siteId = viewModel.siteId
@@ -713,9 +713,9 @@ extension PXOneTapViewController: PXCardSliderProtocol {
 
 extension PXOneTapViewController: PXOneTapSheetViewControllerProtocol {
     func didTapOneTapSheetOption(sheetOption: PXOneTapSheetOptionsDto) {
-        andesBottomSheet?.dismiss(animated: true, completion: { [weak self] in
-            self?.addNewCard(initType: sheetOption.cardFormInitType)
-        })
+//        andesBottomSheet?.dismiss(animated: true, completion: { [weak self] in
+//            self?.addNewCard(initType: sheetOption.cardFormInitType)
+//        })
     }
 }
 

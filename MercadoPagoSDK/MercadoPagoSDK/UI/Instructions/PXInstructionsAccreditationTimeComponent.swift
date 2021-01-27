@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class PXInstructionsAccreditationTimeComponent: NSObject, PXComponentizable {
     var props: PXInstructionsAccreditationTimeProps

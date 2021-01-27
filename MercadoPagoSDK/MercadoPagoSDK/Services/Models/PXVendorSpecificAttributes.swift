@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import UIKit
+
 /// :nodoc:
 open class PXVendorSpecificAttributes: NSObject, Codable {
 

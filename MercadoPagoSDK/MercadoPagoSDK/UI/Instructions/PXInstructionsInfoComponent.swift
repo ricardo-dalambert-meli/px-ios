@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class PXInstructionsInfoComponent: NSObject, PXComponentizable {
     var props: PXInstructionsInfoProps

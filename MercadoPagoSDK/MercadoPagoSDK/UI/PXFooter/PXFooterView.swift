@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class PXFooterView: UIView {
     weak var delegate: PXFooterTrackingProtocol?

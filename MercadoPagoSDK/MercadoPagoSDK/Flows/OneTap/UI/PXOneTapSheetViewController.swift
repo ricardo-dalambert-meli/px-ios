@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 internal protocol PXOneTapSheetViewControllerProtocol: class {
     func didTapOneTapSheetOption(sheetOption: PXOneTapSheetOptionsDto)

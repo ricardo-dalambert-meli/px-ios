@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class PXDefaultTheme: NSObject {
     let primaryColor: UIColor

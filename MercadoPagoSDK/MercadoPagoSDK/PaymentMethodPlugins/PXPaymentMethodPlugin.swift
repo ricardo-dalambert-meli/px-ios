@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 /**
  Use to create yout custom payment option. We´ll display this option in the payment method selection screen.

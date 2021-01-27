@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 internal class PXInstructionsContentComponent: PXComponentizable {
     var props: PXInstructionsContentProps

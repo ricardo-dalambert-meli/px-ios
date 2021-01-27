@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /**
  Just like the PXAnimatedButton, but using the window as it's anchor point.

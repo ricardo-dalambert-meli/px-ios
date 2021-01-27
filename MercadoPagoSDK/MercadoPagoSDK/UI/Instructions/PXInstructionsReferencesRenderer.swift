@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class PXInstructionsReferencesRenderer: NSObject {
     let CONTENT_WIDTH_PERCENT: CGFloat = 84.0

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class PXXibRenderer: UIView, PXXibComponentizable {
     func loadXib(rendererComponentizableClass: PXXibComponentizable) {

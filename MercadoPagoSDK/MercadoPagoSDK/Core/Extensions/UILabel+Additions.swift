@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 internal extension UILabel {
     static func requiredHeight(forText text: String, withFont font: UIFont, inNumberOfLines lines: Int = 0, inWidth width: CGFloat) -> CGFloat {

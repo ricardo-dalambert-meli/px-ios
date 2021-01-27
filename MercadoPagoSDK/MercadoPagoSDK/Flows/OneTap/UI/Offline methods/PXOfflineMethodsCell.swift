@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 internal typealias PXOfflineMethodsCellData = (title: PXText?, subtitle: PXText?, imageUrl: String?, isSelected: Bool)
 

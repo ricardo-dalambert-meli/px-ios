@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 /**
  Use this object to create certain properties to define `PXTheme` implementation.

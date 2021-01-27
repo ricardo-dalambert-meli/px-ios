@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol PXTermsAndConditionViewDelegate: NSObjectProtocol {
     func shouldOpenTermsCondition(_ title: String, url: URL)

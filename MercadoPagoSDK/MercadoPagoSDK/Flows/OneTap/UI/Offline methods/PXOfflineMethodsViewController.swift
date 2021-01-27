@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 import MLUI
 
 protocol PXOfflineMethodsViewControllerDelegate: class {
@@ -56,7 +57,7 @@ final class PXOfflineMethodsViewController: MercadoPagoUIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        sheetViewController?.scrollView = tableView
+//        sheetViewController?.scrollView = tableView
         trackScreen(path: TrackingPaths.Screens.OneTap.getOfflineMethodsPath(), properties: viewModel.getScreenTrackingProperties())
     }
 

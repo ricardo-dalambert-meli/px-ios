@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct PXItemRenderer {
     let CONTENT_WIDTH_PERCENT: CGFloat = 86.0

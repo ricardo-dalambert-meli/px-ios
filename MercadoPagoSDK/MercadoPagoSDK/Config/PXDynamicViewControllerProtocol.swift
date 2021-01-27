@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 @objc public enum PXDynamicViewControllerPosition: Int {
     @available(*, deprecated, message: "Groups flow will no longer be available")

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class PXItemContainerView: PXComponentView {
     var itemImage: UIImageView?

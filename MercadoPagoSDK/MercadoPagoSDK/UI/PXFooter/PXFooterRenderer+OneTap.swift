@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension PXFooterRenderer {
     func oneTapRender(_ footer: PXFooterComponent) -> UIView {

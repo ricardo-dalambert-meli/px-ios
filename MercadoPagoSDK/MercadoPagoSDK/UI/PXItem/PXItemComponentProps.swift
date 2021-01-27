@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class PXItemComponentProps: NSObject {
     var imageURL: String?

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 import MLCardDrawer
 
 class ConsumerCreditsCard: NSObject, CustomCardDrawerUI {

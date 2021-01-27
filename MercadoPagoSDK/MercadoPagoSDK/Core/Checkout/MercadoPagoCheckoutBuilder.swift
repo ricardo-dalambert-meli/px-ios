@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 /**
  Checkout builder allows you to create a `MercadoPagoCheckout`. You'll need a publicKey from MercadoPago Developers Site.

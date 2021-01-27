@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /**
  This class holds all the information a congrats' view needs to consume (specified at `PXNewResultViewModelInterface`).

@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import UIKit
+
 /// :nodoc:
 open class PXFingerprint: NSObject, Codable {
     open var os: String?

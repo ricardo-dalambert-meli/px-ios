@@ -100,7 +100,7 @@ extension Localizator {
     func getLocalizedPath() -> String {
         let bundle = MercadoPagoBundle.bundle()
         let pathID = getLocalizedID()
-        return bundle.path(forResource: pathID, ofType: "lproj")!
+        return "es"//bundle.path(forResource: pathID, ofType: "lproj")!
     }
 
     private func getParentLocalizedPath() -> String {
