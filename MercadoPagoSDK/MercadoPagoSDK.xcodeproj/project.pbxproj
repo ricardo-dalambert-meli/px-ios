@@ -11,7 +11,7 @@
 		0F9883101AD2A97A00F750F0 /* MercadoPagoSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F98830F1AD2A97A00F750F0 /* MercadoPagoSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5108729C1FBE6FE5A70F88E4 /* Pods_MercadoPagoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA58C79F42283E7790730F3 /* Pods_MercadoPagoSDK.framework */; };
 		61869A96CF277C4775A9AA55 /* Pods_MercadoPagoSDK_SDKTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B22613496F654EFE7EF07395 /* Pods_MercadoPagoSDK_SDKTests.framework */; };
-		9C5139D625C1BB7D00A46D0F /* BuildFile in CopyFiles */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9C5139D625C1BB7D00A46D0F /* (null) in CopyFiles */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9C6B2D3A25C1B60200367D76 /* AddCardFlowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6B2D3825C1B60200367D76 /* AddCardFlowModel.swift */; };
 		9C6B2D3B25C1B60200367D76 /* AddCardFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6B2D3925C1B60200367D76 /* AddCardFlow.swift */; };
 		9C6B2D5625C1B62800367D76 /* PXPaymentConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6B2D4025C1B62800367D76 /* PXPaymentConfiguration.swift */; };
@@ -565,7 +565,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9C5139D625C1BB7D00A46D0F /* BuildFile in CopyFiles */,
+				9C5139D625C1BB7D00A46D0F /* (null) in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3295,7 +3295,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 4.0;
 				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s x86_64";
@@ -3352,7 +3352,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 4.0;
 				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
