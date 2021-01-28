@@ -52,7 +52,7 @@ class FSPagerViewCollectionView: UICollectionView {
 
     fileprivate func commonInit() {
         self.contentInset = .zero
-        self.decelerationRate = UIScrollView.DecelerationRate(0.3) //TODO
+        self.decelerationRate = UIScrollView.DecelerationRate(rawValue: 0.3) //TODO
         self.showsVerticalScrollIndicator = false
         self.showsHorizontalScrollIndicator = false
         self.isPrefetchingEnabled = false

@@ -105,7 +105,7 @@ final class PXOfflineMethodsViewController: MercadoPagoUIViewController {
 
         //Inactivity View - rendered but hidden
         renderInactivityView(text: viewModel.getTitleForLastSection())
-        view.bringSubview(toFront: footerView)
+        view.bringSubviewToFront(footerView)
     }
 
     private func autoSelectPaymentMethodIfNeeded() {

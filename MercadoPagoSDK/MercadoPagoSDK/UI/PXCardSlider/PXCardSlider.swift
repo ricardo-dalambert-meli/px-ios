@@ -204,7 +204,7 @@ extension PXCardSlider {
         pagerView.scrollToItem(at: index, animated: animated)
         pageControl.currentPage = index
         selectedIndex = index
-        UIAccessibilityPostNotification(UIAccessibilityPageScrolledNotification, "\(index + 1)" + "de".localized + "\(pageControl.numberOfPages)")
+        UIAccessibility.post(notification: UIAccessibility.Notification.pageScrolled, argument: "\(index + 1)" + "de".localized + "\(pageControl.numberOfPages)")
     }
 }
 

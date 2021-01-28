@@ -127,9 +127,9 @@ extension PXComponentContainerViewController: UIScrollViewDelegate {
             if navigationTitleStatusStep < STATUS_TITLE_BREAKPOINT {
                 let titleAnimation = CATransition()
                 titleAnimation.duration = 0.5
-                titleAnimation.type = kCATransitionPush
-                titleAnimation.subtype = kCATransitionFromTop
-                titleAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+                titleAnimation.type = CATransitionType.push
+                titleAnimation.subtype = CATransitionSubtype.fromTop
+                titleAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
                 navigationItem.titleView?.layer.add(titleAnimation, forKey: "changeTitle")
                 (navigationItem.titleView as? UILabel)?.sizeToFit()
                 (navigationItem.titleView as? UILabel)?.text = customNavigationTitle
@@ -140,7 +140,7 @@ extension PXComponentContainerViewController: UIScrollViewDelegate {
                 navigationTitleStatusStep = 0
                 let fadeOutTextAnimation = CATransition()
                 fadeOutTextAnimation.duration = 0.3
-                fadeOutTextAnimation.type = kCATransitionFade
+                fadeOutTextAnimation.type = CATransitionType.fade
                 (navigationItem.titleView as? UILabel)?.layer.add(fadeOutTextAnimation, forKey: "fadeOutText")
                 (navigationItem.titleView as? UILabel)?.text = ""
             }

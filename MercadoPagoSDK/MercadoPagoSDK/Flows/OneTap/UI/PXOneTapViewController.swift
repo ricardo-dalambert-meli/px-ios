@@ -89,7 +89,7 @@ final class PXOneTapViewController: PXComponentContainerViewController {
         navigationController?.delegate = self
         slider.showBottomMessageIfNeeded(index: 0, targetIndex: 0)
         setupAutoDisplayOfflinePaymentMethods()
-        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, headerView?.getMerchantView()?.getMerchantTitleLabel())
+        UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: headerView?.getMerchantView()?.getMerchantTitleLabel())
         trackScreen(path: TrackingPaths.Screens.OneTap.getOneTapPath(), properties: viewModel.getOneTapScreenProperties())
     }
 
@@ -862,7 +862,7 @@ private extension PXOneTapViewController {
     }
 
     func addPulseViewNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
     func removePulseViewNotifications() {

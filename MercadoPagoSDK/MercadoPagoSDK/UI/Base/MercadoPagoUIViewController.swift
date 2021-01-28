@@ -154,7 +154,7 @@ internal class MercadoPagoUIViewController: UIViewController, UIGestureRecognize
     internal func showLoading() {
         loadingView = PXComponentFactory.Loading.instance().showInView(view)
         if let lView = loadingView {
-            view.bringSubview(toFront: lView)
+            view.bringSubviewToFront(lView)
         }
     }
 

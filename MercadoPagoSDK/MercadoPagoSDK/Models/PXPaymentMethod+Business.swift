@@ -180,7 +180,7 @@ extension PXPaymentMethod {
 
     internal func setExternalPaymentMethodImage(externalImage: UIImage?) {
         if let imageResource = externalImage {
-            externalPaymentPluginImageData = UIImagePNGRepresentation(imageResource) as NSData?
+            externalPaymentPluginImageData = imageResource.pngData() as NSData?
         }
     }
 

@@ -36,7 +36,7 @@ extension PXPulseView {
         pulseAnimation.duration = 1
         pulseAnimation.fromValue = 1.3
         pulseAnimation.toValue = 1.6
-        pulseAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        pulseAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         pulseAnimation.autoreverses = true
         pulseAnimation.repeatCount = .greatestFiniteMagnitude
         layer.add(pulseAnimation, forKey: "scale")
@@ -47,7 +47,7 @@ extension PXPulseView {
         opacityAnimation.duration = 1
         opacityAnimation.fromValue = 0
         opacityAnimation.toValue = 1
-        opacityAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        opacityAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
         opacityAnimation.autoreverses = true
         opacityAnimation.repeatCount = .greatestFiniteMagnitude
         layer.add(opacityAnimation, forKey: "opacity")
