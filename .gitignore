@@ -22,6 +22,8 @@ DerivedData
 vendor/
 po_files/
 
+MercadoPagoSDK/Pods/
+MercadoPagoSDK/Podfile.lock
 ExampleObjectiveC/Pods/
 ExampleObjectiveC/Podfile.lock
 ExampleSwift/Pods/
