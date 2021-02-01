@@ -13,10 +13,16 @@ internal struct PXAmountHelper {
     internal let preference: PXCheckoutPreference
     private let paymentData: PXPaymentData
     internal let chargeRules: [PXPaymentTypeChargeRule]?
-    internal let paymentConfigurationService: PXPaymentConfigurationServices
+    internal let paymentConfigurationService: PXPaymentConfigurationService
     internal var splitAccountMoney: PXPaymentData?
 
-    init (preference: PXCheckoutPreference, paymentData: PXPaymentData, chargeRules: [PXPaymentTypeChargeRule]?, paymentConfigurationService: PXPaymentConfigurationServices, splitAccountMoney: PXPaymentData?) {
+    init (
+        preference: PXCheckoutPreference,
+        paymentData: PXPaymentData,
+        chargeRules: [PXPaymentTypeChargeRule]?,
+        paymentConfigurationService: PXPaymentConfigurationService = PXPaymentConfigurationServiceImpl(),
+        splitAccountMoney: PXPaymentData?
+    ) {
         self.preference = preference
         self.paymentData = paymentData
         self.chargeRules = chargeRules

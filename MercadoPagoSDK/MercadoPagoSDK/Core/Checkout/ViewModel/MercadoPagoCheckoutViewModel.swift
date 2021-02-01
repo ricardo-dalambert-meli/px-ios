@@ -53,7 +53,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
     var rootVC = true
     
     // Discounts bussines service.
-    var paymentConfigurationService = PXPaymentConfigurationServices()
+    var paymentConfigurationService: PXPaymentConfigurationService
     
     var checkoutPreference: PXCheckoutPreference!
     
@@ -119,9 +119,17 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
     
 
     // MARK: - Initalization
-    init(checkoutPreference: PXCheckoutPreference, publicKey: String, privateKey: String?, advancedConfig: PXAdvancedConfiguration? = nil, trackingConfig: PXTrackingConfiguration? = nil) {
+    init(
+        checkoutPreference: PXCheckoutPreference,
+        publicKey: String,
+        privateKey: String?,
+        advancedConfig: PXAdvancedConfiguration? = nil,
+        trackingConfig: PXTrackingConfiguration? = nil,
+        paymentConfigurationService: PXPaymentConfigurationService = PXPaymentConfigurationServiceImpl()
+    ) {
         self.publicKey = publicKey
         self.privateKey = privateKey
+        self.paymentConfigurationService = paymentConfigurationService
         self.checkoutPreference = checkoutPreference
 
         if let advancedConfig = advancedConfig {
@@ -441,7 +449,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
               customOptionSearchItem.isCustomerPaymentMethod() else { return }
         updateCheckoutModel(paymentOptionSelected: customOptionSearchItem.getCustomerPaymentMethod())
 
-        if let payerCosts = paymentConfigurationService.getPayerCostsForPaymentMethod(customOptionSearchItem.getId()) {
+        if let payerCosts = paymentConfigurationService.getPayerCostsForPaymentMethod(customOptionSearchItem.getId(), splitPaymentEnabled: false) {
             self.payerCosts = payerCosts
             if let installment = remedy?.suggestedPaymentMethod?.alternativePaymentMethod?.installmentsList?.first,
                 let payerCost = payerCosts.first(where: { $0.installments == installment.installments }) {

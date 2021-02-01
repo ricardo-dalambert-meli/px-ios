@@ -5,9 +5,24 @@
 //  Created by Demian Tejo on 27/11/18.
 //
 
-import UIKit
+protocol PXPaymentConfigurationService {
+    func getPayerCostsForPaymentMethod(_ id: String, splitPaymentEnabled: Bool) -> [PXPayerCost]?
+    func getAmountConfigurationForPaymentMethod(_ id: String?) -> PXAmountConfiguration?
+    func getSplitConfigurationForPaymentMethod(_ id: String) -> PXSplitConfiguration?
+    func getSelectedPayerCostsForPaymentMethod(_ id: String, splitPaymentEnabled: Bool) -> PXPayerCost?
+    func getAmountToPayWithoutPayerCostForPaymentMethod(_ id: String?) -> Double?
+    func getDiscountInfoForPaymentMethod(_ id: String) -> String?
+    func getCreditsInfoForPaymentMethod(_ id: String) -> String?
+    func getDiscountConfigurationForPaymentMethod(_ id: String) -> PXDiscountConfiguration?
+    func getDiscountConfigurationForPaymentMethodOrDefault(_ id: String?) -> PXDiscountConfiguration?
+    func getDefaultDiscountConfiguration() -> PXDiscountConfiguration?
+    func getConfigurationsForPaymentMethod(_ id: String) -> [PXPaymentOptionConfiguration]?
+    func getPaymentOptionConfiguration(_ paymentOptionID: String) -> PXPaymentOptionConfiguration?
+    func setConfigurations(_ configurations: Set<PXPaymentMethodConfiguration>)
+    func setDefaultDiscountConfiguration(_ discountConfiguration: PXDiscountConfiguration?)
+}
 
-internal class PXPaymentConfigurationServices {
+internal class PXPaymentConfigurationServiceImpl: PXPaymentConfigurationService  {
 
     private var configurations: Set<PXPaymentMethodConfiguration> = []
     private var defaultDiscountConfiguration: PXDiscountConfiguration?

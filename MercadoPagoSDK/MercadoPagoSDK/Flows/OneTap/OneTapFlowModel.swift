@@ -53,7 +53,7 @@ final internal class OneTapFlowModel: PXFlowModel {
 
     let advancedConfiguration: PXAdvancedConfiguration
     let mercadoPagoServices: MercadoPagoServices
-    let paymentConfigurationService: PXPaymentConfigurationServices
+    let paymentConfigurationService: PXPaymentConfigurationService
 
     init(checkoutViewModel: MercadoPagoCheckoutViewModel, search: PXInitDTO, paymentOptionSelected: PaymentMethodOption?) {
         publicKey = checkoutViewModel.publicKey
@@ -77,7 +77,7 @@ final internal class OneTapFlowModel: PXFlowModel {
 
         if cardCase || creditsCase {
             if let pmIdentifier = cardCase ? firstCardID : paymentMethodId,
-                let payerCost = amountHelper.paymentConfigurationService.getSelectedPayerCostsForPaymentMethod(pmIdentifier) {
+               let payerCost = amountHelper.paymentConfigurationService.getSelectedPayerCostsForPaymentMethod(pmIdentifier, splitPaymentEnabled: false) {
                 updateCheckoutModel(payerCost: payerCost)
             }
         }

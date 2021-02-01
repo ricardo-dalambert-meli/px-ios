@@ -155,7 +155,7 @@ extension OneTapFlow {
 
         var selectedPaymentOption: PaymentMethodOption?
         // the selected payment option is a one tap card, therefore has the required node and has related payer costs
-        if let expressPaymentMethod = expressNode.oneTapCard, amountHelper.paymentConfigurationService.getSelectedPayerCostsForPaymentMethod(expressPaymentMethod.cardId) != nil {
+        if let expressPaymentMethod = expressNode.oneTapCard, amountHelper.paymentConfigurationService.getSelectedPayerCostsForPaymentMethod(expressPaymentMethod.cardId, splitPaymentEnabled: false) != nil {
             selectedPaymentOption = customerPaymentMethod
         }
 

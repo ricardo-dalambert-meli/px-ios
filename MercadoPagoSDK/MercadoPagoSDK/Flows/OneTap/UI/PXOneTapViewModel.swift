@@ -161,7 +161,7 @@ extension PXOneTapViewModel {
                         }
                     } else if payerCost.count == 1 {
                         showArrow = false
-                    } else if amountHelper.paymentConfigurationService.getPayerCostsForPaymentMethod(targetCardData.cardId) == nil {
+                    } else if amountHelper.paymentConfigurationService.getPayerCostsForPaymentMethod(targetCardData.cardId, splitPaymentEnabled: false) == nil {
                         showArrow = false
                     }
 
