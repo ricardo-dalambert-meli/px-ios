@@ -20,7 +20,8 @@ class SDKTests: XCTestCase {
     }
 
     func testExample() throws {
-        let builder = MercadoPagoCheckoutBuilder(publicKey: "", preferenceId: "")
+        let teste = MercadoPagoCheckoutViewModel(checkoutPreference: PXCheckoutPreference(siteId: "", payerEmail: "", items: []), publicKey: "", privateKey: "")
+//        teste.lifecycleProtocol
         XCTAssert(true)
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
