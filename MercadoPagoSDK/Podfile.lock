@@ -134,6 +134,7 @@ PODS:
   - MLUI/StyleSheet (5.25.0)
 
 DEPENDENCIES:
+  - AndesUI
   - AndesUI/AndesBottomSheet
   - MLBusinessComponents
   - MLCardDrawer
@@ -159,6 +160,6 @@ SPEC CHECKSUMS:
   MLCardForm: aea4547115723110dff67df988b6d11584cceb75
   MLUI: db4e5bb3aae6884212dcf1213d76b65c5cd26464
 
-PODFILE CHECKSUM: ce9035ee2d9b15afa8c499e358dc6afa2df4b370
+PODFILE CHECKSUM: f88017c04ab1f5953764c18dad779c0dbb90544a
 
 COCOAPODS: 1.8.4

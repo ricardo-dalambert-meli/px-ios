@@ -10,10 +10,14 @@ target 'MercadoPagoSDK' do
   pod 'MLCardDrawer'
   pod 'MLBusinessComponents'
   pod 'MLCardForm'
+  pod 'AndesUI'
   pod 'AndesUI/AndesBottomSheet'
 
   target 'SDKTests' do
     # Pods for testing
   end
 
+  target 'SwiftDemo' do
+    # Pods for testing
+  end
 end

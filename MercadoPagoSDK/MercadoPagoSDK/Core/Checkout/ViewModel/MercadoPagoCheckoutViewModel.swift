@@ -147,6 +147,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
         createInitFlow()
     }
 
+    //
     func setNavigationHandler(handler: PXNavigationHandler) {
         pxNavigationHandler = handler
     }
@@ -155,6 +156,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
         return MercadoPagoCheckoutViewModel.error != nil
     }
 
+    //
     func applyDefaultDiscountOrClear() {
         if let defaultDiscountConfiguration = search?.selectedDiscountConfiguration {
             attemptToApplyDiscount(defaultDiscountConfiguration)
@@ -179,6 +181,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
         self.paymentData.setDiscount(discount, withCampaign: campaign, consumedDiscount: consumedDiscount, discountDescription: discountDescription)
     }
 
+    //
     func clearDiscount() {
         self.paymentData.clearDiscount()
     }

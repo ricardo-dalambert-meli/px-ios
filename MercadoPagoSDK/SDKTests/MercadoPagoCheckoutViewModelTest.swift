@@ -103,4 +103,14 @@ class MercadoPagoCheckoutViewModelTest: XCTestCase {
     func testGetCardsIdsWithESC() {
         XCTAssertTrue(sut.getCardsIdsWithESC() == [])
     }
+    
+    func testApplyDefaultDiscountOrClear() {
+        sut.paymentData.setDiscount(PXDiscount(id: "", name: "", percentOff: 1.0, amountOff: 10.0, couponAmount: 1.0, currencyId: "R$"),
+                                    withCampaign: PXCampaign(id: 0, code: nil, name: nil, maxCouponAmount: 1.0),
+                                    consumedDiscount: true,
+                                    discountDescription: nil)
+        XCTAssertTrue(sut.paymentData.discount != nil)
+        sut.applyDefaultDiscountOrClear()
+        XCTAssertTrue(sut.paymentData.discount == nil)
+    }
 }
