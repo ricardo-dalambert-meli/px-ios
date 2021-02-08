@@ -6,6 +6,8 @@
 
 import UIKit
 
+import MLCardDrawer
+
 public protocol ChangeCardAccessibilityProtocol: NSObjectProtocol {
     func scrollTo(direction: UIAccessibilityScrollDirection)
 }
@@ -64,6 +66,19 @@ extension PXCardSlider: FSPagerViewDataSource {
                     // Other cards.
                     cell.render(withCard: targetModel.cardUI, cardData: cardData, isDisabled: targetModel.status.isDisabled(), cardSize: pagerView.itemSize, bottomMessage: bottomMessage, accessibilityData: accessibilityData)
                 }
+                
+                if let switchInfo = targetModel.displayInfo?.switchInfo {
+                    let customView = ComboSwitchView()
+                    
+                    customView.setSwitchModel(switchInfo)
+                    
+                    customView.setSwitchDidChangeCallback() {
+                        print("Switch did change \($0)")
+                    }
+                    
+                    cell.cardHeader?.setCustomView(customView)
+                }
+                
                 return cell
             } else {
                 // Add new card scenario.

@@ -6,15 +6,6 @@
 //
 
 import Foundation
-
-public struct PXOneTapDisplayInfo: Codable {
-    let bottomDescription: PXText?
-
-    enum CodingKeys: String, CodingKey {
-        case bottomDescription = "bottom_description"
-    }
-}
-
 /// :nodoc:
 open class PXOneTapDto: NSObject, Codable {
     open var paymentMethodId: String?

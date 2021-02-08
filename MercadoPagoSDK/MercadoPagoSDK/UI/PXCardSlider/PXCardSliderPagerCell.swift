@@ -15,7 +15,7 @@ class PXCardSliderPagerCell: FSPagerViewCell {
 
     private lazy var bottomMessageViewHeight: CGFloat = 24
     private lazy var cornerRadius: CGFloat = 11
-    private var cardHeader: MLCardDrawerController?
+    public var cardHeader: MLCardDrawerController?
     private weak var messageViewBottomConstraint: NSLayoutConstraint?
     private weak var messageLabelCenterConstraint: NSLayoutConstraint?
     private var consumerCreditCard: ConsumerCreditsCard?
