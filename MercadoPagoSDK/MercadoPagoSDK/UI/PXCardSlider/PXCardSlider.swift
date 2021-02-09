@@ -54,16 +54,17 @@ extension PXCardSlider: FSPagerViewDataSource {
                 let bottomMessage = targetModel.bottomMessage
 
                 if let amCard = targetModel.cardUI as? AccountMoneyCard {
-                    cell.renderAccountMoneyOrHybridCard(cardUI: amCard, isDisabled: targetModel.status.isDisabled(), cardSize: pagerView.itemSize, bottomMessage: bottomMessage, accessibilityData: accessibilityData)
+                    cell.renderAccountMoneyOrHybridCard(cardUI: amCard, isDisabled: targetModel.status.isDisabled(), cardSize: pagerView.itemSize, bottomMessage: bottomMessage, accessibilityData: accessibilityData, switchInfo: targetModel.displayInfo?.switchInfo)
                 } else if let hybridCard = targetModel.cardUI as? HybridAMCard {
-                    cell.renderAccountMoneyOrHybridCard(cardUI: hybridCard, isDisabled: targetModel.status.isDisabled(), cardSize: pagerView.itemSize, bottomMessage: bottomMessage, accessibilityData: accessibilityData)
+                    cell.renderAccountMoneyOrHybridCard(cardUI: hybridCard, isDisabled: targetModel.status.isDisabled(), cardSize: pagerView.itemSize, bottomMessage: bottomMessage, accessibilityData: accessibilityData, switchInfo: targetModel.displayInfo?.switchInfo)
                 } else if let oneTapCreditsInfo = targetModel.creditsViewModel, targetModel.cardUI is ConsumerCreditsCard {
                     cell.delegate = self
                     cell.renderConsumerCreditsCard(creditsViewModel: oneTapCreditsInfo, isDisabled: targetModel.status.isDisabled(), cardSize: pagerView.itemSize, bottomMessage: bottomMessage, creditsInstallmentSelected: targetModel.selectedPayerCost?.installments, accessibilityData: accessibilityData)
                 } else {
                     // Other cards.
-                    cell.render(withCard: targetModel.cardUI, cardData: cardData, isDisabled: targetModel.status.isDisabled(), cardSize: pagerView.itemSize, bottomMessage: bottomMessage, accessibilityData: accessibilityData)
+                    cell.render(withCard: targetModel.cardUI, cardData: cardData, isDisabled: targetModel.status.isDisabled(), cardSize: pagerView.itemSize, bottomMessage: bottomMessage, accessibilityData: accessibilityData, switchInfo: targetModel.displayInfo?.switchInfo)
                 }
+                
                 return cell
             } else {
                 // Add new card scenario.
