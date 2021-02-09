@@ -6,8 +6,6 @@
 
 import UIKit
 
-import MLCardDrawer
-
 public protocol ChangeCardAccessibilityProtocol: NSObjectProtocol {
     func scrollTo(direction: UIAccessibilityScrollDirection)
 }
