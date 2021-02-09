@@ -15,7 +15,7 @@ class PXCardSliderPagerCell: FSPagerViewCell {
 
     private lazy var bottomMessageViewHeight: CGFloat = 24
     private lazy var cornerRadius: CGFloat = 11
-    public var cardHeader: MLCardDrawerController?
+    private var cardHeader: MLCardDrawerController?
     private weak var messageViewBottomConstraint: NSLayoutConstraint?
     private weak var messageLabelCenterConstraint: NSLayoutConstraint?
     private var consumerCreditCard: ConsumerCreditsCard?
@@ -41,12 +41,15 @@ protocol AddNewMethodCardDelegate: NSObjectProtocol {
 
 // MARK: Publics.
 extension PXCardSliderPagerCell {
-    func render(withCard: CardUI, cardData: CardData, isDisabled: Bool, cardSize: CGSize, bottomMessage: PXCardBottomMessage? = nil, accessibilityData: AccessibilityCardData) {
+    func render(withCard: CardUI, cardData: CardData, isDisabled: Bool, cardSize: CGSize, bottomMessage: PXCardBottomMessage? = nil, accessibilityData: AccessibilityCardData, switchInfo: SwitchModel?) {
+        
         containerView.layer.masksToBounds = false
         containerView.removeAllSubviews()
         containerView.layer.cornerRadius = cornerRadius
         containerView.backgroundColor = .clear
+        
         cardHeader = MLCardDrawerController(withCard, cardData, isDisabled)
+        
         cardHeader?.view.frame = CGRect(origin: CGPoint.zero, size: cardSize)
         cardHeader?.animated(false)
         cardHeader?.show()
@@ -56,8 +59,22 @@ extension PXCardSliderPagerCell {
             PXLayout.centerHorizontally(view: headerView).isActive = true
             PXLayout.centerVertically(view: headerView).isActive = true
         }
+        
         addBottomMessageView(message: bottomMessage)
+        
         accessibilityLabel = getAccessibilityMessage(accessibilityData)
+        
+        if let switchInfo = switchInfo {
+            let customView = ComboSwitchView()
+            
+            customView.setSwitchModel(switchInfo)
+            
+            customView.setSwitchDidChangeCallback() {
+                print("Switch did change \($0)")
+            }
+            
+            cardHeader?.setCustomView(customView)
+        }
     }
 
     func renderEmptyCard(newCardData: PXAddNewMethodData?, newOfflineData: PXAddNewMethodData?, cardSize: CGSize, delegate: AddNewMethodCardDelegate) {
@@ -126,7 +143,7 @@ extension PXCardSliderPagerCell {
         addNewMethodDelegate?.addNewOfflineMethod()
     }
 
-    func renderAccountMoneyOrHybridCard(cardUI: CustomCardDrawerUI, isDisabled: Bool, cardSize: CGSize, bottomMessage: PXCardBottomMessage? = nil, accessibilityData: AccessibilityCardData) {
+    func renderAccountMoneyOrHybridCard(cardUI: CustomCardDrawerUI, isDisabled: Bool, cardSize: CGSize, bottomMessage: PXCardBottomMessage? = nil, accessibilityData: AccessibilityCardData, switchInfo: SwitchModel?) {
         containerView.layer.masksToBounds = false
         containerView.backgroundColor = .clear
         containerView.removeAllSubviews()
@@ -148,8 +165,21 @@ extension PXCardSliderPagerCell {
             PXLayout.centerHorizontally(view: headerView).isActive = true
             PXLayout.centerVertically(view: headerView).isActive = true
         }
+        
         addBottomMessageView(message: bottomMessage)
         accessibilityLabel = getAccessibilityMessage(accessibilityData)
+        
+        if let switchInfo = switchInfo {
+            let customView = ComboSwitchView()
+            
+            customView.setSwitchModel(switchInfo)
+            
+            customView.setSwitchDidChangeCallback() {
+                print("Switch did change \($0)")
+            }
+            
+            cardHeader?.setCustomView(customView)
+        }
     }
 
     func renderConsumerCreditsCard(creditsViewModel: PXCreditsViewModel, isDisabled: Bool, cardSize: CGSize, bottomMessage: PXCardBottomMessage? = nil, creditsInstallmentSelected: Int? = nil, accessibilityData: AccessibilityCardData) {
