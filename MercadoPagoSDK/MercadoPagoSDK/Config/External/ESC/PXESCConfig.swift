@@ -29,7 +29,7 @@ internal extension PXESCConfig {
         if let withFlowIdentifier = withFlowIdentifier {
             flowIdentifier = withFlowIdentifier
         }
-        var defaultConfig = PXESCConfig(flowIdentifier, MPXTracker.sharedInstance.getSessionID())
+        let defaultConfig = PXESCConfig(flowIdentifier, MPXTracker.sharedInstance.getSessionID())
         return defaultConfig
     }
 }

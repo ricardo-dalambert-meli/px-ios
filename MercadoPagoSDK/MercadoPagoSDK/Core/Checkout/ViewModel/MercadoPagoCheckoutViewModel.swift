@@ -439,7 +439,6 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
                 Localizator.sharedInstance.addCustomTranslation(.pay_button_progress, translation)
             }
             if let translation = customTexts.totalDescription {
-                Localizator.sharedInstance.addCustomTranslation(.total_to_pay, translation)
                 Localizator.sharedInstance.addCustomTranslation(.total_to_pay_onetap, translation)
             }
         }
@@ -623,9 +622,9 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
 
     func getGenericPayment() -> PXGenericPayment? {
         if let paymentResponse = paymentResult {
-            return PXGenericPayment(status: paymentResponse.status, statusDetail: paymentResponse.statusDetail, paymentId: paymentResponse.paymentId)
+            return PXGenericPayment(status: paymentResponse.status, statusDetail: paymentResponse.statusDetail, paymentId: paymentResponse.paymentId, paymentMethodId: paymentResponse.paymentMethodId, paymentMethodTypeId: paymentResponse.paymentMethodTypeId)
         } else if let businessResultResponse = businessResult {
-            return PXGenericPayment(status: businessResultResponse.paymentStatus, statusDetail: businessResultResponse.paymentStatusDetail, paymentId: businessResultResponse.getReceiptId())
+            return PXGenericPayment(status: businessResultResponse.paymentStatus, statusDetail: businessResultResponse.paymentStatusDetail, paymentId: businessResultResponse.getReceiptId(), paymentMethodId: businessResultResponse.getPaymentMethodId(), paymentMethodTypeId: businessResultResponse.getPaymentMethodTypeId())
         }
         return nil
     }
