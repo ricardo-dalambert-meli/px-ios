@@ -423,7 +423,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
                 let paymentOptionConfiguration = PXPaymentOptionConfiguration(id: key, discountConfiguration: discountConfiguration, payerCostConfiguration: payerCostConfiguration)
                 paymentOptionConfigurations.append(paymentOptionConfiguration)
             }
-            let paymentMethodConfiguration = PXPaymentMethodConfiguration(paymentOptionID: customOption.id, paymentMethodId: customOption.paymentMethodId, paymentTypeId: customOption.paymentTypeId, discountInfo: customOption.discountInfo, creditsInfo: customOption.comment, paymentOptionsConfigurations: paymentOptionConfigurations, selectedAmountConfiguration: customOption.couponToApply)
+            let paymentMethodConfiguration = PXPaymentMethodConfiguration(customOptionSearchItem: customOption, paymentOptionsConfigurations: paymentOptionConfigurations)
             configurations.insert(paymentMethodConfiguration)
         }
         return configurations

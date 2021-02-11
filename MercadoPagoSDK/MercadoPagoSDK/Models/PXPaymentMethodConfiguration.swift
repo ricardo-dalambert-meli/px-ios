@@ -16,14 +16,14 @@ class PXPaymentMethodConfiguration: NSObject {
     let paymentOptionsConfigurations: [PXPaymentOptionConfiguration]
     let selectedAmountConfiguration: String?
     
-    init(paymentOptionID: String, paymentMethodId: String?, paymentTypeId: String?, discountInfo: String?, creditsInfo: String?, paymentOptionsConfigurations: [PXPaymentOptionConfiguration], selectedAmountConfiguration: String?) {
-        self.paymentOptionID = paymentOptionID
-        self.paymentMethodId = paymentMethodId
-        self.paymentTypeId = paymentTypeId
-        self.discountInfo = discountInfo
-        self.creditsInfo = creditsInfo
+    init(customOptionSearchItem: PXCustomOptionSearchItem, paymentOptionsConfigurations: [PXPaymentOptionConfiguration]) {
+        self.paymentOptionID = customOptionSearchItem.id
+        self.paymentMethodId = customOptionSearchItem.paymentMethodId
+        self.paymentTypeId = customOptionSearchItem.paymentTypeId
+        self.discountInfo = customOptionSearchItem.discountInfo
+        self.creditsInfo = customOptionSearchItem.comment
         self.paymentOptionsConfigurations = paymentOptionsConfigurations
-        self.selectedAmountConfiguration = selectedAmountConfiguration
+        self.selectedAmountConfiguration = customOptionSearchItem.couponToApply
         super.init()
     }
 
@@ -47,6 +47,7 @@ class PXPaymentOptionConfiguration: NSObject {
     let id: String
     let discountConfiguration: PXDiscountConfiguration?
     let amountConfiguration: PXAmountConfiguration?
+
     init(id: String, discountConfiguration: PXDiscountConfiguration? = nil, payerCostConfiguration: PXAmountConfiguration? = nil) {
         self.id = id
         self.discountConfiguration = discountConfiguration
