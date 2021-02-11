@@ -232,7 +232,11 @@ internal extension OneTapFlowModel {
             !paymentData.hasToken() &&
             hasInstallmentsIfNeeded &&
             hasSecurityCode() {
-            if let customOptionSearchItem = search.getPayerPaymentMethod(id: paymentOptionSelectedId) {
+            var paymentMethodId: String?
+            if let cardInformation = paymentOptionSelected as? PXCardInformation {
+                paymentMethodId = cardInformation.getPaymentMethodId()
+            }
+            if let customOptionSearchItem = search.getPayerPaymentMethod(id: paymentOptionSelectedId, paymentMethodId: paymentMethodId, paymentTypeId: paymentOptionSelected.getPaymentType()) {
                 if hasSavedESC() {
                     if customOptionSearchItem.escStatus == PXESCStatus.REJECTED.rawValue {
                         invalidESCReason = .ESC_CAP

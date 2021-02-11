@@ -70,10 +70,6 @@ final class PXOfflineMethodsViewModel: PXReviewViewModel {
         return paymentTypes[selectedIndex.section].paymentMethods[selectedIndex.row]
     }
 
-    func getPaymentMethod(targetId: String) -> PXPaymentMethod? {
-        return Utils.findPaymentMethod(paymentMethods, paymentMethodId: targetId)
-    }
-
     func getOfflinePaymentMethod(targetOfflinePaymentMethod: PXOfflinePaymentMethod) -> PXPaymentMethod? {
         return Utils.findOfflinePaymentMethod(paymentMethods, offlinePaymentMethod: targetOfflinePaymentMethod)
     }

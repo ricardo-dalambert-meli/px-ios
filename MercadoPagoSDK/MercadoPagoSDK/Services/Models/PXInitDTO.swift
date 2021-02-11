@@ -107,7 +107,7 @@ final class PXInitDTO: NSObject, Decodable {
         return (false, nil)
     }
     
-    func getPayerPaymentMethod(id: String?) -> PXCustomOptionSearchItem? {
-        return payerPaymentMethods.first(where: { $0.id == id})
+    func getPayerPaymentMethod(id: String?, paymentMethodId: String?, paymentTypeId: String?) -> PXCustomOptionSearchItem? {
+        return payerPaymentMethods.first(where: { $0.id == id && $0.paymentMethodId == paymentMethodId && $0.paymentTypeId == paymentTypeId })
     }
 }

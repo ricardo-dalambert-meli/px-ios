@@ -361,7 +361,7 @@ extension PXOneTapViewModel {
     }
 
     func getPaymentMethod(targetId: String) -> PXPaymentMethod? {
-        return paymentMethods.filter({ return $0.id == targetId }).first
+        return Utils.findPaymentMethod(paymentMethods, paymentMethodId: targetId)
     }
 
     func shouldDisplayChargesHelp() -> Bool {
