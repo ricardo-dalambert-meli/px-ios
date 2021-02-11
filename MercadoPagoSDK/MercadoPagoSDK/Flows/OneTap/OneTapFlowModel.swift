@@ -70,14 +70,16 @@ final internal class OneTapFlowModel: PXFlowModel {
         disabledOption = checkoutViewModel.disabledOption
 
         // Payer cost pre selection.
-        let paymentMethodId = search.oneTap?.first?.paymentMethodId
-        let firstCardID = search.oneTap?.first?.oneTapCard?.cardId
+        let firstOneTapItem = search.oneTap?.first
+        let paymentMethodId = firstOneTapItem?.paymentMethodId
+        let paymentTypeId = firstOneTapItem?.paymentTypeId
+        let firstCardID = firstOneTapItem?.oneTapCard?.cardId
         let creditsCase = paymentMethodId == PXPaymentTypes.CONSUMER_CREDITS.rawValue
         let cardCase = firstCardID != nil
 
         if cardCase || creditsCase {
             if let pmIdentifier = cardCase ? firstCardID : paymentMethodId,
-                let payerCost = amountHelper.paymentConfigurationService.getSelectedPayerCostsForPaymentMethod(pmIdentifier) {
+                let payerCost = amountHelper.paymentConfigurationService.getSelectedPayerCostsForPaymentMethod(paymentOptionID: pmIdentifier, paymentMethodId: paymentMethodId, paymentTypeId: paymentTypeId) {
                 updateCheckoutModel(payerCost: payerCost)
             }
         }
@@ -146,8 +148,10 @@ internal extension OneTapFlowModel {
     func updateCheckoutModel(paymentData: PXPaymentData, splitAccountMoneyEnabled: Bool) {
         self.paymentData = paymentData
 
-        if splitAccountMoneyEnabled, let paymentOptionSelected = paymentOptionSelected {
-            let splitConfiguration = amountHelper.paymentConfigurationService.getSplitConfigurationForPaymentMethod(paymentOptionSelected.getId())
+        if splitAccountMoneyEnabled,
+           let paymentOptionSelected = paymentOptionSelected {
+            // TODO: Revisar si paymentData.paymentMethod?.id esta bien
+            let splitConfiguration = amountHelper.paymentConfigurationService.getSplitConfigurationForPaymentMethod(paymentOptionID: paymentOptionSelected.getId(), paymentMethodId: paymentData.paymentMethod?.id, paymentTypeId: paymentOptionSelected.getPaymentType())
 
             // Set total amount to pay with card without discount
             paymentData.transactionAmount = PXAmountHelper.getRoundedAmountAsNsDecimalNumber(amount: splitConfiguration?.primaryPaymentMethod?.amount)
@@ -161,8 +165,10 @@ internal extension OneTapFlowModel {
                 splitAccountMoney?.transactionAmount = PXAmountHelper.getRoundedAmountAsNsDecimalNumber(amount: splitConfiguration?.secondaryPaymentMethod?.amount)
                 splitAccountMoney?.updatePaymentDataWith(paymentMethod: accountMoneyPM)
 
-                let campaign = amountHelper.paymentConfigurationService.getDiscountConfigurationForPaymentMethodOrDefault(paymentOptionSelected.getId())?.getDiscountConfiguration().campaign
-                let isDiscountAvailable = amountHelper.paymentConfigurationService.getDiscountConfigurationForPaymentMethodOrDefault(paymentOptionSelected.getId())?.getDiscountConfiguration().isAvailable
+                // TODO: Revisar si paymentData.paymentMethod?.id esta bien
+                let discountConfiguration = amountHelper.paymentConfigurationService.getDiscountConfigurationForPaymentMethodOrDefault(paymentOptionID: paymentOptionSelected.getId(), paymentMethodId: paymentData.paymentMethod?.id, paymentTypeId: paymentOptionSelected.getPaymentType())
+                let campaign = discountConfiguration?.getDiscountConfiguration().campaign
+                let isDiscountAvailable = discountConfiguration?.getDiscountConfiguration().isAvailable
                 if let discount = splitConfiguration?.primaryPaymentMethod?.discount, let campaign = campaign, let isDiscountAvailable = isDiscountAvailable {
                     paymentData.setDiscount(discount, withCampaign: campaign, consumedDiscount: !isDiscountAvailable)
                 }

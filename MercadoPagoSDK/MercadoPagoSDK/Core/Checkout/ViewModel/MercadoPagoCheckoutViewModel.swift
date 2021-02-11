@@ -315,12 +315,11 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
 
     public func updatePaymentOptionSelectedWithRemedy() {
         let alternativePaymentMethod = remedy?.suggestedPaymentMethod?.alternativePaymentMethod
-        let payerPaymentMethod = search?.getPayerPaymentMethod(id: alternativePaymentMethod?.customOptionId)
-        guard let customOptionSearchItem = payerPaymentMethod,
+        guard let customOptionSearchItem = search?.getPayerPaymentMethod(id: alternativePaymentMethod?.customOptionId),
               customOptionSearchItem.isCustomerPaymentMethod() else { return }
         updateCheckoutModel(paymentOptionSelected: customOptionSearchItem.getCustomerPaymentMethod())
 
-        if let payerCosts = paymentConfigurationService.getPayerCostsForPaymentMethod(customOptionSearchItem.getId()) {
+        if let payerCosts = paymentConfigurationService.getPayerCostsForPaymentMethod(paymentOptionID: customOptionSearchItem.getId(), paymentMethodId: customOptionSearchItem.paymentMethodId, paymentTypeId: customOptionSearchItem.getPaymentType()) {
             self.payerCosts = payerCosts
             if let installment = remedy?.suggestedPaymentMethod?.alternativePaymentMethod?.installmentsList?.first,
                 let payerCost = payerCosts.first(where: { $0.installments == installment.installments }) {
@@ -331,7 +330,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
         } else {
             payerCosts = nil
         }
-        if let discountConfiguration = paymentConfigurationService.getDiscountConfigurationForPaymentMethod(customOptionSearchItem.getId()) {
+        if let discountConfiguration = paymentConfigurationService.getDiscountConfigurationForPaymentMethod(paymentOptionID: customOptionSearchItem.getId(), paymentMethodId: customOptionSearchItem.paymentMethodId, paymentTypeId: customOptionSearchItem.getPaymentType()) {
             attemptToApplyDiscount(discountConfiguration)
         } else {
             applyDefaultDiscountOrClear()

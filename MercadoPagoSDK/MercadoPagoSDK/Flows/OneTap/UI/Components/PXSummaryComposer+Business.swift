@@ -37,7 +37,7 @@ extension PXSummaryComposer {
     }
 
     func getDiscountData() -> (discountConfiguration: PXDiscountConfiguration, campaign: PXCampaign)? {
-        if let discountConfiguration = amountHelper.paymentConfigurationService.getDiscountConfigurationForPaymentMethodOrDefault(selectedCard?.cardId),
+        if let discountConfiguration = amountHelper.paymentConfigurationService.getDiscountConfigurationForPaymentMethodOrDefault(paymentOptionID: selectedCard?.cardId, paymentMethodId: selectedCard?.paymentMethodId, paymentTypeId: selectedCard?.paymentTypeId),
             let campaign = discountConfiguration.getDiscountConfiguration().campaign {
             return (discountConfiguration, campaign)
         }

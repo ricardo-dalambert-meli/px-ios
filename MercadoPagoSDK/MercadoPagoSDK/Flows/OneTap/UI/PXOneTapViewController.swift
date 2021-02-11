@@ -521,7 +521,7 @@ extension PXOneTapViewController: PXOneTapHeaderProtocol {
 
     func didTapDiscount() {
         var discountDescription: PXDiscountDescription?
-        if let discountConfiguration = viewModel.amountHelper.paymentConfigurationService.getDiscountConfigurationForPaymentMethodOrDefault(selectedCard?.cardId),
+        if let discountConfiguration = viewModel.amountHelper.paymentConfigurationService.getDiscountConfigurationForPaymentMethodOrDefault(paymentOptionID: selectedCard?.cardId, paymentMethodId: selectedCard?.paymentMethodId, paymentTypeId: selectedCard?.paymentTypeId),
             let description = discountConfiguration.getDiscountConfiguration().discountDescription {
             discountDescription = description
         }

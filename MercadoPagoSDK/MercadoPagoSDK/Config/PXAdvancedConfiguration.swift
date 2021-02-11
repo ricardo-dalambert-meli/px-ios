@@ -28,7 +28,11 @@ open class PXAdvancedConfiguration: NSObject {
      If set as false, then security code will be always asked.
      */
     @available(*, deprecated)
-    open var escEnabled: Bool = true
+    open var escEnabled: Bool {
+        get {
+            return true
+        }
+    }
 
     /**
      Add the possibility to enabled/disabled express checkout.
@@ -37,9 +41,6 @@ open class PXAdvancedConfiguration: NSObject {
     open var expressEnabled: Bool {
         get {
             return true
-        }
-        set(value) {
-            
         }
     }
 
@@ -94,6 +95,6 @@ open class PXAdvancedConfiguration: NSObject {
     }
 
     internal func isESCEnabled() -> Bool {
-        return true
+        return self.escEnabled
     }
 }
