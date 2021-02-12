@@ -27,16 +27,26 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES">
+      codeCoverageEnabled = "YES"
+      onlyGenerateCoverageForSpecifiedTargets = "YES">
+      <CodeCoverageTargets>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "307B2F84D8D0DE3269CF42FF788C4E71"
+            BuildableName = "MercadoPagoSDKV4.framework"
+            BlueprintName = "MercadoPagoSDKV4"
+            ReferencedContainer = "container:Pods/Pods.xcodeproj">
+         </BuildableReference>
+      </CodeCoverageTargets>
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9CDF5B5225D188F400FFB48E"
-               BuildableName = "ExampleSwiftTests.xctest"
-               BlueprintName = "ExampleSwiftTests"
-               ReferencedContainer = "container:ExampleSwift.xcodeproj">
+               BlueprintIdentifier = "5C1E95AB53A2D074469A1D383811E607"
+               BuildableName = "MercadoPagoSDKV4-Unit-MercadoPagoSDKTests.xctest"
+               BlueprintName = "MercadoPagoSDKV4-Unit-MercadoPagoSDKTests"
+               ReferencedContainer = "container:Pods/Pods.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

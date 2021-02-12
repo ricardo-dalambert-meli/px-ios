@@ -12,13 +12,5 @@ target 'ExampleSwift' do
   use_frameworks!
 
   # Pods for ExampleSwift
-  pod 'MercadoPagoSDKV4/ESC', :path => '../'
-end
-
-target 'ExampleSwiftTests' do
-  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
-  use_frameworks!
-
-  # Pods for ExampleSwift
-  pod 'MercadoPagoSDKV4/ESC', :path => '../'
+  pod 'MercadoPagoSDKV4', :path => '../', :testspecs => ['MercadoPagoSDKTests']
 end
