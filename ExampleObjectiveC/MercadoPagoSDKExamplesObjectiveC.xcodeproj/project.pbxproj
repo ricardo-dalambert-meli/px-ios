@@ -15,13 +15,10 @@
 		4B10DBC4213989CB00EA2208 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76EF7ECE1D2559140087C785 /* LaunchScreen.storyboard */; };
 		4B10DBC5213989D000EA2208 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76EF7ECC1D2559140087C785 /* Assets.xcassets */; };
 		4B10DBC821398A0300EA2208 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B10DBC621398A0200EA2208 /* Main.storyboard */; };
-		4B34DC331E5DA33100FDD295 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF7EC41D2559140087C785 /* AppDelegate.m */; };
 		76EF7EC21D2559140087C785 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF7EC11D2559140087C785 /* main.m */; };
 		76EF7EC51D2559140087C785 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF7EC41D2559140087C785 /* AppDelegate.m */; };
-		76EF7EDB1D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF7EDA1D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCTests.m */; };
 		76EF7F5A1D26FDB80087C785 /* MainExamplesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF7F591D26FDB80087C785 /* MainExamplesViewController.m */; };
 		81488CC11FE93E0C003C35B1 /* TestComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81488CC01FE93E0C003C35B1 /* TestComponent.swift */; };
-		81488CC21FE94196003C35B1 /* TestComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81488CC01FE93E0C003C35B1 /* TestComponent.swift */; };
 		898B901F599A3542DC2DB3B7 /* Pods_MercadoPagoSDKExamplesObjectiveC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002BDC48D4BE7B195108A9C2 /* Pods_MercadoPagoSDKExamplesObjectiveC.framework */; };
 		CE1BAD5324F59350003E921A /* CongratsExamplesViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = CEA2D0F624EC535B0061EBEA /* CongratsExamplesViewController.h */; };
 		CE1BAD5424F59350003E921A /* CongratsExamplesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA2D0F524EC535B0061EBEA /* CongratsExamplesViewController.m */; };
@@ -29,16 +26,6 @@
 		CE1BAD5624F59383003E921A /* CongratsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA2D0F724EC535B0061EBEA /* CongratsUtils.m */; };
 		FC5B5AA6217E0F9F000B83E6 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5B5AA5217E0F9F000B83E6 /* Extensions.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		76EF7ED71D2559140087C785 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 76EF7EB51D2559140087C785 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 76EF7EBC1D2559140087C785;
-			remoteInfo = MercadoPagoSDKExamplesObjectiveC;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		15AF42AE1D36848100E70343 /* Embed Frameworks */ = {
@@ -72,7 +59,6 @@
 		76EF7ECC1D2559140087C785 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		76EF7ECF1D2559140087C785 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		76EF7ED11D2559140087C785 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		76EF7ED61D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MercadoPagoSDKExamplesObjectiveCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76EF7EDA1D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MercadoPagoSDKExamplesObjectiveCTests.m; sourceTree = "<group>"; };
 		76EF7EDC1D2559140087C785 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		76EF7EE51D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MercadoPagoSDKExamplesObjectiveCUITests.m; sourceTree = "<group>"; };
@@ -95,13 +81,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				898B901F599A3542DC2DB3B7 /* Pods_MercadoPagoSDKExamplesObjectiveC.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		76EF7ED31D2559140087C785 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,7 +132,6 @@
 			isa = PBXGroup;
 			children = (
 				76EF7EBD1D2559140087C785 /* MercadoPagoSDKExamplesObjectiveC.app */,
-				76EF7ED61D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -252,23 +230,6 @@
 			productReference = 76EF7EBD1D2559140087C785 /* MercadoPagoSDKExamplesObjectiveC.app */;
 			productType = "com.apple.product-type.application";
 		};
-		76EF7ED51D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 76EF7EED1D2559140087C785 /* Build configuration list for PBXNativeTarget "MercadoPagoSDKExamplesObjectiveCTests" */;
-			buildPhases = (
-				76EF7ED21D2559140087C785 /* Sources */,
-				76EF7ED31D2559140087C785 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				76EF7ED81D2559140087C785 /* PBXTargetDependency */,
-			);
-			name = MercadoPagoSDKExamplesObjectiveCTests;
-			productName = MercadoPagoSDKExamplesObjectiveCTests;
-			productReference = 76EF7ED61D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -283,10 +244,6 @@
 						DevelopmentTeam = 7APK8UCPQP;
 						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
-					};
-					76EF7ED51D2559140087C785 = {
-						CreatedOnToolsVersion = 7.3;
-						TestTargetID = 76EF7EBC1D2559140087C785;
 					};
 				};
 			};
@@ -305,7 +262,6 @@
 			projectRoot = "";
 			targets = (
 				76EF7EBC1D2559140087C785 /* MercadoPagoSDKExamplesObjectiveC */,
-				76EF7ED51D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCTests */,
 			);
 		};
 /* End PBXProject section */
@@ -336,7 +292,6 @@
 				"${BUILT_PRODUCTS_DIR}/FXBlurView/FXBlurView.framework",
 				"${BUILT_PRODUCTS_DIR}/JRSwizzle/JRSwizzle.framework",
 				"${BUILT_PRODUCTS_DIR}/MLBusinessComponents/MLBusinessComponents.framework",
-				"${BUILT_PRODUCTS_DIR}/MLCardDrawer/MLCardDrawer.framework",
 				"${BUILT_PRODUCTS_DIR}/MLUI/MLUI.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -345,7 +300,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FXBlurView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JRSwizzle.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MLBusinessComponents.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MLCardDrawer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MLUI.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -430,25 +384,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		76EF7ED21D2559140087C785 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4B34DC331E5DA33100FDD295 /* AppDelegate.m in Sources */,
-				81488CC21FE94196003C35B1 /* TestComponent.swift in Sources */,
-				76EF7EDB1D2559140087C785 /* MercadoPagoSDKExamplesObjectiveCTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		76EF7ED81D2559140087C785 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 76EF7EBC1D2559140087C785 /* MercadoPagoSDKExamplesObjectiveC */;
-			targetProxy = 76EF7ED71D2559140087C785 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		4B10DBC621398A0200EA2208 /* Main.storyboard */ = {
@@ -608,34 +544,6 @@
 			};
 			name = Release;
 		};
-		76EF7EEE1D2559140087C785 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = MercadoPagoSDKExamplesObjectiveCTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mercadopago.MercadoPagoSDKExamplesObjectiveCTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MercadoPagoSDKExamplesObjectiveC.app/MercadoPagoSDKExamplesObjectiveC";
-			};
-			name = Debug;
-		};
-		76EF7EEF1D2559140087C785 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = MercadoPagoSDKExamplesObjectiveCTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mercadopago.MercadoPagoSDKExamplesObjectiveCTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MercadoPagoSDKExamplesObjectiveC.app/MercadoPagoSDKExamplesObjectiveC";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -653,15 +561,6 @@
 			buildConfigurations = (
 				76EF7EEB1D2559140087C785 /* Debug */,
 				76EF7EEC1D2559140087C785 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		76EF7EED1D2559140087C785 /* Build configuration list for PBXNativeTarget "MercadoPagoSDKExamplesObjectiveCTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				76EF7EEE1D2559140087C785 /* Debug */,
-				76EF7EEF1D2559140087C785 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
