@@ -360,8 +360,8 @@ extension PXOneTapViewModel {
         self.cardSliderViewModel = pxCardSliderViewModel
     }
 
-    func getPaymentMethod(targetId: String) -> PXPaymentMethod? {
-        return Utils.findPaymentMethod(paymentMethods, paymentMethodId: targetId)
+    func getPaymentMethod(paymentMethodId: String) -> PXPaymentMethod? {
+        return Utils.findPaymentMethod(paymentMethods, paymentMethodId: paymentMethodId)
     }
 
     func shouldDisplayChargesHelp() -> Bool {

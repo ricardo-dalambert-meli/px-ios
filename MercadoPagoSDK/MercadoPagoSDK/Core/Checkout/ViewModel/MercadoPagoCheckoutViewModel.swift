@@ -782,7 +782,8 @@ private extension MercadoPagoCheckoutViewModel {
                 cardId = paymentMethodId
             }
             if let targetModel = sliderViewModel.first(where: { $0.cardId == cardId && $0.paymentMethodId == paymentMethodId }),
-               let newPaymentMethod = onetapFlow?.model.pxOneTapViewModel?.getPaymentMethod(targetId: targetModel.paymentMethodId) {
+               let paymentMethods = availablePaymentMethods {
+                let newPaymentMethod = Utils.findPaymentMethod(paymentMethods, paymentMethodId: targetModel.paymentMethodId)
                 paymentResult.paymentData?.payerCost = targetModel.selectedPayerCost
                 paymentResult.paymentData?.paymentMethod = newPaymentMethod
                 paymentResult.paymentData?.issuer = targetModel.payerPaymentMethod?.issuer ?? PXIssuer(id: targetModel.issuerId, name: nil)
