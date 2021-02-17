@@ -9,16 +9,21 @@ import UIKit
 
 class PXPaymentMethodConfiguration: NSObject {
     let paymentOptionID: String
+    let paymentMethodId: String?
+    let paymentTypeId: String?
     let discountInfo: String?
     let creditsInfo: String?
     let paymentOptionsConfigurations: [PXPaymentOptionConfiguration]
     let selectedAmountConfiguration: String?
-    init(paymentOptionID: String, discountInfo: String?, creditsInfo: String?, paymentOptionsConfigurations: [PXPaymentOptionConfiguration], selectedAmountConfiguration: String?) {
-        self.paymentOptionID = paymentOptionID
-        self.discountInfo = discountInfo
-        self.creditsInfo = creditsInfo
+    
+    init(customOptionSearchItem: PXCustomOptionSearchItem, paymentOptionsConfigurations: [PXPaymentOptionConfiguration]) {
+        self.paymentOptionID = customOptionSearchItem.id
+        self.paymentMethodId = customOptionSearchItem.paymentMethodId
+        self.paymentTypeId = customOptionSearchItem.paymentTypeId
+        self.discountInfo = customOptionSearchItem.discountInfo
+        self.creditsInfo = customOptionSearchItem.comment
         self.paymentOptionsConfigurations = paymentOptionsConfigurations
-        self.selectedAmountConfiguration = selectedAmountConfiguration
+        self.selectedAmountConfiguration = customOptionSearchItem.couponToApply
         super.init()
     }
 
@@ -26,7 +31,8 @@ class PXPaymentMethodConfiguration: NSObject {
         guard let otherConfiguration = object as? PXPaymentMethodConfiguration else {
             return false
         }
-        return paymentOptionID == otherConfiguration.paymentOptionID
+        // Return true if id, paymentMethodId and paymentTypeId are equal
+        return paymentOptionID == otherConfiguration.paymentOptionID && paymentMethodId == otherConfiguration.paymentMethodId && paymentTypeId == otherConfiguration.paymentTypeId
     }
 
     func getCreditsComment() -> String? {
@@ -41,6 +47,7 @@ class PXPaymentOptionConfiguration: NSObject {
     let id: String
     let discountConfiguration: PXDiscountConfiguration?
     let amountConfiguration: PXAmountConfiguration?
+
     init(id: String, discountConfiguration: PXDiscountConfiguration? = nil, payerCostConfiguration: PXAmountConfiguration? = nil) {
         self.id = id
         self.discountConfiguration = discountConfiguration

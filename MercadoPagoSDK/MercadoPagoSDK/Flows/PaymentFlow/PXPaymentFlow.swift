@@ -30,7 +30,8 @@ internal final class PXPaymentFlow: NSObject, PXFlow {
         self.resultHandler = resultHandler
         self.splitAccountMoney = splitAccountMoney
 
-        if let discountToken = amountHelper.paymentConfigurationService.getAmountConfigurationForPaymentMethod(amountHelper.getPaymentData().token?.cardId)?.discountToken, amountHelper.splitAccountMoney == nil {
+        let paymentData = amountHelper.getPaymentData()
+        if let discountToken = amountHelper.paymentConfigurationService.getAmountConfigurationForPaymentMethod(paymentOptionID: paymentData.token?.cardId, paymentMethodId: paymentData.paymentMethod?.getId(), paymentTypeId: paymentData.paymentMethod?.paymentTypeId)?.discountToken, amountHelper.splitAccountMoney == nil {
             self.model.amountHelper?.getPaymentData().discount?.id = discountToken.stringValue
             self.model.amountHelper?.getPaymentData().campaign?.id = discountToken
         }

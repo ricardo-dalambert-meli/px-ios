@@ -88,7 +88,7 @@ extension PXOneTapViewModel {
             if let accountMoney = targetNode.accountMoney, let paymentMethodId = targetNode.paymentMethodId {
                 let displayTitle = accountMoney.cardTitle ?? ""
                 let cardData = PXCardDataFactory().create(cardName: displayTitle, cardNumber: "", cardCode: "", cardExpiration: "")
-                let amountConfiguration = amountHelper.paymentConfigurationService.getAmountConfigurationForPaymentMethod(accountMoney.getId())
+                let amountConfiguration = amountHelper.paymentConfigurationService.getAmountConfigurationForPaymentMethod(paymentOptionID: accountMoney.getId(), paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId)
                 
                 let isDefaultCardType = accountMoney.cardType == .defaultType
                 let isDisabled = targetNode.status.isDisabled()
@@ -107,7 +107,10 @@ extension PXOneTapViewModel {
                 viewModelCard.displayMessage = NSAttributedString(string: accountMoney.sliderTitle ?? "", attributes: attributes)
                 sliderModel.append(viewModelCard)
             } else if let targetCardData = targetNode.oneTapCard {
-                if let cardName = targetCardData.cardUI?.name, let cardNumber = targetCardData.cardUI?.lastFourDigits, let cardExpiration = targetCardData.cardUI?.expiration, let paymentMethodId = targetNode.paymentMethodId {
+                if let cardName = targetCardData.cardUI?.name,
+                   let cardNumber = targetCardData.cardUI?.lastFourDigits,
+                   let cardExpiration = targetCardData.cardUI?.expiration,
+                   let paymentMethodId = targetNode.paymentMethodId {
 
                     let cardData = PXCardDataFactory().create(cardName: cardName.uppercased(), cardNumber: cardNumber, cardCode: "", cardExpiration: cardExpiration, cardPattern: targetCardData.cardUI?.cardPattern)
 
@@ -134,11 +137,11 @@ extension PXOneTapViewModel {
                         templateCard.cardLogoImageUrl = cardLogoImageUrl
                     }
 
-                    let amountConfiguration = amountHelper.paymentConfigurationService.getAmountConfigurationForPaymentMethod(targetCardData.cardId)
+                    let amountConfiguration = amountHelper.paymentConfigurationService.getAmountConfigurationForPaymentMethod(paymentOptionID: targetCardData.cardId, paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId)
                     let defaultEnabledSplitPayment: Bool = amountConfiguration?.splitConfiguration?.splitEnabled ?? false
 
                     var payerCost: [PXPayerCost] = [PXPayerCost]()
-                    if let pCost = amountHelper.paymentConfigurationService.getPayerCostsForPaymentMethod(targetCardData.cardId, splitPaymentEnabled: defaultEnabledSplitPayment) {
+                    if let pCost = amountHelper.paymentConfigurationService.getPayerCostsForPaymentMethod(paymentOptionID: targetCardData.cardId, paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId, splitPaymentEnabled: defaultEnabledSplitPayment) {
                         payerCost = pCost
                     }
 
@@ -153,19 +156,20 @@ extension PXOneTapViewModel {
 
                     var showArrow: Bool = true
                     var displayMessage: NSAttributedString?
-                    if let targetPaymentMethodId = targetNode.paymentTypeId, targetPaymentMethodId == PXPaymentTypes.DEBIT_CARD.rawValue {
+                    if let targetPaymentMethodTypeId = targetNode.paymentTypeId, targetPaymentMethodTypeId == PXPaymentTypes.DEBIT_CARD.rawValue {
                         showArrow = false
-                        if let splitConfiguration = amountHelper.paymentConfigurationService.getSplitConfigurationForPaymentMethod(targetCardData.cardId), let totalAmount = amountHelper.paymentConfigurationService.getSelectedPayerCostsForPaymentMethod(targetCardData.cardId, splitPaymentEnabled: splitConfiguration.splitEnabled)?.totalAmount {
+                        if let splitConfiguration = amountHelper.paymentConfigurationService.getSplitConfigurationForPaymentMethod(paymentOptionID: targetCardData.cardId, paymentMethodId: paymentMethodId, paymentTypeId: targetPaymentMethodTypeId),
+                           let totalAmount = amountHelper.paymentConfigurationService.getSelectedPayerCostsForPaymentMethod(paymentOptionID: targetCardData.cardId, paymentMethodId: paymentMethodId, paymentTypeId: targetPaymentMethodTypeId, splitPaymentEnabled: splitConfiguration.splitEnabled)?.totalAmount {
                             // If it's debit and has split, update split message
                             displayMessage = getSplitMessageForDebit(amountToPay: totalAmount)
                         }
                     } else if payerCost.count == 1 {
                         showArrow = false
-                    } else if amountHelper.paymentConfigurationService.getPayerCostsForPaymentMethod(targetCardData.cardId) == nil {
+                    } else if amountHelper.paymentConfigurationService.getPayerCostsForPaymentMethod(paymentOptionID: targetCardData.cardId, paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId) == nil {
                         showArrow = false
                     }
 
-                    let selectedPayerCost = amountHelper.paymentConfigurationService.getSelectedPayerCostsForPaymentMethod(targetCardData.cardId, splitPaymentEnabled: defaultEnabledSplitPayment)
+                    let selectedPayerCost = amountHelper.paymentConfigurationService.getSelectedPayerCostsForPaymentMethod(paymentOptionID: targetCardData.cardId, paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId, splitPaymentEnabled: defaultEnabledSplitPayment)
 
                     chargeRuleMessage = getCardBottomMessage(paymentTypeId: targetNode.paymentTypeId, benefits: targetNode.benefits, status: targetNode.status, selectedPayerCost: selectedPayerCost, displayInfo: targetNode.displayInfo)
 
@@ -174,7 +178,9 @@ extension PXOneTapViewModel {
                     viewModelCard.displayMessage = displayMessage
                     sliderModel.append(viewModelCard)
                 }
-            } else if let consumerCredits = targetNode.oneTapCreditsInfo, let amountConfiguration = amountHelper.paymentConfigurationService.getAmountConfigurationForPaymentMethod(targetNode.paymentMethodId), let paymentMethodId = targetNode.paymentMethodId {
+            } else if let consumerCredits = targetNode.oneTapCreditsInfo,
+                      let paymentMethodId = targetNode.paymentMethodId,
+                      let amountConfiguration = amountHelper.paymentConfigurationService.getAmountConfigurationForPaymentMethod(paymentOptionID: paymentMethodId, paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId) {
 
                 let cardData = PXCardDataFactory().create(cardName: "", cardNumber: "", cardCode: "", cardExpiration: "")
                 let creditsViewModel = PXCreditsViewModel(consumerCredits)
@@ -354,8 +360,8 @@ extension PXOneTapViewModel {
         self.cardSliderViewModel = pxCardSliderViewModel
     }
 
-    func getPaymentMethod(targetId: String) -> PXPaymentMethod? {
-        return paymentMethods.filter({ return $0.id == targetId }).first
+    func getPaymentMethod(paymentMethodId: String) -> PXPaymentMethod? {
+        return Utils.findPaymentMethod(paymentMethods, paymentMethodId: paymentMethodId)
     }
 
     func shouldDisplayChargesHelp() -> Bool {
