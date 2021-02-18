@@ -329,7 +329,7 @@ internal class Utils {
         return nil
     }
 
-    internal static func findPaymentMethod(_ paymentMethods: [PXPaymentMethod], paymentMethodId: String) -> PXPaymentMethod {
+    internal static func findPaymentMethod(_ paymentMethods: [PXPaymentMethod], paymentMethodId: String) -> PXPaymentMethod? {
         var paymentTypeSelected = ""
 
         let paymentMethod = paymentMethods.filter({ (paymentMethod: PXPaymentMethod) -> Bool in
@@ -347,12 +347,16 @@ internal class Utils {
             }
             return false
         })
-
-        if !String.isNullOrEmpty(paymentTypeSelected) {
-            paymentMethod[0].paymentTypeId = paymentTypeSelected
+        
+        guard let firstPaymentMethod = paymentMethod.first else {
+            return nil
         }
 
-        return paymentMethod[0]
+        if !String.isNullOrEmpty(paymentTypeSelected) {
+            firstPaymentMethod.paymentTypeId = paymentTypeSelected
+        }
+
+        return firstPaymentMethod
     }
 
     internal static func findOfflinePaymentMethod(_ paymentMethods: [PXPaymentMethod], offlinePaymentMethod: PXOfflinePaymentMethod) -> PXPaymentMethod {
