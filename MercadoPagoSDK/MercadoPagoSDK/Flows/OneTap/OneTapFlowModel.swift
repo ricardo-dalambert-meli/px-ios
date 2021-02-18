@@ -328,7 +328,7 @@ internal extension OneTapFlowModel {
         }
         cardInformation.setupPaymentMethodSettings(paymentMethod.settings)
         // Debit cards in Chile created by webpay return 0 security code length
-        var hasSecurityCode = cardInformation.getCardSecurityCode()?.length ?? 1 > 0
+        let hasSecurityCode = cardInformation.getCardSecurityCode()?.length ?? 1 > 0
         return hasSecurityCode
     }
 }

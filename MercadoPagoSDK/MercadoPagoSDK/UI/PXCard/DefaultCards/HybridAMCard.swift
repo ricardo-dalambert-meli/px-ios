@@ -9,7 +9,6 @@ import Foundation
 import MLCardDrawer
 
 class HybridAMCard: NSObject, CustomCardDrawerUI {
-    
     var placeholderName = ""
     var placeholderExpiration = ""
     var bankImage: UIImage?
@@ -29,8 +28,8 @@ class HybridAMCard: NSObject, CustomCardDrawerUI {
         
         let disabledColor = UIColor(red: 204 / 255, green: 204 / 255, blue: 204 / 255, alpha: 1.0)
         
-        var backgroundColor : UIColor?
-        
+        var backgroundColor: UIColor?
+
         if let color = color {
             backgroundColor = UIColor.fromHex(color)
         } else {
@@ -38,13 +37,13 @@ class HybridAMCard: NSObject, CustomCardDrawerUI {
         }
         
         self.cardBackgroundColor = isDisabled ? disabledColor : backgroundColor!
-        
+
         self.ownGradient = { () -> CAGradientLayer in
             let gradient = CAGradientLayer()
-            
+
             gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
             gradient.endPoint = CGPoint(x: 1.6, y: 0.5)
-            
+
             if let gradientColors = gradientColors, gradientColors.count > 0 {
                 // If gradient colors has been set on backend
                 if gradientColors.count == 2 {
@@ -58,13 +57,13 @@ class HybridAMCard: NSObject, CustomCardDrawerUI {
                 // If gradient colors hasn't been set
                 gradient.colors = [backgroundColor!.cgColor, backgroundColor!.cgColor]
             }
-            
+
             return gradient
         }()
-        
+
         self.cardLogoImageUrl = cardLogoImageUrl
     }
-    
+
 }
 
 extension HybridAMCard {
@@ -85,19 +84,19 @@ extension HybridAMCard {
         // Logo
         guard let imageURL = self.cardLogoImageUrl, imageURL.isNotEmpty else {
             let image = ResourceManager.shared.getImage("hybridAmLogo")
-            
+
             let amLogo = PXUIImageView(image: image, showAsCircle: false, showBorder: false, shouldAddInsets: true)
-            
+
             amLogo.backgroundColor = .clear
             amLogo.contentMode = .scaleAspectFit
-            
+
             containerView.addSubview(amLogo)
-            
+
             PXLayout.setWidth(owner: amLogo, width: size.height * 0.15).isActive = true
             PXLayout.setHeight(owner: amLogo, height: size.height * 0.15).isActive = true
             PXLayout.pinTop(view: amLogo, withMargin: PXLayout.M_MARGIN).isActive = true
             PXLayout.pinLeft(view: amLogo, withMargin: PXLayout.M_MARGIN).isActive = true
-            
+
             return
         }
     }

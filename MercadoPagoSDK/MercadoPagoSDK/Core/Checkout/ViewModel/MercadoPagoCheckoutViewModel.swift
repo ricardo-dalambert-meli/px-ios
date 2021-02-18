@@ -438,7 +438,6 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
                 Localizator.sharedInstance.addCustomTranslation(.pay_button_progress, translation)
             }
             if let translation = customTexts.totalDescription {
-                Localizator.sharedInstance.addCustomTranslation(.total_to_pay, translation)
                 Localizator.sharedInstance.addCustomTranslation(.total_to_pay_onetap, translation)
             }
         }
@@ -537,11 +536,11 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
         }
         if paymentMethodId == PXPaymentTypes.ACCOUNT_MONEY.rawValue {
             paymentData.updatePaymentDataWith(paymentMethod: Utils.findPaymentMethod(availablePaymentMethods, paymentMethodId: paymentMethodId))
-        } else if let paymentOptionSelected = paymentOptionSelected as? PXCardInformation {
-            let cardInformation = paymentOptionSelected
-            let paymentMethod = Utils.findPaymentMethod(availablePaymentMethods, paymentMethodId: cardInformation.getPaymentMethodId())
-            cardInformation.setupPaymentMethodSettings(paymentMethod.settings)
-            cardInformation.setupPaymentMethod(paymentMethod)
+        } else if let cardInformation = paymentOptionSelected as? PXCardInformation {
+            if let paymentMethod = Utils.findPaymentMethod(availablePaymentMethods, paymentMethodId: cardInformation.getPaymentMethodId()) {
+                cardInformation.setupPaymentMethodSettings(paymentMethod.settings)
+                cardInformation.setupPaymentMethod(paymentMethod)
+            }
             paymentData.updatePaymentDataWith(paymentMethod: cardInformation.getPaymentMethod())
             paymentData.updatePaymentDataWith(issuer: cardInformation.getIssuer())
         }
@@ -562,9 +561,10 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
             guard let cardInformation = paymentOptionSelected as? PXCardInformation else {
                 fatalError("Cannot convert paymentOptionSelected to CardInformation")
             }
-            let paymentMethod = Utils.findPaymentMethod(availablePaymentMethods, paymentMethodId: cardInformation.getPaymentMethodId())
-            cardInformation.setupPaymentMethodSettings(paymentMethod.settings)
-            cardInformation.setupPaymentMethod(paymentMethod)
+            if let paymentMethod = Utils.findPaymentMethod(availablePaymentMethods, paymentMethodId: cardInformation.getPaymentMethodId()) {
+                cardInformation.setupPaymentMethodSettings(paymentMethod.settings)
+                cardInformation.setupPaymentMethod(paymentMethod)
+            }
             paymentData.updatePaymentDataWith(paymentMethod: cardInformation.getPaymentMethod())
         }
     }
@@ -622,9 +622,9 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
 
     func getGenericPayment() -> PXGenericPayment? {
         if let paymentResponse = paymentResult {
-            return PXGenericPayment(status: paymentResponse.status, statusDetail: paymentResponse.statusDetail, paymentId: paymentResponse.paymentId)
+            return PXGenericPayment(status: paymentResponse.status, statusDetail: paymentResponse.statusDetail, paymentId: paymentResponse.paymentId, paymentMethodId: paymentResponse.paymentMethodId, paymentMethodTypeId: paymentResponse.paymentMethodTypeId)
         } else if let businessResultResponse = businessResult {
-            return PXGenericPayment(status: businessResultResponse.paymentStatus, statusDetail: businessResultResponse.paymentStatusDetail, paymentId: businessResultResponse.getReceiptId())
+            return PXGenericPayment(status: businessResultResponse.paymentStatus, statusDetail: businessResultResponse.paymentStatusDetail, paymentId: businessResultResponse.getReceiptId(), paymentMethodId: businessResultResponse.getPaymentMethodId(), paymentMethodTypeId: businessResultResponse.getPaymentMethodTypeId())
         }
         return nil
     }
@@ -782,8 +782,8 @@ private extension MercadoPagoCheckoutViewModel {
                 cardId = paymentMethodId
             }
             if let targetModel = sliderViewModel.first(where: { $0.cardId == cardId && $0.paymentMethodId == paymentMethodId }),
-               let paymentMethods = availablePaymentMethods {
-                let newPaymentMethod = Utils.findPaymentMethod(paymentMethods, paymentMethodId: targetModel.paymentMethodId)
+               let paymentMethods = availablePaymentMethods,
+               let newPaymentMethod = Utils.findPaymentMethod(paymentMethods, paymentMethodId: targetModel.paymentMethodId) {
                 paymentResult.paymentData?.payerCost = targetModel.selectedPayerCost
                 paymentResult.paymentData?.paymentMethod = newPaymentMethod
                 paymentResult.paymentData?.issuer = targetModel.payerPaymentMethod?.issuer ?? PXIssuer(id: targetModel.issuerId, name: nil)

@@ -40,9 +40,9 @@ open class MercadoPagoCheckout: NSObject {
             countRetries = 0
         }
     }
-    
-    internal(set) var busininessResultVM: PXBusinessResultViewModel?
-    internal(set) var genericResultVM: PXResultViewModel?
+
+    var businessResultVM: PXBusinessResultViewModel?
+    var genericResultVM: PXResultViewModel?
 
     // MARK: Initialization
     /**
@@ -229,7 +229,7 @@ extension MercadoPagoCheckout {
         }
         viewModel.startInitFlow()
     }
-    
+
     private func createCardToken() {
         let lastViewController = viewModel.pxNavigationHandler.navigationController.viewControllers.last
         if lastViewController is PXNewResultViewController || lastViewController is PXSecurityCodeViewController {
