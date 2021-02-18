@@ -81,22 +81,26 @@ extension MercadoPagoCheckoutViewModel {
     }
 
     func needSecurityCode() -> Bool {
-        guard let pmSelected = self.paymentOptionSelected else {
+        guard let paymentOptionSelected = self.paymentOptionSelected else {
             return false
         }
 
-        guard let pm = self.paymentData.getPaymentMethod() else {
+        guard let paymentMethod = self.paymentData.getPaymentMethod() else {
             return false
         }
 
-        let hasInstallmentsIfNeeded = paymentData.hasPayerCost() || !(pm.isCreditCard || pm.isDebitCard)
-        let paymentOptionSelectedId = pmSelected.getId()
-        let isCustomerCard = pmSelected.isCustomerPaymentMethod() &&
+        let hasInstallmentsIfNeeded = paymentData.hasPayerCost() || !(paymentMethod.isCreditCard || paymentMethod.isDebitCard)
+        let paymentOptionSelectedId = paymentOptionSelected.getId()
+        let isCustomerCard = paymentOptionSelected.isCustomerPaymentMethod() &&
             paymentOptionSelectedId != PXPaymentTypes.ACCOUNT_MONEY.rawValue &&
             paymentOptionSelectedId != PXPaymentTypes.CONSUMER_CREDITS.rawValue
 
         if isCustomerCard && !paymentData.hasToken() && hasInstallmentsIfNeeded {
-            if let customOptionSearchItem = search?.getPayerPaymentMethod(id: paymentOptionSelectedId) {
+            var paymentMethodId: String?
+            if let cardInformation = paymentOptionSelected as? PXCardInformation {
+                paymentMethodId = cardInformation.getPaymentMethodId()
+            }
+            if let customOptionSearchItem = search?.getPayerPaymentMethod(id: paymentOptionSelectedId, paymentMethodId: paymentMethodId, paymentTypeId: paymentOptionSelected.getPaymentType()) {
                 if hasSavedESC() {
                     if customOptionSearchItem.escStatus == PXESCStatus.REJECTED.rawValue {
                         invalidESCReason = .ESC_CAP
