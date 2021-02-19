@@ -126,8 +126,8 @@ extension MercadoPagoCheckout {
             return
         }
 
-        self.busininessResultVM = PXBusinessResultViewModel(businessResult: businessResult, paymentData: viewModel.paymentData, amountHelper: viewModel.amountHelper, pointsAndDiscounts: viewModel.pointsAndDiscounts)
-        guard let pxBusinessResultViewModel = self.busininessResultVM else { return }
+        self.businessResultVM = PXBusinessResultViewModel(businessResult: businessResult, paymentData: viewModel.paymentData, amountHelper: viewModel.amountHelper, pointsAndDiscounts: viewModel.pointsAndDiscounts)
+        guard let pxBusinessResultViewModel = self.businessResultVM else { return }
 
         pxBusinessResultViewModel.setCallback(callback: { [weak self] _, _ in
             self?.finish()

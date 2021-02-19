@@ -46,8 +46,8 @@ extension PXOneTapDto {
         let cardIdsEsc = PXTrackingStore.sharedInstance.getData(forKey: PXTrackingStore.cardIdsESC) as? [String] ?? []
         extraInfo["has_esc"] = cardIdsEsc.contains(oneTapCard?.cardId ?? "")
         if let cardId = oneTapCard?.cardId {
-            extraInfo["selected_installment"] = amountHelper.paymentConfigurationService.getSelectedPayerCostsForPaymentMethod(cardId)?.getPayerCostForTracking()
-            extraInfo["has_split"] = amountHelper.paymentConfigurationService.getSplitConfigurationForPaymentMethod(cardId) != nil
+            extraInfo["selected_installment"] = amountHelper.paymentConfigurationService.getSelectedPayerCostsForPaymentMethod(paymentOptionID: cardId, paymentMethodId: paymentMethodId, paymentTypeId: paymentTypeId)?.getPayerCostForTracking()
+            extraInfo["has_split"] = amountHelper.paymentConfigurationService.getSplitConfigurationForPaymentMethod(paymentOptionID: cardId, paymentMethodId: paymentMethodId, paymentTypeId: paymentTypeId) != nil
         }
         if let issuerId = oneTapCard?.cardUI?.issuerId {
             extraInfo["issuer_id"] = Int64(issuerId)

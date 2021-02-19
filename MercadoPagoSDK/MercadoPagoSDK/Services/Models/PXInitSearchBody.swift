@@ -48,7 +48,7 @@ struct PXInitFeatures: Codable {
     let split: Bool
     let odr: Bool
 
-    init(oneTap: Bool, split: Bool, odr: Bool = true) {
+    init(oneTap: Bool = true, split: Bool, odr: Bool = true) {
         self.oneTap = oneTap
         self.split = split
         self.odr = odr

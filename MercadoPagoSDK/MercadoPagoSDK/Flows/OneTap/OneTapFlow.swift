@@ -129,14 +129,14 @@ extension OneTapFlow {
             } else if let oneTapDto = search.oneTap?.first {
                 let customOptionsFound = customerPaymentMethods.filter {
                     if let oneTapCard = oneTapDto.oneTapCard {
-                        return $0.getPaymentMethodId() == oneTapDto.paymentMethodId && $0.getCardId() == oneTapCard.cardId
+                        return $0.getCardId() == oneTapCard.cardId && $0.getPaymentMethodId() == oneTapDto.paymentMethodId && $0.getPaymentType() == oneTapDto.paymentTypeId
                     }
-                    return $0.getPaymentMethodId() == oneTapDto.paymentMethodId
+                    return $0.getPaymentMethodId() == oneTapDto.paymentMethodId && $0.getPaymentType() == oneTapDto.paymentTypeId
                 }
                 if let customerPaymentMethod = customOptionsFound.first {
                     // Check if one tap response has payer costs
-                    if let expressNode = search.getPaymentMethodInExpressCheckout(targetId: customerPaymentMethod.getId()).expressNode,
-                        let selected = selectPaymentMethod(expressNode: expressNode, customerPaymentMethod: customerPaymentMethod, amountHelper: amountHelper) {
+                    if let expressNode = search.getPaymentMethodInExpressCheckout(customerPaymentMethod: customerPaymentMethod),
+                       let selected = selectPaymentMethod(expressNode: expressNode, customerPaymentMethod: customerPaymentMethod, amountHelper: amountHelper) {
                         selectedPaymentOption = selected
                     }
                 }
@@ -155,7 +155,7 @@ extension OneTapFlow {
 
         var selectedPaymentOption: PaymentMethodOption?
         // the selected payment option is a one tap card, therefore has the required node and has related payer costs
-        if let expressPaymentMethod = expressNode.oneTapCard, amountHelper.paymentConfigurationService.getSelectedPayerCostsForPaymentMethod(expressPaymentMethod.cardId) != nil {
+        if let expressPaymentMethod = expressNode.oneTapCard, amountHelper.paymentConfigurationService.getSelectedPayerCostsForPaymentMethod(paymentOptionID: expressPaymentMethod.cardId, paymentMethodId: expressNode.paymentMethodId, paymentTypeId: expressNode.paymentTypeId) != nil {
             selectedPaymentOption = customerPaymentMethod
         }
 

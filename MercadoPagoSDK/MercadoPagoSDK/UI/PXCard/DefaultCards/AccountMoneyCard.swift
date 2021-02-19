@@ -24,19 +24,15 @@ class AccountMoneyCard: NSObject, CustomCardDrawerUI {
     var cardLogoImageUrl: String?
 
     init(isDisabled: Bool = false, cardLogoImageUrl: String?, color: String?, gradientColors: [String]?) {
-        
-        let disabledColor = UIColor(red: 204 / 255, green: 204 / 255, blue: 204 / 255, alpha: 1.0)
-        
-        var backgroundColor: UIColor?
-        
-        if let color = color {
+        var backgroundColor = UIColor(red: 0.00, green: 0.64, blue: 0.85, alpha: 1.0) // Default color
+        if isDisabled {
+            // Disabled color
+            backgroundColor = UIColor(red: 204 / 255, green: 204 / 255, blue: 204 / 255, alpha: 1.0)
+        } else if let color = color {
+            // Color from hex String
             backgroundColor = UIColor.fromHex(color)
-        } else {
-            backgroundColor = UIColor(red: 0.00, green: 0.64, blue: 0.85, alpha: 1.0)
         }
-
-        self.cardBackgroundColor = isDisabled ? disabledColor : backgroundColor!
-        
+        self.cardBackgroundColor = backgroundColor
         self.cardLogoImageUrl = cardLogoImageUrl
     }
 }

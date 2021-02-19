@@ -521,7 +521,7 @@ extension PXOneTapViewController: PXOneTapHeaderProtocol {
 
     func didTapDiscount() {
         var discountDescription: PXDiscountDescription?
-        if let discountConfiguration = viewModel.amountHelper.paymentConfigurationService.getDiscountConfigurationForPaymentMethodOrDefault(selectedCard?.cardId),
+        if let discountConfiguration = viewModel.amountHelper.paymentConfigurationService.getDiscountConfigurationForPaymentMethodOrDefault(paymentOptionID: selectedCard?.cardId, paymentMethodId: selectedCard?.paymentMethodId, paymentTypeId: selectedCard?.paymentTypeId),
             let description = discountConfiguration.getDiscountConfiguration().discountDescription {
             discountDescription = description
         }
@@ -572,8 +572,7 @@ extension PXOneTapViewController: PXCardSliderProtocol {
         let newPayerCost: PXPayerCost? = targetModel.selectedPayerCost
 
         let currentPaymentData: PXPaymentData = viewModel.amountHelper.getPaymentData()
-
-        if let newPaymentMethod = viewModel.getPaymentMethod(targetId: newPaymentMethodId) {
+        if let newPaymentMethod = viewModel.getPaymentMethod(paymentMethodId: newPaymentMethodId) {
             currentPaymentData.payerCost = newPayerCost
             currentPaymentData.paymentMethod = newPaymentMethod
             currentPaymentData.issuer = targetModel.payerPaymentMethod?.issuer ?? PXIssuer(id: targetModel.issuerId, name: nil)

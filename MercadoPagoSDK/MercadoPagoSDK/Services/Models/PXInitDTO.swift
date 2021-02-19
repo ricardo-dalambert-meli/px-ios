@@ -92,22 +92,29 @@ final class PXInitDTO: NSObject, Decodable {
         oneTap = nil
     }
 
-    func getPaymentMethodInExpressCheckout(targetId: String) -> (found: Bool, expressNode: PXOneTapDto?) {
-        guard let expressResponse = oneTap else { return (false, nil) }
+    func getPaymentMethodInExpressCheckout(customerPaymentMethod: CustomerPaymentMethod) -> PXOneTapDto? {
+        guard let expressResponse = oneTap else { return nil }
         for expressNode in expressResponse {
             guard let paymentMethodId = expressNode.paymentMethodId else {
-                return (false, nil)
+                return nil
             }
-            let cardCaseCondition = expressNode.oneTapCard != nil && expressNode.oneTapCard?.cardId == targetId
+            
+            var cardCaseCondition = false
+            if let oneTapCard = expressNode.oneTapCard,
+               oneTapCard.cardId == customerPaymentMethod.getId(),
+               paymentMethodId == customerPaymentMethod.getPaymentMethodId(),
+               expressNode.paymentTypeId == customerPaymentMethod.getPaymentTypeId() {
+                cardCaseCondition = true
+            }
             let creditsCaseCondition = PXPaymentTypes(rawValue:paymentMethodId) == PXPaymentTypes.CONSUMER_CREDITS
             if cardCaseCondition || creditsCaseCondition {
-                return (true, expressNode)
+                return expressNode
             }
         }
-        return (false, nil)
+        return nil
     }
     
-    func getPayerPaymentMethod(id: String?) -> PXCustomOptionSearchItem? {
-        return payerPaymentMethods.first(where: { $0.id == id})
+    func getPayerPaymentMethod(id: String?, paymentMethodId: String?, paymentTypeId: String?) -> PXCustomOptionSearchItem? {
+        return payerPaymentMethods.first(where: { $0.id == id && $0.paymentMethodId == paymentMethodId && $0.paymentTypeId == paymentTypeId })
     }
 }
