@@ -20,6 +20,38 @@ deploy-workflow: &deployWorkflow
 # Define the jobs we will be using
 version: 2
 jobs:
+
+  build-and-test:
+      macos:
+          xcode: "12.4.0"
+
+      environment:
+          FL_OUTPUT_DIR: FL_OUTPUT_DIR
+
+      steps:
+        - checkout
+
+        - run:
+            name: Install bundle
+            command: bundle install
+
+        - run:
+            # working_directory:
+            name: Build and run tests
+            command: |
+              cd ExampleSwift
+              bundle exec pod update && pod install
+              bundle exec fastlane scan
+            environment:
+                SCAN_DEVICE: iPhone 8
+                SCAN_SCHEME: ExampleSwift
+
+        - store_test_results:
+            path: output/scan
+
+        - store_artifacts:
+            path: output
+
   deploy:
     <<: *defaultJob
     steps:
@@ -29,7 +61,7 @@ jobs:
           key: gem-cache-{{ checksum "Gemfile.lock" }}-v2
       - run:
           name: Set Ruby Version
-          command: echo "ruby-2.4.6" > ~/.ruby-version
+          command: echo "ruby-2.6.5" > ~/.ruby-version
       - run: bundle check || bundle install --path vendor/bundle
       - run:
           name: Run Deploy
@@ -41,7 +73,8 @@ jobs:
 # Define the full workflow.
 workflows:
   version: 2
-  test-lint:
+  unit-tests:
     jobs:
-      - deploy:
-          <<: *deployWorkflow
+        - build-and-test
+#      - deploy:
+#          <<: *deployWorkflow
