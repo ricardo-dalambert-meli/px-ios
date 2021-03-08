@@ -106,8 +106,10 @@ private extension PXSecurityCodeViewController {
         view.isUserInteractionEnabled = enabled
         navigationController?.navigationBar.isUserInteractionEnabled = enabled
         if enabled, andesTextFieldCodeIsComplete {
+            andesTextFieldCode.state = .IDLE
             loadingButtonComponent?.isUserInteractionEnabled = true
         } else {
+            andesTextFieldCode.state = .DISABLED
             loadingButtonComponent?.isUserInteractionEnabled = false
         }
     }
