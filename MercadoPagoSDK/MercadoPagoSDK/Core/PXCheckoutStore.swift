@@ -20,6 +20,7 @@ open class PXCheckoutStore: NSObject {
     static let sharedInstance = PXCheckoutStore()
     internal var checkoutPreference: PXCheckoutPreference?
     internal var paymentDatas: [PXPaymentData] = []
+    internal var validationProgramId: String?
     private var data = [String: Any]()
 }
 
