@@ -310,6 +310,7 @@
 /* Begin XCBuildConfiguration section */
 		23EDA1432147DFC90085CA7A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5AE9791B259B89BF00D32A84 /* Config.example.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -369,6 +370,7 @@
 		};
 		23EDA1442147DFC90085CA7A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5AE9791B259B89BF00D32A84 /* Config.example.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -456,6 +458,7 @@
 		};
 		5AE8259D258B80AD002C7F74 /* Alpha */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5AE9791B259B89BF00D32A84 /* Config.example.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

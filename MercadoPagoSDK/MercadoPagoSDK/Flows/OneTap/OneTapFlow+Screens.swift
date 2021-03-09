@@ -53,6 +53,9 @@ extension OneTapFlow {
     }
 
     func showSecurityCodeScreen() {
+        if model.paymentData.paymentMethod?.settings.first?.securityCode?.mode == .optional {
+            return
+        }
         guard !isPXSecurityCodeViewControllerLastVC() else { return }
         let securityCodeVc = PXSecurityCodeViewController(viewModel: model.savedCardSecurityCodeViewModel(),
             finishButtonAnimationCallback: { [weak self] in

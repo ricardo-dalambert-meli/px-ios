@@ -12,6 +12,10 @@ extension MercadoPagoCheckout {
 
     func showSecurityCodeScreen() {
         guard !viewModel.isPXSecurityCodeViewControllerLastVC() else { return }
+        if viewModel.paymentData.paymentMethod?.settings.first?.securityCode?.mode == .optional {
+            return
+        }
+        
         let securityCodeViewModel = viewModel.getPXSecurityCodeViewModel(isCallForAuth: true)
 
         let securityCodeVC = PXSecurityCodeViewController(
