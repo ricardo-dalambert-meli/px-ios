@@ -1,3 +1,8 @@
+# v4.37.5
+🚀Private Release - 4.37.4 🚀
+- Fix cvv textField that allow typing after submit
+- Add propertie validationProgramId on PXCheckoutStore to be sent on future requests
+
 # v4.37.4 
 🚀Private Release - 4.37.4 🚀
 - Fix pay button when going to add a new card and coming back without adding one
