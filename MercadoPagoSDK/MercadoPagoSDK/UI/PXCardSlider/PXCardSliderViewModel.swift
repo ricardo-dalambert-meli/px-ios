@@ -8,45 +8,71 @@
 import UIKit
 import MLCardDrawer
 
+typealias PXApplicationId = String
+
 final class PXCardSliderViewModel {
-    let paymentMethodId: String
-    let paymentTypeId: String?
+    
     let issuerId: String
     let cardUI: CardUI
-    var shouldShowArrow: Bool
-    var accountMoneyBalance: Double?
-    var cardData: CardData?
-    var selectedPayerCost: PXPayerCost?
-    var payerCost: [PXPayerCost] = [PXPayerCost]()
     var cardId: String?
-    var displayMessage: NSAttributedString?
-    var amountConfiguration: PXAmountConfiguration?
+    
+    var accountMoneyBalance: Double?
+    
     let creditsViewModel: PXCreditsViewModel?
-    let status: PXStatus
+    
     var isCredits: Bool {
         return self.paymentMethodId == PXPaymentTypes.CONSUMER_CREDITS.rawValue
     }
+    
+    // Values mapped with applications
+    var paymentMethodId: String? {
+        get {
+            if let selectedApplication = selectedApplication, let applicationsData = applicationsData {
+                return applicationsData[selectedApplication]?.paymentMethodId ?? nil
+            }
+        }
+        set {
+            if let selectedApplication = selectedApplication, let applicationsData = applicationsData {
+                applicationsData[selectedApplication]?.paymentMethodId = newValue ?? nil
+            }
+        }
+    }
+    
+    let paymentTypeId: String?
+    var shouldShowArrow: Bool
+    var cardData: CardData?
+    var selectedPayerCost: PXPayerCost?
+    var payerCost: [PXPayerCost] = [PXPayerCost]()
+    var displayMessage: NSAttributedString?
+    var amountConfiguration: PXAmountConfiguration?
+    let status: PXStatus
     var bottomMessage: PXCardBottomMessage?
     var benefits: PXBenefits?
     var behaviours: [String: PXBehaviour]?
     var displayInfo: PXOneTapDisplayInfo?
     var userDidSelectPayerCost: Bool = false
-    let payerPaymentMethods: [PXCustomOptionSearchItem]?
-    var payerPaymentMethod: PXCustomOptionSearchItem? {
-        guard let payerPaymentMethods = payerPaymentMethods,
-              payerPaymentMethods.count > 0 else { return nil }
-        var customOptionSearchItem = payerPaymentMethods[0]
-        if payerPaymentMethods.count > 1,
-           let selectedPaymentMethodTypeId = selectedPaymentMethodTypeId {
-            if let selectedPaymentMethod = payerPaymentMethods.first(where: { $0.paymentTypeId == selectedPaymentMethodTypeId }) {
-                customOptionSearchItem = selectedPaymentMethod
-            }
-        }
-        return customOptionSearchItem
-    }
-    var selectedPaymentMethodTypeId: String?
+    var payerPaymentMethod: PXCustomOptionSearchItem?
+    
+    var applicationsData : [PXApplicationId: PXCardSliderApplicationData]?
+    
+    var selectedApplication : PXApplicationId?
+    
+//    let payerPaymentMethods: [PXCustomOptionSearchItem]?
+//    var payerPaymentMethod: PXCustomOptionSearchItem? {
+//        guard let payerPaymentMethods = payerPaymentMethods,
+//              payerPaymentMethods.count > 0 else { return nil }
+//        var customOptionSearchItem = payerPaymentMethods[0]
+//        if payerPaymentMethods.count > 1,
+//           let selectedPaymentMethodTypeId = selectedPaymentMethodTypeId {
+//            if let selectedPaymentMethod = payerPaymentMethods.first(where: { $0.paymentTypeId == selectedPaymentMethodTypeId }) {
+//                customOptionSearchItem = selectedPaymentMethod
+//            }
+//        }
+//        return customOptionSearchItem
+//    }
+//    var selectedPaymentMethodTypeId: String?
 
-    init(_ paymentMethodId: String, _ paymentTypeId: String?, _ issuerId: String, _ cardUI: CardUI, _ cardData: CardData?, _ payerCost: [PXPayerCost], _ selectedPayerCost: PXPayerCost?, _ cardId: String? = nil, _ shouldShowArrow: Bool, amountConfiguration: PXAmountConfiguration?, creditsViewModel: PXCreditsViewModel? = nil, status: PXStatus, bottomMessage: PXCardBottomMessage? = nil, benefits: PXBenefits?, payerPaymentMethods: [PXCustomOptionSearchItem]?, behaviours: [String: PXBehaviour]?, displayInfo: PXOneTapDisplayInfo?) {
+    init(_ paymentMethodId: String, _ paymentTypeId: String?, _ issuerId: String, _ cardUI: CardUI, _ cardData: CardData?, _ payerCost: [PXPayerCost], _ selectedPayerCost: PXPayerCost?, _ cardId: String? = nil, _ shouldShowArrow: Bool, amountConfiguration: PXAmountConfiguration?, creditsViewModel: PXCreditsViewModel? = nil, status: PXStatus, bottomMessage: PXCardBottomMessage? = nil, benefits: PXBenefits?, payerPaymentMethod: PXCustomOptionSearchItem?, behaviours: [String: PXBehaviour]?, displayInfo: PXOneTapDisplayInfo?) {
         self.paymentMethodId = paymentMethodId
         self.paymentTypeId = paymentTypeId
         self.issuerId = issuerId
@@ -61,12 +87,9 @@ final class PXCardSliderViewModel {
         self.status = status
         self.bottomMessage = bottomMessage
         self.benefits = benefits
-        self.payerPaymentMethods = payerPaymentMethods
+        self.payerPaymentMethod = payerPaymentMethod
         self.behaviours = behaviours
         self.displayInfo = displayInfo
-        if let switchInfo = displayInfo?.switchInfo {
-            selectedPaymentMethodTypeId = "debit_card"
-        }
     }
 }
 
