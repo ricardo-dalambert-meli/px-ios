@@ -67,10 +67,10 @@ extension PXCardSliderPagerCell {
         cardHeader?.setCustomView(comboSwitchView)
     }
     
-    func render(model: PXCardSliderViewModel, cardSize: CGSize, accessibilityData: AccessibilityCardData, delegate: PXCardSliderPagerCellDelegate?) {
+    func render(model: PXCardSliderViewModel, cardSize: CGSize, accessibilityData: AccessibilityCardData, clearCardData: Bool = false, delegate: PXCardSliderPagerCellDelegate?) {
         cardSliderPagerCellDelegate = delegate
         let cardUI = model.cardUI
-        let cardData = model.cardData ?? PXCardDataFactory()
+        let cardData = clearCardData ? PXCardDataFactory() : model.cardData ?? PXCardDataFactory()
         let isDisabled = model.status.isDisabled()
         let bottomMessage = model.bottomMessage
         

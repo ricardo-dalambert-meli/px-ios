@@ -58,7 +58,13 @@ extension PXCardSlider: FSPagerViewDataSource {
                     cell.renderConsumerCreditsCard(model: targetModel, cardSize: pagerView.itemSize, accessibilityData: accessibilityData)
                 } else {
                     // AccountMoney, Hybrid and Other cards.
-                    cell.render(model: targetModel, cardSize: pagerView.itemSize, accessibilityData: accessibilityData, delegate: self)
+                    if let _ = targetModel.cardUI as? AccountMoneyCard {
+                        cell.render(model: targetModel, cardSize: pagerView.itemSize, accessibilityData: accessibilityData, clearCardData: true, delegate: self)
+                    } else if let _ = targetModel.cardUI as? HybridAMCard {
+                        cell.render(model: targetModel, cardSize: pagerView.itemSize, accessibilityData: accessibilityData, clearCardData: true, delegate: self)
+                    } else {
+                        cell.render(model: targetModel, cardSize: pagerView.itemSize, accessibilityData: accessibilityData, delegate: self)
+                    }
                 }
                 return cell
             } else {
