@@ -25,8 +25,8 @@ class ViewController: UIViewController {
     
     @IBAction func initDefault(_ sender: Any) {
 //         runMercadoPagoCheckout()
-         runMercadoPagoCheckoutWithLifecycle()
-//        runMercadoPagoCheckoutWithLifecycleAndCustomProcessor()
+//         runMercadoPagoCheckoutWithLifecycle()
+        runMercadoPagoCheckoutWithLifecycleAndCustomProcessor()
     }
 
     override func viewDidLoad() {
