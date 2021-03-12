@@ -16,25 +16,19 @@ deploy-workflow: &deployWorkflow
       only:
         - develop
         - /release\/.*$/
-
 # Define the jobs we will be using
 version: 2
 jobs:
-
   build-and-test:
       macos:
           xcode: "12.4.0"
-
       environment:
           FL_OUTPUT_DIR: FL_OUTPUT_DIR
-
       steps:
         - checkout
-
         - run:
             name: Install bundle
             command: bundle install
-
         - run:
             # working_directory:
             name: Build and run tests
@@ -46,13 +40,10 @@ jobs:
             environment:
                 SCAN_DEVICE: iPhone 8
                 SCAN_SCHEME: ExampleSwift
-
         - store_test_results:
             path: output/scan
-
         - store_artifacts:
             path: output
-
   deploy:
     <<: *defaultJob
     steps:
@@ -63,6 +54,9 @@ jobs:
       - run:
           name: Set Ruby Version
           command: echo "ruby-2.6.5" > ~/.ruby-version
+      - run:
+          name: Update fastlane version
+          command: bundle update fastlane
       - run: bundle check || bundle install --path vendor/bundle
       - run:
           name: Run Deploy
@@ -74,8 +68,10 @@ jobs:
 # Define the full workflow.
 workflows:
   version: 2
-  unit-tests:
+  unit-test:
     jobs:
-        - build-and-test
-#      - deploy:
-#          <<: *deployWorkflow
+      - build-and-test
+      - deploy:
+          requires:
+            - build-and-test
+          <<: *deployWorkflow
