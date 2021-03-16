@@ -8,21 +8,11 @@
 public struct PXApplicationPaymentMethod: Codable {
     var id: String?
     var type: String?
-    
-    public enum CodingKeys: String, CodingKey {
-        case id = "id"
-        case type = "type"
-    }
 }
 
 public struct PXApplicationValidationProgram: Codable {
     var id: String
     var mandatory: Bool
-    
-    public enum CodingKeys: String, CodingKey {
-        case id = "id"
-        case mandatory = "mandatory"
-    }
 }
 
 public struct PXApplicationStatus: Codable {
