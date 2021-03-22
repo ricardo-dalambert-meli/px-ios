@@ -46,6 +46,13 @@ extension PXCheckoutStore {
     public func getCheckoutPreference() -> PXCheckoutPreference? {
         return checkoutPreference
     }
+    
+    /**
+     Get `validationProgramId` propertie.
+     */
+    public func getValidationProgramId() -> String? {
+        return validationProgramId
+    }
 
     /**
      Get `PXSecurity` type.
