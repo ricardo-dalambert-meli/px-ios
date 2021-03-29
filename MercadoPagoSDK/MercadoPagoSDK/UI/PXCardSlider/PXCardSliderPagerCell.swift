@@ -61,18 +61,21 @@ extension PXCardSliderPagerCell {
         let comboSwitchView = ComboSwitchView()
         comboSwitchView.setSwitchModel(switchInfo)
         comboSwitchView.setSwitchDidChangeCallback() { [weak self] selectedOption in
-            model.selectedPaymentMethodTypeId = selectedOption
+            model.selectedApplicationId = selectedOption
             self?.cardSliderPagerCellDelegate?.switchDidChange(selectedOption)
         }
         cardHeader?.setCustomView(comboSwitchView)
     }
     
     func render(model: PXCardSliderViewModel, cardSize: CGSize, accessibilityData: AccessibilityCardData, clearCardData: Bool = false, delegate: PXCardSliderPagerCellDelegate?) {
+        
+        guard let selectedApplication = model.selectedApplication else { return }
+        
         cardSliderPagerCellDelegate = delegate
         let cardUI = model.cardUI
-        let cardData = clearCardData ? PXCardDataFactory() : model.cardData ?? PXCardDataFactory()
-        let isDisabled = model.status.isDisabled()
-        let bottomMessage = model.bottomMessage
+        let cardData = clearCardData ? PXCardDataFactory() : selectedApplication.cardData ?? PXCardDataFactory()
+        let isDisabled = selectedApplication.status.isDisabled()
+        let bottomMessage = selectedApplication.bottomMessage
         
         setupContainerView()
         setupCardHeader(cardDrawerController: MLCardDrawerController(cardUI, cardData, isDisabled), cardSize: cardSize)
@@ -158,11 +161,12 @@ extension PXCardSliderPagerCell {
     }
     
     func renderConsumerCreditsCard(model: PXCardSliderViewModel, cardSize: CGSize, accessibilityData: AccessibilityCardData) {
+        guard let selectedApplication = model.selectedApplication else { return }
         guard let creditsViewModel = model.creditsViewModel else { return }
         let cardData = PXCardDataFactory()
-        let isDisabled = model.status.isDisabled()
-        let bottomMessage = model.bottomMessage
-        let creditsInstallmentSelected = model.selectedPayerCost?.installments
+        let isDisabled = selectedApplication.status.isDisabled()
+        let bottomMessage = selectedApplication.bottomMessage
+        let creditsInstallmentSelected = selectedApplication.selectedPayerCost?.installments
         consumerCreditCard = ConsumerCreditsCard(creditsViewModel, isDisabled: isDisabled)
         guard let consumerCreditCard = consumerCreditCard else { return }
 

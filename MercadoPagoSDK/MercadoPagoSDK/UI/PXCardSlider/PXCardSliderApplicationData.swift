@@ -8,7 +8,7 @@
 import MLCardDrawer
 
 final class PXCardSliderApplicationData {
-    internal init(paymentMethodId: String, paymentTypeId: String?, shouldShowArrow: Bool, cardData: CardData? = nil, selectedPayerCost: PXPayerCost? = nil, payerCost: [PXPayerCost] = [PXPayerCost](), displayMessage: NSAttributedString? = nil, amountConfiguration: PXAmountConfiguration? = nil, status: PXStatus, bottomMessage: PXCardBottomMessage? = nil, benefits: PXBenefits? = nil, behaviours: [String : PXBehaviour]? = nil, displayInfo: PXOneTapDisplayInfo? = nil, userDidSelectPayerCost: Bool = false, payerPaymentMethod: PXCustomOptionSearchItem? = nil) {
+    internal init(paymentMethodId: String, paymentTypeId: String?, cardData: CardData? = nil, payerCost: [PXPayerCost] = [PXPayerCost](), selectedPayerCost: PXPayerCost? = nil, shouldShowArrow: Bool, amountConfiguration: PXAmountConfiguration? = nil, status: PXStatus, bottomMessage: PXCardBottomMessage? = nil, benefits: PXBenefits? = nil, payerPaymentMethod: PXCustomOptionSearchItem? = nil, behaviours: [String : PXBehaviour]? = nil, displayInfo: PXOneTapDisplayInfo? = nil, displayMessage: NSAttributedString? = nil) {
         self.paymentMethodId = paymentMethodId
         self.paymentTypeId = paymentTypeId
         self.shouldShowArrow = shouldShowArrow
@@ -21,12 +21,10 @@ final class PXCardSliderApplicationData {
         self.bottomMessage = bottomMessage
         self.benefits = benefits
         self.behaviours = behaviours
-        self.displayInfo = displayInfo
-        self.userDidSelectPayerCost = userDidSelectPayerCost
         self.payerPaymentMethod = payerPaymentMethod
     }
 
-    var paymentMethodId: String?
+    var paymentMethodId: String
     var paymentTypeId: String?
     var shouldShowArrow: Bool
     var cardData: CardData?
@@ -38,7 +36,6 @@ final class PXCardSliderApplicationData {
     var bottomMessage: PXCardBottomMessage?
     var benefits: PXBenefits?
     var behaviours: [String: PXBehaviour]?
-    var displayInfo: PXOneTapDisplayInfo?
     var userDidSelectPayerCost: Bool = false
     var payerPaymentMethod: PXCustomOptionSearchItem?
 
