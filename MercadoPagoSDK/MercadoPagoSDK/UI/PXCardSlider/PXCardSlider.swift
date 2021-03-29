@@ -45,12 +45,14 @@ extension PXCardSlider: FSPagerViewDataSource {
         if model.indices.contains(index) {
             let targetModel = model[index]
             var accessibilityData = AccessibilityCardData(paymentMethodId: "", paymentTypeId: "", issuerName: "", description: "", cardName: "", index: 0, numberOfPages: 1)
+            
+            guard let selectedApplication = targetModel.selectedApplication else { return FSPagerViewCell() }
 
-            if let payerPaymentMethod = targetModel.payerPaymentMethod {
-                accessibilityData = AccessibilityCardData(paymentMethodId: targetModel.paymentMethodId, paymentTypeId: targetModel.paymentTypeId ?? "", issuerName: payerPaymentMethod.issuer?.name ?? "", description: payerPaymentMethod._description ?? "", cardName: targetModel.cardData?.name ?? "", index: index,  numberOfPages: pageControl.numberOfPages)
+            if let payerPaymentMethod = selectedApplication.payerPaymentMethod {
+                accessibilityData = AccessibilityCardData(paymentMethodId: selectedApplication.paymentMethodId, paymentTypeId: selectedApplication.paymentTypeId ?? "", issuerName: payerPaymentMethod.issuer?.name ?? "", description: payerPaymentMethod._description ?? "", cardName: selectedApplication.cardData?.name ?? "", index: index,  numberOfPages: pageControl.numberOfPages)
             }
 
-            if targetModel.cardData != nil,
+            if selectedApplication.cardData != nil,
                let cell = pagerView.dequeueReusableCell(withReuseIdentifier: PXCardSliderPagerCell.identifier, at: index) as? PXCardSliderPagerCell {
                 if targetModel.creditsViewModel != nil,
                    targetModel.cardUI is ConsumerCreditsCard {
@@ -147,7 +149,9 @@ extension PXCardSlider: FSPagerViewDelegate {
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         if model.indices.contains(index) {
             let modelData = model[index]
-            delegate?.cardDidTap(status: modelData.status)
+            if let selectedApplication = modelData.selectedApplication {
+                delegate?.cardDidTap(status: selectedApplication.status)
+            }
         }
     }
 }
