@@ -15,91 +15,44 @@ final class PXCardSliderViewModel {
     let issuerId: String
     let cardUI: CardUI
     var cardId: String?
+    var displayInfo: PXOneTapDisplayInfo?
     
     var accountMoneyBalance: Double?
     
     let creditsViewModel: PXCreditsViewModel?
     
     var isCredits: Bool {
-        return self.paymentMethodId == PXPaymentTypes.CONSUMER_CREDITS.rawValue
+        return self.selectedApplication?.paymentMethodId == PXPaymentTypes.CONSUMER_CREDITS.rawValue
     }
     
-    // Values mapped with applications
-    var paymentMethodId: String? {
-        get {
-            if let selectedApplication = selectedApplication, let applicationsData = applicationsData {
-                return applicationsData[selectedApplication]?.paymentMethodId ?? nil
-            }
-        }
-        set {
-            if let selectedApplication = selectedApplication, let applicationsData = applicationsData {
-                applicationsData[selectedApplication]?.paymentMethodId = newValue ?? nil
-            }
-        }
+    var applications : [PXApplicationId: PXCardSliderApplicationData]?
+    
+    var selectedApplicationId : PXApplicationId?
+    
+    var selectedApplication: PXCardSliderApplicationData? {
+        guard let applicationsData = applications, applicationsData.count > 0, let selectedApplicationId = selectedApplicationId else { return nil }
+        
+        return applicationsData[selectedApplicationId] ?? nil
     }
     
-    let paymentTypeId: String?
-    var shouldShowArrow: Bool
-    var cardData: CardData?
-    var selectedPayerCost: PXPayerCost?
-    var payerCost: [PXPayerCost] = [PXPayerCost]()
-    var displayMessage: NSAttributedString?
-    var amountConfiguration: PXAmountConfiguration?
-    let status: PXStatus
-    var bottomMessage: PXCardBottomMessage?
-    var benefits: PXBenefits?
-    var behaviours: [String: PXBehaviour]?
-    var displayInfo: PXOneTapDisplayInfo?
-    var userDidSelectPayerCost: Bool = false
-    var payerPaymentMethod: PXCustomOptionSearchItem?
-    
-    var applicationsData : [PXApplicationId: PXCardSliderApplicationData]?
-    
-    var selectedApplication : PXApplicationId?
-    
-//    let payerPaymentMethods: [PXCustomOptionSearchItem]?
-//    var payerPaymentMethod: PXCustomOptionSearchItem? {
-//        guard let payerPaymentMethods = payerPaymentMethods,
-//              payerPaymentMethods.count > 0 else { return nil }
-//        var customOptionSearchItem = payerPaymentMethods[0]
-//        if payerPaymentMethods.count > 1,
-//           let selectedPaymentMethodTypeId = selectedPaymentMethodTypeId {
-//            if let selectedPaymentMethod = payerPaymentMethods.first(where: { $0.paymentTypeId == selectedPaymentMethodTypeId }) {
-//                customOptionSearchItem = selectedPaymentMethod
-//            }
-//        }
-//        return customOptionSearchItem
-//    }
-//    var selectedPaymentMethodTypeId: String?
-
-    init(_ paymentMethodId: String, _ paymentTypeId: String?, _ issuerId: String, _ cardUI: CardUI, _ cardData: CardData?, _ payerCost: [PXPayerCost], _ selectedPayerCost: PXPayerCost?, _ cardId: String? = nil, _ shouldShowArrow: Bool, amountConfiguration: PXAmountConfiguration?, creditsViewModel: PXCreditsViewModel? = nil, status: PXStatus, bottomMessage: PXCardBottomMessage? = nil, benefits: PXBenefits?, payerPaymentMethod: PXCustomOptionSearchItem?, behaviours: [String: PXBehaviour]?, displayInfo: PXOneTapDisplayInfo?) {
-        self.paymentMethodId = paymentMethodId
-        self.paymentTypeId = paymentTypeId
+    init(_ applications: [PXApplicationId: PXCardSliderApplicationData], _ selectedApplicationId: String?, _ issuerId: String, _ cardUI: CardUI, _ cardId: String? = nil, creditsViewModel: PXCreditsViewModel? = nil, displayInfo: PXOneTapDisplayInfo?) {
         self.issuerId = issuerId
         self.cardUI = cardUI
-        self.cardData = cardData
-        self.payerCost = payerCost
-        self.selectedPayerCost = selectedPayerCost
         self.cardId = cardId
-        self.shouldShowArrow = !status.isUsable() ? false : shouldShowArrow
-        self.amountConfiguration = amountConfiguration
         self.creditsViewModel = creditsViewModel
-        self.status = status
-        self.bottomMessage = bottomMessage
-        self.benefits = benefits
-        self.payerPaymentMethod = payerPaymentMethod
-        self.behaviours = behaviours
         self.displayInfo = displayInfo
+        self.applications = applications
+        self.selectedApplicationId = selectedApplicationId
     }
 }
 
 extension PXCardSliderViewModel: PaymentMethodOption {
     func getPaymentType() -> String {
-        return paymentTypeId ?? ""
+        return selectedApplication?.paymentTypeId ?? ""
     }
 
     func getId() -> String {
-        return paymentMethodId
+        return selectedApplication?.paymentMethodId ?? ""
     }
 
     func hasChildren() -> Bool {
@@ -111,23 +64,26 @@ extension PXCardSliderViewModel: PaymentMethodOption {
     }
 
     func isCard() -> Bool {
-        return PXPaymentTypes.ACCOUNT_MONEY.rawValue != paymentMethodId
+        return PXPaymentTypes.ACCOUNT_MONEY.rawValue != selectedApplication?.paymentMethodId
     }
 
     func isCustomerPaymentMethod() -> Bool {
-        return PXPaymentTypes.ACCOUNT_MONEY.rawValue != paymentMethodId
+        return PXPaymentTypes.ACCOUNT_MONEY.rawValue != selectedApplication?.paymentMethodId
     }
 
     func shouldShowInstallmentsHeader() -> Bool {
-        return !userDidSelectPayerCost && status.isUsable()
+        guard let selectedApplication = selectedApplication else { return false }
+        return !selectedApplication.userDidSelectPayerCost && selectedApplication.status.isUsable()
     }
 
     func getReimbursement() -> PXInstallmentsConfiguration? {
-        return benefits?.reimbursement
+        guard let selectedApplication = selectedApplication else { return nil }
+        return selectedApplication.benefits?.reimbursement
     }
 
     func getInterestFree() -> PXInstallmentsConfiguration? {
-        return benefits?.interestFree
+        guard let selectedApplication = selectedApplication else { return nil }
+        return selectedApplication.benefits?.interestFree
     }
 }
 

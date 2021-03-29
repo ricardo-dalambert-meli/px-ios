@@ -13,4 +13,6 @@ target 'ExampleSwift' do
 
   # Pods for ExampleSwift
   pod 'MercadoPagoSDKV4', :path => '../', :testspecs => ['MercadoPagoSDKTests']
+  pod "MLCardDrawer", '1.5.4'
+  pod "MLCardForm", "0.9.6"
 end
