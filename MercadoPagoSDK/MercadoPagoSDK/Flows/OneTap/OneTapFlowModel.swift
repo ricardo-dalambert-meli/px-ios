@@ -16,6 +16,7 @@ final internal class OneTapFlowModel: PXFlowModel {
         case serviceCreateESCCardToken
         case serviceCreateWebPayCardToken
         case screenKyC
+        case service3DS
         case payment
     }
     internal var publicKey: String = ""
@@ -25,6 +26,7 @@ final internal class OneTapFlowModel: PXFlowModel {
     let checkoutPreference: PXCheckoutPreference
     var paymentOptionSelected: PaymentMethodOption?
     let search: PXInitDTO
+    var threeDSAuthorization: Bool = false
     var readyToPay: Bool = false
     var paymentResult: PaymentResult?
     var instructionsInfo: PXInstructions?
@@ -34,6 +36,9 @@ final internal class OneTapFlowModel: PXFlowModel {
     var splitAccountMoney: PXPaymentData?
     var disabledOption: PXDisabledOption?
     var pxOneTapViewModel: PXOneTapViewModel?
+    
+    // MARK: - Private properties
+    private var didCall3ds = false
 
     // Payment flow
     var paymentFlow: PXPaymentFlow?
@@ -86,24 +91,13 @@ final internal class OneTapFlowModel: PXFlowModel {
     }
 
     public func nextStep() -> Steps {
-        if needShowOneTap() {
-            return .screenOneTap
-        }
-        if needSecurityCode() {
-            return .screenSecurityCode
-        }
-        if needCreateESCToken() {
-            return .serviceCreateESCCardToken
-        }
-        if needCreateWebPayToken() {
-            return .serviceCreateWebPayCardToken
-        }
-        if needKyC() {
-            return .screenKyC
-        }
-        if needCreatePayment() {
-            return .payment
-        }
+        if needShowOneTap() { return .screenOneTap }
+        if needSecurityCode() { return .screenSecurityCode }
+        if needCreateESCToken() { return .serviceCreateESCCardToken }
+        if needCreateWebPayToken() { return .serviceCreateWebPayCardToken }
+        if needKyC() { return .screenKyC }
+        if need3DS() { return .service3DS }
+        if needCreatePayment() { return .payment }
         return .finish
     }
 }
@@ -122,8 +116,8 @@ internal extension OneTapFlowModel {
         let reason = PXSecurityCodeViewModel.getSecurityCodeReason(invalidESCReason: invalidESCReason)
         let cardSliderViewModel = pxOneTapViewModel?.getCardSliderViewModel(cardId: paymentOptionSelected?.getId())
         let cardUI = cardSliderViewModel?.cardUI ?? TemplateCard()
-        let cardData = cardSliderViewModel?.cardData ?? PXCardDataFactory()
-
+        let cardData = cardSliderViewModel?.selectedApplication?.cardData  ?? PXCardDataFactory()
+        
         return PXSecurityCodeViewModel(paymentMethod: paymentMethod, cardInfo: cardInformation, reason: reason, cardUI: cardUI, cardData: cardData, internetProtocol: mercadoPagoServices)
     }
 
@@ -185,6 +179,10 @@ internal extension OneTapFlowModel {
 
     func updateCheckoutModel(token: PXToken) {
         self.paymentData.updatePaymentDataWith(token: token)
+    }
+    
+    func updateCheckoutModel(threeDSAuthorization: Bool) {
+        self.threeDSAuthorization = threeDSAuthorization
     }
 
     func updateCheckoutModel(payerCost: PXPayerCost) {
@@ -278,6 +276,20 @@ internal extension OneTapFlowModel {
 
     func needKyC() -> Bool {
         return !(search.payerCompliance?.offlineMethods.isCompliant ?? true) && paymentOptionSelected?.additionalInfoNeeded?() ?? false
+    }
+    
+    func need3DS() -> Bool {
+        // TODO: Integrate with switcher, that will gives us info needed to decide if the request should or should not be make
+        if getProgramValidation() == "stp", didCall3ds == false {
+            didCall3ds = true
+            return true
+        }
+
+        return false
+    }
+    
+    func getProgramValidation() -> String? {
+        return search.oneTap?.first(where: { $0.oneTapCard?.cardId == paymentOptionSelected?.getId()})?.applications?.first(where: { $0.paymentMethod.id == pxOneTapViewModel?.getCardSliderViewModel(cardId: paymentOptionSelected?.getId())?.selectedApplication?.paymentMethodId})?.validationPrograms.first?.id
     }
 
     func needCreatePayment() -> Bool {

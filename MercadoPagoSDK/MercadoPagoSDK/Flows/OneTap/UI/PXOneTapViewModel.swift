@@ -58,17 +58,6 @@ extension PXOneTapViewModel {
         // Rearrange disabled options
         let reArrangedNodes = rearrangeDisabledOption(oneTapNode, disabledOption: disabledOption)
         for targetNode in reArrangedNodes {
-            var payerPaymentMethods: [PXCustomOptionSearchItem]? = []
-            
-            if let switchInfo = targetNode.displayInfo?.switchInfo {
-                for option in switchInfo.options {
-                    if let payerPaymentMethod = getPayerPaymentMethod(option.id, targetNode.oneTapCard?.cardId) {
-                        payerPaymentMethods?.append(payerPaymentMethod)
-                    }
-                }
-            } else if let payerPaymentMethod = getPayerPaymentMethod(targetNode.paymentTypeId, targetNode.oneTapCard?.cardId) {
-                payerPaymentMethods = [payerPaymentMethod]
-            }
 
             //Charge rule message when amount is zero
             var chargeRuleMessage = getCardBottomMessage(paymentTypeId: targetNode.paymentTypeId, benefits: targetNode.benefits, status: targetNode.status, selectedPayerCost: nil, displayInfo: targetNode.displayInfo)
@@ -87,81 +76,74 @@ extension PXOneTapViewModel {
                     newOfflineData = PXAddNewMethodData(title: offlineMethods.label, subtitle: offlineMethods.descriptionText)
                 }
                 let emptyCard = EmptyCard(newCardData: newCardData, newOfflineData: newOfflineData)
-                sliderModel.append(PXCardSliderViewModel("", "", "", emptyCard, nil, [PXPayerCost](), nil, nil, false, amountConfiguration: nil, status: statusConfig, benefits: benefits, payerPaymentMethods: nil, behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo))
+                
+                
+//                sliderModel.append(PXCardSliderViewModel("", "", "", emptyCard, nil, [PXPayerCost](), nil, nil, false, amountConfiguration: nil, status: statusConfig, benefits: benefits, payerPaymentMethod: nil, behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo))
+                
+//                sliderModel.append(PXCardSliderViewModel([:], "", emptyCard, displayInfo: targetNode.displayInfo))
             }
             //  Account money
             if let accountMoney = targetNode.accountMoney, let paymentMethodId = targetNode.paymentMethodId {
-                let displayTitle = accountMoney.cardTitle ?? ""
-                let cardData = PXCardDataFactory().create(cardName: displayTitle, cardNumber: "", cardCode: "", cardExpiration: "")
-                let amountConfiguration = amountHelper.paymentConfigurationService.getAmountConfigurationForPaymentMethod(paymentOptionID: accountMoney.getId(), paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId)
+                if let payerPaymentMethod = getPayerPaymentMethod(targetNode.paymentTypeId, targetNode.oneTapCard?.cardId) {
+                    
+                    let displayTitle = accountMoney.cardTitle ?? ""
+                    let cardData = PXCardDataFactory().create(cardName: displayTitle, cardNumber: "", cardCode: "", cardExpiration: "")
+                    let amountConfiguration = amountHelper.paymentConfigurationService.getAmountConfigurationForPaymentMethod(paymentOptionID: accountMoney.getId(), paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId)
 
-                let isDefaultCardType = accountMoney.cardType == .defaultType
-                let isDisabled = targetNode.status.isDisabled()
-                let cardLogoImageUrl = accountMoney.paymentMethodImageURL
-                let color = accountMoney.color
-                let gradientColors = accountMoney.gradientColors
+                    let isDefaultCardType = accountMoney.cardType == .defaultType
+                    let isDisabled = targetNode.status.isDisabled()
+                    let cardLogoImageUrl = accountMoney.paymentMethodImageURL
+                    let color = accountMoney.color
+                    let gradientColors = accountMoney.gradientColors
 
-                let cardUI: CardUI = isDefaultCardType ?
-                                    AccountMoneyCard(isDisabled: isDisabled, cardLogoImageUrl: cardLogoImageUrl, color: color, gradientColors: gradientColors) :
-                                    HybridAMCard(isDisabled: isDisabled, cardLogoImageUrl: cardLogoImageUrl, color: color, gradientColors: gradientColors)
-                let viewModelCard = PXCardSliderViewModel(paymentMethodId, targetNode.paymentTypeId, "", cardUI, cardData, [PXPayerCost](), nil, accountMoney.getId(), false, amountConfiguration: amountConfiguration, status: statusConfig, bottomMessage: chargeRuleMessage, benefits: benefits, payerPaymentMethods: payerPaymentMethods, behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo)
+                    let cardUI: CardUI = isDefaultCardType ?
+                                        AccountMoneyCard(isDisabled: isDisabled, cardLogoImageUrl: cardLogoImageUrl, color: color, gradientColors: gradientColors) :
+                                        HybridAMCard(isDisabled: isDisabled, cardLogoImageUrl: cardLogoImageUrl, color: color, gradientColors: gradientColors)
+                    
+                    let attributes: [NSAttributedString.Key: AnyObject] = [NSAttributedString.Key.font: UIFont.ml_regularSystemFont(ofSize: installmentsRowMessageFontSize), NSAttributedString.Key.foregroundColor: ThemeManager.shared.greyColor()]
+                    let displayMessage = NSAttributedString(string: accountMoney.sliderTitle ?? "", attributes: attributes)
+                    
+                    let cardSliderApplication = PXCardSliderApplicationData(paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId, cardData: cardData, payerCost: [PXPayerCost](), selectedPayerCost: nil, shouldShowArrow: false, amountConfiguration: amountConfiguration, status: statusConfig, bottomMessage: chargeRuleMessage, benefits: benefits, payerPaymentMethod: payerPaymentMethod, behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo, displayMessage: displayMessage)
+                    
+                    var cardSliderApplications : [PXApplicationId:PXCardSliderApplicationData] = [:]
+                    
+                    cardSliderApplications[targetNode.paymentTypeId ?? PXPaymentTypes.ACCOUNT_MONEY.rawValue] = cardSliderApplication
+                    
+                    let viewModelCard = PXCardSliderViewModel(cardSliderApplications, targetNode.paymentTypeId ?? PXPaymentTypes.ACCOUNT_MONEY.rawValue, "", cardUI, accountMoney.getId(), displayInfo: targetNode.displayInfo)
 
-                viewModelCard.setAccountMoney(accountMoneyBalance: accountMoney.availableBalance)
-                let attributes: [NSAttributedString.Key: AnyObject] = [NSAttributedString.Key.font: UIFont.ml_regularSystemFont(ofSize: installmentsRowMessageFontSize), NSAttributedString.Key.foregroundColor: ThemeManager.shared.greyColor()]
-                viewModelCard.displayMessage = NSAttributedString(string: accountMoney.sliderTitle ?? "", attributes: attributes)
-                sliderModel.append(viewModelCard)
+                    viewModelCard.setAccountMoney(accountMoneyBalance: accountMoney.availableBalance)
+//                    sliderModel.append(viewModelCard)
+                }
             } else if let oneTapCard = targetNode.oneTapCard,
                       let cardData = getCardData(oneTapCard: oneTapCard) {
-                if let paymentMethodId = targetNode.paymentMethodId {
-                    let templateCard = getCardUI(oneTapCard: oneTapCard)
-
-                    var paymentTypeId = targetNode.paymentTypeId
+                
+                var viewModelCard : PXCardSliderViewModel
+                
+                if let applications = targetNode.applications, applications.count > 0 {
+                    viewModelCard = getCardSliderViewModelFor(targetNode: targetNode, oneTapCard: oneTapCard, cardData: cardData, applications: applications)
+                    sliderModel.append(viewModelCard)
+                } else if let paymentMethodId = targetNode.paymentMethodId {
                     
-                    if let switchInfo = targetNode.displayInfo?.switchInfo {
-                        paymentTypeId = switchInfo.defaultState
-                    }
+                    var applications : [PXOneTapApplication] = []
                     
-                    let paymentOptionConfiguration = amountHelper.paymentConfigurationService.getPaymentOptionConfiguration(paymentOptionID: oneTapCard.cardId, paymentMethodId: paymentMethodId, paymentTypeId: paymentTypeId)
-                    let amountConfiguration = paymentOptionConfiguration?.amountConfiguration
-                    let splitEnabled = amountConfiguration?.splitConfiguration?.splitEnabled ?? false
-                    let defaultPayerCost = [PXPayerCost]()
-                    let payerCosts = splitEnabled ? amountConfiguration?.splitConfiguration?.primaryPaymentMethod?.payerCosts : amountConfiguration?.payerCosts
-                    let selectedPayerCost = splitEnabled ? amountConfiguration?.splitConfiguration?.primaryPaymentMethod?.selectedPayerCost : amountConfiguration?.selectedPayerCost
-
-                    let targetIssuerId = oneTapCard.cardUI?.issuerId ?? ""
-
-                    var showArrow: Bool = true
-                    var displayMessage: NSAttributedString?
-                    if let targetPaymentMethodTypeId = paymentTypeId,
-                       targetPaymentMethodTypeId == PXPaymentTypes.DEBIT_CARD.rawValue {
-                        showArrow = false
-                        if let totalAmount = selectedPayerCost?.totalAmount {
-                            // If it's debit and has split, update split message
-                            displayMessage = getSplitMessageForDebit(amountToPay: totalAmount)
-                        }
-                    } else if payerCosts?.count == 1 {
-                        showArrow = false
-                    } else if payerCosts == nil {
-                        showArrow = false
-                    }
-
-                    chargeRuleMessage = getCardBottomMessage(paymentTypeId: paymentTypeId, benefits: targetNode.benefits, status: targetNode.status, selectedPayerCost: selectedPayerCost, displayInfo: targetNode.displayInfo)
-
-                    let viewModelCard = PXCardSliderViewModel(paymentMethodId, paymentTypeId, targetIssuerId, templateCard, cardData, payerCosts ?? defaultPayerCost, selectedPayerCost, oneTapCard.cardId, showArrow, amountConfiguration: amountConfiguration, status: statusConfig, bottomMessage: chargeRuleMessage, benefits: benefits, payerPaymentMethods: payerPaymentMethods, behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo)
-
-                    viewModelCard.displayMessage = displayMessage
+                    applications.append(PXOneTapApplication(paymentMethod: PXApplicationPaymentMethod(id: paymentMethodId, type: targetNode.paymentMethodId), validationPrograms: [], status: targetNode.status))
+                    
+                    viewModelCard = getCardSliderViewModelFor(targetNode: targetNode, oneTapCard: oneTapCard, cardData: cardData, applications: applications)
                     sliderModel.append(viewModelCard)
                 }
+                
             } else if let consumerCredits = targetNode.oneTapCreditsInfo,
                       let paymentMethodId = targetNode.paymentMethodId,
                       let amountConfiguration = amountHelper.paymentConfigurationService.getAmountConfigurationForPaymentMethod(paymentOptionID: paymentMethodId, paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId) {
 
                 let cardData = PXCardDataFactory().create(cardName: "", cardNumber: "", cardCode: "", cardExpiration: "")
                 let creditsViewModel = PXCreditsViewModel(consumerCredits)
+                
+                // paymentMethodId, targetNode.paymentTypeId, "", ConsumerCreditsCard(creditsViewModel, isDisabled: targetNode.status.isDisabled()), cardData, amountConfiguration.payerCosts ?? [], amountConfiguration.selectedPayerCost, PXPaymentTypes.CONSUMER_CREDITS.rawValue, true, amountConfiguration: amountConfiguration, status: statusConfig, bottomMessage: chargeRuleMessage, benefits: benefits, payerPaymentMethod: getPayerPaymentMethod(targetNode.paymentTypeId, nil), behaviours: targetNode.behaviours,
 
-                let viewModelCard = PXCardSliderViewModel(paymentMethodId, targetNode.paymentTypeId, "", ConsumerCreditsCard(creditsViewModel, isDisabled: targetNode.status.isDisabled()), cardData, amountConfiguration.payerCosts ?? [], amountConfiguration.selectedPayerCost, PXPaymentTypes.CONSUMER_CREDITS.rawValue, true, amountConfiguration: amountConfiguration, creditsViewModel: creditsViewModel, status: statusConfig, bottomMessage: chargeRuleMessage, benefits: benefits, payerPaymentMethods: payerPaymentMethods, behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo)
+                let viewModelCard = PXCardSliderViewModel([:], nil, "", ConsumerCreditsCard(creditsViewModel, isDisabled: targetNode.status.isDisabled()), PXPaymentTypes.CONSUMER_CREDITS.rawValue, creditsViewModel: creditsViewModel, displayInfo: targetNode.displayInfo)
 
-                sliderModel.append(viewModelCard)
+//                sliderModel.append(viewModelCard)
             }
         }
         cardSliderViewModel = sliderModel
@@ -171,36 +153,38 @@ extension PXOneTapViewModel {
         var model: [PXOneTapInstallmentInfoViewModel] = [PXOneTapInstallmentInfoViewModel]()
         let sliderViewModel = getCardSliderViewModel()
         for sliderNode in sliderViewModel {
-            let payerCost = sliderNode.payerCost
-            let selectedPayerCost = sliderNode.selectedPayerCost
+            guard let selectedApplication = sliderNode.selectedApplication else { return model }
+            
+            let payerCost = selectedApplication.payerCost
+            let selectedPayerCost = selectedApplication.selectedPayerCost
             let installment = PXInstallment(issuer: nil, payerCosts: payerCost, paymentMethodId: nil, paymentTypeId: nil)
 
             let emptyMessage = "".toAttributedString()
-            let disabledMessage: NSAttributedString = sliderNode.status.mainMessage?.getAttributedString(fontSize: installmentsRowMessageFontSize, textColor: ThemeManager.shared.getAccentColor()) ?? emptyMessage
+            let disabledMessage: NSAttributedString = selectedApplication.status.mainMessage?.getAttributedString(fontSize: installmentsRowMessageFontSize, textColor: ThemeManager.shared.getAccentColor()) ?? emptyMessage
 
             let shouldShowInstallmentsHeader = sliderNode.shouldShowInstallmentsHeader()
 
-            if sliderNode.status.isDisabled() {
-                let disabledInfoModel = PXOneTapInstallmentInfoViewModel(text: disabledMessage, installmentData: nil, selectedPayerCost: nil, shouldShowArrow: false, status: sliderNode.status, benefits: sliderNode.benefits, shouldShowInstallmentsHeader: shouldShowInstallmentsHeader)
+            if selectedApplication.status.isDisabled() {
+                let disabledInfoModel = PXOneTapInstallmentInfoViewModel(text: disabledMessage, installmentData: nil, selectedPayerCost: nil, shouldShowArrow: false, status: selectedApplication.status, benefits: selectedApplication.benefits, shouldShowInstallmentsHeader: shouldShowInstallmentsHeader)
                 model.append(disabledInfoModel)
-            } else if !sliderNode.status.isUsable() {
-                let disabledInfoModel = PXOneTapInstallmentInfoViewModel(text: emptyMessage, installmentData: nil, selectedPayerCost: nil, shouldShowArrow: false, status: sliderNode.status, benefits: sliderNode.benefits, shouldShowInstallmentsHeader: shouldShowInstallmentsHeader)
+            } else if !selectedApplication.status.isUsable() {
+                let disabledInfoModel = PXOneTapInstallmentInfoViewModel(text: emptyMessage, installmentData: nil, selectedPayerCost: nil, shouldShowArrow: false, status: selectedApplication.status, benefits: selectedApplication.benefits, shouldShowInstallmentsHeader: shouldShowInstallmentsHeader)
                 model.append(disabledInfoModel)
-            } else if sliderNode.paymentTypeId == PXPaymentTypes.DEBIT_CARD.rawValue {
+            } else if selectedApplication.paymentTypeId == PXPaymentTypes.DEBIT_CARD.rawValue {
                 // If it's debit and has split, update split message
-                if let amountToPay = sliderNode.selectedPayerCost?.totalAmount {
+                if let amountToPay = selectedApplication.selectedPayerCost?.totalAmount {
                     let displayMessage = getSplitMessageForDebit(amountToPay: amountToPay)
-                    let installmentInfoModel = PXOneTapInstallmentInfoViewModel(text: displayMessage, installmentData: installment, selectedPayerCost: selectedPayerCost, shouldShowArrow: sliderNode.shouldShowArrow, status: sliderNode.status, benefits: sliderNode.benefits, shouldShowInstallmentsHeader: shouldShowInstallmentsHeader)
+                    let installmentInfoModel = PXOneTapInstallmentInfoViewModel(text: displayMessage, installmentData: installment, selectedPayerCost: selectedPayerCost, shouldShowArrow: selectedApplication.shouldShowArrow, status: selectedApplication.status, benefits: selectedApplication.benefits, shouldShowInstallmentsHeader: shouldShowInstallmentsHeader)
                     model.append(installmentInfoModel)
                 }
 
             } else {
-                if let displayMessage = sliderNode.displayMessage {
-                    let installmentInfoModel = PXOneTapInstallmentInfoViewModel(text: displayMessage, installmentData: installment, selectedPayerCost: selectedPayerCost, shouldShowArrow: sliderNode.shouldShowArrow, status: sliderNode.status, benefits: sliderNode.benefits, shouldShowInstallmentsHeader: shouldShowInstallmentsHeader)
+                if let displayMessage = selectedApplication.displayMessage {
+                    let installmentInfoModel = PXOneTapInstallmentInfoViewModel(text: displayMessage, installmentData: installment, selectedPayerCost: selectedPayerCost, shouldShowArrow: selectedApplication.shouldShowArrow, status: selectedApplication.status, benefits: selectedApplication.benefits, shouldShowInstallmentsHeader: shouldShowInstallmentsHeader)
                     model.append(installmentInfoModel)
                 } else {
                     let isDigitalCurrency: Bool = sliderNode.creditsViewModel != nil
-                    let installmentInfoModel = PXOneTapInstallmentInfoViewModel(text: getInstallmentInfoAttrText(selectedPayerCost, isDigitalCurrency, interestFreeConfig: sliderNode.benefits?.interestFree), installmentData: installment, selectedPayerCost: selectedPayerCost, shouldShowArrow: sliderNode.shouldShowArrow, status: sliderNode.status, benefits: sliderNode.benefits, shouldShowInstallmentsHeader: shouldShowInstallmentsHeader)
+                    let installmentInfoModel = PXOneTapInstallmentInfoViewModel(text: getInstallmentInfoAttrText(selectedPayerCost, isDigitalCurrency, interestFreeConfig: selectedApplication.benefits?.interestFree), installmentData: installment, selectedPayerCost: selectedPayerCost, shouldShowArrow: selectedApplication.shouldShowArrow, status: selectedApplication.status, benefits: selectedApplication.benefits, shouldShowInstallmentsHeader: shouldShowInstallmentsHeader)
                     model.append(installmentInfoModel)
                 }
             }
@@ -210,7 +194,7 @@ extension PXOneTapViewModel {
 
     func getHeaderViewModel(selectedCard: PXCardSliderViewModel?) -> PXOneTapHeaderViewModel {
 
-        let splitConfiguration = selectedCard?.amountConfiguration?.splitConfiguration
+        let splitConfiguration = selectedCard?.selectedApplication?.amountConfiguration?.splitConfiguration
         let composer = PXSummaryComposer(amountHelper: amountHelper,
                                            additionalInfoSummary: additionalInfoSummary,
                                            selectedCard: selectedCard,
@@ -280,7 +264,7 @@ extension PXOneTapViewModel {
 
     func updateCardSliderModel(at index: Int, bottomMessage: PXCardBottomMessage?) {
         if cardSliderViewModel.indices.contains(index) {
-            cardSliderViewModel[index].bottomMessage = bottomMessage
+            cardSliderViewModel[index].selectedApplication?.bottomMessage = bottomMessage
         }
     }
 
@@ -292,39 +276,40 @@ extension PXOneTapViewModel {
 
     func updateCardSliderSplitPaymentPreference(splitPaymentEnabled: Bool, forIndex: Int) -> Bool {
         if cardSliderViewModel.indices.contains(forIndex) {
-            if splitPaymentEnabled {
-                cardSliderViewModel[forIndex].payerCost = cardSliderViewModel[forIndex].amountConfiguration?.splitConfiguration?.primaryPaymentMethod?.payerCosts ?? []
-                cardSliderViewModel[forIndex].selectedPayerCost = cardSliderViewModel[forIndex].amountConfiguration?.splitConfiguration?.primaryPaymentMethod?.selectedPayerCost
-                cardSliderViewModel[forIndex].amountConfiguration?.splitConfiguration?.splitEnabled = splitPaymentEnabled
+            if splitPaymentEnabled, let selectedApplication = cardSliderViewModel[forIndex].selectedApplication {
+                selectedApplication.payerCost = selectedApplication.amountConfiguration?.splitConfiguration?.primaryPaymentMethod?.payerCosts ?? []
+                selectedApplication.selectedPayerCost = selectedApplication.amountConfiguration?.splitConfiguration?.primaryPaymentMethod?.selectedPayerCost
+                selectedApplication.amountConfiguration?.splitConfiguration?.splitEnabled = splitPaymentEnabled
 
                 // Show arrow to switch installments
-                if cardSliderViewModel[forIndex].payerCost.count > 1 {
-                    cardSliderViewModel[forIndex].shouldShowArrow = true
+                if selectedApplication.payerCost.count > 1 {
+                    selectedApplication.shouldShowArrow = true
                 } else {
-                    cardSliderViewModel[forIndex].shouldShowArrow = false
+                    selectedApplication.shouldShowArrow = false
                 }
-
-            } else {
-                cardSliderViewModel[forIndex].payerCost = cardSliderViewModel[forIndex].amountConfiguration?.payerCosts ?? []
-                cardSliderViewModel[forIndex].selectedPayerCost = cardSliderViewModel[forIndex].amountConfiguration?.selectedPayerCost
-                cardSliderViewModel[forIndex].amountConfiguration?.splitConfiguration?.splitEnabled = splitPaymentEnabled
+                return true
+            } else if let selectedApplication = cardSliderViewModel[forIndex].selectedApplication {
+                selectedApplication.payerCost = selectedApplication.amountConfiguration?.payerCosts ?? []
+                selectedApplication.selectedPayerCost = selectedApplication.amountConfiguration?.selectedPayerCost
+                selectedApplication.amountConfiguration?.splitConfiguration?.splitEnabled = splitPaymentEnabled
 
                 // Show arrow to switch installments
-                if cardSliderViewModel[forIndex].payerCost.count > 1 {
-                    cardSliderViewModel[forIndex].shouldShowArrow = true
+                if selectedApplication.payerCost.count > 1 {
+                    selectedApplication.shouldShowArrow = true
                 } else {
-                    cardSliderViewModel[forIndex].shouldShowArrow = false
+                    selectedApplication.shouldShowArrow = false
                 }
+                return true
             }
-            return true
+            return false
         }
         return false
     }
 
     func updateCardSliderViewModel(newPayerCost: PXPayerCost?, forIndex: Int) -> Bool {
-        if cardSliderViewModel.indices.contains(forIndex) {
-            cardSliderViewModel[forIndex].selectedPayerCost = newPayerCost
-            cardSliderViewModel[forIndex].userDidSelectPayerCost = true
+        if cardSliderViewModel.indices.contains(forIndex), let selectedApplication = cardSliderViewModel[forIndex].selectedApplication {
+            selectedApplication.selectedPayerCost = newPayerCost
+            selectedApplication.userDidSelectPayerCost = true
             return true
         }
         return false
@@ -546,6 +531,64 @@ extension PXOneTapViewModel {
         return expressData?
             .compactMap { $0.offlineMethods }
             .first
+    }
+    
+    func getCardSliderViewModelFor(targetNode: PXOneTapDto, oneTapCard: PXOneTapCardDto, cardData: CardData, applications: [PXOneTapApplication]) -> PXCardSliderViewModel{
+        
+        let templateCard = getCardUI(oneTapCard: oneTapCard)
+        
+        let targetIssuerId = oneTapCard.cardUI?.issuerId ?? ""
+        
+        var cardSliderApplications : [PXApplicationId:PXCardSliderApplicationData] = [:]
+    
+        for application in applications {
+                
+            guard let paymentMethodId = application.paymentMethod.id else { continue }
+            
+            guard let paymentMethodType = application.paymentMethod.type else { continue }
+            
+            let paymentOptionConfiguration = amountHelper.paymentConfigurationService.getPaymentOptionConfiguration(paymentOptionID: oneTapCard.cardId, paymentMethodId: paymentMethodId, paymentTypeId: paymentMethodType)
+            let amountConfiguration = paymentOptionConfiguration?.amountConfiguration
+            let splitEnabled = amountConfiguration?.splitConfiguration?.splitEnabled ?? false
+            let defaultPayerCost = [PXPayerCost]()
+            let payerCosts = splitEnabled ? amountConfiguration?.splitConfiguration?.primaryPaymentMethod?.payerCosts : amountConfiguration?.payerCosts
+            let selectedPayerCost = splitEnabled ? amountConfiguration?.splitConfiguration?.primaryPaymentMethod?.selectedPayerCost : amountConfiguration?.selectedPayerCost
+
+            var showArrow: Bool = true
+            var displayMessage: NSAttributedString?
+            
+            if paymentMethodType == PXPaymentTypes.DEBIT_CARD.rawValue {
+                showArrow = false
+                if let totalAmount = selectedPayerCost?.totalAmount {
+                    // If it's debit and has split, update split message
+                    displayMessage = getSplitMessageForDebit(amountToPay: totalAmount)
+                }
+            } else if payerCosts?.count == 1 {
+                showArrow = false
+            } else if payerCosts == nil {
+                showArrow = false
+            }
+            
+            let statusConfig = getStatusConfig(currentStatus: application.status, cardId: targetNode.oneTapCard?.cardId, paymentMethodId: targetNode.paymentMethodId)
+
+            let chargeRuleMessage = getCardBottomMessage(paymentTypeId: paymentMethodType, benefits: targetNode.benefits, status: application.status, selectedPayerCost: selectedPayerCost, displayInfo: targetNode.displayInfo)
+            
+            let payerPaymentMethod = getPayerPaymentMethod(paymentMethodType, oneTapCard.cardId)
+            
+            let cardSliderApplication = PXCardSliderApplicationData(paymentMethodId: paymentMethodId, paymentTypeId: paymentMethodType, cardData: cardData, payerCost: payerCosts ?? defaultPayerCost, selectedPayerCost: selectedPayerCost, shouldShowArrow: showArrow, amountConfiguration: amountConfiguration, status: statusConfig, bottomMessage: chargeRuleMessage, benefits: targetNode.benefits, payerPaymentMethod: payerPaymentMethod, behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo, displayMessage: displayMessage)
+            
+            cardSliderApplications[paymentMethodType] = cardSliderApplication
+        }
+        
+        var selectedApplicationId = applications.first?.paymentMethod.type
+        
+        if let switchInfo = targetNode.displayInfo?.switchInfo {
+            selectedApplicationId = switchInfo.defaultState
+        }
+        
+        let viewModelCard = PXCardSliderViewModel(cardSliderApplications, selectedApplicationId, targetIssuerId, templateCard, oneTapCard.cardId, displayInfo: targetNode.displayInfo)
+        
+        return viewModelCard
     }
 }
 

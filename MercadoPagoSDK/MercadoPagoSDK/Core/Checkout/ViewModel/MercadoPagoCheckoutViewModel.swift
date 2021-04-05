@@ -119,6 +119,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
             paymentData.updatePaymentDataWith(payer: checkoutPreference.getPayer())
         }
         PXConfiguratorManager.escConfig = PXESCConfig.createConfig()
+        PXConfiguratorManager.threeDSConfig = PXThreeDSConfig.createConfig(privateKey: privateKey)
 
         // Create Init Flow
         createInitFlow()
@@ -213,7 +214,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
         let reason = PXSecurityCodeViewModel.getSecurityCodeReason(invalidESCReason: invalidESCReason, isCallForAuth: isCallForAuth)
         let cardSliderViewModel = onetapFlow?.model.pxOneTapViewModel?.getCardSliderViewModel(cardId: paymentOptionSelected?.getId())
         let cardUI = cardSliderViewModel?.cardUI ?? TemplateCard()
-        let cardData = cardSliderViewModel?.cardData ?? PXCardDataFactory()
+        let cardData = cardSliderViewModel?.selectedApplication?.cardData ?? PXCardDataFactory()
 
         return PXSecurityCodeViewModel(paymentMethod: paymentMethod, cardInfo: cardInformation, reason: reason, cardUI: cardUI, cardData: cardData, internetProtocol: mercadoPagoServices)
     }
@@ -781,16 +782,19 @@ private extension MercadoPagoCheckoutViewModel {
             if paymentMethodId == PXPaymentTypes.CONSUMER_CREDITS.rawValue {
                 cardId = paymentMethodId
             }
-            if let targetModel = sliderViewModel.first(where: { $0.cardId == cardId && $0.paymentMethodId == paymentMethodId }),
-               let paymentMethods = availablePaymentMethods,
-               let newPaymentMethod = Utils.findPaymentMethod(paymentMethods, paymentMethodId: targetModel.paymentMethodId) {
-                paymentResult.paymentData?.payerCost = targetModel.selectedPayerCost
-                paymentResult.paymentData?.paymentMethod = newPaymentMethod
-                paymentResult.paymentData?.issuer = targetModel.payerPaymentMethod?.issuer ?? PXIssuer(id: targetModel.issuerId, name: nil)
-                if let installments = alternativePaymentMethod.installmentsList?.first?.installments,
-                   let newPayerCost = targetModel.payerCost.first(where: { $0.installments == installments }) {
-                    paymentResult.paymentData?.payerCost = newPayerCost
-                }
+            // TODO: check for this on the where condition: && $0.paymentMethodId == paymentMethodId
+            if let targetModel = sliderViewModel.first(where: { $0.cardId == cardId  }) {
+                guard let selectedApplication = targetModel.selectedApplication else { return }
+                if let paymentMethods = availablePaymentMethods,
+                   let newPaymentMethod = Utils.findPaymentMethod(paymentMethods, paymentMethodId: selectedApplication.paymentMethodId) {
+                    paymentResult.paymentData?.payerCost = selectedApplication.selectedPayerCost
+                    paymentResult.paymentData?.paymentMethod = newPaymentMethod
+                    paymentResult.paymentData?.issuer = selectedApplication.payerPaymentMethod?.issuer ?? PXIssuer(id: targetModel.issuerId, name: nil)
+                    if let installments = alternativePaymentMethod.installmentsList?.first?.installments,
+                       let newPayerCost = selectedApplication.payerCost.first(where: { $0.installments == installments }) {
+                        paymentResult.paymentData?.payerCost = newPayerCost
+                    }
+}
             }
         }
     }
