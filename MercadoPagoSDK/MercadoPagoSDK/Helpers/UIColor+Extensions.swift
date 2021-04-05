@@ -49,4 +49,3 @@ public extension UIColor {
                     alpha: .init(strtoul(String(chars[0...1]), nil, 16)) / 255)
         }
 }
-
