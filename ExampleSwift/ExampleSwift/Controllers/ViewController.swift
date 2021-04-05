@@ -40,11 +40,11 @@ class ViewController: UIViewController {
         gradient.colors = [col1.cgColor, col2.cgColor]
         view.layer.insertSublayer(gradient, at: 0)
                 
-//        if let path = Bundle.main.path(forResource: "Info", ofType: "plist"), let infoPlist = NSDictionary(contentsOfFile: path) {
-//            // Initialize values from config
-//            publicKey = infoPlist["PX_COLLECTOR_PUBLIC_KEY"] as? String ?? ""
-//            privateKey = infoPlist["PX_PAYER_PRIVATE_KEY"] as? String ?? ""
-//        }
+        if let path = Bundle.main.path(forResource: "Info", ofType: "plist"), let infoPlist = NSDictionary(contentsOfFile: path) {
+            // Initialize values from config
+            publicKey = infoPlist["PX_COLLECTOR_PUBLIC_KEY"] as? String ?? ""
+            privateKey = infoPlist["PX_PAYER_PRIVATE_KEY"] as? String ?? ""
+        }
     }
 
     private func runMercadoPagoCheckout() {
