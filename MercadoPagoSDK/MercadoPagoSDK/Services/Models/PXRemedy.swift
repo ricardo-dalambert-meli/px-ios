@@ -12,13 +12,14 @@ struct PXRemedy: Codable {
     let highRisk: PXHighRisk?
     let callForAuth: PXCallForAuth?
     let suggestedPaymentMethod: PXSuggestedPaymentMethod?
+    let bottomMessage: PXRemedyBottomMessage?
     let trackingData: [String: String]?
 }
 
 // PXRemedy Helpers
 extension PXRemedy {
     init() {
-        self.init(cvv: nil, highRisk: nil, callForAuth: nil, suggestedPaymentMethod: nil, trackingData: nil)
+        self.init(cvv: nil, highRisk: nil, callForAuth: nil, suggestedPaymentMethod: nil, bottomMessage: nil, trackingData: nil)
     }
     
     var isEmpty: Bool {
@@ -95,4 +96,18 @@ struct PXRemedyPaymentMethod: Codable {
 struct PXPaymentMethodInstallment: Codable {
     let installments: Int
     let totalAmount: Double
+}
+
+struct PXRemedyBottomMessage: Codable {
+    let message: String
+    let backgroundColor: String
+    let textColor: String
+    let weight: String
+    
+    enum CodingKeys: String, CodingKey {
+        case message
+        case backgroundColor = "background_color"
+        case textColor =  "text_color"
+        case weight
+    }
 }
