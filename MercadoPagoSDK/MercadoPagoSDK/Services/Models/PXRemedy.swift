@@ -81,6 +81,7 @@ struct PXSuggestedPaymentMethod: Codable {
 }
 
 struct PXRemedyPaymentMethod: Codable {
+    let bin: String?
     let customOptionId: String?
     let paymentMethodId: String?
     let paymentTypeId: String?
