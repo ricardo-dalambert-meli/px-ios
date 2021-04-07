@@ -16,7 +16,7 @@ public struct PXApplicationValidationProgram: Codable {
 
 public struct PXOneTapApplication: Codable {
     var paymentMethod: PXApplicationPaymentMethod
-    var validationPrograms: [PXApplicationValidationProgram]
+    var validationPrograms: [PXApplicationValidationProgram]?
     var status: PXStatus
 
     public enum CodingKeys: String, CodingKey {
