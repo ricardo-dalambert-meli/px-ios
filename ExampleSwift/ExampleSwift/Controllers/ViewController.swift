@@ -24,7 +24,8 @@ class ViewController: UIViewController {
     private var preferenceId : String = "656525290-7bda964b-26d9-4352-a04c-1b04801627ee"
     
     @IBAction func initDefault(_ sender: Any) {
-         runMercadoPagoCheckout()
+//         runMercadoPagoCheckout()
+         runMercadoPagoCheckoutWithLifecycle()
 //         runMercadoPagoCheckoutWithLifecycle()
 //        runMercadoPagoCheckoutWithLifecycleAndCustomProcessor()
     }
