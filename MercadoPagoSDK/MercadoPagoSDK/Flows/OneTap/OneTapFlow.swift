@@ -56,12 +56,13 @@ final class OneTapFlow: NSObject, PXFlow {
             self.getTokenizationService().createCardToken(securityCode: "")
         case .screenKyC:
             self.showKyCScreen()
+        case .service3DS:
+            self.getThreeDSService().authorize3DS()
         case .payment:
             self.startPaymentFlow()
         case .finish:
             self.finishFlow()
         }
-        print("")
     }
 
     func refreshInitFlow(cardId: String) {
