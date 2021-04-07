@@ -80,7 +80,15 @@ extension PXOneTapViewModel {
                 
 //                sliderModel.append(PXCardSliderViewModel("", "", "", emptyCard, nil, [PXPayerCost](), nil, nil, false, amountConfiguration: nil, status: statusConfig, benefits: benefits, payerPaymentMethod: nil, behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo))
                 
-//                sliderModel.append(PXCardSliderViewModel([:], "", emptyCard, displayInfo: targetNode.displayInfo))
+                let cardSliderApplication = PXCardSliderApplicationData(paymentMethodId: "", paymentTypeId: "", cardData: nil, payerCost: [PXPayerCost](), selectedPayerCost: nil, shouldShowArrow: false, amountConfiguration: nil, status: statusConfig, bottomMessage: chargeRuleMessage, benefits: benefits, payerPaymentMethod: nil, behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo, displayMessage: nil)
+                
+                var cardSliderApplications : [PXApplicationId:PXCardSliderApplicationData] = [:]
+                
+                cardSliderApplications[""] = cardSliderApplication
+                
+                let viewModelCard = PXCardSliderViewModel(cardSliderApplications, "", "", emptyCard, displayInfo: targetNode.displayInfo)
+                
+                sliderModel.append(viewModelCard)
             }
             //  Account money
             if let accountMoney = targetNode.accountMoney, let paymentMethodId = targetNode.paymentMethodId {
@@ -112,7 +120,7 @@ extension PXOneTapViewModel {
                     let viewModelCard = PXCardSliderViewModel(cardSliderApplications, targetNode.paymentTypeId ?? PXPaymentTypes.ACCOUNT_MONEY.rawValue, "", cardUI, accountMoney.getId(), displayInfo: targetNode.displayInfo)
 
                     viewModelCard.setAccountMoney(accountMoneyBalance: accountMoney.availableBalance)
-//                    sliderModel.append(viewModelCard)
+                    sliderModel.append(viewModelCard)
                 }
             } else if let oneTapCard = targetNode.oneTapCard,
                       let cardData = getCardData(oneTapCard: oneTapCard) {
@@ -140,10 +148,16 @@ extension PXOneTapViewModel {
                 let creditsViewModel = PXCreditsViewModel(consumerCredits)
                 
                 // paymentMethodId, targetNode.paymentTypeId, "", ConsumerCreditsCard(creditsViewModel, isDisabled: targetNode.status.isDisabled()), cardData, amountConfiguration.payerCosts ?? [], amountConfiguration.selectedPayerCost, PXPaymentTypes.CONSUMER_CREDITS.rawValue, true, amountConfiguration: amountConfiguration, status: statusConfig, bottomMessage: chargeRuleMessage, benefits: benefits, payerPaymentMethod: getPayerPaymentMethod(targetNode.paymentTypeId, nil), behaviours: targetNode.behaviours,
+                
+                let cardSliderApplication = PXCardSliderApplicationData(paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId, cardData: cardData, payerCost: amountConfiguration.payerCosts ?? [], selectedPayerCost: amountConfiguration.selectedPayerCost, shouldShowArrow: true, amountConfiguration: amountConfiguration, status: statusConfig, bottomMessage: chargeRuleMessage, benefits: benefits, payerPaymentMethod: getPayerPaymentMethod(targetNode.paymentTypeId, nil), behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo, displayMessage: nil)
+                
+                var cardSliderApplications : [PXApplicationId:PXCardSliderApplicationData] = [:]
+                
+                cardSliderApplications[targetNode.paymentTypeId ?? PXPaymentTypes.CONSUMER_CREDITS.rawValue] = cardSliderApplication
 
-                let viewModelCard = PXCardSliderViewModel([:], nil, "", ConsumerCreditsCard(creditsViewModel, isDisabled: targetNode.status.isDisabled()), PXPaymentTypes.CONSUMER_CREDITS.rawValue, creditsViewModel: creditsViewModel, displayInfo: targetNode.displayInfo)
+                let viewModelCard = PXCardSliderViewModel(cardSliderApplications, nil, "", ConsumerCreditsCard(creditsViewModel, isDisabled: targetNode.status.isDisabled()), PXPaymentTypes.CONSUMER_CREDITS.rawValue, creditsViewModel: creditsViewModel, displayInfo: targetNode.displayInfo)
 
-//                sliderModel.append(viewModelCard)
+                sliderModel.append(viewModelCard)
             }
         }
         cardSliderViewModel = sliderModel
