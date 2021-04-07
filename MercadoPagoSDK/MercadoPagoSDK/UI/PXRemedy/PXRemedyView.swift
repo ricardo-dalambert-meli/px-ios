@@ -330,8 +330,8 @@ class PXRemedyView: UIView {
         
         totalTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         totalTitleLabel.textAlignment = .left
-        totalTitleLabel.backgroundColor = UIColor(hexaRGBA: data.remedy.bottomMessage?.backgroundColor ?? "#FFFFFF")
-        totalTitleLabel.textColor = UIColor(hexaRGBA: data.remedy.bottomMessage?.textColor ?? "#000000")
+        totalTitleLabel.backgroundColor = data.remedy.bottomMessage?.backgroundColor.hexToUIColor()
+        totalTitleLabel.textColor = data.remedy.bottomMessage?.textColor.hexToUIColor()
         totalTitleLabel.numberOfLines = 1
         totalTitleLabel.text = data.remedy.bottomMessage?.message ?? "total_row_title_default".localized
         totalTitleLabel.font = defaultFont

@@ -103,11 +103,4 @@ struct PXRemedyBottomMessage: Codable {
     let backgroundColor: String
     let textColor: String
     let weight: String
-    
-    enum CodingKeys: String, CodingKey {
-        case message
-        case backgroundColor = "background_color"
-        case textColor =  "text_color"
-        case weight
-    }
 }
