@@ -53,6 +53,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
 
     var rootPaymentMethodOptions: [PaymentMethodOption]?
     var customPaymentOptions: [CustomerPaymentMethod]?
+    var customRemedyMessages: PXCustomStringConfiguration?
     var remedy: PXRemedy?
 
     var search: PXInitDTO?
