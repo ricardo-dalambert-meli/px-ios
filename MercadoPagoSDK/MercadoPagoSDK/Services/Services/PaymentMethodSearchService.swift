@@ -75,7 +75,7 @@ internal class PaymentMethodSearchService: MercadoPagoService {
 
     internal func getClosedPrefInit(preferenceId: String, cardsWithEsc: [String], splitEnabled: Bool, discountParamsConfiguration: PXDiscountParamsConfiguration?, flow: String?, charges: [PXPaymentTypeChargeRule], headers: [String: String]?, success: @escaping (_ paymentMethodSearch: PXInitDTO) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
 
-        let bodyFeatures = PXInitFeatures(split: splitEnabled)
+        let bodyFeatures = PXInitFeatures(split: splitEnabled, comboCard: true, validationPrograms: ["stp"])
         let body = PXInitBody(preference: nil, publicKey: merchantPublicKey, flow: flow, cardsWithESC: cardsWithEsc, charges: charges, discountConfiguration: discountParamsConfiguration, features: bodyFeatures)
 
         let bodyJSON = try? body.toJSON()
