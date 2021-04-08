@@ -1,3 +1,7 @@
+# v4.37.7
+🚀Private Release - 4.37.7 🚀
+- Bumped MLCardDrawer
+
 # v4.37.6
 🚀Private Release - 4.37.6 🚀
 - Add a method to allow users from PX get validationProgramId on PXCheckoutStore
