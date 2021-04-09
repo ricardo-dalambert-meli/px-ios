@@ -555,7 +555,7 @@ extension PXOneTapViewModel {
     
     func getCardSliderViewModelFor(targetNode: PXOneTapDto, oneTapCard: PXOneTapCardDto, cardData: CardData, applications: [PXOneTapApplication]) -> PXCardSliderViewModel {
         
-        self.applications = applications
+        self.applications.append(contentsOf: applications)
         
         let templateCard = getCardUI(oneTapCard: oneTapCard)
         
