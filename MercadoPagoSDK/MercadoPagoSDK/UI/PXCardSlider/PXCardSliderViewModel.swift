@@ -47,7 +47,7 @@ final class PXCardSliderViewModel {
     
     // MARK: - Public methods
     func trackCard(state: String) {
-        MPXTracker.sharedInstance.trackEvent(path: "/px_checkout/program_validation", properties: ["option_selected" : state])
+        MPXTracker.sharedInstance.trackEvent(path: TrackingPaths.Events.getComboSwitch(), properties: ["option_selected" : state])
     }
 }
 
