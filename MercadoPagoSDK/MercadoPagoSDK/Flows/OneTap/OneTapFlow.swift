@@ -57,7 +57,8 @@ final class OneTapFlow: NSObject, PXFlow {
         case .screenKyC:
             self.showKyCScreen()
         case .service3DS:
-            self.getThreeDSService().authorize3DS()
+            guard let program = model.getProgramValidation() else { return }
+            self.getThreeDSService().authorize3DS(programUsed: program)
         case .payment:
             self.startPaymentFlow()
         case .finish:

@@ -25,7 +25,8 @@ final class PXOneTapViewModel: PXReviewViewModel {
     var modals: [String: PXModal]?
     var payerPaymentMethods: [PXCustomOptionSearchItem]
     var experimentsViewModel: PXExperimentsViewModel
-
+    var applications: [PXOneTapApplication] = []
+    
     var splitPaymentEnabled: Bool = false
     var splitPaymentSelectionByUser: Bool?
     var additionalInfoSummary: PXAdditionalInfoSummary?
@@ -552,7 +553,9 @@ extension PXOneTapViewModel {
             .first
     }
     
-    func getCardSliderViewModelFor(targetNode: PXOneTapDto, oneTapCard: PXOneTapCardDto, cardData: CardData, applications: [PXOneTapApplication]) -> PXCardSliderViewModel{
+    func getCardSliderViewModelFor(targetNode: PXOneTapDto, oneTapCard: PXOneTapCardDto, cardData: CardData, applications: [PXOneTapApplication]) -> PXCardSliderViewModel {
+        
+        self.applications = applications
         
         let templateCard = getCardUI(oneTapCard: oneTapCard)
         
@@ -587,6 +590,7 @@ extension PXOneTapViewModel {
             } else if payerCosts == nil {
                 showArrow = false
             }
+            
             
             let statusConfig = getStatusConfig(currentStatus: application.status, cardId: targetNode.oneTapCard?.cardId, paymentMethodId: targetNode.paymentMethodId)
 

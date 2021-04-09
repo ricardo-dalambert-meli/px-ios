@@ -44,6 +44,11 @@ final class PXCardSliderViewModel {
         self.applications = applications
         self.selectedApplicationId = selectedApplicationId
     }
+    
+    // MARK: - Public methods
+    func trackCard(state: String) {
+        MPXTracker.sharedInstance.trackEvent(path: "/px_checkout/program_validation", properties: ["option_selected" : state])
+    }
 }
 
 extension PXCardSliderViewModel: PaymentMethodOption {

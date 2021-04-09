@@ -61,6 +61,7 @@ extension PXCardSliderPagerCell {
         let comboSwitchView = ComboSwitchView()
         comboSwitchView.setSwitchModel(switchInfo)
         comboSwitchView.setSwitchDidChangeCallback() { [weak self] selectedOption in
+            model.trackCard(state: selectedOption)
             model.selectedApplicationId = selectedOption
             self?.cardSliderPagerCellDelegate?.switchDidChange(selectedOption)
         }
