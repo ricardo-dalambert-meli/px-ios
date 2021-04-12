@@ -229,7 +229,8 @@ internal extension OneTapFlowModel {
         if isCustomerCard &&
             !paymentData.hasToken() &&
             hasInstallmentsIfNeeded &&
-            hasSecurityCode() {
+            hasSecurityCode(),
+            search.oneTap?.first(where: { $0.oneTapCard?.cardId == paymentOptionSelected.getId()})?.oneTapCard?.cardUI?.securityCode?.mode == .mandatory {
             var paymentMethodId: String?
             if let cardInformation = paymentOptionSelected as? PXCardInformation {
                 paymentMethodId = cardInformation.getPaymentMethodId()
@@ -279,7 +280,6 @@ internal extension OneTapFlowModel {
     }
     
     func need3DS() -> Bool {
-        // TODO: Integrate with switcher, that will gives us info needed to decide if the request should or should not be make
         if getProgramValidation() == "stp", didCall3ds == false {
             didCall3ds = true
             return true

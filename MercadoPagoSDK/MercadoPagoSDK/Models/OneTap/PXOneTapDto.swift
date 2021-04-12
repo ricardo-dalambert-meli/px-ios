@@ -20,7 +20,20 @@ open class PXOneTapDto: NSObject, Codable {
     open var displayInfo: PXOneTapDisplayInfo?
     open var applications: [PXOneTapApplication]?
 
-    public init(paymentMethodId: String?, paymentTypeId: String?, oneTapCard: PXOneTapCardDto?, oneTapCreditsInfo: PXOneTapCreditsDto?, accountMoney: PXAccountMoneyDto?, newCard: PXOneTapNewCardDto?, status: PXStatus, benefits: PXBenefits? = nil, offlineMethods: PXOfflineMethods?, behaviours: [String: PXBehaviour]?, displayInfo: PXOneTapDisplayInfo?, applications: [PXOneTapApplication]?) {
+    public init(
+        paymentMethodId: String?,
+        paymentTypeId: String?,
+        oneTapCard: PXOneTapCardDto?,
+        oneTapCreditsInfo: PXOneTapCreditsDto?,
+        accountMoney: PXAccountMoneyDto?,
+        newCard: PXOneTapNewCardDto?,
+        status: PXStatus,
+        benefits: PXBenefits? = nil,
+        offlineMethods: PXOfflineMethods?,
+        behaviours: [String: PXBehaviour]?,
+        displayInfo: PXOneTapDisplayInfo?,
+        applications: [PXOneTapApplication]?
+    ) {
         self.paymentMethodId = paymentMethodId
         self.paymentTypeId = paymentTypeId
         self.oneTapCard = oneTapCard
