@@ -39,6 +39,14 @@ extension TrackingPaths {
         static func getRecognizedCardPath() -> String {
             return TrackingPaths.pxTrack + TrackingPaths.addPaymentMethod + "/number" + "/recognized_card"
         }
+        
+        static func getProgramValidation() -> String {
+            return TrackingPaths.pxTrack + "/program_validation"
+        }
+        
+        static func getComboSwitch() -> String {
+            return TrackingPaths.pxTrack + "/combo_switch"
+        }
     }
 }
 

@@ -22,14 +22,14 @@ internal class PaymentMethodSearchService: MercadoPagoService {
     }
 
     private func getInit(prefId: String?, bodyJSON: Data?, headers: [String: String]?, success: @escaping (_ paymentMethodSearch: PXInitDTO) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
-
+        
         var uri = PXServicesURLConfigs.shared().MP_INIT_URI
         if let prefId = prefId {
             uri.append("/\(prefId)")
         }
-        
+
         let params = MercadoPagoServices.getParamsAccessToken(payerAccessToken)
-        
+
         self.request(uri: uri, params: params, body: bodyJSON, method: HTTPMethod.post, headers:
             headers, cache: false, success: { (data) -> Void in
                 do {
