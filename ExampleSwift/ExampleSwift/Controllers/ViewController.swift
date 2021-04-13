@@ -16,10 +16,10 @@ class ViewController: UIViewController {
     
     // Collector Public Key
     private var publicKey : String = ""
-    
+
     // Payer private key
     private var privateKey : String = ""
-    
+
     // Preference ID
     private var preferenceId : String = "656525290-7bda964b-26d9-4352-a04c-1b04801627ee"
     
