@@ -11,10 +11,10 @@ import Foundation
 open class PXSecurityCode: NSObject, Codable {
 
     open var cardLocation: String?
-    open var mode: String?
+    open var mode: PXSecurityMode?
     open var length: Int = 0
 
-    public init(cardLocation: String?, mode: String?, length: Int) {
+    public init(cardLocation: String?, mode: PXSecurityMode?, length: Int) {
         self.cardLocation = cardLocation
         self.mode = mode
         self.length = length
@@ -25,11 +25,16 @@ open class PXSecurityCode: NSObject, Codable {
         case mode
         case length
     }
+    
+    public enum PXSecurityMode: String, Codable {
+        case mandatory
+        case optional
+    }
 
     required public convenience init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: PXSecurityCodeKeys.self)
         let cardLocation: String? = try container.decodeIfPresent(String.self, forKey: .cardLocation)
-        let mode: String? = try container.decodeIfPresent(String.self, forKey: .mode)
+        let mode: PXSecurityMode? = try container.decodeIfPresent(PXSecurityMode.self, forKey: .mode)
         let length: Int = try container.decodeIfPresent(Int.self, forKey: .length) ?? 0
 
         self.init(cardLocation: cardLocation, mode: mode, length: length)
