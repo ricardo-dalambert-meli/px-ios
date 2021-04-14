@@ -112,6 +112,7 @@ extension PXCardSlider: PXCardSliderPagerCellDelegate {
         if model.indices.contains(selectedIndex) {
             let modelData = model[selectedIndex]
             delegate?.newCardDidSelected(targetModel: modelData)
+            self.pagerView.reloadData()
         }
     }
 }
