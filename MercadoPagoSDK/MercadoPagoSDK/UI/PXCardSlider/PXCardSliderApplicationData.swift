@@ -8,7 +8,7 @@
 import MLCardDrawer
 
 final class PXCardSliderApplicationData {
-    internal init(paymentMethodId: String, paymentTypeId: String?, cardData: CardData? = nil, payerCost: [PXPayerCost] = [PXPayerCost](), selectedPayerCost: PXPayerCost? = nil, shouldShowArrow: Bool, amountConfiguration: PXAmountConfiguration? = nil, status: PXStatus, bottomMessage: PXCardBottomMessage? = nil, benefits: PXBenefits? = nil, payerPaymentMethod: PXCustomOptionSearchItem? = nil, behaviours: [String : PXBehaviour]? = nil, displayInfo: PXOneTapDisplayInfo? = nil, displayMessage: NSAttributedString? = nil) {
+    internal init(paymentMethodId: String, paymentTypeId: String?, cardData: CardData? = nil, cardUI: CardUI? = nil, payerCost: [PXPayerCost] = [PXPayerCost](), selectedPayerCost: PXPayerCost? = nil, shouldShowArrow: Bool, amountConfiguration: PXAmountConfiguration? = nil, status: PXStatus, bottomMessage: PXCardBottomMessage? = nil, benefits: PXBenefits? = nil, payerPaymentMethod: PXCustomOptionSearchItem? = nil, behaviours: [String : PXBehaviour]? = nil, displayInfo: PXOneTapDisplayInfo? = nil, displayMessage: NSAttributedString? = nil) {
         self.paymentMethodId = paymentMethodId
         self.paymentTypeId = paymentTypeId
         self.shouldShowArrow = shouldShowArrow
@@ -22,6 +22,7 @@ final class PXCardSliderApplicationData {
         self.benefits = benefits
         self.behaviours = behaviours
         self.payerPaymentMethod = payerPaymentMethod
+        self.cardUI = cardUI
     }
 
     var paymentMethodId: String
@@ -38,5 +39,6 @@ final class PXCardSliderApplicationData {
     var behaviours: [String: PXBehaviour]?
     var userDidSelectPayerCost: Bool = false
     var payerPaymentMethod: PXCustomOptionSearchItem?
+    var cardUI: CardUI?
 
 }

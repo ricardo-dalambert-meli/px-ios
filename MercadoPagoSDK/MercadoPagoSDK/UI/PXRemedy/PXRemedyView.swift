@@ -169,7 +169,7 @@ class PXRemedyView: UIView {
             if accountMoney.cardType == .defaultType {
               cardUI = AccountMoneyCard(isDisabled: false, cardLogoImageUrl: accountMoney.paymentMethodImageURL, color: accountMoney.color, gradientColors: accountMoney.gradientColors)
             } else {
-              cardUI = HybridAMCard(isDisabled: false, cardLogoImageUrl: accountMoney.paymentMethodImageURL, color: accountMoney.color, gradientColors: accountMoney.gradientColors)
+              cardUI = HybridAMCard(isDisabled: false, cardLogoImageUrl: accountMoney.paymentMethodImageURL, paymentMethodImageUrl: nil, color: accountMoney.color, gradientColors: accountMoney.gradientColors)
             }
 
         } else if let oneTapCardUI = oneTapDto.oneTapCard?.cardUI,

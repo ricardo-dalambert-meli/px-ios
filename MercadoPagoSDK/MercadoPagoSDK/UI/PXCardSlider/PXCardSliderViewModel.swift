@@ -13,7 +13,7 @@ typealias PXApplicationId = String
 final class PXCardSliderViewModel {
     
     let issuerId: String
-    let cardUI: CardUI
+    var cardUI: CardUI?
     var cardId: String?
     var displayInfo: PXOneTapDisplayInfo?
     var comboSwitch: ComboSwitchView?
@@ -28,7 +28,11 @@ final class PXCardSliderViewModel {
     
     var applications : [PXApplicationId: PXCardSliderApplicationData]?
     
-    var selectedApplicationId : PXApplicationId?
+    var selectedApplicationId : PXApplicationId? {
+        didSet {
+            self.cardUI = self.selectedApplication?.cardUI
+        }
+    }
     
     var selectedApplication: PXCardSliderApplicationData? {
         guard let applicationsData = applications, applicationsData.count > 0, let selectedApplicationId = selectedApplicationId else { return nil }
@@ -36,15 +40,18 @@ final class PXCardSliderViewModel {
         return applicationsData[selectedApplicationId] ?? nil
     }
     
-    init(_ applications: [PXApplicationId: PXCardSliderApplicationData], _ selectedApplicationId: String?, _ issuerId: String, _ cardUI: CardUI, _ cardId: String? = nil, creditsViewModel: PXCreditsViewModel? = nil, displayInfo: PXOneTapDisplayInfo?, comboSwitch: ComboSwitchView?) {
+    init(_ applications: [PXApplicationId: PXCardSliderApplicationData], _ selectedApplicationId: String?, _ issuerId: String, _ cardId: String? = nil, creditsViewModel: PXCreditsViewModel? = nil, displayInfo: PXOneTapDisplayInfo?, comboSwitch: ComboSwitchView?) {
         self.issuerId = issuerId
-        self.cardUI = cardUI
         self.cardId = cardId
         self.creditsViewModel = creditsViewModel
         self.displayInfo = displayInfo
         self.comboSwitch = comboSwitch
         self.applications = applications
         self.selectedApplicationId = selectedApplicationId
+        
+        if let selectedApplicationId = selectedApplicationId {
+            self.cardUI = applications[selectedApplicationId]?.cardUI
+        }
     }
     
     // MARK: - Public methods

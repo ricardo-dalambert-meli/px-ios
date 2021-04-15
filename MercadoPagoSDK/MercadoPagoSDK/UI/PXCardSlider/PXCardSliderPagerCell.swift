@@ -69,10 +69,9 @@ extension PXCardSliderPagerCell {
     
     func render(model: PXCardSliderViewModel, cardSize: CGSize, accessibilityData: AccessibilityCardData, clearCardData: Bool = false, delegate: PXCardSliderPagerCellDelegate?) {
         
-        guard let selectedApplication = model.selectedApplication else { return }
+        guard let selectedApplication = model.selectedApplication, let cardUI = model.cardUI else { return }
         
         cardSliderPagerCellDelegate = delegate
-        let cardUI = model.cardUI
         let cardData = clearCardData ? PXCardDataFactory() : selectedApplication.cardData ?? PXCardDataFactory()
         let isDisabled = selectedApplication.status.isDisabled()
         let bottomMessage = selectedApplication.bottomMessage
@@ -90,7 +89,7 @@ extension PXCardSliderPagerCell {
             PXLayout.centerHorizontally(view: headerView).isActive = true
             PXLayout.centerVertically(view: headerView).isActive = true
         }
-        
+                    
         addBottomMessageView(message: bottomMessage)
         accessibilityLabel = getAccessibilityMessage(accessibilityData)
         
@@ -184,7 +183,7 @@ extension PXCardSliderPagerCell {
         accessibilityLabel = getAccessibilityMessage(accessibilityData)
     }
 
-    func addBottomMessageView(message: PXCardBottomMessage?) {
+    public func addBottomMessageView(message: PXCardBottomMessage?) {
         guard let message = message else { return }
 
         let messageView = UIView()
