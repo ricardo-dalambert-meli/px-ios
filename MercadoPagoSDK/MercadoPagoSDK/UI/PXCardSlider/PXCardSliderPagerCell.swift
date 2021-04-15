@@ -59,10 +59,11 @@ extension PXCardSliderPagerCell {
     private func setupSwitchInfoView(model: PXCardSliderViewModel) {
         if let comboSwitch = model.comboSwitch {
             comboSwitch.setSwitchDidChangeCallback() { [weak self] selectedOption in
-               model.trackCard(state: selectedOption)
-               model.selectedApplicationId = selectedOption
-               self?.cardSliderPagerCellDelegate?.switchDidChange(selectedOption)
-           }
+                model.trackCard(state: selectedOption)
+                model.selectedApplicationId = selectedOption
+                self?.cardSliderPagerCellDelegate?.switchDidChange(selectedOption)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { self?.showBottomMessageView(true) }
+            }
             cardHeader?.setCustomView(comboSwitch)
         }
     }
