@@ -97,49 +97,53 @@ extension PXOneTapViewModel {
             if let accountMoney = targetNode.accountMoney, let paymentMethodId = targetNode.paymentMethodId {
                 if let payerPaymentMethod = getPayerPaymentMethod(targetNode.paymentTypeId, targetNode.oneTapCard?.cardId) {
                     
-                    let displayTitle = accountMoney.cardTitle ?? ""
-                    let cardData = PXCardDataFactory().create(cardName: displayTitle, cardNumber: "", cardCode: "", cardExpiration: "")
-                    let amountConfiguration = amountHelper.paymentConfigurationService.getAmountConfigurationForPaymentMethod(paymentOptionID: accountMoney.getId(), paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId)
+                    if let applications = targetNode.applications, applications.count > 0, let oneTapCard = targetNode.oneTapCard,
+                       let cardData = getCardData(oneTapCard: oneTapCard) {
+                        let viewModelCard = getCardSliderViewModelFor(targetNode: targetNode, oneTapCard: oneTapCard, cardData: cardData, applications: applications)
+                        sliderModel.append(viewModelCard)
+                    } else {
+                        let displayTitle = accountMoney.cardTitle ?? ""
+                        let cardData = PXCardDataFactory().create(cardName: displayTitle, cardNumber: "", cardCode: "", cardExpiration: "")
+                        let amountConfiguration = amountHelper.paymentConfigurationService.getAmountConfigurationForPaymentMethod(paymentOptionID: accountMoney.getId(), paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId)
 
-                    let isDefaultCardType = accountMoney.cardType == .defaultType
-                    let isDisabled = targetNode.status.isDisabled()
-                    let cardLogoImageUrl = accountMoney.paymentMethodImageURL
-                    let color = accountMoney.color
-                    let gradientColors = accountMoney.gradientColors
+                        let isDefaultCardType = accountMoney.cardType == .defaultType
+                        let isDisabled = targetNode.status.isDisabled()
+                        let cardLogoImageUrl = accountMoney.paymentMethodImageURL
+                        let color = accountMoney.color
+                        let gradientColors = accountMoney.gradientColors
 
-                    let cardUI: CardUI = isDefaultCardType ?
-                                        AccountMoneyCard(isDisabled: isDisabled, cardLogoImageUrl: cardLogoImageUrl, color: color, gradientColors: gradientColors) :
-                                        HybridAMCard(isDisabled: isDisabled, cardLogoImageUrl: cardLogoImageUrl, paymentMethodImageUrl: nil, color: color, gradientColors: gradientColors)
-                    
-                    let attributes: [NSAttributedString.Key: AnyObject] = [NSAttributedString.Key.font: UIFont.ml_regularSystemFont(ofSize: installmentsRowMessageFontSize), NSAttributedString.Key.foregroundColor: ThemeManager.shared.greyColor()]
-                    let displayMessage = NSAttributedString(string: accountMoney.sliderTitle ?? "", attributes: attributes)
-                    
-                    let cardSliderApplication = PXCardSliderApplicationData(paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId, cardData: cardData, cardUI: cardUI, payerCost: [PXPayerCost](), selectedPayerCost: nil, shouldShowArrow: false, amountConfiguration: amountConfiguration, status: statusConfig, bottomMessage: chargeRuleMessage, benefits: benefits, payerPaymentMethod: payerPaymentMethod, behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo, displayMessage: displayMessage)
-                    
-                    var cardSliderApplications : [PXApplicationId:PXCardSliderApplicationData] = [:]
-                    
-                    cardSliderApplications[targetNode.paymentTypeId ?? PXPaymentTypes.ACCOUNT_MONEY.rawValue] = cardSliderApplication
-                    
-                    let viewModelCard = PXCardSliderViewModel(cardSliderApplications, targetNode.paymentTypeId ?? PXPaymentTypes.ACCOUNT_MONEY.rawValue, "", accountMoney.getId(), displayInfo: targetNode.displayInfo, comboSwitch: nil)
+                        let cardUI: CardUI = isDefaultCardType ?
+                                            AccountMoneyCard(isDisabled: isDisabled, cardLogoImageUrl: cardLogoImageUrl, color: color, gradientColors: gradientColors) :
+                                            HybridAMCard(isDisabled: isDisabled, cardLogoImageUrl: cardLogoImageUrl, paymentMethodImageUrl: nil, color: color, gradientColors: gradientColors)
+                        
+                        let attributes: [NSAttributedString.Key: AnyObject] = [NSAttributedString.Key.font: UIFont.ml_regularSystemFont(ofSize: installmentsRowMessageFontSize), NSAttributedString.Key.foregroundColor: ThemeManager.shared.greyColor()]
+                        let displayMessage = NSAttributedString(string: accountMoney.sliderTitle ?? "", attributes: attributes)
+                        
+                        let cardSliderApplication = PXCardSliderApplicationData(paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId, cardData: cardData, cardUI: cardUI, payerCost: [PXPayerCost](), selectedPayerCost: nil, shouldShowArrow: false, amountConfiguration: amountConfiguration, status: statusConfig, bottomMessage: chargeRuleMessage, benefits: benefits, payerPaymentMethod: payerPaymentMethod, behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo, displayMessage: displayMessage)
+                        
+                        var cardSliderApplications : [PXApplicationId:PXCardSliderApplicationData] = [:]
+                        
+                        cardSliderApplications[targetNode.paymentTypeId ?? PXPaymentTypes.ACCOUNT_MONEY.rawValue] = cardSliderApplication
+                        
+                        let viewModelCard = PXCardSliderViewModel(cardSliderApplications, targetNode.paymentTypeId ?? PXPaymentTypes.ACCOUNT_MONEY.rawValue, "", accountMoney.getId(), displayInfo: targetNode.displayInfo, comboSwitch: nil)
 
-                    viewModelCard.setAccountMoney(accountMoneyBalance: accountMoney.availableBalance)
+                        viewModelCard.setAccountMoney(accountMoneyBalance: accountMoney.availableBalance)
 
-                    sliderModel.append(viewModelCard)
+                        sliderModel.append(viewModelCard)
+                    }
                 }
             } else if let oneTapCard = targetNode.oneTapCard,
                       let cardData = getCardData(oneTapCard: oneTapCard) {
                 
-                var viewModelCard : PXCardSliderViewModel
-                
                 if let applications = targetNode.applications, applications.count > 0 {
-                    viewModelCard = getCardSliderViewModelFor(targetNode: targetNode, oneTapCard: oneTapCard, cardData: cardData, applications: applications)
+                    let viewModelCard = getCardSliderViewModelFor(targetNode: targetNode, oneTapCard: oneTapCard, cardData: cardData, applications: applications)
                     sliderModel.append(viewModelCard)
                 } else if let paymentMethodId = targetNode.paymentMethodId {
                     var applications : [PXOneTapApplication] = []
                     
                     applications.append(PXOneTapApplication(paymentMethod: PXApplicationPaymentMethod(id: paymentMethodId, type: targetNode.paymentTypeId), validationPrograms: [], status: targetNode.status))
                     
-                    viewModelCard = getCardSliderViewModelFor(targetNode: targetNode, oneTapCard: oneTapCard, cardData: cardData, applications: applications)
+                    let viewModelCard = getCardSliderViewModelFor(targetNode: targetNode, oneTapCard: oneTapCard, cardData: cardData, applications: applications)
                     sliderModel.append(viewModelCard)
                 }
                 
