@@ -113,6 +113,9 @@ extension PXCardSlider: PXCardSliderPagerCellDelegate {
             let modelData = model[selectedIndex]
             delegate?.newCardDidSelected(targetModel: modelData)
             self.pagerView.reloadData()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                if let cell = self.pagerView.cellForItem(at: self.selectedIndex) as? PXCardSliderPagerCell { cell.showBottomMessageView(true) }
+            }
         }
     }
 }

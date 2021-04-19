@@ -62,7 +62,6 @@ extension PXCardSliderPagerCell {
                 model.trackCard(state: selectedOption)
                 model.selectedApplicationId = selectedOption
                 self?.cardSliderPagerCellDelegate?.switchDidChange(selectedOption)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { self?.showBottomMessageView(true) }
             }
             cardHeader?.setCustomView(comboSwitch)
         }
