@@ -42,7 +42,7 @@ open class PXItem: NSObject, Codable {
     public init(title: String, quantity: Int, unitPrice: Double) {
         self.title = title
         self.quantity = quantity
-        self.unitPrice = unitPrice
+        self.unitPrice = unitPrice.toCurrencyWithTwoDecimal()
         self.id = ""
     }
 
@@ -54,7 +54,7 @@ open class PXItem: NSObject, Codable {
         self.pictureUrl = pictureUrl
         self.quantity = quantity
         self.title = title
-        self.unitPrice = unitPrice
+        self.unitPrice = unitPrice.toCurrencyWithTwoDecimal()
     }
 
     /// :nodoc:
