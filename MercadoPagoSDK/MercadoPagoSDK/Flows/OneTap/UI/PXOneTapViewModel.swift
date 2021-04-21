@@ -77,10 +77,6 @@ extension PXOneTapViewModel {
                     newOfflineData = PXAddNewMethodData(title: offlineMethods.label, subtitle: offlineMethods.descriptionText)
                 }
                 let emptyCard = EmptyCard(newCardData: newCardData, newOfflineData: newOfflineData)
-                
-                
-//                sliderModel.append(PXCardSliderViewModel("", "", "", emptyCard, nil, [PXPayerCost](), nil, nil, false, amountConfiguration: nil, status: statusConfig, benefits: benefits, payerPaymentMethod: nil, behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo))
-                
 
                 let cardSliderApplication = PXCardSliderApplicationData(paymentMethodId: "", paymentTypeId: "", cardData: nil, cardUI: emptyCard, payerCost: [PXPayerCost](), selectedPayerCost: nil, shouldShowArrow: false, amountConfiguration: nil, status: statusConfig, bottomMessage: chargeRuleMessage, benefits: benefits, payerPaymentMethod: nil, behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo, displayMessage: nil)
                 
