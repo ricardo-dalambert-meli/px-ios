@@ -154,16 +154,13 @@ extension PXOneTapViewModel {
                 let cardData = PXCardDataFactory().create(cardName: "", cardNumber: "", cardCode: "", cardExpiration: "")
                 let creditsViewModel = PXCreditsViewModel(consumerCredits)
                 
-                // paymentMethodId, targetNode.paymentTypeId, "", ConsumerCreditsCard(creditsViewModel, isDisabled: targetNode.status.isDisabled()), cardData, amountConfiguration.payerCosts ?? [], amountConfiguration.selectedPayerCost, PXPaymentTypes.CONSUMER_CREDITS.rawValue, true, amountConfiguration: amountConfiguration, status: statusConfig, bottomMessage: chargeRuleMessage, benefits: benefits, payerPaymentMethod: getPayerPaymentMethod(targetNode.paymentTypeId, nil), behaviours: targetNode.behaviours,
-
-                
                 let cardSliderApplication = PXCardSliderApplicationData(paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId, cardData: cardData, cardUI: ConsumerCreditsCard(creditsViewModel, isDisabled: targetNode.status.isDisabled()), payerCost: amountConfiguration.payerCosts ?? [], selectedPayerCost: amountConfiguration.selectedPayerCost, shouldShowArrow: true, amountConfiguration: amountConfiguration, status: statusConfig, bottomMessage: chargeRuleMessage, benefits: benefits, payerPaymentMethod: getPayerPaymentMethod(targetNode.paymentTypeId, nil), behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo, displayMessage: nil)
                 
                 var cardSliderApplications : [PXApplicationId:PXCardSliderApplicationData] = [:]
                 
                 cardSliderApplications[targetNode.paymentTypeId ?? PXPaymentTypes.CONSUMER_CREDITS.rawValue] = cardSliderApplication
 
-                let viewModelCard = PXCardSliderViewModel(cardSliderApplications, nil, "", PXPaymentTypes.CONSUMER_CREDITS.rawValue, creditsViewModel: creditsViewModel, displayInfo: targetNode.displayInfo, comboSwitch: nil)
+                let viewModelCard = PXCardSliderViewModel(cardSliderApplications, targetNode.paymentTypeId, "", PXPaymentTypes.CONSUMER_CREDITS.rawValue, creditsViewModel: creditsViewModel, displayInfo: targetNode.displayInfo, comboSwitch: nil)
 
 
                 sliderModel.append(viewModelCard)
