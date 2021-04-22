@@ -168,10 +168,10 @@ extension OneTapFlow {
         return selectedPaymentOption
     }
 
-    func getCustomerPaymentMethodOption(cardId: String) -> PaymentMethodOption? {
+    func getCustomerPaymentMethodOption(cardId: String, paymentMethodType: String) -> PaymentMethodOption? {
         guard let customerPaymentMethods = model.customerPaymentOptions else {
             return nil
         }
-        return customerPaymentMethods.first(where: { $0.getCardId() == cardId })
+        return customerPaymentMethods.first(where: { $0.getCardId() == cardId && $0.getPaymentType() == paymentMethodType })
     }
 }

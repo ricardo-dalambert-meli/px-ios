@@ -316,7 +316,9 @@ class PXRemedyView: UIView {
 
         let totalTitleLabel = UILabel()
         
-        switch data.remedy.bottomMessage?.weight {
+        let bottomMessage = data.remedy.suggestedPaymentMethod?.bottomMessage
+        
+        switch bottomMessage?.weight {
         case "regular":
             defaultFont = UIFont.ml_regularSystemFont(ofSize: 16)
         case "semi_bold":
@@ -330,10 +332,10 @@ class PXRemedyView: UIView {
         
         totalTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         totalTitleLabel.textAlignment = .left
-        totalTitleLabel.backgroundColor = data.remedy.bottomMessage?.backgroundColor.hexToUIColor()
-        totalTitleLabel.textColor = data.remedy.bottomMessage?.textColor.hexToUIColor()
+        totalTitleLabel.backgroundColor = bottomMessage?.backgroundColor.hexToUIColor()
+        totalTitleLabel.textColor = bottomMessage?.textColor.hexToUIColor()
         totalTitleLabel.numberOfLines = 1
-        totalTitleLabel.text = data.remedy.bottomMessage?.message ?? "total_row_title_default".localized
+        totalTitleLabel.text = bottomMessage?.message ?? "total_row_title_default".localized
         totalTitleLabel.font = defaultFont
         totalTitleLabel.lineBreakMode = .byTruncatingTail
 

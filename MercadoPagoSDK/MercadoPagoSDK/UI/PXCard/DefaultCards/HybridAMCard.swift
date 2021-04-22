@@ -37,7 +37,9 @@ class HybridAMCard: NSObject, CustomCardDrawerUI {
             backgroundColor = UIColor(red: 16 / 255, green: 24 / 255, blue: 32 / 255, alpha: 1.0)
         }
         
-        self.cardBackgroundColor = isDisabled ? disabledColor : backgroundColor!
+        let finalCardBackgroundColor = isDisabled ? disabledColor : backgroundColor!
+        
+        self.cardBackgroundColor = finalCardBackgroundColor
 
         self.ownGradient = { () -> CAGradientLayer in
             let gradient = CAGradientLayer()
@@ -56,7 +58,7 @@ class HybridAMCard: NSObject, CustomCardDrawerUI {
                 }
             } else {
                 // If gradient colors hasn't been set
-                gradient.colors = [backgroundColor!.cgColor, backgroundColor!.cgColor]
+                gradient.colors = [finalCardBackgroundColor.cgColor, finalCardBackgroundColor.cgColor]
             }
 
             return gradient
