@@ -636,9 +636,7 @@ extension PXNewResultViewController {
 
     ////TOP TEXT BOX
     func buildTopTextBoxView() -> UIView? {
-        guard let topTextBox = viewModel.getTopTextBox() else {
-            return nil
-        }
+        guard let topTextBox = viewModel.getTopTextBox() else { return nil }
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSeparatorLineToBottom(height: 1)
