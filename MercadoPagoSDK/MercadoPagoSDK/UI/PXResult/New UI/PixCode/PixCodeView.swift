@@ -11,71 +11,86 @@ final class PixCodeView: UIView {
     // MARK: - Private properties
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = UIFont.ml_semiboldSystemFont(ofSize: 20)
         return label
     }()
     
     private let firstStepLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "1. Copie o código abaixo"
+        label.font = UIFont.ml_regularSystemFont(ofSize: 16)
+        label.numberOfLines = 0
         return label
     }()
     
     private let codeLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.ml_semiboldSystemFont(ofSize: 16)
+        label.textColor = UIColor.black.withAlphaComponent(0.45)
+        label.textAlignment = .center
+        label.layer.borderColor = UIColor.black.withAlphaComponent(0.05).cgColor
         label.layer.borderWidth = 1
-        label.layer.cornerRadius = 4
-        label.text = "378125673476124563547815673825768132"
+        label.layer.cornerRadius = 6
+        label.numberOfLines = 1
         return label
     }()
     
     private let copyCodeButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Copiar código", for: .normal)
+        button.titleLabel?.font = UIFont.ml_semiboldSystemFont(ofSize: 14)
+        button.setTitleColor(UIColor(red: 52, green: 131, blue: 250), for: .normal)
         return button
     }()
     
     private let stepsStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
-        stack.spacing = 16
+        stack.spacing = 8
         return stack
     }()
     
     private let secondStepLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "2. Cole"
+        label.font = UIFont.ml_regularSystemFont(ofSize: 16)
+        label.numberOfLines = 0
         return label
     }()
     
     private let thirdStepLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "3. pague"
+        label.font = UIFont.ml_regularSystemFont(ofSize: 16)
+        label.numberOfLines = 0
         return label
+    }()
+    
+    private let fourthStepLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.ml_regularSystemFont(ofSize: 16)
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    private let watchIcon: UIImageView = {
+        let image = UIImageView()
+        return image
     }()
     
     private let footerLabel: UILabel = {
         let label = UILabel()
-        label.text = "4. Copie o código abaixo"
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.ml_regularSystemFont(ofSize: 12)
+        label.numberOfLines = 0
         return label
     }()
     
     private let separatorView: UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.1)
         return view
     }()
     
     // MARK: - Initialization
     init(pixModel: PixCodeModel) {
         super.init(frame: .zero)
+        setupViewConfiguration()
         setupInfos(with: pixModel)
     }
     
@@ -91,6 +106,58 @@ final class PixCodeView: UIView {
         copyCodeButton.setTitle(pixModel.buttonText, for: .normal)
         secondStepLabel.text = pixModel.secondStep
         thirdStepLabel.text = pixModel.thirdStep
+        fourthStepLabel.text = pixModel.fourthStep
         footerLabel.text = pixModel.footerText
+    }
+}
+
+extension PixCodeView: ViewConfiguration {
+    func buildHierarchy() {
+        addSubviews(views: [titleLabel, firstStepLabel, codeLabel, copyCodeButton, stepsStack, watchIcon, footerLabel, separatorView])
+        stepsStack.addArrangedSubviews(views: [secondStepLabel, thirdStepLabel, fourthStepLabel])
+    }
+    
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 24),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
+            
+            firstStepLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
+            firstStepLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            firstStepLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+            
+            codeLabel.topAnchor.constraint(equalTo: firstStepLabel.bottomAnchor, constant: 8),
+            codeLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            codeLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+            codeLabel.heightAnchor.constraint(equalToConstant: 52),
+            
+            copyCodeButton.topAnchor.constraint(equalTo: codeLabel.bottomAnchor, constant: 6),
+            copyCodeButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            copyCodeButton.heightAnchor.constraint(equalToConstant: 18),
+            
+            stepsStack.topAnchor.constraint(equalTo: copyCodeButton.bottomAnchor, constant: 18),
+            stepsStack.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            stepsStack.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+            
+            watchIcon.centerYAnchor.constraint(equalTo: footerLabel.centerYAnchor),
+            watchIcon.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            watchIcon.heightAnchor.constraint(equalToConstant: 24),
+            watchIcon.widthAnchor.constraint(equalToConstant: 24),
+            
+            footerLabel.topAnchor.constraint(equalTo: stepsStack.bottomAnchor, constant: 24),
+            footerLabel.leadingAnchor.constraint(equalTo: watchIcon.trailingAnchor, constant: 8),
+            footerLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+            
+            separatorView.topAnchor.constraint(equalTo: footerLabel.bottomAnchor, constant: 24),
+            separatorView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            separatorView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            separatorView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            separatorView.heightAnchor.constraint(equalToConstant: 1)
+        ])
+    }
+    
+    func viewConfigure() {
+        backgroundColor = .white
     }
 }
