@@ -609,7 +609,7 @@ extension PXOneTapViewModel {
                 }
             }
             
-            let cardSliderApplication = PXCardSliderApplicationData(paymentMethodId: paymentMethodId, paymentTypeId: paymentMethodType, cardData: cardData, cardUI: cardUI, payerCost: payerCosts ?? defaultPayerCost, selectedPayerCost: selectedPayerCost, shouldShowArrow: showArrow, amountConfiguration: amountConfiguration, status: statusConfig, bottomMessage: chargeRuleMessage, benefits: targetNode.benefits, payerPaymentMethod: payerPaymentMethod, behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo, displayMessage: displayMessage)
+            let cardSliderApplication = PXCardSliderApplicationData(paymentMethodId: paymentMethodId, paymentTypeId: paymentMethodType, cardData: cardData, cardUI: cardUI, payerCost: payerCosts ?? defaultPayerCost, selectedPayerCost: selectedPayerCost, shouldShowArrow: showArrow, amountConfiguration: amountConfiguration, status: statusConfig, bottomMessage: chargeRuleMessage, benefits: PXPaymentTypes.CREDIT_CARD.rawValue == paymentMethodType ? targetNode.benefits : nil, payerPaymentMethod: payerPaymentMethod, behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo, displayMessage: displayMessage)
             
             cardSliderApplications[paymentMethodType] = cardSliderApplication
         }
