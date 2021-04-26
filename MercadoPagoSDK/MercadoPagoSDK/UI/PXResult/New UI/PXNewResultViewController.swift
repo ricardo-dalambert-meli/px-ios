@@ -278,12 +278,12 @@ extension PXNewResultViewController {
         //Top text box View
         views.append(
             ResultViewData(view: PixCodeView(pixModel: PixCodeModel(title: "Como pagar com PIX?",
-                                                                    firstStep: "1. Copie o código abaixo",
+                                                                    firstStep: "<b>1.</b> Copie o código abaixo",
                                                                     code: "3267183672186378216jhxbasjxkashb",
                                                                     buttonText: "Copiar código",
-                                                                    secondStep: "2. Abra o app do seu banco ou carteira digital",
-                                                                    thirdStep: "3. Escola pagar via Pix e procure por Pix copia e cola",
-                                                                    fourthStep: "4. Cole o código e conclua. Você receberá uma mensagem de confirmação",
+                                                                    secondStep: "<b>2.</b> Abra o app do seu banco ou carteira digital",
+                                                                    thirdStep: "<b>3.</b> Escola pagar via Pix e procure por <b>\"Pix copia e cola\"</b>",
+                                                                    fourthStep: "<b>4.</b> Cole o código e conclua. Você receberá uma mensagem de confirmação",
                                                                     footerText: "Código válido por 30 minutos. Após o pagamento, a aprovação é imediata.")),
                                              verticalMargin: PXLayout.ZERO_MARGIN,
                                              horizontalMargin: PXLayout.ZERO_MARGIN)

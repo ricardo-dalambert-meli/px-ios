@@ -71,6 +71,7 @@ final class PixCodeView: UIView {
     
     private let watchIcon: UIImageView = {
         let image = UIImageView()
+        image.image = ResourceManager.shared.getImage("iconTime")
         return image
     }()
     
@@ -101,12 +102,12 @@ final class PixCodeView: UIView {
     // MARK: - Private methods
     private func setupInfos(with pixModel: PixCodeModel) {
         titleLabel.text = pixModel.title
-        firstStepLabel.text = pixModel.firstStep
+        firstStepLabel.attributedText = pixModel.firstStep.htmlToAttributedString?.with(font: UIFont.ml_regularSystemFont(ofSize: 16))
         codeLabel.text = pixModel.code
         copyCodeButton.setTitle(pixModel.buttonText, for: .normal)
-        secondStepLabel.text = pixModel.secondStep
-        thirdStepLabel.text = pixModel.thirdStep
-        fourthStepLabel.text = pixModel.fourthStep
+        secondStepLabel.attributedText = pixModel.secondStep.htmlToAttributedString?.with(font: UIFont.ml_regularSystemFont(ofSize: 16))
+        thirdStepLabel.attributedText = pixModel.thirdStep.htmlToAttributedString?.with(font: UIFont.ml_regularSystemFont(ofSize: 16))
+        fourthStepLabel.attributedText = pixModel.fourthStep.htmlToAttributedString?.with(font: UIFont.ml_regularSystemFont(ofSize: 16))
         footerLabel.text = pixModel.footerText
     }
 }
