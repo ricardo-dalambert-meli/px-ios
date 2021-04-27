@@ -26,14 +26,9 @@ internal class ThreeDSService {
         self.resultHandler = resultHandler
     }
     
-    func authorize3DS(programUsed: String) {
+    func authorize3DS(programUsed: String, cardHolderName: String) {
         if let cardTokenID = paymentData.token?.getId(),
            let paymentMethod = paymentData.paymentMethod,
-           let oneTapDto = oneTap?.first(where: {
-            $0.paymentTypeId == paymentMethod.paymentTypeId && $0.paymentMethodId == paymentMethod.getId()
-           }),
-           let oneTapCardDto = oneTapDto.oneTapCard,
-           let cardHolderName = oneTapCardDto.cardUI?.name,
            let paymentMethodId = paymentMethod.getId() {
             
             if needToShowLoading {
@@ -46,13 +41,13 @@ internal class ThreeDSService {
             let thousandsSeparator = SiteManager.shared.getCurrency().getThousandsSeparatorOrDefault()
             let purchaseAmount = Utils.getAmountFormatted(amount: amountToPay, thousandSeparator: thousandsSeparator, decimalSeparator: decimalSeparator, addingCurrencySymbol: nil, addingParenthesis: false)
             
-            MPXTracker.sharedInstance.trackEvent(path: TrackingPaths.Events.getProgramValidation(), properties: ["validation_program_used" : programUsed])
+            MPXTracker.sharedInstance.trackEvent(path: TrackingPaths.Events.getProgramValidation(), properties: ["validation_program_used" : programUsed.uppercased()])
             
             PXConfiguratorManager.threeDSProtocol.authenticate(config: PXConfiguratorManager.threeDSConfig,
                                                                cardTokenID: cardTokenID,
                                                                cardHolderName: cardHolderName,
                                                                paymentMethodId: paymentMethodId,
-                                                               purchaseAmount: purchaseAmount,
+                                                               purchaseAmount: purchaseAmount, 
                                                                currencyId: currencyId,
                                                                decimalPlaces: decimalPlaces,
                                                                decimalSeparator: decimalSeparator,

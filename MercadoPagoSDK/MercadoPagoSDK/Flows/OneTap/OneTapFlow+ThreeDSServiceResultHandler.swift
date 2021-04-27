@@ -18,8 +18,8 @@ extension OneTapFlow: ThreeDSServiceResultHandler {
             pxNavigationHandler.showErrorScreen(error: error,
                                                 callbackCancel: resultHandler?.exitCheckout,
                                                 errorCallback: { [weak self] in
-                                                    guard let self = self, let program = self.model.getProgramValidation() else { return }
-                                                    self.getThreeDSService().authorize3DS(programUsed: program)
+                                                    guard let self = self, let program = self.model.getProgramValidation(), let cardHolderName = self.model.getCardHolderName() else { return }
+                                                    self.getThreeDSService().authorize3DS(programUsed: program, cardHolderName: cardHolderName)
             })
         } else {
             finishPaymentFlow(error: error)
