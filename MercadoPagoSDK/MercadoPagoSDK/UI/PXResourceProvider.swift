@@ -123,11 +123,6 @@ internal class PXResourceProvider {
     }
 
     static internal func getErrorTitleKey(statusDetail: String) -> String {
-        switch statusDetail {
-        case PXPayment.StatusDetails.REJECTED_BY_BANK, PXPayment.StatusDetails.REJECTED_INSUFFICIENT_DATA, PXPayment.StatusDetails.REJECTED_BY_REGULATIONS, PXPayment.StatusDetails.REJECTED_OTHER_REASON:
-            return error_title_default
-        default:
-            return statusDetail + "_title"
-        }
+        return error_title_default
     }
 }
