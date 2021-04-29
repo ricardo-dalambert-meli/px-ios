@@ -783,7 +783,6 @@ private extension MercadoPagoCheckoutViewModel {
             if paymentMethodId == PXPaymentTypes.CONSUMER_CREDITS.rawValue {
                 cardId = paymentMethodId
             }
-            // TODO: check for this on the where condition: && $0.paymentMethodId == paymentMethodId
             if let targetModel = sliderViewModel.first(where: { $0.cardId == cardId  }) {
                 guard let selectedApplication = targetModel.selectedApplication else { return }
                 if let paymentMethods = availablePaymentMethods,
