@@ -57,6 +57,7 @@ jobs:
       - run: bundle check || bundle install --path vendor/bundle
       - run:
           name: Run Deploy
+          no_output_timeout: 30m
           command: ./scripts/run_deploy.sh
       - save_cache:
           key: gem-cache-{{ checksum "Gemfile.lock" }}-v2
