@@ -1,3 +1,7 @@
+# v4.37.8
+🚀Private Release - 4.37.8 🚀
+- Added Combo Cards Support 
+
 # v4.37.7
 🚀Private Release - 4.37.7 🚀
 - Bumped MLCardDrawer 

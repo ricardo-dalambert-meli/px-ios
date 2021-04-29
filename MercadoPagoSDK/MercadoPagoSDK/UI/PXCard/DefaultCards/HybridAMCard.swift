@@ -23,8 +23,9 @@ class HybridAMCard: NSObject, CustomCardDrawerUI {
     var ownOverlayImage: UIImage? = UIImage()
     var ownGradient: CAGradientLayer
     var cardLogoImageUrl: String?
+    var bankImageUrl: String?
     
-    init(isDisabled: Bool = false, cardLogoImageUrl: String?, color: String?, gradientColors: [String]?) {
+    init(isDisabled: Bool = false, cardLogoImageUrl: String?, paymentMethodImageUrl: String?, color: String?, gradientColors: [String]?) {
         
         let disabledColor = UIColor(red: 204 / 255, green: 204 / 255, blue: 204 / 255, alpha: 1.0)
         
@@ -36,7 +37,9 @@ class HybridAMCard: NSObject, CustomCardDrawerUI {
             backgroundColor = UIColor(red: 16 / 255, green: 24 / 255, blue: 32 / 255, alpha: 1.0)
         }
         
-        self.cardBackgroundColor = isDisabled ? disabledColor : backgroundColor!
+        let finalCardBackgroundColor = isDisabled ? disabledColor : backgroundColor!
+        
+        self.cardBackgroundColor = finalCardBackgroundColor
 
         self.ownGradient = { () -> CAGradientLayer in
             let gradient = CAGradientLayer()
@@ -55,13 +58,14 @@ class HybridAMCard: NSObject, CustomCardDrawerUI {
                 }
             } else {
                 // If gradient colors hasn't been set
-                gradient.colors = [backgroundColor!.cgColor, backgroundColor!.cgColor]
+                gradient.colors = [finalCardBackgroundColor.cgColor, finalCardBackgroundColor.cgColor]
             }
 
             return gradient
         }()
 
         self.cardLogoImageUrl = cardLogoImageUrl
+        self.bankImageUrl = paymentMethodImageUrl
     }
 
 }

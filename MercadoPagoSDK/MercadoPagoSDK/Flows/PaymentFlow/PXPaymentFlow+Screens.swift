@@ -9,12 +9,12 @@
 import Foundation
 
 extension PXPaymentFlow {
-    internal func showPaymentProcessor(paymentProcessor: PXSplitPaymentProcessor?) {
+    internal func showPaymentProcessor(paymentProcessor: PXSplitPaymentProcessor?, programId: String?) {
         guard let paymentProcessor = paymentProcessor else {
             return
         }
 
-        model.assignToCheckoutStore()
+        model.assignToCheckoutStore(programId: programId)
 
         paymentProcessor.didReceive?(navigationHandler: PXPaymentProcessorNavigationHandler(flow: self))
 

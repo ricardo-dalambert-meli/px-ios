@@ -56,12 +56,14 @@ final class OneTapFlow: NSObject, PXFlow {
             self.getTokenizationService().createCardToken(securityCode: "")
         case .screenKyC:
             self.showKyCScreen()
+        case .service3DS:
+            guard let program = model.getProgramValidation(), let cardHolderName = model.getCardHolderName() else { return }
+            self.getThreeDSService().authorize3DS(programUsed: program, cardHolderName: cardHolderName)
         case .payment:
             self.startPaymentFlow()
         case .finish:
             self.finishFlow()
         }
-        print("")
     }
 
     func refreshInitFlow(cardId: String) {
@@ -166,10 +168,10 @@ extension OneTapFlow {
         return selectedPaymentOption
     }
 
-    func getCustomerPaymentMethodOption(cardId: String) -> PaymentMethodOption? {
+    func getCustomerPaymentMethodOption(cardId: String, paymentMethodType: String) -> PaymentMethodOption? {
         guard let customerPaymentMethods = model.customerPaymentOptions else {
             return nil
         }
-        return customerPaymentMethods.first(where: { $0.getCardId() == cardId })
+        return customerPaymentMethods.first(where: { $0.getCardId() == cardId && $0.getPaymentType() == paymentMethodType })
     }
 }

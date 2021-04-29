@@ -90,7 +90,7 @@ final class PXOneTapViewController: PXComponentContainerViewController {
         slider.showBottomMessageIfNeeded(index: 0, targetIndex: 0)
         setupAutoDisplayOfflinePaymentMethods()
         UIAccessibility.post(notification: .layoutChanged, argument: headerView?.getMerchantView()?.getMerchantTitleLabel())
-        trackScreen(path: TrackingPaths.Screens.OneTap.getOneTapPath(), properties: viewModel.getOneTapScreenProperties())
+        trackScreen(path: TrackingPaths.Screens.OneTap.getOneTapPath(), properties: viewModel.getOneTapScreenProperties(oneTapApplication: viewModel.applications))
     }
 
     override func viewDidLayoutSubviews() {
@@ -157,8 +157,8 @@ extension PXOneTapViewController {
             viewModel.createCardSliderViewModel()
             if let preSelectedCard = viewModel.getCardSliderViewModel().first {
                 selectedCard = preSelectedCard
-                viewModel.splitPaymentEnabled = preSelectedCard.amountConfiguration?.splitConfiguration?.splitEnabled ?? false
-                viewModel.amountHelper.getPaymentData().payerCost = preSelectedCard.selectedPayerCost
+                viewModel.splitPaymentEnabled = preSelectedCard.selectedApplication?.amountConfiguration?.splitConfiguration?.splitEnabled ?? false
+                viewModel.amountHelper.getPaymentData().payerCost = preSelectedCard.selectedApplication?.selectedPayerCost
             }
             renderViews()
         } else {
@@ -301,7 +301,7 @@ extension PXOneTapViewController {
     }
 
     private func setLoadingButtonState() {
-        if let selectedCard = selectedCard, (selectedCard.status.isDisabled() || selectedCard.cardId == nil) {
+        if let selectedCard = selectedCard, let selectedApplication = selectedCard.selectedApplication, (selectedApplication.status.isDisabled() || selectedCard.cardId == nil) {
             loadingButtonComponent?.setDisabled(animated: false)
         }
     }
@@ -389,8 +389,8 @@ extension PXOneTapViewController {
     }
 
     private func handlePayButton() {
-        if let selectedCard = getSuspendedCardSliderViewModel() {
-            if let tapPayBehaviour = selectedCard.behaviours?[PXBehaviour.Behaviours.tapPay.rawValue] {
+        if let selectedCard = getSuspendedCardSliderViewModel(), let selectedApplication = selectedCard.selectedApplication {
+            if let tapPayBehaviour = selectedApplication.behaviours?[PXBehaviour.Behaviours.tapPay.rawValue] {
                 handleBehaviour(tapPayBehaviour, isSplit: false)
             }
         } else {
@@ -399,7 +399,7 @@ extension PXOneTapViewController {
     }
 
     private func getSuspendedCardSliderViewModel() -> PXCardSliderViewModel? {
-        if let selectedCard = selectedCard, selectedCard.status.detail == "suspended" {
+        if let selectedCard = selectedCard, let selectedApplication = selectedCard.selectedApplication, selectedApplication.status.detail == "suspended" {
             return selectedCard
         }
         return nil
@@ -425,8 +425,8 @@ extension PXOneTapViewController {
     private func doPayment() {
         subscribeLoadingButtonToNotifications()
         loadingButtonComponent?.startLoading(timeOut: timeOutPayButton)
-        if let selectedCardItem = selectedCard {
-            viewModel.amountHelper.getPaymentData().payerCost = selectedCardItem.selectedPayerCost
+        if let selectedCardItem = selectedCard, let selectedApplication = selectedCardItem.selectedApplication {
+            viewModel.amountHelper.getPaymentData().payerCost = selectedApplication.selectedPayerCost
             let properties = viewModel.getConfirmEventProperties(selectedCard: selectedCardItem, selectedIndex: slider.getSelectedIndex())
             trackEvent(path: TrackingPaths.Events.OneTap.getConfirmPath(), properties: properties)
         }
@@ -463,7 +463,7 @@ extension PXOneTapViewController {
 extension PXOneTapViewController: PXOneTapHeaderProtocol {
 
     func splitPaymentSwitchChangedValue(isOn: Bool, isUserSelection: Bool) {
-        if isUserSelection, let selectedCard = getSuspendedCardSliderViewModel(), let splitConfiguration = selectedCard.amountConfiguration?.splitConfiguration, let switchSplitBehaviour = selectedCard.behaviours?[PXBehaviour.Behaviours.switchSplit.rawValue] {
+        if isUserSelection, let selectedCard = getSuspendedCardSliderViewModel(), let selectedApplication = selectedCard.selectedApplication, let splitConfiguration = selectedApplication.amountConfiguration?.splitConfiguration, let switchSplitBehaviour = selectedApplication.behaviours?[PXBehaviour.Behaviours.switchSplit.rawValue] {
             handleBehaviour(switchSplitBehaviour, isSplit: true)
             splitConfiguration.splitEnabled = false
             headerView?.updateSplitPaymentView(splitConfiguration: splitConfiguration)
@@ -486,14 +486,16 @@ extension PXOneTapViewController: PXOneTapHeaderProtocol {
 
         if let infoRow = installmentInfoRow, viewModel.getCardSliderViewModel().indices.contains(infoRow.getActiveRowIndex()) {
             let selectedCard = viewModel.getCardSliderViewModel()[infoRow.getActiveRowIndex()]
+            
+            guard let selectedApplication = selectedCard.selectedApplication else { return }
 
             // If it's debit and has split, update split message
-            if selectedCard.paymentTypeId == PXPaymentTypes.DEBIT_CARD.rawValue {
-                selectedCard.displayMessage = viewModel.getSplitMessageForDebit(amountToPay: selectedCard.selectedPayerCost?.totalAmount ?? 0)
+            if selectedApplication.paymentTypeId == PXPaymentTypes.DEBIT_CARD.rawValue {
+                selectedApplication.displayMessage = viewModel.getSplitMessageForDebit(amountToPay: selectedApplication.selectedPayerCost?.totalAmount ?? 0)
             }
 
             // Installments arrow animation
-            if selectedCard.shouldShowArrow {
+            if selectedApplication.shouldShowArrow {
                 installmentInfoRow?.showArrow()
             } else {
                 installmentInfoRow?.hideArrow()
@@ -521,7 +523,10 @@ extension PXOneTapViewController: PXOneTapHeaderProtocol {
 
     func didTapDiscount() {
         var discountDescription: PXDiscountDescription?
-        if let discountConfiguration = viewModel.amountHelper.paymentConfigurationService.getDiscountConfigurationForPaymentMethodOrDefault(paymentOptionID: selectedCard?.cardId, paymentMethodId: selectedCard?.paymentMethodId, paymentTypeId: selectedCard?.paymentTypeId),
+        
+        guard let selectedApplication = selectedCard?.selectedApplication else { return }
+        
+        if let discountConfiguration = viewModel.amountHelper.paymentConfigurationService.getDiscountConfigurationForPaymentMethodOrDefault(paymentOptionID: selectedCard?.cardId, paymentMethodId: selectedApplication.paymentMethodId, paymentTypeId: selectedApplication.paymentTypeId),
             let description = discountConfiguration.getDiscountConfiguration().discountDescription {
             discountDescription = description
         }
@@ -541,21 +546,26 @@ extension PXOneTapViewController: PXOneTapHeaderProtocol {
 extension PXOneTapViewController: PXCardSliderProtocol {
 
     func newCardDidSelected(targetModel: PXCardSliderViewModel) {
+        
+        guard let selectedApplication = targetModel.selectedApplication else { return }
 
         selectedCard = targetModel
 
         trackEvent(path: TrackingPaths.Events.OneTap.getSwipePath())
 
         // Installments arrow animation
-        if targetModel.shouldShowArrow {
+        if selectedApplication.shouldShowArrow {
             installmentInfoRow?.showArrow()
         } else {
             installmentInfoRow?.hideArrow()
         }
+        
+        // Update installment info row
+        installmentInfoRow?.update(model: viewModel.getInstallmentInfoViewModel())
 
         // Add card. - card o credits payment method selected
-        let validData = targetModel.cardData != nil || targetModel.isCredits
-        let shouldDisplay = validData && !targetModel.status.isDisabled()
+        let validData = selectedApplication.cardData != nil || targetModel.isCredits
+        let shouldDisplay = validData && !selectedApplication.status.isDisabled()
         if shouldDisplay {
             displayCard(targetModel: targetModel)
             loadingButtonComponent?.setEnabled()
@@ -567,16 +577,19 @@ extension PXOneTapViewController: PXCardSliderProtocol {
     }
 
     func displayCard(targetModel: PXCardSliderViewModel) {
+        
+        guard let selectedApplication = targetModel.selectedApplication else { return }
+        
         // New payment method selected.
-        let newPaymentMethodId: String = targetModel.payerPaymentMethod?.paymentMethodId ?? targetModel.paymentMethodId
-        let newPayerCost: PXPayerCost? = targetModel.selectedPayerCost
+        let newPaymentMethodId: String = selectedApplication.payerPaymentMethod?.paymentMethodId ?? selectedApplication.paymentMethodId
+        let newPayerCost: PXPayerCost? = selectedApplication.selectedPayerCost
 
         let currentPaymentData: PXPaymentData = viewModel.amountHelper.getPaymentData()
         
         if let newPaymentMethod = viewModel.getPaymentMethod(paymentMethodId: newPaymentMethodId) {
             currentPaymentData.payerCost = newPayerCost
             currentPaymentData.paymentMethod = newPaymentMethod
-            currentPaymentData.issuer = targetModel.payerPaymentMethod?.issuer ?? PXIssuer(id: targetModel.issuerId, name: nil)
+            currentPaymentData.issuer = selectedApplication.payerPaymentMethod?.issuer ?? PXIssuer(id: targetModel.issuerId, name: nil)
             callbackUpdatePaymentOption(targetModel)
             loadingButtonComponent?.setEnabled()
         } else {
@@ -587,13 +600,13 @@ extension PXOneTapViewController: PXCardSliderProtocol {
         }
         headerView?.updateModel(viewModel.getHeaderViewModel(selectedCard: selectedCard))
 
-        headerView?.updateSplitPaymentView(splitConfiguration: selectedCard?.amountConfiguration?.splitConfiguration)
+        headerView?.updateSplitPaymentView(splitConfiguration: selectedApplication.amountConfiguration?.splitConfiguration)
         
-        let paymentTypeId = targetModel.payerPaymentMethod?.paymentTypeId ?? targetModel.paymentTypeId
+        let paymentTypeId = selectedApplication.payerPaymentMethod?.paymentTypeId ?? selectedApplication.paymentTypeId
 
         // If it's debit and has split, update split message
-        if let totalAmount = targetModel.selectedPayerCost?.totalAmount, paymentTypeId == PXPaymentTypes.DEBIT_CARD.rawValue {
-            targetModel.displayMessage = viewModel.getSplitMessageForDebit(amountToPay: totalAmount)
+        if let totalAmount = selectedApplication.selectedPayerCost?.totalAmount, paymentTypeId == PXPaymentTypes.DEBIT_CARD.rawValue {
+            selectedApplication.displayMessage = viewModel.getSplitMessageForDebit(amountToPay: totalAmount)
         }
     }
 
@@ -621,7 +634,7 @@ extension PXOneTapViewController: PXCardSliderProtocol {
     func cardDidTap(status: PXStatus) {
         if status.isDisabled() {
             showDisabledCardModal(status: status)
-        } else if let selectedCard = selectedCard, let tapCardBehaviour = selectedCard.behaviours?[PXBehaviour.Behaviours.tapCard.rawValue] {
+        } else if let selectedCard = selectedCard, let selectedApplication = selectedCard.selectedApplication, let tapCardBehaviour = selectedApplication.behaviours?[PXBehaviour.Behaviours.tapCard.rawValue] {
             handleBehaviour(tapCardBehaviour, isSplit: false)
         }
     }
@@ -742,7 +755,7 @@ extension PXOneTapViewController: PXOneTapInstallmentInfoViewProtocol, PXOneTapI
             PXFeedbackGenerator.heavyImpactFeedback()
 
             //Update card bottom message
-            let bottomMessage = viewModel.getCardBottomMessage(paymentTypeId: selectedCard?.paymentTypeId, benefits: selectedCard?.benefits, status: selectedCard?.status, selectedPayerCost: payerCost, displayInfo: selectedCard?.displayInfo)
+            let bottomMessage = viewModel.getCardBottomMessage(paymentTypeId: selectedCard?.selectedApplication?.paymentTypeId, benefits: selectedCard?.selectedApplication?.benefits, status: selectedCard?.selectedApplication?.status, selectedPayerCost: payerCost, displayInfo: selectedCard?.displayInfo)
             viewModel.updateCardSliderModel(at: selectedIndex, bottomMessage: bottomMessage)
             slider.update(viewModel.getCardSliderViewModel())
         }

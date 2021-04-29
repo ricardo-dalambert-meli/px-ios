@@ -83,7 +83,7 @@ extension PXOneTapViewModel {
         return properties
     }
 
-    func getOneTapScreenProperties() -> [String: Any] {
+    func getOneTapScreenProperties(oneTapApplication: [PXOneTapApplication]) -> [String: Any] {
         var properties: [String: Any] = [:]
         let availablePaymentMethods = getAvailablePaymentMethodForTracking()
         let availablePMQuantity = getPaymentMethodsQuantityForTracking(enabled: true)
@@ -93,7 +93,13 @@ extension PXOneTapViewModel {
         properties["disabled_methods_quantity"] = disabledPMQuantity
         properties["total_amount"] = amountHelper.preferenceAmount
         properties["discount"] = amountHelper.getDiscountForTracking()
+        var applications: [[String : Any]] = []
+        
+        oneTapApplication.forEach { application in
+            applications.append(getValidationProgramProperties(oneTapApplication: application))
+        }
 
+        properties["applications"] = applications
         var itemsDic: [Any] = []
         for item in amountHelper.preference.items {
             itemsDic.append(item.getItemForTracking())
@@ -154,6 +160,23 @@ extension PXOneTapViewModel {
 
     func getDialogDismissProperties(_ behaviour: PXBehaviour, _ modalConfig: PXModal) -> [String: Any] {
         return getDialogOpenProperties(behaviour, modalConfig)
+    }
+    
+    func getValidationProgramProperties(oneTapApplication: PXOneTapApplication) -> [String : Any] {
+        var properties: [String: Any] = [:]
+        var subProperties: [[String: Any]] = []
+        properties["enable"] = oneTapApplication.status.enabled
+        properties["payment_method_id"] = oneTapApplication.paymentMethod.id
+        properties["payment_type_id"] = oneTapApplication.paymentMethod.type
+        properties["status_detail"] = oneTapApplication.status.detail
+        oneTapApplication.validationPrograms?.forEach { program in
+            var programDict: [String: Any] = [:]
+            programDict["id"] = program.id
+            programDict["mandatory"] = program.mandatory
+            subProperties.append(programDict)
+        }
+        properties["validation_programs"] = subProperties
+        return properties
     }
 
     func getDialogActionProperties(_ behaviour: PXBehaviour, _ modalConfig: PXModal, _ type: String, _ button: PXRemoteAction?) -> [String: Any]? {

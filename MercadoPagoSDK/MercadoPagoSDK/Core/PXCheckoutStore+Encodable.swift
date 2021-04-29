@@ -21,6 +21,6 @@ extension PXCheckoutStore: Encodable {
         case checkoutPreference = "pref_id"
         case merchantOrderId = "merchant_order_id"
         case paymentDatas = "payment_data"
-        case validationProgramId = "validationProgramId"
+        case validationProgramId = "validation_program_id"
     }
 }

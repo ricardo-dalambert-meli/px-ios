@@ -148,6 +148,12 @@ extension MercadoPagoCheckout {
         viewModel.pxNavigationHandler.showErrorScreen(error: MercadoPagoCheckoutViewModel.error, callbackCancel: finish, errorCallback: viewModel.errorCallback)
         MercadoPagoCheckoutViewModel.error = nil
     }
+    
+    func asyncRefreshInitFlow(cardId: String) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + InitFlowRefresh.retryDelay) { [weak self] in
+            self?.refreshInitFlow(cardId: cardId)
+        }
+    }
 
     func startOneTapFlow() {
         guard let search = viewModel.search else {
@@ -159,14 +165,19 @@ extension MercadoPagoCheckout {
         if shouldUpdateOnetapFlow(), let onetapFlow = viewModel.onetapFlow {
             // This is to refresh the payment methods in onetap after adding a new card
             if let cardId = InitFlowRefresh.cardId {
-                if viewModel.customPaymentOptions?.first(where: { $0.getCardId() == cardId }) != nil {
-                    onetapFlow.update(checkoutViewModel: viewModel, search: search, paymentOptionSelected: viewModel.paymentOptionSelected)
+                if let newAddedCard = search.oneTap?.first(where: { $0.oneTapCard?.cardId == cardId }) {
+                    if let retryNeeded = newAddedCard.oneTapCard?.retry?.isNeeded, retryNeeded == true {
+                        // If the card need to retry because it has to be tokenized
+                        asyncRefreshInitFlow(cardId: cardId)
+                        return
+                    } else {
+                        // If the card was successfully added and it's not necessary to retry
+                        onetapFlow.update(checkoutViewModel: viewModel, search: search, paymentOptionSelected: viewModel.paymentOptionSelected)
+                    }
                 } else {
                     // Sometimes the new card doesn't come right away from the api, so we do a few retries
                     // New card didn't return. Refresh Init again
-                    DispatchQueue.main.asyncAfter(deadline: .now() + InitFlowRefresh.retryDelay) { [weak self] in
-                        self?.refreshInitFlow(cardId: cardId)
-                    }
+                    asyncRefreshInitFlow(cardId: cardId)
                     return
                 }
             }

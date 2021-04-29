@@ -37,7 +37,7 @@ class CustomCheckoutViewController: UIViewController {
         oneTapSwitch.setOn(true, animated: true)
     }
     
-    override func viewDidLoad() {
+    override func viewDidLoad() { 
         super.viewDidLoad()
         
         let gradient = CAGradientLayer()
