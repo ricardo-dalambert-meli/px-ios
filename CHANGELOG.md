@@ -1,5 +1,5 @@
-# v4.37.9
-🚀Private Release - 4.37.9 🚀
+# v4.37.10
+🚀Private Release - 4.37.10 🚀
 - Added Combo Cards Support
 - Default message error provided if we do not have the error mapped 
 
