@@ -277,16 +277,46 @@ extension PXNewResultViewController {
 
         //Top text box View
         views.append(
-            ResultViewData(view: PixCodeView(pixModel: PixCodeModel(title: "Como pagar com PIX?",
-                                                                    firstStep: "<b>1.</b> Copie o código abaixo",
-                                                                    code: "3267183672186378216jhxbasjxkashb",
-                                                                    buttonText: "Copiar código",
-                                                                    secondStep: "<b>2.</b> Abra o app do seu banco ou carteira digital",
-                                                                    thirdStep: "<b>3.</b> Escola pagar via Pix e procure por <b>\"Pix copia e cola\"</b>",
-                                                                    fourthStep: "<b>4.</b> Cole o código e conclua. Você receberá uma mensagem de confirmação",
-                                                                    footerText: "Código válido por 30 minutos. Após o pagamento, a aprovação é imediata.")),
-                                             verticalMargin: PXLayout.ZERO_MARGIN,
-                                             horizontalMargin: PXLayout.ZERO_MARGIN)
+            ResultViewData(view: InstructionView(instruction: PXInstruction(title: "Pague R$25,00 com PIX para concluir o seu pagamento.",
+                                                                            subtitle: "<font face='sans-serif-medium'>Como pagar com Pix?</font>",
+                                                                            accreditationMessage: "Código válido por 30 minutos.<br>Após o pagamento, a aprovação é imediata.",
+                                                                            accreditationComments: [],
+                                                                            actions: nil,
+                                                                            type: "ticket",
+                                                                            references: [],
+                                                                            interactions: [
+                                                                                PXInstructionInteraction(title: "Pague com o app do seu banco ou carteira digital",
+                                                                                                         content: "23793.38029 50978.231368 49006.333303 5 8613000003100",
+                                                                                                         action: PXInstructionAction(label: "Copiar código",
+                                                                                                                                     url: nil,
+                                                                                                                                     tag: "copy",
+                                                                                                                                     content: "23793.38029 50978.231368 49006.333303 5 8613000003100" )
+                                                                                ),
+                                                                                
+                                                                                PXInstructionInteraction(title: "Ou imprima o boleto para pagar em uma agência bancária",
+                                                                                                         content: nil,
+                                                                                                         action: PXInstructionAction(label: "Imprimir boleto",
+                                                                                                                                     url: "",
+                                                                                                                                     tag: "copy",
+                                                                                                                                     content: "" )
+                                                                                ),
+                                                                                
+//                                                                                PXInstructionInteraction(title: "<font face='sans-serif-medium'>3.</font> Escolha pagar via PIX e procure por <b>\"Pix copia e cola\"</b>",
+//                                                                                                         content: nil,
+//                                                                                                         action: nil
+//                                                                                ),
+//
+//                                                                                PXInstructionInteraction(title: "<font face='sans-serif-medium'>4.</font> Cole o código e conclua. Você receberá uma mensagem de confirmação",
+//                                                                                                         content: nil,
+//                                                                                                         action: nil
+//                                                                                )
+                                                                            
+                                                                            ],
+                                                                            secondaryInfo: nil,
+                                                                            tertiaryInfo: nil,
+                                                                            info: [])
+                    )
+                )
         )
 
         if let topTextBoxView = buildTopTextBoxView() {

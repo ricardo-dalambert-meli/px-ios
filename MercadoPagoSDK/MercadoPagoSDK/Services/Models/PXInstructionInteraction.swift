@@ -12,6 +12,9 @@ open class PXInstructionInteraction: NSObject, Codable {
     open var title: String?
     open var content: String?
     open var action: PXInstructionAction?
+    open var isBoleto: Bool {
+        return content?.count == 47 || content?.count == 48
+    }
 
     public init(title: String?, content: String?, action: PXInstructionAction?) {
         self.title = title
