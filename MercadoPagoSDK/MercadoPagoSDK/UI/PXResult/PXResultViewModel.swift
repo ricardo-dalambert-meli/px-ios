@@ -430,7 +430,7 @@ extension PXResultViewModel {
             .withPrimaryButton(pointsAndDiscounts?.primaryButton)
             .withCrossSelling(pointsAndDiscounts?.crossSelling)
             .withCustomSorting(pointsAndDiscounts?.customOrder)
-            .withInstructionView(instructionsView())
+            .withInstructions(instructionsInfo?.getInstruction())
             .withFooterMainAction(getActionButton())
             .withFooterSecondaryAction(getActionLink())
             .withImportantView(nil)
