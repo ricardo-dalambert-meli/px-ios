@@ -78,7 +78,7 @@ extension InstructionActionView: ViewConfiguration {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            mainStack.topAnchor.constraint(equalTo: topAnchor),
+            mainStack.topAnchor.constraint(equalTo: topAnchor, constant: 24),
             mainStack.leadingAnchor.constraint(equalTo: leadingAnchor),
             mainStack.trailingAnchor.constraint(equalTo: trailingAnchor),
             mainStack.bottomAnchor.constraint(equalTo: bottomAnchor),
