@@ -272,7 +272,7 @@ extension PXNewResultViewController {
 
         //Top text box View
         if let instruction = viewModel.getInstructions() {
-            views.append(ResultViewData(view: InstructionView(instruction: instruction)))
+            views.append(ResultViewData(view: InstructionView(instruction: instruction, delegate: self)))
         }
 
         if let topTextBoxView = buildTopTextBoxView() {
@@ -763,5 +763,17 @@ extension PXNewResultViewController {
 extension PXNewResultViewController: MLBusinessTouchpointsUserInteractionHandler {
     func didTap(with selectedIndex: Int, deeplink: String, trackingId: String) {
         viewModel.didTapDiscount(index: selectedIndex, deepLink: deeplink, trackId: trackingId)
+    }
+}
+
+extension PXNewResultViewController: InstructionActionDelegate {
+    func didTapOnActionButton(action: PXInstructionAction?) {
+        guard let action = action else { return }
+        switch action.tag {
+        case "copy": UIPasteboard.general.string = action.content
+        case "link": UIApplication.shared.open(URL(string: action.url!)!, options: [:], completionHandler: nil)
+        default: return
+        }
+
     }
 }

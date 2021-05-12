@@ -9,6 +9,7 @@ import UIKit
 
 final class InstructionView: UIView {
     // MARK: - Private properties
+    private weak var delegate: InstructionActionDelegate?
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.ml_semiboldSystemFont(ofSize: 20)
@@ -37,7 +38,8 @@ final class InstructionView: UIView {
     }()
     
     // MARK: - Initialization
-    init(instruction: PXInstruction) {
+    init(instruction: PXInstruction, delegate: InstructionActionDelegate?) {
+        self.delegate = delegate
         super.init(frame: .zero)
         setupViewConfiguration()
         setupInfos(with: instruction)
@@ -60,7 +62,7 @@ final class InstructionView: UIView {
     
     private func addVariableComponents(interaction: PXInstructionInteraction) {
         if let _ = interaction.title, let _ = interaction.content, let _ = interaction.action {
-            stepsStack.addArrangedSubviews(views: [InstructionActionView(instruction: interaction)])
+            stepsStack.addArrangedSubviews(views: [InstructionActionView(instruction: interaction, delegate: self)])
         } else if let title = interaction.title {
             let instructionLabel: UILabel = {
                 let label = UILabel()
@@ -103,5 +105,11 @@ extension InstructionView: ViewConfiguration {
     
     func viewConfigure() {
         backgroundColor = .white
+    }
+}
+
+extension InstructionView: InstructionActionDelegate {
+    func didTapOnActionButton(action: PXInstructionAction?) {
+        delegate?.didTapOnActionButton(action: action)
     }
 }
