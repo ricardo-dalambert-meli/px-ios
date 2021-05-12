@@ -7,8 +7,15 @@
 
 import UIKit
 
+protocol InstructionActionDelegate: class {
+    func didTapOnActionButton(action: PXInstructionAction?)
+}
+
 final class InstructionActionView: UIView {
     // MARK: - Private properties
+    private weak var delegate: InstructionActionDelegate?
+    private let action: PXInstructionAction?
+    
     private let mainStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -41,15 +48,18 @@ final class InstructionActionView: UIView {
         return label
     }()
     
-    private let actionButton: UIButton = {
+    private lazy var actionButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont.ml_semiboldSystemFont(ofSize: 14)
         button.setTitleColor(UIColor(red: 52, green: 131, blue: 250), for: .normal)
+        button.addTarget(self, action: #selector(didTapOnActionButton), for: .touchUpInside)
         return button
     }()
     
     // MARK: - Initialization
-    init(instruction: PXInstructionInteraction) {
+    init(instruction: PXInstructionInteraction, delegate: InstructionActionDelegate?) {
+        self.action = instruction.action
+        self.delegate = delegate
         super.init(frame: .zero)
         setupInfos(with: instruction)
         setupViewConfiguration()
@@ -67,6 +77,10 @@ final class InstructionActionView: UIView {
         codeLabel.text = instruction.content
         actionButton.setTitle(instruction.action?.label, for: .normal)
     }
+    
+    @objc private func didTapOnActionButton() {
+        delegate?.didTapOnActionButton(action: action)
+    }
 }
 
 extension InstructionActionView: ViewConfiguration {
@@ -78,7 +92,7 @@ extension InstructionActionView: ViewConfiguration {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            mainStack.topAnchor.constraint(equalTo: topAnchor, constant: 24),
+            mainStack.topAnchor.constraint(equalTo: topAnchor),
             mainStack.leadingAnchor.constraint(equalTo: leadingAnchor),
             mainStack.trailingAnchor.constraint(equalTo: trailingAnchor),
             mainStack.bottomAnchor.constraint(equalTo: bottomAnchor),
