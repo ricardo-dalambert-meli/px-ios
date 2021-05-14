@@ -11,14 +11,14 @@ final class InstructionReferenceView: UIView {
     // MARK: - Private properties
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.ml_mediumSystemFont(ofSize: 12)
+        label.font = UIFont.ml_lightSystemFont(ofSize: 16)
         label.textAlignment = .left
         return label
     }()
     
     private let infoLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.ml_lightSystemFont(ofSize: 20)
+        label.font = UIFont.ml_boldSystemFont(ofSize: 16)
         label.textAlignment = .left
         return label
     }()
@@ -55,11 +55,11 @@ extension InstructionReferenceView: ViewConfiguration {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            infoLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            infoLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             infoLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             infoLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
             infoLabel.bottomAnchor.constraint(equalTo: bottomAnchor)

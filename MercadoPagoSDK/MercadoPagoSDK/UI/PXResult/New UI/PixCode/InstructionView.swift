@@ -51,6 +51,7 @@ final class InstructionView: UIView {
     
     // MARK: - Private methods
     private func setupInfos(with instruction: PXInstruction) {
+        titleLabel.isHidden = instruction.subtitle == "" || instruction.subtitle == nil
         titleLabel.attributedText = instruction.subtitle?.htmlToAttributedString?.with(font: titleLabel.font)
         
         instruction.interactions?.forEach { interaction in
@@ -83,7 +84,7 @@ final class InstructionView: UIView {
     private func addLabel(info: String) {
         let instructionLabel: UILabel = {
             let label = UILabel()
-            label.attributedText = info.htmlToAttributedString?.with(font: UIFont.ml_regularSystemFont(ofSize: 16))
+            label.attributedText = info.htmlToAttributedString?.with(font: UIFont.ml_lightSystemFont(ofSize: 16))
             label.numberOfLines = 0
             return label
         }()
@@ -95,17 +96,14 @@ final class InstructionView: UIView {
 extension InstructionView: ViewConfiguration {
     func buildHierarchy() {
         addSubviews(views: [titleLabel, stepsStack, watchIcon, footerLabel])
+        stepsStack.addArrangedSubviews(views: [titleLabel])
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 24),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
-            
-            stepsStack.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            stepsStack.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            stepsStack.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+            stepsStack.topAnchor.constraint(equalTo: topAnchor, constant: 24),
+            stepsStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
+            stepsStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
             
             watchIcon.centerYAnchor.constraint(equalTo: footerLabel.centerYAnchor),
             watchIcon.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
