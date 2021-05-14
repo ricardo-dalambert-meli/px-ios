@@ -7,14 +7,9 @@
 
 import UIKit
 
-protocol InstructionActionDelegate: class {
-    func didTapOnActionButton(action: PXInstructionAction?)
-}
-
 final class InstructionActionView: UIView {
     // MARK: - Private properties
-    private weak var delegate: InstructionActionDelegate?
-    private let action: PXInstructionAction?
+    private weak var delegate: ActionViewDelegate?
     
     private let mainStack: UIStackView = {
         let stack = UIStackView()
@@ -44,21 +39,15 @@ final class InstructionActionView: UIView {
         let label = UILabel()
         label.font = UIFont.ml_semiboldSystemFont(ofSize: 16)
         label.textColor = UIColor.black.withAlphaComponent(0.45)
-        label.textAlignment = .center
+        label.textAlignment = .left
         return label
     }()
     
-    private lazy var actionButton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = UIFont.ml_semiboldSystemFont(ofSize: 14)
-        button.setTitleColor(UIColor(red: 52, green: 131, blue: 250), for: .normal)
-        button.addTarget(self, action: #selector(didTapOnActionButton), for: .touchUpInside)
-        return button
-    }()
+    private let actionButton: ActionView
     
     // MARK: - Initialization
-    init(instruction: PXInstructionInteraction, delegate: InstructionActionDelegate?) {
-        self.action = instruction.action
+    init(instruction: PXInstructionInteraction, delegate: ActionViewDelegate?) {
+        self.actionButton = ActionView(action: instruction.action, delegate: delegate)
         self.delegate = delegate
         super.init(frame: .zero)
         setupInfos(with: instruction)
@@ -73,13 +62,8 @@ final class InstructionActionView: UIView {
     private func setupInfos(with instruction: PXInstructionInteraction) {
         instructionLabel.attributedText = instruction.title?.htmlToAttributedString?.with(font: instructionLabel.font)
         codeBorderView.isHidden = instruction.content == nil || instruction.content == ""
-        codeLabel.numberOfLines = instruction.isBoleto ? 2 : 1
+        codeLabel.numberOfLines = instruction.isBoleto ? 0 : 1
         codeLabel.text = instruction.content
-        actionButton.setTitle(instruction.action?.label, for: .normal)
-    }
-    
-    @objc private func didTapOnActionButton() {
-        delegate?.didTapOnActionButton(action: action)
     }
 }
 

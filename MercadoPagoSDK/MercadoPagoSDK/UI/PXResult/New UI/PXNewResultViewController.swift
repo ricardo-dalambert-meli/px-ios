@@ -17,6 +17,7 @@ class PXNewResultViewController: MercadoPagoUIViewController {
     private let statusBarHeight = PXLayout.getStatusBarHeight()
     private var contentViewHeightConstraint: NSLayoutConstraint?
     let scrollView = UIScrollView()
+    let contentView = UIView()
     let viewModel: PXNewResultViewModelInterface
     private var finishButtonAnimation: (() -> Void)?
     private var touchpointView: MLBusinessTouchpointsView?
@@ -136,7 +137,6 @@ class PXNewResultViewController: MercadoPagoUIViewController {
 
     private func renderContentView() {
         //CONTENT VIEW
-        let contentView = UIView()
         contentView.backgroundColor = .white
         contentView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentView)
@@ -766,12 +766,17 @@ extension PXNewResultViewController: MLBusinessTouchpointsUserInteractionHandler
     }
 }
 
-extension PXNewResultViewController: InstructionActionDelegate {
+extension PXNewResultViewController: ActionViewDelegate {
     func didTapOnActionButton(action: PXInstructionAction?) {
         guard let action = action else { return }
         switch action.tag {
-        case "copy": UIPasteboard.general.string = action.content
-        case "link": UIApplication.shared.open(URL(string: action.url!)!, options: [:], completionHandler: nil)
+        case "copy":
+            UIPasteboard.general.string = action.content
+            let instructionView = contentView.subviews.filter { $0 is InstructionView }.first
+            FeedbackView.showFeedbackView(show: "payment_result_screen_congrats_copy_button".localized, in: instructionView ?? scrollView)
+        case "link":
+            guard let urlString = action.url, let url = URL(string: urlString) else { return }
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         default: return
         }
 

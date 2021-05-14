@@ -9,7 +9,7 @@ import UIKit
 
 final class InstructionView: UIView {
     // MARK: - Private properties
-    private weak var delegate: InstructionActionDelegate?
+    private weak var delegate: ActionViewDelegate?
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.ml_semiboldSystemFont(ofSize: 20)
@@ -38,7 +38,7 @@ final class InstructionView: UIView {
     }()
     
     // MARK: - Initialization
-    init(instruction: PXInstruction, delegate: InstructionActionDelegate?) {
+    init(instruction: PXInstruction, delegate: ActionViewDelegate?) {
         self.delegate = delegate
         super.init(frame: .zero)
         setupViewConfiguration()
@@ -57,6 +57,18 @@ final class InstructionView: UIView {
             addVariableComponents(interaction: interaction)
         }
         
+        instruction.references?.forEach { reference in
+            stepsStack.addArrangedSubviews(views: [InstructionReferenceView(reference: reference)])
+        }
+        
+        instruction.actions?.forEach { action in
+            stepsStack.addArrangedSubviews(views: [ActionView(action: action, delegate: self)])
+        }
+        
+        instruction.secondaryInfo?.forEach { info in
+            addLabel(info: info)
+        }
+        
         footerLabel.attributedText = instruction.accreditationMessage?.htmlToAttributedString?.with(font: footerLabel.font)
     }
     
@@ -64,15 +76,19 @@ final class InstructionView: UIView {
         if let _ = interaction.title, let _ = interaction.content, let _ = interaction.action {
             stepsStack.addArrangedSubviews(views: [InstructionActionView(instruction: interaction, delegate: self)])
         } else if let title = interaction.title {
-            let instructionLabel: UILabel = {
-                let label = UILabel()
-                label.attributedText = title.htmlToAttributedString?.with(font: UIFont.ml_regularSystemFont(ofSize: 16))
-                label.numberOfLines = 0
-                return label
-            }()
-            
-            stepsStack.addArrangedSubviews(views: [instructionLabel])
+            addLabel(info: title)
         }
+    }
+    
+    private func addLabel(info: String) {
+        let instructionLabel: UILabel = {
+            let label = UILabel()
+            label.attributedText = info.htmlToAttributedString?.with(font: UIFont.ml_regularSystemFont(ofSize: 16))
+            label.numberOfLines = 0
+            return label
+        }()
+        
+        stepsStack.addArrangedSubviews(views: [instructionLabel])
     }
 }
 
@@ -108,7 +124,7 @@ extension InstructionView: ViewConfiguration {
     }
 }
 
-extension InstructionView: InstructionActionDelegate {
+extension InstructionView: ActionViewDelegate {
     func didTapOnActionButton(action: PXInstructionAction?) {
         delegate?.didTapOnActionButton(action: action)
     }
