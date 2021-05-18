@@ -42,7 +42,7 @@ extension OneTapFlow {
         let viewModel = model.oneTapViewModel()
         model.pxOneTapViewModel = viewModel
         
-        let hasInstallments = model.search.payerPaymentMethods.contains { (payerPaymentMethod) -> Bool in
+        let hasInstallments = model.search.payerPaymentMethods.contains { payerPaymentMethod -> Bool in
              
             guard let paymentOptions = payerPaymentMethod.paymentOptions else { return false }
             
@@ -55,7 +55,7 @@ extension OneTapFlow {
             }
         }
         
-        let hasSplit = model.search.payerPaymentMethods.contains { (payerPaymentMethod) -> Bool in
+        let hasSplit = model.search.payerPaymentMethods.contains { payerPaymentMethod -> Bool in
             
             guard let paymentOptions = payerPaymentMethod.paymentOptions else { return false }
             

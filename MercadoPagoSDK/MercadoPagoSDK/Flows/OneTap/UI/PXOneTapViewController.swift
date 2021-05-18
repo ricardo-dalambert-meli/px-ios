@@ -17,7 +17,7 @@ final class PXOneTapViewController: PXComponentContainerViewController {
     // MARK: Definitions
     lazy var itemViews = [UIView]()
     fileprivate var viewModel: PXOneTapViewModel
-    var pxOneTapContext: PXOneTapContext
+    private var pxOneTapContext: PXOneTapContext
     private var discountTermsConditionView: PXTermsAndConditionView?
 
     let slider = PXCardSlider()
@@ -60,8 +60,6 @@ final class PXOneTapViewController: PXComponentContainerViewController {
         self.finishButtonAnimation = finishButtonAnimation
         self.timeOutPayButton = timeOutPayButton
         super.init(adjustInsets: false)
-        
-        print("Device height: \(UIDevice.modelName) - \(UIScreen.main.bounds.height)")
     }
 
     required init?(coder aDecoder: NSCoder) {
