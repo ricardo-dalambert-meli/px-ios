@@ -62,8 +62,6 @@ final class PXOneTapViewController: PXComponentContainerViewController {
         self.finishButtonAnimation = finishButtonAnimation
         self.timeOutPayButton = timeOutPayButton
         super.init(adjustInsets: false)
-        
-        print("Device height: \(UIDevice.modelName) - \(UIScreen.main.bounds.height)")
     }
 
     required init?(coder aDecoder: NSCoder) {
