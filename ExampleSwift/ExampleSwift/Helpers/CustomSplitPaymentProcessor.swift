@@ -38,5 +38,4 @@ final class CustomSplitPaymentProcessor : NSObject, PXSplitPaymentProcessor {
         return PXGenericPayment(paymentStatus: .REJECTED, statusDetail: "cc_amount_rate_limit_exceeded")
     }
     
-    
 }

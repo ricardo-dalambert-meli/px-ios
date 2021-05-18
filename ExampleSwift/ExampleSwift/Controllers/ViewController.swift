@@ -74,7 +74,7 @@ class ViewController: UIViewController {
 //
   
         // Free charge rule
-        pxPaymentTypeChargeRules.append(PXPaymentTypeChargeRule.init(paymentTypeId: PXPaymentTypes.CREDIT_CARD.rawValue, message: "Mensaje de resaltado"))
+//        pxPaymentTypeChargeRules.append(PXPaymentTypeChargeRule.init(paymentTypeId: PXPaymentTypes.CREDIT_CARD.rawValue, message: "Mensaje de resaltado"))
         
         // Create an instance of your custom payment processor
         let paymentProcessor : PXSplitPaymentProcessor = CustomSplitPaymentProcessor()
@@ -84,7 +84,7 @@ class ViewController: UIViewController {
         
         // Add charge rules
         paymentConfiguration.addChargeRules(charges: pxPaymentTypeChargeRules)
-
+        
 //        // Create a Builder with your publicKey, preferenceId and paymentConfiguration
 //        let builder = MercadoPagoCheckoutBuilder(publicKey: publicKey, preferenceId: preferenceId, paymentConfiguration: paymentConfiguration).setLanguage("es")
         
