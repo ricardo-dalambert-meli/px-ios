@@ -100,10 +100,6 @@ class ViewController: UIViewController {
         // Instantiate a configuration object
         let configuration = PXAdvancedConfiguration()
         
-        configuration.discountParamsConfiguration = PXDiscountParamsConfiguration(labels: ["pos_id_728505","store_id_13055017"], productId: "bh31umv10flg01nmhg60")
-        
-        configuration.discountParamsConfiguration?.addAdditionalParams(["store_id":"13055017","pos_id":"728505","brand_id":"59"])
-        
         // Add custom PXDynamicViewController component
         configuration.dynamicViewControllersConfiguration = [CustomPXDynamicComponent()]
         
