@@ -5,6 +5,7 @@
 //
 
 import UIKit
+import MLCardDrawer
 
 public protocol ChangeCardAccessibilityProtocol: NSObjectProtocol {
     func scrollTo(direction: UIAccessibilityScrollDirection)
@@ -28,6 +29,7 @@ final class PXCardSlider: NSObject {
     private var selectedIndex: Int = 0
     private let cardSliderCornerRadius: CGFloat = 11
     weak var termsAndCondDelegate: PXTermsAndConditionViewDelegate?
+    var cardType : MLCardDrawerType = .large
 
     override init() {
         super.init()
@@ -188,7 +190,7 @@ extension PXCardSlider {
 
     func getItemSize(_ containerView: UIView) -> CGSize {
         let targetWidth: CGFloat = containerView.bounds.width - PXCardSliderSizeManager.cardDeltaDecrease
-        return PXCardSliderSizeManager.getGoldenRatioSize(targetWidth)
+        return PXCardSliderSizeManager.getCGSizeWithAspectRatioFor(targetWidth, cardType)
     }
 
     func getSelectedIndex() -> Int {
