@@ -10,12 +10,14 @@ import UIKit
 import MLCardForm
 import MLUI
 import AndesUI
+import MLCardDrawer
 
 final class PXOneTapViewController: PXComponentContainerViewController {
 
     // MARK: Definitions
     lazy var itemViews = [UIView]()
     fileprivate var viewModel: PXOneTapViewModel
+    var pxOneTapContext: PXOneTapContext
     private var discountTermsConditionView: PXTermsAndConditionView?
 
     let slider = PXCardSlider()
@@ -47,8 +49,9 @@ final class PXOneTapViewController: PXComponentContainerViewController {
     private var andesBottomSheet: AndesBottomSheetViewController?
 
     // MARK: Lifecycle/Publics
-    init(viewModel: PXOneTapViewModel, timeOutPayButton: TimeInterval = 15, callbackPaymentData : @escaping ((PXPaymentData) -> Void), callbackConfirm: @escaping ((PXPaymentData, Bool) -> Void), callbackUpdatePaymentOption: @escaping ((PaymentMethodOption) -> Void), callbackRefreshInit: @escaping ((String) -> Void), callbackExit: @escaping (() -> Void), finishButtonAnimation: @escaping (() -> Void)) {
+    init(viewModel: PXOneTapViewModel, pxOneTapContext: PXOneTapContext, timeOutPayButton: TimeInterval = 15, callbackPaymentData : @escaping ((PXPaymentData) -> Void), callbackConfirm: @escaping ((PXPaymentData, Bool) -> Void), callbackUpdatePaymentOption: @escaping ((PaymentMethodOption) -> Void), callbackRefreshInit: @escaping ((String) -> Void), callbackExit: @escaping (() -> Void), finishButtonAnimation: @escaping (() -> Void)) {
         self.viewModel = viewModel
+        self.pxOneTapContext = pxOneTapContext
         self.callbackPaymentData = callbackPaymentData
         self.callbackConfirm = callbackConfirm
         self.callbackRefreshInit = callbackRefreshInit
@@ -57,6 +60,8 @@ final class PXOneTapViewController: PXComponentContainerViewController {
         self.finishButtonAnimation = finishButtonAnimation
         self.timeOutPayButton = timeOutPayButton
         super.init(adjustInsets: false)
+        
+        print("Device height: \(UIDevice.modelName) - \(UIScreen.main.bounds.height)")
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -168,6 +173,14 @@ extension PXOneTapViewController {
 
     private func renderViews() {
         contentView.prepareForRender()
+        
+        // Define device size
+        let deviceSize = PXDeviceSize.getDeviceSize(deviceHeight: UIScreen.main.bounds.height)
+        
+        // Define card type to use
+        let cardType : MLCardDrawerType = PXCardSliderSizeManager.getCardTypeForContext(deviceSize: deviceSize, hasCharges: pxOneTapContext.hasCharges, hasDiscounts: pxOneTapContext.hasDiscounts, hasInstallments: pxOneTapContext.hasInstallments, hasSplit: pxOneTapContext.hasSplit)
+        
+        slider.cardType = cardType
 
         // Add header view.
         let headerView = getHeaderView(selectedCard: selectedCard)
@@ -200,11 +213,12 @@ extension PXOneTapViewController {
         topMarginConstraint.isActive = true
         cardSliderMarginConstraint = topMarginConstraint
 
-        // CardSlider with GoldenRatio multiplier
+        // CardSlider with aspect ratio multiplier
         cardSliderContentView.translatesAutoresizingMaskIntoConstraints = false
         let widthSlider: NSLayoutConstraint = cardSliderContentView.widthAnchor.constraint(equalTo: whiteView.widthAnchor)
         widthSlider.isActive = true
-        let heightSlider: NSLayoutConstraint = cardSliderContentView.heightAnchor.constraint(equalTo: cardSliderContentView.widthAnchor, multiplier: PXCardSliderSizeManager.goldenRatio)
+        
+        let heightSlider: NSLayoutConstraint = cardSliderContentView.heightAnchor.constraint(equalTo: cardSliderContentView.widthAnchor, multiplier: PXCardSliderSizeManager.aspectRatio(forType: cardType))
         heightSlider.isActive = true
 
         // Add footer payment button.
