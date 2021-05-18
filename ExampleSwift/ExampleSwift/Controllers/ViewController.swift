@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     private var privateKey : String = ""
     
     // Preference ID
-    private var preferenceId : String = "656525290-7bda964b-26d9-4352-a04c-1b04801627ee"
+    private var preferenceId : String = "656525290-10485f3d-0c25-4d1f-9619-f16b34376e0a"
     
     @IBAction func initDefault(_ sender: Any) {
 //         runMercadoPagoCheckout()
@@ -64,7 +64,7 @@ class ViewController: UIViewController {
         // Create charge rules
         var pxPaymentTypeChargeRules : [PXPaymentTypeChargeRule] = []
         
-        pxPaymentTypeChargeRules.append(PXPaymentTypeChargeRule.init(paymentTypeId: PXPaymentTypes.ACCOUNT_MONEY.rawValue, amountCharge: 10.00 ))
+        pxPaymentTypeChargeRules.append(PXPaymentTypeChargeRule.init(paymentTypeId: PXPaymentTypes.CREDIT_CARD.rawValue, amountCharge: 10.00 ))
 
 //        // Charge rule with custom dialog
 //
@@ -77,26 +77,42 @@ class ViewController: UIViewController {
         pxPaymentTypeChargeRules.append(PXPaymentTypeChargeRule.init(paymentTypeId: PXPaymentTypes.CREDIT_CARD.rawValue, message: "Mensaje de resaltado"))
         
         // Create an instance of your custom payment processor
-        let paymentProcessor : PXPaymentProcessor = CustomPaymentProcessor()
+        let paymentProcessor : PXSplitPaymentProcessor = CustomSplitPaymentProcessor()
         
         // Create a payment configuration instance using the recently created payment processor
-        let paymentConfiguration = PXPaymentConfiguration(paymentProcessor: paymentProcessor)
+        let paymentConfiguration = PXPaymentConfiguration(splitPaymentProcessor: paymentProcessor)//(paymentProcessor: paymentProcessor)
         
         // Add charge rules
         paymentConfiguration.addChargeRules(charges: pxPaymentTypeChargeRules)
         
+<<<<<<< HEAD
         // Create a Builder with your publicKey, preferenceId and paymentConfiguration
         let builder = MercadoPagoCheckoutBuilder(publicKey: publicKey, preferenceId: preferenceId, paymentConfiguration: paymentConfiguration).setLanguage("es")
         
 //        let checkoutPreference = PXCheckoutPreference.init(preferenceId: preferenceId)
 //
 //        let builder = MercadoPagoCheckoutBuilder.init(publicKey: publicKey, checkoutPreference: checkoutPreference, paymentConfiguration: paymentConfiguration)
+=======
+//        // Create a Builder with your publicKey, preferenceId and paymentConfiguration
+//        let builder = MercadoPagoCheckoutBuilder(publicKey: publicKey, preferenceId: preferenceId, paymentConfiguration: paymentConfiguration).setLanguage("es")
+        
+//        let checkoutPreference = PXCheckoutPreference.init(preferenceId: preferenceId)
+
+        let checkoutPreference = PXCheckoutPreference(siteId: "MLA", payerEmail: "1234@gmail.com", items: [PXItem(title: "iPhone 12", quantity: 1, unitPrice: 15000.0)])
+        
+        // Add excluded methods
+//        checkoutPreference.addExcludedPaymentType(PXPaymentTypes.CREDIT_CARD.rawValue)
+        checkoutPreference.addExcludedPaymentMethod(PXPaymentTypes.CONSUMER_CREDITS.rawValue)
+
+        let builder = MercadoPagoCheckoutBuilder.init(publicKey: publicKey, checkoutPreference: checkoutPreference, paymentConfiguration: paymentConfiguration)
+>>>>>>> chore: Added test app changes
         
         // Instantiate a configuration object
         let configuration = PXAdvancedConfiguration()
-         
-        // Set expressEnabled true to use one-tap instead of groups flow
-        configuration.expressEnabled = true
+        
+        configuration.discountParamsConfiguration = PXDiscountParamsConfiguration(labels: ["pos_id_728505","store_id_13055017"], productId: "bh31umv10flg01nmhg60")
+        
+        configuration.discountParamsConfiguration?.addAdditionalParams(["store_id":"13055017","pos_id":"728505","brand_id":"59"])
         
         // Add custom PXDynamicViewController component
         configuration.dynamicViewControllersConfiguration = [CustomPXDynamicComponent()]
