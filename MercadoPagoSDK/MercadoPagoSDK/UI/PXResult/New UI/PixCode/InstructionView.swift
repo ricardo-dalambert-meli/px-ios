@@ -54,6 +54,10 @@ final class InstructionView: UIView {
         titleLabel.isHidden = instruction.subtitle == "" || instruction.subtitle == nil
         titleLabel.attributedText = instruction.subtitle?.htmlToAttributedString?.with(font: titleLabel.font)
         
+        instruction.info.forEach { info in
+            addLabel(info: info)
+        }
+        
         instruction.interactions?.forEach { interaction in
             addVariableComponents(interaction: interaction)
         }
@@ -67,6 +71,10 @@ final class InstructionView: UIView {
         }
         
         instruction.secondaryInfo?.forEach { info in
+            addLabel(info: info)
+        }
+        
+        instruction.tertiaryInfo?.forEach { info in
             addLabel(info: info)
         }
         
