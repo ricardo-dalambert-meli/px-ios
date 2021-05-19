@@ -14,18 +14,18 @@ struct PXCardSliderSizeManager {
     static let cardDeltaDecrease: CGFloat = 60
     
     // Card type ratios
-    static let SMALL_RATIO : CGFloat = 0.328
-    static let MEDIUM_RATIO : CGFloat = 0.492
-    static let LARGE_RATIO : CGFloat = 0.61
+    static let smallRatio : CGFloat = 0.328
+    static let mediumRatio : CGFloat = 0.492
+    static let largeRatio : CGFloat = 0.61
     
     static func aspectRatio(forType type: MLCardDrawerType) -> CGFloat {
         switch type {
         case .small:
-         return SMALL_RATIO
+         return smallRatio
         case .medium:
-         return MEDIUM_RATIO
+         return mediumRatio
         case .large:
-         return LARGE_RATIO
+         return largeRatio
         }
     }
 
