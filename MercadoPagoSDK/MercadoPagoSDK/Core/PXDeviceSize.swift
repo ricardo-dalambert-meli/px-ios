@@ -11,10 +11,10 @@ public class PXDeviceSize {
     
     // Breakpoints took from https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/
     
-    static let BREAKPOINT_SMALL : CGFloat = 568
-    static let BREAKPOINT_REGULAR : CGFloat = 736
-    static let BREAKPOINT_LARGE : CGFloat = 812
-    static let BREAKPOINT_EXTRALARGE : CGFloat = 926
+    static let smallBreakpoint : CGFloat = 568
+    static let regularBreakpoint : CGFloat = 736
+    static let largeBreakpoint : CGFloat = 812
+    static let extraLargeBreakpoint : CGFloat = 926
     
     enum Sizes {
         case small
@@ -24,11 +24,11 @@ public class PXDeviceSize {
     }
     
     static func getDeviceSize(deviceHeight: CGFloat) -> Sizes {
-        if deviceHeight <= BREAKPOINT_SMALL {
+        if deviceHeight <= smallBreakpoint {
             return .small
-        } else if deviceHeight <= BREAKPOINT_REGULAR {
+        } else if deviceHeight <= regularBreakpoint {
             return .regular
-        } else if deviceHeight <= BREAKPOINT_LARGE {
+        } else if deviceHeight <= largeBreakpoint {
             return .large
         } else {
             return .extraLarge
