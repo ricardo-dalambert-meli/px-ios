@@ -17,11 +17,13 @@ public struct PXApplicationValidationProgram: Codable {
 public struct PXOneTapApplication: Codable {
     var paymentMethod: PXApplicationPaymentMethod
     var validationPrograms: [PXApplicationValidationProgram]?
+    var behaviours: [String: PXBehaviour]?
     var status: PXStatus
 
     public enum CodingKeys: String, CodingKey {
         case paymentMethod = "payment_method"
         case validationPrograms = "validation_programs"
+        case behaviours = "behaviours"
         case status = "status"
     }
 }
