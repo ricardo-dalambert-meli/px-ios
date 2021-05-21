@@ -78,6 +78,10 @@ final class InstructionView: UIView {
             addLabel(info: info)
         }
         
+        instruction.accreditationComments.forEach { info in
+            addLabel(info: info)
+        }
+        
         footerLabel.attributedText = instruction.accreditationMessage?.htmlToAttributedString?.with(font: footerLabel.font)
     }
     

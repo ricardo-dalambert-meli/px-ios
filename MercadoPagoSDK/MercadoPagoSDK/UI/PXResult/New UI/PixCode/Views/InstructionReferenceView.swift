@@ -20,6 +20,7 @@ final class InstructionReferenceView: UIView {
         let label = UILabel()
         label.font = UIFont.ml_boldSystemFont(ofSize: 16)
         label.textAlignment = .left
+        label.numberOfLines = 0
         return label
     }()
     
