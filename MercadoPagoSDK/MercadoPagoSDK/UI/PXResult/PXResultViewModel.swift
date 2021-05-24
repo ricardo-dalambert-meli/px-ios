@@ -94,13 +94,6 @@ internal class PXResultViewModel: NSObject {
         return nil
     }
 
-    func instructionsView() -> UIView? {
-        guard let bodyComponent = buildBodyComponent() as? PXBodyComponent, bodyComponent.hasInstructions() else {
-            return nil
-        }
-        return bodyComponent.render()
-    }
-
     private func getRemedyViewData() -> PXRemedyViewData? {
         if isPaymentResultRejectedWithRemedy(),
             let remedy = remedy {
