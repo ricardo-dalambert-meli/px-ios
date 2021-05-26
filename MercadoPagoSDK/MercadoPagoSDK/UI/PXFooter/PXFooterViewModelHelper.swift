@@ -18,7 +18,7 @@ internal extension PXResultViewModel {
     }
 
     func getActionLink() -> PXAction? {
-        return getAction(label: getLinkLabel(), action: getLinkAction())
+        return getButtonLabel() ==  getLinkLabel() ? nil : getAction(label: getLinkLabel(), action: getLinkAction())
     }
 
     private func getAction(label: String?, action: Action) -> PXAction? {
