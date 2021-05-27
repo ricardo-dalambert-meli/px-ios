@@ -61,7 +61,8 @@ extension PXOneTapInstallmentsSelectorView {
         self.layoutIfNeeded()
         self.tableViewTopSeparator.alpha = 1
         self.tableView.alpha = 0
-        animateTableViewHeight(tableViewHeight: self.frame.height, tableViewAlpha: 1, completion: completion)
+//        animateTableViewHeight(tableViewHeight: self.frame.height, tableViewAlpha: 1, completion: completion)
+        animateTableViewHeight(tableViewHeight: 150, tableViewAlpha: 1, completion: completion)
         animator.animate()
     }
 

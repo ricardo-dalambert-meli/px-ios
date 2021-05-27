@@ -207,7 +207,8 @@ extension PXOneTapViewController {
         let cardSliderContentView = UIView()
         whiteView.addSubview(cardSliderContentView)
         PXLayout.centerHorizontally(view: cardSliderContentView).isActive = true
-        let topMarginConstraint = PXLayout.put(view: cardSliderContentView, onBottomOf: installmentRow, withMargin: 0)
+        
+        let topMarginConstraint = PXLayout.put(view: cardSliderContentView, onBottomOf: installmentRow)//PXLayout.pinTop(view: cardSliderContentView, withMargin: PXLayout.SM_MARGIN)
         topMarginConstraint.isActive = true
         cardSliderMarginConstraint = topMarginConstraint
 
@@ -305,7 +306,7 @@ extension PXOneTapViewController {
             return PXOneTapInstallmentInfoView()
         }
     }
-
+    
     private func addCardSlider(inContainerView: UIView) {
         slider.render(containerView: inContainerView, cardSliderProtocol: self)
         slider.termsAndCondDelegate = self
@@ -827,7 +828,8 @@ extension PXOneTapViewController: PXOneTapInstallmentInfoViewProtocol, PXOneTapI
         PXLayout.centerHorizontally(view: installmentsSelectorView).isActive = true
         PXLayout.put(view: installmentsSelectorView, onBottomOf: installmentInfoRow).isActive = true
         let installmentsSelectorViewHeight = PXCardSliderSizeManager.getWhiteViewHeight(viewController: self) - PXOneTapInstallmentInfoView.DEFAULT_ROW_HEIGHT
-        PXLayout.setHeight(owner: installmentsSelectorView, height: installmentsSelectorViewHeight).isActive = true
+//        PXLayout.setHeight(owner: installmentsSelectorView, height: installmentsSelectorViewHeight).isActive = true
+        PXLayout.setHeight(owner: installmentsSelectorView, height: 150).isActive = true
 
         installmentsSelectorView.layoutIfNeeded()
         self.installmentInfoRow?.disableTap()
@@ -836,17 +838,18 @@ extension PXOneTapViewController: PXOneTapInstallmentInfoViewProtocol, PXOneTapI
         loadingButtonComponent?.hide(duration: 0.1)
 
         let animationDuration = 0.5
-        slider.hide(duration: animationDuration)
+//        slider.hide(duration: animationDuration)
 
         var pxAnimator = PXAnimator(duration: animationDuration, dampingRatio: 1)
         pxAnimator.addAnimation(animation: { [weak self] in
-            self?.cardSliderMarginConstraint?.constant = installmentsSelectorViewHeight
+            self?.cardSliderMarginConstraint?.constant = 150
             self?.contentView.layoutIfNeeded()
         })
 
         installmentsSelectorView.expand(animator: pxAnimator) {
             self.installmentInfoRow?.enableTap()
         }
+        
         installmentsSelectorView.tableView.reloadData()
     }
 }
