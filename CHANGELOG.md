@@ -1,3 +1,9 @@
+# v4.38.0
+🚀Private Release - 4.38.0 🚀
+- Now backend sends behaviours inside applications node so we use it from there, using the old behaviours node as fallback
+- BugFix duplicated button on congrats
+- Changed applications location on PXOneTapViewModel+Tracking and replaced key by 'methods_applications'
+
 # v4.37.11
 🚀Private Release - 4.37.11 🚀
 - Added Combo Cards Support
