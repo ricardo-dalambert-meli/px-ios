@@ -52,7 +52,7 @@ struct PXInitFeatures: Codable {
     let validationPrograms: [String]
     let pix: Bool
 
-    init(oneTap: Bool = true, split: Bool, odr: Bool = true, comboCard: Bool = false, hybridCard: Bool = false, validationPrograms: [String] = []) {
+    init(oneTap: Bool = true, split: Bool, odr: Bool = true, comboCard: Bool = false, hybridCard: Bool = false, validationPrograms: [String] = [], pix: Bool = true) {
         self.oneTap = oneTap
         self.split = split
         self.odr = odr
@@ -69,5 +69,6 @@ struct PXInitFeatures: Codable {
         case comboCard = "combo_card"
         case hybridCard = "hybrid_card"
         case validationPrograms = "validations_programs"
+        case pix
     }
 }

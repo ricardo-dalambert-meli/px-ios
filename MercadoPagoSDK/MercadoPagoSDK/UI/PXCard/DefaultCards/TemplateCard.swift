@@ -35,4 +35,8 @@ class TemplatePIX: NSObject, GenericCardUI {
     var subtitleTextColor = ""
     var cardBackgroundColor = UIColor.white
     var logoImageURL = ""
+    var labelName = ""
+    var labelTextColor = ""
+    var labelBackgroundColor = ""
+    var labelWeight = ""
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		120F17EA266142FF008AE506 /* ResponseTest.json in Resources */ = {isa = PBXBuildFile; fileRef = 120F17E9266142FF008AE506 /* ResponseTest.json */; };
 		129B9D462615195E00127DC6 /* DataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129B9D452615195E00127DC6 /* DataExtensions.swift */; };
 		23EDA1372147DFC90085CA7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDA1362147DFC90085CA7A /* AppDelegate.swift */; };
 		23EDA1392147DFC90085CA7A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDA1382147DFC90085CA7A /* ViewController.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		120F17E9266142FF008AE506 /* ResponseTest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ResponseTest.json; sourceTree = "<group>"; };
 		129B9D452615195E00127DC6 /* DataExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensions.swift; sourceTree = "<group>"; };
 		23EDA1332147DFC90085CA7A /* ExampleSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23EDA1362147DFC90085CA7A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				23EDA1382147DFC90085CA7A /* ViewController.swift */,
 				F9DF596324803FFD00B1FDBF /* CustomCheckoutViewController.swift */,
 				A36F0F1A24DC3E7D00F3457D /* CongratsSelectorViewController.swift */,
+				120F17E9266142FF008AE506 /* ResponseTest.json */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				120F17EA266142FF008AE506 /* ResponseTest.json in Resources */,
 				23EDA1412147DFC90085CA7A /* LaunchScreen.storyboard in Resources */,
 				23EDA13E2147DFC90085CA7A /* Assets.xcassets in Resources */,
 				5A8250B925FBFE6900B64357 /* DebugConfig.xcconfig in Resources */,
