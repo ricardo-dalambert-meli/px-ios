@@ -50,6 +50,7 @@ struct PXInitFeatures: Codable {
     let comboCard: Bool
     let hybridCard: Bool
     let validationPrograms: [String]
+    let pix: Bool
 
     init(oneTap: Bool = true, split: Bool, odr: Bool = true, comboCard: Bool = false, hybridCard: Bool = false, validationPrograms: [String] = []) {
         self.oneTap = oneTap
@@ -58,6 +59,7 @@ struct PXInitFeatures: Codable {
         self.comboCard = comboCard
         self.hybridCard = hybridCard
         self.validationPrograms = validationPrograms
+        self.pix = pix
     }
 
     enum CodingKeys: String, CodingKey {
