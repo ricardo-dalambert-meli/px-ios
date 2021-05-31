@@ -21,7 +21,8 @@ extension OneTapFlow {
         }
         let callbackUpdatePaymentOption: ((PaymentMethodOption) -> Void) = { [weak self] paymentMethodOption in
             if let cardSliderViewModel = paymentMethodOption as? PXCardSliderViewModel,
-               let customerPaymentMethodOption = self?.getCustomerPaymentMethodOption(cardId: cardSliderViewModel.cardId ?? "") {
+               let paymentMethodType = cardSliderViewModel.selectedApplication?.paymentTypeId,
+               let customerPaymentMethodOption = self?.getCustomerPaymentMethodOption(cardId: cardSliderViewModel.cardId ?? "", paymentMethodType: paymentMethodType) {
                 // Customer card.
                 self?.model.paymentOptionSelected = customerPaymentMethodOption
             } else {

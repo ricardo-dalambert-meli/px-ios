@@ -57,22 +57,24 @@ extension PXCardSliderPagerCell {
     }
     
     private func setupSwitchInfoView(model: PXCardSliderViewModel) {
-        guard let switchInfo = model.displayInfo?.switchInfo else { return }
-        let comboSwitchView = ComboSwitchView()
-        comboSwitchView.setSwitchModel(switchInfo)
-        comboSwitchView.setSwitchDidChangeCallback() { [weak self] selectedOption in
-            model.selectedPaymentMethodTypeId = selectedOption
-            self?.cardSliderPagerCellDelegate?.switchDidChange(selectedOption)
+        if let comboSwitch = model.comboSwitch {
+            comboSwitch.setSwitchDidChangeCallback() { [weak self] selectedOption in
+                model.trackCard(state: selectedOption)
+                model.selectedApplicationId = selectedOption
+                self?.cardSliderPagerCellDelegate?.switchDidChange(selectedOption)
+            }
+            cardHeader?.setCustomView(comboSwitch)
         }
-        cardHeader?.setCustomView(comboSwitchView)
     }
     
     func render(model: PXCardSliderViewModel, cardSize: CGSize, accessibilityData: AccessibilityCardData, clearCardData: Bool = false, delegate: PXCardSliderPagerCellDelegate?) {
+        
+        guard let selectedApplication = model.selectedApplication, let cardUI = model.cardUI else { return }
+        
         cardSliderPagerCellDelegate = delegate
-        let cardUI = model.cardUI
-        let cardData = clearCardData ? PXCardDataFactory() : model.cardData ?? PXCardDataFactory()
-        let isDisabled = model.status.isDisabled()
-        let bottomMessage = model.bottomMessage
+        let cardData = clearCardData ? PXCardDataFactory() : selectedApplication.cardData ?? PXCardDataFactory()
+        let isDisabled = selectedApplication.status.isDisabled()
+        let bottomMessage = selectedApplication.bottomMessage
         
         setupContainerView()
         setupCardHeader(cardDrawerController: MLCardDrawerController(cardUI, cardData, isDisabled), cardSize: cardSize)
@@ -87,7 +89,7 @@ extension PXCardSliderPagerCell {
             PXLayout.centerHorizontally(view: headerView).isActive = true
             PXLayout.centerVertically(view: headerView).isActive = true
         }
-        
+                    
         addBottomMessageView(message: bottomMessage)
         accessibilityLabel = getAccessibilityMessage(accessibilityData)
         
@@ -158,11 +160,12 @@ extension PXCardSliderPagerCell {
     }
     
     func renderConsumerCreditsCard(model: PXCardSliderViewModel, cardSize: CGSize, accessibilityData: AccessibilityCardData) {
+        guard let selectedApplication = model.selectedApplication else { return }
         guard let creditsViewModel = model.creditsViewModel else { return }
         let cardData = PXCardDataFactory()
-        let isDisabled = model.status.isDisabled()
-        let bottomMessage = model.bottomMessage
-        let creditsInstallmentSelected = model.selectedPayerCost?.installments
+        let isDisabled = selectedApplication.status.isDisabled()
+        let bottomMessage = selectedApplication.bottomMessage
+        let creditsInstallmentSelected = selectedApplication.selectedPayerCost?.installments
         consumerCreditCard = ConsumerCreditsCard(creditsViewModel, isDisabled: isDisabled)
         guard let consumerCreditCard = consumerCreditCard else { return }
 
@@ -180,7 +183,7 @@ extension PXCardSliderPagerCell {
         accessibilityLabel = getAccessibilityMessage(accessibilityData)
     }
 
-    func addBottomMessageView(message: PXCardBottomMessage?) {
+    public func addBottomMessageView(message: PXCardBottomMessage?) {
         guard let message = message else { return }
 
         let messageView = UIView()

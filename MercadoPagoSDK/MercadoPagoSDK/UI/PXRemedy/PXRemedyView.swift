@@ -169,7 +169,7 @@ class PXRemedyView: UIView {
             if accountMoney.cardType == .defaultType {
               cardUI = AccountMoneyCard(isDisabled: false, cardLogoImageUrl: accountMoney.paymentMethodImageURL, color: accountMoney.color, gradientColors: accountMoney.gradientColors)
             } else {
-              cardUI = HybridAMCard(isDisabled: false, cardLogoImageUrl: accountMoney.paymentMethodImageURL, color: accountMoney.color, gradientColors: accountMoney.gradientColors)
+              cardUI = HybridAMCard(isDisabled: false, cardLogoImageUrl: accountMoney.paymentMethodImageURL, paymentMethodImageUrl: nil, color: accountMoney.color, gradientColors: accountMoney.gradientColors)
             }
 
         } else if let oneTapCardUI = oneTapDto.oneTapCard?.cardUI,
@@ -249,7 +249,7 @@ class PXRemedyView: UIView {
 
         let currency = SiteManager.shared.getCurrency()
         let defaultTextColor = UIColor.black.withAlphaComponent(0.45)
-        let defaultFont = UIFont.ml_semiboldSystemFont(ofSize: TOTAL_FONT_SIZE) ?? Utils.getSemiBoldFont(size: TOTAL_FONT_SIZE)
+        var defaultFont = UIFont.ml_semiboldSystemFont(ofSize: TOTAL_FONT_SIZE) ?? Utils.getSemiBoldFont(size: TOTAL_FONT_SIZE)
         let interestRateAttributes: [NSAttributedString.Key: Any] = [
             NSAttributedString.Key.font: defaultFont,
             NSAttributedString.Key.foregroundColor: ThemeManager.shared.noTaxAndDiscountLabelTintColor()
@@ -315,11 +315,27 @@ class PXRemedyView: UIView {
         totalView.translatesAutoresizingMaskIntoConstraints = false
 
         let totalTitleLabel = UILabel()
+        
+        let bottomMessage = data.remedy.suggestedPaymentMethod?.bottomMessage
+        
+        switch bottomMessage?.weight {
+        case "regular":
+            defaultFont = UIFont.ml_regularSystemFont(ofSize: 16)
+        case "semi_bold":
+            defaultFont = UIFont.ml_semiboldSystemFont(ofSize: 16)
+        case "light":
+            defaultFont = UIFont.ml_lightSystemFont(ofSize: 16)
+        case "bold":
+            defaultFont = UIFont.ml_boldSystemFont(ofSize: 16)
+        default: break
+        }
+        
         totalTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         totalTitleLabel.textAlignment = .left
-        totalTitleLabel.textColor = UIColor.black.withAlphaComponent(0.8)
+        totalTitleLabel.backgroundColor = bottomMessage?.backgroundColor.hexToUIColor()
+        totalTitleLabel.textColor = bottomMessage?.textColor.hexToUIColor()
         totalTitleLabel.numberOfLines = 1
-        totalTitleLabel.text = "total_row_title_default".localized
+        totalTitleLabel.text = bottomMessage?.message ?? "total_row_title_default".localized
         totalTitleLabel.font = defaultFont
         totalTitleLabel.lineBreakMode = .byTruncatingTail
 

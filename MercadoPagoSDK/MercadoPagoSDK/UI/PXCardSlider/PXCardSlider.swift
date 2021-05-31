@@ -45,12 +45,14 @@ extension PXCardSlider: FSPagerViewDataSource {
         if model.indices.contains(index) {
             let targetModel = model[index]
             var accessibilityData = AccessibilityCardData(paymentMethodId: "", paymentTypeId: "", issuerName: "", description: "", cardName: "", index: 0, numberOfPages: 1)
+            
+            guard let selectedApplication = targetModel.selectedApplication else { return FSPagerViewCell() }
 
-            if let payerPaymentMethod = targetModel.payerPaymentMethod {
-                accessibilityData = AccessibilityCardData(paymentMethodId: targetModel.paymentMethodId, paymentTypeId: targetModel.paymentTypeId ?? "", issuerName: payerPaymentMethod.issuer?.name ?? "", description: payerPaymentMethod._description ?? "", cardName: targetModel.cardData?.name ?? "", index: index,  numberOfPages: pageControl.numberOfPages)
+            if let payerPaymentMethod = selectedApplication.payerPaymentMethod {
+                accessibilityData = AccessibilityCardData(paymentMethodId: selectedApplication.paymentMethodId, paymentTypeId: selectedApplication.paymentTypeId ?? "", issuerName: payerPaymentMethod.issuer?.name ?? "", description: payerPaymentMethod._description ?? "", cardName: selectedApplication.cardData?.name ?? "", index: index,  numberOfPages: pageControl.numberOfPages)
             }
 
-            if targetModel.cardData != nil,
+            if selectedApplication.cardData != nil,
                let cell = pagerView.dequeueReusableCell(withReuseIdentifier: PXCardSliderPagerCell.identifier, at: index) as? PXCardSliderPagerCell {
                 if targetModel.creditsViewModel != nil,
                    targetModel.cardUI is ConsumerCreditsCard {
@@ -110,6 +112,10 @@ extension PXCardSlider: PXCardSliderPagerCellDelegate {
         if model.indices.contains(selectedIndex) {
             let modelData = model[selectedIndex]
             delegate?.newCardDidSelected(targetModel: modelData)
+            self.pagerView.reloadData()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                if let cell = self.pagerView.cellForItem(at: self.selectedIndex) as? PXCardSliderPagerCell { cell.showBottomMessageView(true) }
+            }
         }
     }
 }
@@ -147,7 +153,9 @@ extension PXCardSlider: FSPagerViewDelegate {
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         if model.indices.contains(index) {
             let modelData = model[index]
-            delegate?.cardDidTap(status: modelData.status)
+            if let selectedApplication = modelData.selectedApplication {
+                delegate?.cardDidTap(status: selectedApplication.status)
+            }
         }
     }
 }

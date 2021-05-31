@@ -4,7 +4,6 @@
 //
 //  Created by Juan sebastian Sanzone on 23/10/18.
 //
-
 import Foundation
 /// :nodoc:
 open class PXOneTapDto: NSObject, Codable {
@@ -20,9 +19,24 @@ open class PXOneTapDto: NSObject, Codable {
     open var offlineMethods: PXOfflineMethods?
     open var behaviours: [String: PXBehaviour]?
     open var displayInfo: PXOneTapDisplayInfo?
+    open var applications: [PXOneTapApplication]?newLabel
     open var labeled: PXText?
 
-    public init(paymentMethodId: String?, paymentTypeId: String?, oneTapCard: PXOneTapCardDto?, oneTapCreditsInfo: PXOneTapCreditsDto?, accountMoney: PXAccountMoneyDto?, newCard: PXOneTapNewCardDto?, status: PXStatus, benefits: PXBenefits? = nil, offlineMethods: PXOfflineMethods?, behaviours: [String: PXBehaviour]?, displayInfo: PXOneTapDisplayInfo?, labeled: PXText?) {
+    public init(
+        paymentMethodId: String?,
+        paymentTypeId: String?,
+        oneTapCard: PXOneTapCardDto?,
+        oneTapCreditsInfo: PXOneTapCreditsDto?,
+        accountMoney: PXAccountMoneyDto?,
+        newCard: PXOneTapNewCardDto?,
+        status: PXStatus,
+        benefits: PXBenefits? = nil,
+        offlineMethods: PXOfflineMethods?,
+        behaviours: [String: PXBehaviour]?,
+        displayInfo: PXOneTapDisplayInfo?,
+        applications: [PXOneTapApplication]?, 
+        labeled: PXText?
+    ) {
         self.paymentMethodId = paymentMethodId
         self.paymentTypeId = paymentTypeId
         self.oneTapCard = oneTapCard
@@ -35,6 +49,7 @@ open class PXOneTapDto: NSObject, Codable {
         self.behaviours = behaviours
         self.displayInfo = displayInfo
         self.labeled = labeled
+        self.applications = applications
     }
 
     public enum CodingKeys: String, CodingKey {
@@ -51,5 +66,6 @@ open class PXOneTapDto: NSObject, Codable {
         case behaviours
         case displayInfo = "display_info"
         case labeled
+        case applications = "applications"
     }
 }

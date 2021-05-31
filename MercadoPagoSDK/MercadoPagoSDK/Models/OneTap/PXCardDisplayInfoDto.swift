@@ -7,6 +7,11 @@
 
 import Foundation
 
+public enum PXCardDisplayTypes: String, Codable {
+    case defaultType = "default"
+    case hybrid = "hybrid"
+}
+
 /// :nodoc:
 open class PXCardDisplayInfoDto: NSObject, Codable {
     open var expiration: String?
@@ -23,10 +28,11 @@ open class PXCardDisplayInfoDto: NSObject, Codable {
     open var securityCode: PXSecurityCode?
     open var paymentMethodImageUrl: String?
     open var issuerImageUrl: String?
+    open var displayType: PXCardDisplayTypes?
     open var title: PXText?
     open var subtitle: PXText?
 
-    public init(expiration: String?, firstSixDigits: String?, lastFourDigits: String?, issuerId: String?, name: String?, cardPattern: [Int]?, color: String?, fontColor: String?, issuerImage: String?, pmImage: String?, fontType: String?, securityCode: PXSecurityCode?, paymentMethodImageUrl: String?, issuerImageUrl: String?, title: PXText?, subtitle: PXText?) {
+    public init(expiration: String?, firstSixDigits: String?, lastFourDigits: String?, issuerId: String?, name: String?, cardPattern: [Int]?, color: String?, fontColor: String?, issuerImage: String?, pmImage: String?, fontType: String?, securityCode: PXSecurityCode?, paymentMethodImageUrl: String?, issuerImageUrl: String?, title: PXText?, subtitle: PXText?, displayType: PXCardDisplayTypes?) {
         self.expiration = expiration
         self.firstSixDigits = firstSixDigits
         self.lastFourDigits = lastFourDigits
@@ -41,6 +47,7 @@ open class PXCardDisplayInfoDto: NSObject, Codable {
         self.securityCode = securityCode
         self.paymentMethodImageUrl = paymentMethodImageUrl
         self.issuerImageUrl = issuerImageUrl
+        self.displayType = displayType
         self.title = title
         self.subtitle = subtitle
     }
@@ -60,6 +67,7 @@ open class PXCardDisplayInfoDto: NSObject, Codable {
         case securityCode = "security_code"
         case paymentMethodImageUrl = "payment_method_image_url"
         case issuerImageUrl = "issuer_image_url"
+        case displayType = "type"
         case title
         case subtitle
     }
@@ -80,9 +88,10 @@ open class PXCardDisplayInfoDto: NSObject, Codable {
         let securityCode: PXSecurityCode? = try container.decodeIfPresent(PXSecurityCode.self, forKey: .securityCode)
         let paymentMethodImageUrl: String? = try container.decodeIfPresent(String.self, forKey: .paymentMethodImageUrl)
         let issuerImageUrl: String? = try container.decodeIfPresent(String.self, forKey: .issuerImageUrl)
+        let displayType: PXCardDisplayTypes? = try container.decodeIfPresent(PXCardDisplayTypes.self, forKey: .displayType)
         let title: PXText? = try container.decodeIfPresent(PXText.self, forKey: .title)
         let subtitle: PXText? = try container.decodeIfPresent(PXText.self, forKey: .subtitle)
-        self.init(expiration: expiration, firstSixDigits: firstSixDigits, lastFourDigits: lastFourDigits, issuerId: issuerId, name: name, cardPattern: cardPattern, color: color, fontColor: fontColor, issuerImage: issuerImage, pmImage: paymentMethodImage, fontType: fontType, securityCode: securityCode, paymentMethodImageUrl: paymentMethodImageUrl, issuerImageUrl: issuerImageUrl, title: title, subtitle: subtitle)
+        self.init(expiration: expiration, firstSixDigits: firstSixDigits, lastFourDigits: lastFourDigits, issuerId: issuerId, name: name, cardPattern: cardPattern, color: color, fontColor: fontColor, issuerImage: issuerImage, pmImage: paymentMethodImage, fontType: fontType, securityCode: securityCode, paymentMethodImageUrl: paymentMethodImageUrl, issuerImageUrl: issuerImageUrl, title: title, subtitle: subtitle, displayType: displayType)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -99,6 +108,7 @@ open class PXCardDisplayInfoDto: NSObject, Codable {
         try container.encodeIfPresent(self.pmImage, forKey: .pm_image)
         try container.encodeIfPresent(self.fontType, forKey: .font_type)
         try container.encodeIfPresent(self.securityCode, forKey: .securityCode)
+        try container.encodeIfPresent(self.displayType, forKey: .displayType)
     }
 
     open func toJSONString() throws -> String? {
