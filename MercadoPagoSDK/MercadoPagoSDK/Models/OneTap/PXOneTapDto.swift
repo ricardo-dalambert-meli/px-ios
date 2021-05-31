@@ -19,7 +19,7 @@ open class PXOneTapDto: NSObject, Codable {
     open var offlineMethods: PXOfflineMethods?
     open var behaviours: [String: PXBehaviour]?
     open var displayInfo: PXOneTapDisplayInfo?
-    open var applications: [PXOneTapApplication]?newLabel
+    open var applications: [PXOneTapApplication]?
     open var labeled: PXText?
 
     public init(

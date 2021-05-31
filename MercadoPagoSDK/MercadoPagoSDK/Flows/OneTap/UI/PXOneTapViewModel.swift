@@ -159,9 +159,9 @@ extension PXOneTapViewModel {
 
 
                 sliderModel.append(viewModelCard)
-            } else if let offlineCard = targetNode.offlineTapCard,
+            } else if (targetNode.offlineTapCard != nil),
                       let paymentMethodId = targetNode.paymentMethodId {
-                let templateCard = getOfflineCardUI(oneTapCard: offlineCard)
+                let templateCard = getOfflineCardUI(oneTap: targetNode)
                 let cardData = PXCardDataFactory().create(cardName: "", cardNumber: "", cardCode: "", cardExpiration: "")
                 var cardSliderApplications : [PXApplicationId:PXCardSliderApplicationData] = [:]
                 let applicationName = targetNode.paymentTypeId ?? PXPaymentTypes.BANK_TRANSFER.rawValue
