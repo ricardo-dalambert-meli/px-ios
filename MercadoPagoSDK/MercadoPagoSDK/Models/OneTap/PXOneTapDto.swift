@@ -20,6 +20,7 @@ open class PXOneTapDto: NSObject, Codable {
     open var behaviours: [String: PXBehaviour]?
     open var displayInfo: PXOneTapDisplayInfo?
     open var applications: [PXOneTapApplication]?
+    open var labeled: PXText?
 
     public init(
         paymentMethodId: String?,
@@ -33,7 +34,8 @@ open class PXOneTapDto: NSObject, Codable {
         offlineMethods: PXOfflineMethods?,
         behaviours: [String: PXBehaviour]?,
         displayInfo: PXOneTapDisplayInfo?,
-        applications: [PXOneTapApplication]?
+        applications: [PXOneTapApplication]?, 
+        labeled: PXText?
     ) {
         self.paymentMethodId = paymentMethodId
         self.paymentTypeId = paymentTypeId
@@ -46,6 +48,7 @@ open class PXOneTapDto: NSObject, Codable {
         self.offlineMethods = offlineMethods
         self.behaviours = behaviours
         self.displayInfo = displayInfo
+        self.labeled = labeled
         self.applications = applications
     }
 
@@ -62,6 +65,7 @@ open class PXOneTapDto: NSObject, Codable {
         case offlineMethods = "offline_methods"
         case behaviours
         case displayInfo = "display_info"
+        case labeled
         case applications = "applications"
     }
 }
