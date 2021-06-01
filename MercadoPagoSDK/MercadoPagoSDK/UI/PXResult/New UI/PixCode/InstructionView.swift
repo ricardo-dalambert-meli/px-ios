@@ -125,7 +125,7 @@ extension InstructionView: ViewConfiguration {
             footerLabel.topAnchor.constraint(equalTo: stepsStack.bottomAnchor, constant: 24),
             footerLabel.leadingAnchor.constraint(equalTo: watchIcon.trailingAnchor, constant: 8),
             footerLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
-            footerLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
+            footerLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4)
         ])
     }
     

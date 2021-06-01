@@ -13,20 +13,20 @@ open class PXInstructionInteraction: NSObject, Codable {
     open var content: String?
     open var action: PXInstructionAction?
     // TODO: replace this propertie for the one that will come from backend
-    open var isBoleto: Bool {
-        return content?.count ?? 0 <= 54
-    }
+    open var showMultiLine: Bool
 
-    public init(title: String?, content: String?, action: PXInstructionAction?) {
+    public init(title: String?, content: String?, action: PXInstructionAction?, showMultiLine: Bool) {
         self.title = title
         self.content = content
         self.action = action
+        self.showMultiLine = showMultiLine
     }
 
     public enum PXInstructionInteractionKeys: String, CodingKey {
         case title
         case content
         case action
+        case showMultiLine = "show_multiline_content"
     }
 
     required public convenience init(from decoder: Decoder) throws {
@@ -34,8 +34,9 @@ open class PXInstructionInteraction: NSObject, Codable {
         let title: String? = try container.decodeIfPresent(String.self, forKey: .title)
         let content: String? = try container.decodeIfPresent(String.self, forKey: .content)
         let action: PXInstructionAction? = try container.decodeIfPresent(PXInstructionAction.self, forKey: .action)
+        let showMultiLine: Bool = try container.decodeIfPresent(Bool.self, forKey: .showMultiLine) ?? true
 
-        self.init(title: title, content: content, action: action)
+        self.init(title: title, content: content, action: action, showMultiLine: showMultiLine)
     }
 
     public func encode(to encoder: Encoder) throws {
