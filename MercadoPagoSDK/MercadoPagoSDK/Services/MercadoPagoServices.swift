@@ -56,13 +56,6 @@ internal class MercadoPagoServices: NSObject {
         }
     }
 
-    func getInstructions(paymentId: Int64, paymentTypeId: String, callback : @escaping (PXInstructions) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
-        let instructionsService = InstructionsService(baseURL: baseURL, merchantPublicKey: publicKey, payerAccessToken: privateKey)
-        instructionsService.getInstructions(for: paymentId, paymentTypeId: paymentTypeId, success: { (instructionsInfo : PXInstructions) -> Void in
-            callback(instructionsInfo)
-        }, failure: failure)
-    }
-
     func getOpenPrefInitSearch(pref: PXCheckoutPreference, cardsWithEsc: [String], splitEnabled: Bool, discountParamsConfiguration: PXDiscountParamsConfiguration?, flow: String?, charges: [PXPaymentTypeChargeRule], headers: [String: String]?, callback : @escaping (PXInitDTO) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
         let paymentMethodSearchService = PaymentMethodSearchService(baseURL: baseURL, merchantPublicKey: publicKey, payerAccessToken: privateKey, processingModes: processingModes, branchId: branchId)
 

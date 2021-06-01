@@ -34,7 +34,6 @@ internal final class PXPaymentFlowModel: NSObject {
         case createPaymentPlugin
         case createDefaultPayment
         case getPointsAndDiscounts
-        case getInstructions
         case createPaymentPluginScreen
         case finish
     }
@@ -48,8 +47,6 @@ internal final class PXPaymentFlowModel: NSObject {
             return .createDefaultPayment
         } else if needToGetPointsAndDiscounts() {
             return .getPointsAndDiscounts
-        } else if needToGetInstructions() {
-            return .getInstructions
         } else {
             return .finish
         }
