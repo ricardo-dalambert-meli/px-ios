@@ -71,33 +71,9 @@ internal extension PXResultViewModel {
         return getTitleForRejected(paymentMethod, title)
     }
 
-    // TODO: INVESTIGATE
     func titleForInstructions() -> NSAttributedString {
-//        guard let instructionsInfo = self.instructionsInfo, let amountInfo = instructionsInfo.amountInfo else {
-            return "".toAttributedString()
-//        }
-//        let currency = SiteManager.shared.getCurrency()
-//        let currencySymbol = currency.getCurrencySymbolOrDefault()
-//        let thousandSeparator = currency.getThousandsSeparatorOrDefault()
-//        let decimalSeparator = currency.getDecimalSeparatorOrDefault()
-//        let arr = String(amountInfo.amount).split(separator: ".").map(String.init)
-//        let amountStr = Utils.getAmountFormatted(arr[0], thousandSeparator: thousandSeparator, decimalSeparator: decimalSeparator)
-//        let centsStr = Utils.getCentsFormatted(String(amountInfo.amount), decimalSeparator: decimalSeparator)
-//        let amountRange = instructionsInfo.getInstruction()!.title.range(of: currencySymbol + " " + amountStr + decimalSeparator + centsStr)
-//
-//        if let range = amountRange {
-//            let lowerBoundTitle = String(instructionsInfo.instruction.title[..<range.lowerBound])
-//            guard let attributedTitle = getHeaderAttributedString(string: lowerBoundTitle).mutableCopy() as? NSMutableAttributedString else { fatalError("Guaranteed cast to mutable sttributed string failed") }
-//            let attributedAmount = Utils.getAttributedAmount(amountInfo.amount, thousandSeparator: thousandSeparator, decimalSeparator: decimalSeparator, currencySymbol: currencySymbol, color: .white, fontSize: PXHeaderRenderer.TITLE_FONT_SIZE, centsFontSize: PXHeaderRenderer.TITLE_FONT_SIZE / 2, smallSymbol: true)
-//            attributedTitle.append(attributedAmount)
-//            let upperBoundTitle = String(instructionsInfo.instruction.title[range.upperBound...])
-//            let endingTitle = getHeaderAttributedString(string: upperBoundTitle)
-//            attributedTitle.append(endingTitle)
-//
-//            return attributedTitle
-//        } else {
-//            return getHeaderAttributedString(string: instructionsInfo.instruction.title, size: 26)
-//        }
+        guard let instructionsInfo = self.instructionsInfo else { return "".toAttributedString() }
+        return getHeaderAttributedString(string: instructionsInfo.title, size: 26)
     }
 
     func getTitleForRejected(_ paymentMethod: PXPaymentMethod, _ title: String) -> NSAttributedString {
