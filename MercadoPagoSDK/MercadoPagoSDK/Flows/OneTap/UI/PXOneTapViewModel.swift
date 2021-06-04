@@ -498,10 +498,10 @@ extension PXOneTapViewModel {
         template.subtitleName = oneTap.offlineTapCard?.displayInfo?.subtitle?.message ?? ""
         template.subtitleWeight = oneTap.offlineTapCard?.displayInfo?.title?.weight ?? ""
         template.subtitleTextColor = oneTap.offlineTapCard?.displayInfo?.subtitle?.textColor ?? ""
-        template.labelName = oneTap.labeled?.message ?? ""
-        template.labelWeight = oneTap.labeled?.weight ?? ""
-        template.labelTextColor = oneTap.labeled?.textColor ?? ""
-        template.labelBackgroundColor = oneTap.labeled?.backgroundColor ?? ""
+        template.labelName = oneTap.displayInfo?.tag?.message ?? ""
+        template.labelWeight = oneTap.displayInfo?.tag?.weight ?? ""
+        template.labelTextColor = oneTap.displayInfo?.tag?.textColor ?? ""
+        template.labelBackgroundColor = oneTap.displayInfo?.tag?.backgroundColor ?? ""
         template.logoImageURL = oneTap.offlineTapCard?.displayInfo?.paymentMethodImageUrl ?? ""
         
         return template

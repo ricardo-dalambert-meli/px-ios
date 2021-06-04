@@ -12,7 +12,6 @@ open class PXInstructionInteraction: NSObject, Codable {
     open var title: String?
     open var content: String?
     open var action: PXInstructionAction?
-    // TODO: replace this propertie for the one that will come from backend
     open var showMultiLine: Bool
 
     public init(title: String?, content: String?, action: PXInstructionAction?, showMultiLine: Bool) {
