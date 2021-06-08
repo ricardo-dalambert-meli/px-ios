@@ -66,8 +66,6 @@ internal final class PXPaymentFlow: NSObject, PXFlow {
             showPaymentProcessor(paymentProcessor: model.paymentPlugin, programId: validationProgramId)
         case .getPointsAndDiscounts:
             getPointsAndDiscounts()
-        case .getInstructions:
-            getInstructions()
         case .finish:
             finishFlow()
         }

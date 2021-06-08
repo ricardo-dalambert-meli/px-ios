@@ -159,14 +159,14 @@ extension PXOneTapViewModel {
 
 
                 sliderModel.append(viewModelCard)
-            } else if (targetNode.offlineTapCard != nil),
+            } else if targetNode.offlineTapCard != nil,
                       let paymentMethodId = targetNode.paymentMethodId {
                 let templateCard = getOfflineCardUI(oneTap: targetNode)
                 let cardData = PXCardDataFactory().create(cardName: "", cardNumber: "", cardCode: "", cardExpiration: "")
                 var cardSliderApplications : [PXApplicationId:PXCardSliderApplicationData] = [:]
                 let applicationName = targetNode.paymentTypeId ?? PXPaymentTypes.BANK_TRANSFER.rawValue
                 
-                cardSliderApplications[applicationName] = PXCardSliderApplicationData(paymentMethodId: paymentMethodId, paymentTypeId: nil, cardData: cardData, cardUI: templateCard, payerCost: [], selectedPayerCost: nil, shouldShowArrow: false, amountConfiguration: nil, status: statusConfig, bottomMessage: nil, benefits: nil, payerPaymentMethod: nil, behaviours: nil, displayInfo: nil, displayMessage: nil)
+                cardSliderApplications[applicationName] = PXCardSliderApplicationData(paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId, cardData: cardData, cardUI: templateCard, payerCost: [], selectedPayerCost: nil, shouldShowArrow: false, amountConfiguration: nil, status: statusConfig, bottomMessage: nil, benefits: targetNode.benefits, payerPaymentMethod: nil, behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo, displayMessage: nil)
 
                 let viewModelCard = PXCardSliderViewModel(applications: cardSliderApplications,
                                                           selectedApplicationId: applicationName,
@@ -498,10 +498,10 @@ extension PXOneTapViewModel {
         template.subtitleName = oneTap.offlineTapCard?.displayInfo?.subtitle?.message ?? ""
         template.subtitleWeight = oneTap.offlineTapCard?.displayInfo?.title?.weight ?? ""
         template.subtitleTextColor = oneTap.offlineTapCard?.displayInfo?.subtitle?.textColor ?? ""
-        template.labelName = oneTap.labeled?.message ?? ""
-        template.labelWeight = oneTap.labeled?.weight ?? ""
-        template.labelTextColor = oneTap.labeled?.textColor ?? ""
-        template.labelBackgroundColor = oneTap.labeled?.backgroundColor ?? ""
+        template.labelName = oneTap.displayInfo?.tag?.message ?? ""
+        template.labelWeight = oneTap.displayInfo?.tag?.weight ?? ""
+        template.labelTextColor = oneTap.displayInfo?.tag?.textColor ?? ""
+        template.labelBackgroundColor = oneTap.displayInfo?.tag?.backgroundColor ?? ""
         template.logoImageURL = oneTap.offlineTapCard?.displayInfo?.paymentMethodImageUrl ?? ""
         
         return template

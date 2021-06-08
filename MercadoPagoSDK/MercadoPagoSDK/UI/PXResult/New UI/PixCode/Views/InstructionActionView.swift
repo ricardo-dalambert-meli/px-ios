@@ -62,7 +62,7 @@ final class InstructionActionView: UIView {
     private func setupInfos(with instruction: PXInstructionInteraction) {
         instructionLabel.attributedText = instruction.title?.htmlToAttributedString?.with(font: instructionLabel.font)
         codeBorderView.isHidden = instruction.content == nil || instruction.content == ""
-        codeLabel.numberOfLines = instruction.isBoleto ? 0 : 1
+        codeLabel.numberOfLines = instruction.showMultiLine ? 0 : 1
         codeLabel.text = instruction.content
     }
 }

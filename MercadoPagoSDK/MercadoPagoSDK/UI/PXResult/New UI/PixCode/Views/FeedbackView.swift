@@ -30,6 +30,7 @@ final class FeedbackView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Public methods
     static func showFeedbackView(show feedbackMessage: String, in view: UIView) {
         let feedbackView = FeedbackView(feedbackMessage: feedbackMessage)
         view.addSubviews(views: [feedbackView])
@@ -49,6 +50,7 @@ final class FeedbackView: UIView {
             UIView.animate(withDuration: 0.3, animations: {
                 feedbackView.alpha = 0
                 feedbackView.layoutIfNeeded()
+                feedbackView.removeFromSuperview()
             })
         }
     }
