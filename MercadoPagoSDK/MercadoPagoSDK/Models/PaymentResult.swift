@@ -144,7 +144,8 @@ internal class PaymentResult {
     }
     
     func isPixOrOfflinePayment() -> Bool {
-        return self.statusDetail == PXRejectedStatusDetail.PENDING_WAITING_TRANSFER.rawValue
+        return self.statusDetail == PXRejectedStatusDetail.PENDING_WAITING_TRANSFER.rawValue &&
+            self.status == PXPaymentStatus.PENDING.rawValue
     }
 
     func isReviewManual() -> Bool {
