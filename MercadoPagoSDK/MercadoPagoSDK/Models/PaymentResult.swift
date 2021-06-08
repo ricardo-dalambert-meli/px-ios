@@ -142,6 +142,10 @@ internal class PaymentResult {
     func isInvalidESC() -> Bool {
         return self.statusDetail == PXRejectedStatusDetail.INVALID_ESC.rawValue
     }
+    
+    func isPixOrOfflinePayment() -> Bool {
+        return self.statusDetail == PXRejectedStatusDetail.PENDING_WAITING_TRANSFER.rawValue
+    }
 
     func isReviewManual() -> Bool {
         return self.statusDetail == PXPendingStatusDetail.REVIEW_MANUAL.rawValue

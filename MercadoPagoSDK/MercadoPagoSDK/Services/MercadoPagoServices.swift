@@ -90,6 +90,7 @@ internal class MercadoPagoServices: NSObject {
         params.paramsAppend(key: ApiParam.API_VERSION, value: PXServicesURLConfigs.API_VERSION)
         params.paramsAppend(key: ApiParam.IFPE, value: String(ifpe))
         params.paramsAppend(key: ApiParam.PREF_ID, value: prefId)
+        params.paramsAppend(key: ApiParam.PUBLIC_KEY, value: publicKey)
 
         if let campaignId = campaignId {
             params.paramsAppend(key: ApiParam.CAMPAIGN_ID, value: campaignId)

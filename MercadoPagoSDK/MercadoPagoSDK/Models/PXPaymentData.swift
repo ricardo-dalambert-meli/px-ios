@@ -65,10 +65,6 @@ import UIKit
             }
         }
 
-        if !Array.isNullOrEmpty(paymentMethod.financialInstitutions) && transactionDetails?.financialInstitution == nil {
-            return false
-        }
-
         if paymentMethod.id == PXPaymentTypes.ACCOUNT_MONEY.rawValue || !paymentMethod.isOnlinePaymentMethod {
             return true
         }
