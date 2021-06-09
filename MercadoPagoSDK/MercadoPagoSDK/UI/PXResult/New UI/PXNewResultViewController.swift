@@ -772,11 +772,7 @@ extension PXNewResultViewController: ActionViewDelegate {
         switch action.tag {
         case "copy":
             UIPasteboard.general.string = action.content
-            guard let instructionView = contentView.subviews.filter({ $0 is InstructionView }).first else {
-                FeedbackView.showFeedbackView(show: "payment_result_screen_congrats_copy_button".localized, in: scrollView)
-                return
-            }
-            FeedbackView.showFeedbackView(show: "payment_result_screen_congrats_copy_button".localized, in: instructionView)
+            FeedbackView.showFeedbackView(show: "payment_result_screen_congrats_copy_button".localized, in: scrollView)
         case "link":
             guard let urlString = action.url, let url = URL(string: urlString) else { return }
             UIApplication.shared.open(url, options: [:], completionHandler: nil)

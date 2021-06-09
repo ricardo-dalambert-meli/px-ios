@@ -33,6 +33,9 @@ final class FeedbackView: UIView {
     // MARK: - Public methods
     static func showFeedbackView(show feedbackMessage: String, in view: UIView) {
         let feedbackView = FeedbackView(feedbackMessage: feedbackMessage)
+        
+        guard view.subviews.filter({ $0 is FeedbackView }).count == 0 else { return }
+        
         view.addSubviews(views: [feedbackView])
         view.bringSubviewToFront(feedbackView)
         

@@ -7,11 +7,21 @@
 
 extension NSMutableAttributedString {
     func with(font: UIFont) -> NSMutableAttributedString {
-        self.enumerateAttribute(.font, in: NSMakeRange(0, self.length), options: .longestEffectiveRangeNotRequired, using: { (value, range, stop) in
-            if let originalFont = value as? UIFont, let newFont = applyTraitsFromFont(originalFont, to: font) {
-                self.addAttribute(.font, value: newFont, range: range)
+        self.enumerateAttribute(.font, in: NSMakeRange(0, self.length), options: .longestEffectiveRangeNotRequired) { (value, range, stop) in
+            
+            if let oldFont = value as? UIFont,
+              let newFontDescriptor = oldFont.fontDescriptor
+                .withFamily(font.familyName)
+                .withSymbolicTraits(oldFont.fontDescriptor.symbolicTraits) {
+
+                let newFont = UIFont(
+                    descriptor: newFontDescriptor,
+                    size: font.pointSize
+                )
+                removeAttribute(.font, range: range)
+                addAttribute(.font, value: newFont, range: range)
             }
-        })
+        }
         return self
     }
     
