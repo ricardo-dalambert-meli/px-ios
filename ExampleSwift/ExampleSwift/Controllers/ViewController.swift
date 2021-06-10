@@ -14,17 +14,17 @@ import MercadoPagoSDKV4
 class ViewController: UIViewController {
     private var checkout: MercadoPagoCheckout?
     
+    // Collector Public Key
     private var publicKey : String = ""
     
     // Payer private key
     private var privateKey : String = ""
     
     // Preference ID
-    private var preferenceId : String = "99997433-5f6141dc-0a60-4b64-96a8-ef781e5d7d76"
+    private var preferenceId : String = "656525290-7bda964b-26d9-4352-a04c-1b04801627ee"
     
     @IBAction func initDefault(_ sender: Any) {
 //         runMercadoPagoCheckout()
-//         runMercadoPagoCheckoutWithLifecycle()
 //         runMercadoPagoCheckoutWithLifecycle()
         runMercadoPagoCheckoutWithLifecycleAndCustomProcessor()
     }
@@ -74,7 +74,7 @@ class ViewController: UIViewController {
 //
   
         // Free charge rule
-//        pxPaymentTypeChargeRules.append(PXPaymentTypeChargeRule.init(paymentTypeId: PXPaymentTypes.CREDIT_CARD.rawValue, message: "Mensaje de resaltado"))
+        pxPaymentTypeChargeRules.append(PXPaymentTypeChargeRule.init(paymentTypeId: PXPaymentTypes.CREDIT_CARD.rawValue, message: "Mensaje de resaltado"))
         
         // Create an instance of your custom payment processor
         let paymentProcessor : PXPaymentProcessor = CustomPaymentProcessor()
@@ -86,13 +86,11 @@ class ViewController: UIViewController {
         paymentConfiguration.addChargeRules(charges: pxPaymentTypeChargeRules)
         
         // Create a Builder with your publicKey, preferenceId and paymentConfiguration
-//        let builder = MercadoPagoCheckoutBuilder(publicKey: publicKey, preferenceId: preferenceId, paymentConfiguration: paymentConfiguration).setLanguage("es")
+        let builder = MercadoPagoCheckoutBuilder(publicKey: publicKey, preferenceId: preferenceId, paymentConfiguration: paymentConfiguration).setLanguage("es")
         
 //        let checkoutPreference = PXCheckoutPreference.init(preferenceId: preferenceId)
 //
-        let checkoutPreference = PXCheckoutPreference(siteId: "MLB", payerEmail: "1234@gmail.com", items: [PXItem(title: "iPhone 12", quantity: 1, unitPrice: 5.0)])
-        
-        let builder = MercadoPagoCheckoutBuilder.init(publicKey: publicKey, checkoutPreference: checkoutPreference, paymentConfiguration: paymentConfiguration)
+//        let builder = MercadoPagoCheckoutBuilder.init(publicKey: publicKey, checkoutPreference: checkoutPreference, paymentConfiguration: paymentConfiguration)
         
         // Instantiate a configuration object
         let configuration = PXAdvancedConfiguration()

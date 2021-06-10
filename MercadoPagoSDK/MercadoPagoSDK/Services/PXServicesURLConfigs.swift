@@ -32,7 +32,6 @@ internal class PXServicesURLConfigs {
     
     static let MP_CREATE_TOKEN_URI = "/v1/card_tokens"
     var MP_REMEDY_URI : String
-    var MP_INSTRUCTIONS_URI : String
     var MP_PAYMENTS_URI : String
     var MP_INIT_URI : String
     var MP_RESET_ESC_CAP : String
@@ -65,7 +64,6 @@ internal class PXServicesURLConfigs {
         }
         
         self.MP_REMEDY_URI = NEW_API_SELECTED_ENV + "/px_mobile/v1/remedies/${payment_id}"
-        self.MP_INSTRUCTIONS_URI = MP_SELECTED_ENV  + "/checkout/payments/${payment_id}/results"
         self.MP_PAYMENTS_URI = MP_SELECTED_ENV + "/px_mobile/payments"
         self.MP_INIT_URI = NEW_API_SELECTED_ENV + "/px_mobile/v2/checkout"
         self.MP_RESET_ESC_CAP = NEW_API_SELECTED_ENV + "/px_mobile/v1/esc_cap"

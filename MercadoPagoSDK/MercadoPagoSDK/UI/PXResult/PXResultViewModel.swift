@@ -13,14 +13,14 @@ internal class PXResultViewModel: NSObject {
 
     let amountHelper: PXAmountHelper
     var paymentResult: PaymentResult
-    var instructionsInfo: PXInstructions?
+    var instructionsInfo: PXInstruction?
     var pointsAndDiscounts: PXPointsAndDiscounts?
     var preference: PXPaymentResultConfiguration
     let remedy: PXRemedy?
     let oneTapDto: PXOneTapDto?
     var callback: ((PaymentResult.CongratsState, String?) -> Void)?
 
-    init(amountHelper: PXAmountHelper, paymentResult: PaymentResult, instructionsInfo: PXInstructions? = nil, pointsAndDiscounts: PXPointsAndDiscounts?, resultConfiguration: PXPaymentResultConfiguration = PXPaymentResultConfiguration(), remedy: PXRemedy? = nil, oneTapDto: PXOneTapDto? = nil) {
+    init(amountHelper: PXAmountHelper, paymentResult: PaymentResult, instructionsInfo: PXInstruction? = nil, pointsAndDiscounts: PXPointsAndDiscounts?, resultConfiguration: PXPaymentResultConfiguration = PXPaymentResultConfiguration(), remedy: PXRemedy? = nil, oneTapDto: PXOneTapDto? = nil) {
         self.paymentResult = paymentResult
         self.instructionsInfo = instructionsInfo
         self.pointsAndDiscounts = pointsAndDiscounts
@@ -92,13 +92,6 @@ internal class PXResultViewModel: NSObject {
             return bodyComponent.render()
         }
         return nil
-    }
-
-    func instructionsView() -> UIView? {
-        guard let bodyComponent = buildBodyComponent() as? PXBodyComponent, bodyComponent.hasInstructions() else {
-            return nil
-        }
-        return bodyComponent.render()
     }
 
     private func getRemedyViewData() -> PXRemedyViewData? {
@@ -253,7 +246,7 @@ extension PXResultViewModel {
     }
 
     private func hasInstructions() -> Bool {
-        return instructionsInfo?.getInstruction() != nil
+        return instructionsInfo != nil
     }
 
 	func getPaymentMethodsImageURLs() -> [String: String]? {
@@ -430,7 +423,7 @@ extension PXResultViewModel {
             .withPrimaryButton(pointsAndDiscounts?.primaryButton)
             .withCrossSelling(pointsAndDiscounts?.crossSelling)
             .withCustomSorting(pointsAndDiscounts?.customOrder)
-            .withInstructionView(instructionsView())
+            .withInstructions(instructionsInfo)
             .withFooterMainAction(getActionButton())
             .withFooterSecondaryAction(getActionLink())
             .withImportantView(nil)

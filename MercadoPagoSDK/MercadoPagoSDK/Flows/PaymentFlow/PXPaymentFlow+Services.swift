@@ -110,38 +110,14 @@ internal extension PXPaymentFlow {
         model.shouldSearchPointsAndDiscounts = false
         let platform = MLBusinessAppDataService().getAppIdentifier().rawValue
         model.mercadoPagoServices.getPointsAndDiscounts(url: PXServicesURLConfigs.MP_API_BASE_URL, uri: PXServicesURLConfigs.shared().MP_POINTS_URI, paymentIds: paymentIds, paymentMethodsIds: paymentMethodsIds, campaignId: campaignId, prefId: model.checkoutPreference?.id, platform: platform, ifpe: ifpe, merchantOrderId: model.checkoutPreference?.merchantOrderId, headers: headers, callback: { [weak self] (pointsAndBenef) in
-                guard let strongSelf = self else { return }
-                strongSelf.model.pointsAndDiscounts = pointsAndBenef
-                strongSelf.executeNextStep()
+                guard let self = self else { return }
+                self.model.pointsAndDiscounts = pointsAndBenef
+                self.model.instructionsInfo = pointsAndBenef.instruction
+                self.executeNextStep()
             }, failure: { [weak self] () in
                 print("Fallo el endpoint de puntos y beneficios")
-                guard let strongSelf = self else { return }
-                strongSelf.executeNextStep()
-        })
-    }
-
-    func getInstructions() {
-        guard let paymentResult = model.paymentResult else {
-            fatalError("Get Instructions - Payment Result does no exist")
-        }
-
-        guard let paymentId = paymentResult.paymentId else {
-            fatalError("Get Instructions - Payment Id does no exist")
-        }
-
-        guard let paymentTypeId = paymentResult.paymentData?.getPaymentMethod()?.paymentTypeId else {
-            fatalError("Get Instructions - Payment Method Type Id does no exist")
-        }
-
-        model.mercadoPagoServices.getInstructions(paymentId: Int64(paymentId)!, paymentTypeId: paymentTypeId, callback: { [weak self] (instructions) in
-            self?.model.instructionsInfo = instructions
-            self?.executeNextStep()
-
-            }, failure: {[weak self] (error) in
-
-                let mpError = MPSDKError.convertFrom(error, requestOrigin: ApiUtil.RequestOrigin.GET_INSTRUCTIONS.rawValue)
-                self?.showError(error: mpError)
-
+                guard let self = self else { return }
+                self.executeNextStep()
         })
     }
 }

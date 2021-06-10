@@ -16,7 +16,7 @@ internal final class PXPaymentFlowModel: NSObject {
     let mercadoPagoServices: MercadoPagoServices
 
     var paymentResult: PaymentResult?
-    var instructionsInfo: PXInstructions?
+    var instructionsInfo: PXInstruction?
     var pointsAndDiscounts: PXPointsAndDiscounts?
     var businessResult: PXBusinessResult?
 
@@ -34,7 +34,6 @@ internal final class PXPaymentFlowModel: NSObject {
         case createPaymentPlugin
         case createDefaultPayment
         case getPointsAndDiscounts
-        case getInstructions
         case createPaymentPluginScreen
         case finish
     }
@@ -48,8 +47,6 @@ internal final class PXPaymentFlowModel: NSObject {
             return .createDefaultPayment
         } else if needToGetPointsAndDiscounts() {
             return .getPointsAndDiscounts
-        } else if needToGetInstructions() {
-            return .getInstructions
         } else {
             return .finish
         }
