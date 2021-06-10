@@ -16,6 +16,8 @@ internal extension PXResultViewModel {
                 return preference.getHeaderApprovedIcon() // * **
             } else if self.paymentResult.isWaitingForPayment() {
                 return preference.getHeaderPendingIcon()
+            } else if self.paymentResult.isPixOrOfflinePayment() {
+                return ResourceManager.shared.getImage("default_item_icon")
             } else {
                 return preference.getHeaderImageFor(paymentResult.paymentData?.paymentMethod)
             }
