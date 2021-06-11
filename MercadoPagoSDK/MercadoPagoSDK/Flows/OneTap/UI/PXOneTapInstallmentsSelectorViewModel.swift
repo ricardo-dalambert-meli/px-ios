@@ -80,8 +80,8 @@ final class PXOneTapInstallmentsSelectorViewModel {
         let fontSize = PXLayout.XS_FONT
         let fontColor = UIColor.black
         let attributes: [NSAttributedString.Key: AnyObject] = [
-            NSAttributedString.Key.font: Utils.getFont(size: fontSize),
-            NSAttributedString.Key.foregroundColor: fontColor
+            NSAttributedString.Key.font: Utils.getSemiBoldFont(size: fontSize),
+            NSAttributedString.Key.foregroundColor: fontColor,
         ]
 
         let formattedTotalAmount = Utils.getAttributedAmount(payerCost.installmentAmount, thousandSeparator: currency.getThousandsSeparatorOrDefault(), decimalSeparator: currency.getDecimalSeparatorOrDefault(), currencySymbol: currency.getCurrencySymbolOrDefault(), color: fontColor, fontSize: fontSize, centsFontSize: fontSize, baselineOffset: 0)
