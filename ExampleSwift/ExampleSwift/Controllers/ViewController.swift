@@ -84,15 +84,7 @@ class ViewController: UIViewController {
         
         // Add charge rules
         paymentConfiguration.addChargeRules(charges: pxPaymentTypeChargeRules)
-        
-<<<<<<< HEAD
-        // Create a Builder with your publicKey, preferenceId and paymentConfiguration
-        let builder = MercadoPagoCheckoutBuilder(publicKey: publicKey, preferenceId: preferenceId, paymentConfiguration: paymentConfiguration).setLanguage("es")
-        
-//        let checkoutPreference = PXCheckoutPreference.init(preferenceId: preferenceId)
-//
-//        let builder = MercadoPagoCheckoutBuilder.init(publicKey: publicKey, checkoutPreference: checkoutPreference, paymentConfiguration: paymentConfiguration)
-=======
+
 //        // Create a Builder with your publicKey, preferenceId and paymentConfiguration
 //        let builder = MercadoPagoCheckoutBuilder(publicKey: publicKey, preferenceId: preferenceId, paymentConfiguration: paymentConfiguration).setLanguage("es")
         
@@ -102,10 +94,10 @@ class ViewController: UIViewController {
         
         // Add excluded methods
 //        checkoutPreference.addExcludedPaymentType(PXPaymentTypes.CREDIT_CARD.rawValue)
-        checkoutPreference.addExcludedPaymentMethod(PXPaymentTypes.CONSUMER_CREDITS.rawValue)
+//        checkoutPreference.addExcludedPaymentMethod(PXPaymentTypes.CONSUMER_CREDITS.rawValue)
+        checkoutPreference.addExcludedPaymentMethod("master")
 
         let builder = MercadoPagoCheckoutBuilder.init(publicKey: publicKey, checkoutPreference: checkoutPreference, paymentConfiguration: paymentConfiguration)
->>>>>>> chore: Added test app changes
         
         // Instantiate a configuration object
         let configuration = PXAdvancedConfiguration()
