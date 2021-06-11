@@ -84,7 +84,6 @@ class ViewController: UIViewController {
         
         // Add charge rules
         paymentConfiguration.addChargeRules(charges: pxPaymentTypeChargeRules)
-        
 //        // Create a Builder with your publicKey, preferenceId and paymentConfiguration
 //        let builder = MercadoPagoCheckoutBuilder(publicKey: publicKey, preferenceId: preferenceId, paymentConfiguration: paymentConfiguration).setLanguage("es")
         
