@@ -28,12 +28,6 @@ final class PXOneTapInstallmentsSelectorCell: UITableViewCell {
         PXLayout.pinLeft(view: selectedIndicatorView, withMargin: PXLayout.SM_MARGIN).isActive = true
         PXLayout.centerVertically(view: selectedIndicatorView)
 
-//        if data.isSelected {
-//            selectedIndicatorView.backgroundColor = ThemeManager.shared.getAccentColor()
-//        } else {
-//            selectedIndicatorView.backgroundColor = UIColor.gray
-//        }
-
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.attributedText = data.title
