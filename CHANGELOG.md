@@ -1,3 +1,11 @@
+# v4.39.3
+🚀Private Release - 4.39.2 🚀
+- Conforming with old CardDrawer protocol
+
+# v4.39.0
+🚀Private Release - 4.39.0 🚀
+- Pix payment
+
 # v4.38.0
 🚀Private Release - 4.38.0 🚀
 - Now backend sends behaviours inside applications node so we use it from there, using the old behaviours node as fallback
