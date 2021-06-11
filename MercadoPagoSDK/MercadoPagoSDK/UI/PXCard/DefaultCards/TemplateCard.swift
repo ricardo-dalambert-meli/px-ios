@@ -9,7 +9,7 @@ import Foundation
 import MLCardDrawer
 
 // TemplateCard
-class TemplateCard: NSObject, CreditCardUI {
+class TemplateCard: NSObject, CardUI {
     var placeholderName = ""
     var placeholderExpiration = ""
     var bankImage: UIImage?
@@ -26,7 +26,6 @@ class TemplateCard: NSObject, CreditCardUI {
 }
 
 class TemplatePIX: NSObject, GenericCardUI {
-    var securityCodeLocation = MLCardSecurityCodeLocation.none
     var titleName = ""
     var titleWeight = ""
     var titleTextColor = ""
@@ -39,4 +38,11 @@ class TemplatePIX: NSObject, GenericCardUI {
     var labelWeight = ""
     var cardBackgroundColor = UIColor.white
     var logoImageURL = ""
+    var securityCodeLocation = MLCardSecurityCodeLocation.none
+    var placeholderName = ""
+    var placeholderExpiration = ""
+    var cardPattern = [4, 4, 4, 4]
+    var cardFontColor: UIColor = .white
+    var defaultUI = true
+    var securityCodePattern = 3
 }
