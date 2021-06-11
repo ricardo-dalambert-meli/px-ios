@@ -847,8 +847,6 @@ extension PXOneTapViewController: PXOneTapInstallmentInfoViewProtocol, PXOneTapI
 
         PXFeedbackGenerator.selectionFeedback()
 
-//        installmentRow.removePulseView()
-
         self.installmentsSelectorView?.removeFromSuperview()
         self.installmentsSelectorView?.layoutIfNeeded()
         let viewModel = PXOneTapInstallmentsSelectorViewModel(installmentData: installmentData, selectedPayerCost: selectedPayerCost, interest: interest, reimbursement: reimbursement)
@@ -863,33 +861,22 @@ extension PXOneTapViewController: PXOneTapInstallmentInfoViewProtocol, PXOneTapI
         
         PXLayout.matchWidth(ofView: installmentsSelectorView).isActive = true
         PXLayout.centerHorizontally(view: installmentsSelectorView).isActive = true
-//        PXLayout.put(view: installmentsSelectorView, onBottomOf: installmentInfoRow).isActive = true
-        PXLayout.pinTop(view: installmentsSelectorView).isActive = true//put(view: installmentsSelectorView, onBottomOf: installmentInfoRow).isActive = true
+        PXLayout.pinTop(view: installmentsSelectorView).isActive = true
         cardSliderTopConstraint = PXLayout.put(view: cardSliderContentView, onBottomOf: installmentsSelectorView)
         cardSliderTopConstraint?.isActive = true
         
         let installmentsSelectorViewHeight = PXCardSliderSizeManager.getWhiteViewHeight(viewController: self) - PXOneTapInstallmentInfoView.DEFAULT_ROW_HEIGHT
-//        PXLayout.setHeight(owner: installmentsSelectorView, height: installmentsSelectorViewHeight).isActive = true
         PXLayout.setHeight(owner: installmentsSelectorView, height: 100).isActive = true
 
         installmentsSelectorView.layoutIfNeeded()
         self.installmentInfoRow?.disableTap()
 
-        //Animations
-//        loadingButtonComponent?.hide(duration: 0.1)
+        let animationDuration = 0.0
+        
+        self.cardSliderMarginConstraint?.constant = 100
+        self.contentView.layoutIfNeeded()
 
-        let animationDuration = 0.0//0.5
-//        slider.hide(duration: animationDuration)
-
-//        var pxAnimator = PXAnimator(duration: animationDuration, dampingRatio: 1)
-//        pxAnimator.addAnimation(animation: { [weak self] in
-            self.cardSliderMarginConstraint?.constant = 100
-            self.contentView.layoutIfNeeded()
-//        })
-
-//        installmentsSelectorView.expand(animator: pxAnimator) {
         self.installmentInfoRow?.enableTap()
-//        }
         
         installmentsSelectorView.tableView.reloadData()
     }
