@@ -10,7 +10,7 @@ enum CongratsTrackingEvents: TrackingEvents {
     
     var name: String {
         switch self {
-        case .didTapDiscount(_): return "/px_checkout/result/success"
+        case .didTapDiscount(_): return "/px_checkout/result/success/tap_discount_item"
         }
     }
     
@@ -19,6 +19,4 @@ enum CongratsTrackingEvents: TrackingEvents {
         case .didTapDiscount(let properties): return properties
         }
     }
-    
-    
 }
