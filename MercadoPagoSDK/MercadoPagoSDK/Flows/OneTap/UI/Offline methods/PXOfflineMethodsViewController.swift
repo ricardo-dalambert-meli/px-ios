@@ -57,7 +57,7 @@ final class PXOfflineMethodsViewController: MercadoPagoUIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         sheetViewController?.scrollView = tableView
-        trackScreen(path: TrackingPaths.Screens.OneTap.getOfflineMethodsPath(), properties: viewModel.getScreenTrackingProperties())
+        trackScreen(event: MercadoPagoUITrackingEvents.offlineMethodds(viewModel.getScreenTrackingProperties()))
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -407,7 +407,7 @@ extension PXOfflineMethodsViewController: PXAnimatedButtonDelegate {
             }, onError: { [weak self] _ in
                 // User abort validation or validation fail.
                 self?.isUIEnabled(true)
-                self?.trackEvent(path: TrackingPaths.Events.getErrorPath())
+                self?.trackEvent(event: GeneralErrorTrackingEvents.error([:]))
             })
         } else {
             doPayment()
@@ -426,7 +426,7 @@ extension PXOfflineMethodsViewController: PXAnimatedButtonDelegate {
             currentPaymentData.payerCost = nil
             currentPaymentData.paymentMethod = newPaymentMethod
             currentPaymentData.issuer = nil
-            trackEvent(path: TrackingPaths.Events.OneTap.getConfirmPath(), properties: viewModel.getEventTrackingProperties(selectedOfflineMethod))
+            trackEvent(event: PXOfflineMethodsTrackingEvents.didConfirm(viewModel.getEventTrackingProperties(selectedOfflineMethod)))
             if let payerCompliance = viewModel.getPayerCompliance(), payerCompliance.offlineMethods.isCompliant {
                 currentPaymentData.payer?.firstName = viewModel.getPayerFirstName()
                 currentPaymentData.payer?.lastName = viewModel.getPayerLastName()

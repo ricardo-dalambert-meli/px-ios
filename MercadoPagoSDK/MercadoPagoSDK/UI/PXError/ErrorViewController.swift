@@ -104,13 +104,13 @@ extension ErrorViewController {
         var extraDic: [String: Any] = [:]
         extraDic["api_error"] = error.getErrorForTracking()
         properties["extra_info"] = extraDic
-        trackEvent(path: TrackingPaths.Events.getErrorPath(), properties: properties)
+        trackEvent(event: GeneralErrorTrackingEvents.error(properties))
     }
 
     func trackScreenView() {
         var properties: [String: Any] = [:]
         properties["api_error"] = error.getErrorForTracking()
         properties["error_message"] = "Hubo un error".localized
-        trackScreen(path: TrackingPaths.Screens.getErrorPath(), properties: properties)
+        trackScreen(event: GeneralErrorTrackingEvents.error(properties))
     }
 }

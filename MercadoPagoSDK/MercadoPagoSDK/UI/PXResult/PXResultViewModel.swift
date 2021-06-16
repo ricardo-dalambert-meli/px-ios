@@ -110,7 +110,7 @@ internal class PXResultViewModel: NSObject {
 
     private func getRemedyButtonAction() -> ((String?) -> Void)? {
         let action = { (text: String?) in
-            MPXTracker.sharedInstance.trackEvent(path: TrackingPaths.Screens.PaymentResult.getErrorRemedyPath(), properties: self.getRemedyProperties())
+            MPXTracker.sharedInstance.trackEvent(event: PXResultTrackingEvents.didShowRemedyError(self.getRemedyProperties()))
 
             if let callback = self.callback {
                 if self.remedy?.cvv != nil {
@@ -336,16 +336,16 @@ extension PXResultViewModel {
 }
 
 extension PXResultViewModel: PXViewModelTrackingDataProtocol {
-    func getTrackingPath() -> String {
+    func getTrackingPath() -> PXResultTrackingEvents? {
         let paymentStatus = paymentResult.status
-        var screenPath = ""
+        var screenPath: PXResultTrackingEvents?
 
         if paymentStatus == PXPaymentStatus.APPROVED.rawValue || paymentStatus == PXPaymentStatus.PENDING.rawValue {
-            screenPath = TrackingPaths.Screens.PaymentResult.getSuccessPath()
+            screenPath = .checkoutPaymentApproved(getTrackingProperties())
         } else if paymentStatus == PXPaymentStatus.IN_PROCESS.rawValue {
-            screenPath = TrackingPaths.Screens.PaymentResult.getFurtherActionPath()
+            screenPath = .checkoutPaymentInProcess(getTrackingProperties())
         } else if paymentStatus == PXPaymentStatus.REJECTED.rawValue {
-            screenPath = TrackingPaths.Screens.PaymentResult.getErrorPath()
+            screenPath = .checkoutPaymentRejected(getTrackingProperties())
         }
         return screenPath
     }

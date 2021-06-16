@@ -19,7 +19,7 @@ protocol PXCongratsTrackingDataProtocol: NSObjectProtocol {
 }
 
 protocol PXViewModelTrackingDataProtocol {
-    func getTrackingPath() -> String
+    func getTrackingPath() -> PXResultTrackingEvents?
     func getFlowBehaviourResult() -> PXResultKey
     func getTrackingProperties() -> [String: Any]
 }
@@ -60,6 +60,6 @@ final class PXCongratsTracking {
         var properties: [String: Any] = [:]
         properties["index"] = index
         properties["campaign_id"] = trackId
-        MPXTracker.sharedInstance.trackEvent(path: TrackingPaths.Events.Congrats.getSuccessTapDiscountItemPath(), properties: properties)
+        MPXTracker.sharedInstance.trackEvent(event: CongratsTrackingEvents.didTapDiscount(properties))
     }
 }

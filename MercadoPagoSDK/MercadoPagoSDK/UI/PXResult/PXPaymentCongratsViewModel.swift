@@ -88,7 +88,7 @@ extension PXPaymentCongratsViewModel: PXNewResultViewModelInterface {
         let action: (String) -> Void = { (deepLink) in
             //open deep link
             PXDeepLinkManager.open(deepLink)
-            MPXTracker.sharedInstance.trackEvent(path: TrackingPaths.Events.Congrats.getSuccessTapScorePath())
+            MPXTracker.sharedInstance.trackEvent(event: PXResultTrackingEvents.didTapOnScore)
         }
         return action
     }
@@ -121,7 +121,10 @@ extension PXPaymentCongratsViewModel: PXNewResultViewModelInterface {
     func getExpenseSplitTapAction() -> (() -> Void)? {
         let action: () -> Void = { [weak self] in
             PXDeepLinkManager.open(self?.paymentCongrats.expenseSplit?.action.target)
-            MPXTracker.sharedInstance.trackEvent(path: TrackingPaths.Events.Congrats.getSuccessTapDeeplinkPath(), properties: PXCongratsTracking.getDeeplinkProperties(type: "money_split", deeplink: self?.paymentCongrats.expenseSplit?.action.target ?? ""))
+            
+            MPXTracker.sharedInstance.trackEvent(event: PXResultTrackingEvents.didTapOnDeeplink(
+                PXCongratsTracking.getDeeplinkProperties(type: "money_split", deeplink: self?.paymentCongrats.expenseSplit?.action.target ?? ""))
+            )
         }
         return action
     }
@@ -136,7 +139,7 @@ extension PXPaymentCongratsViewModel: PXNewResultViewModelInterface {
         let action: (String) -> Void = { (deepLink) in
             //open deep link
             PXDeepLinkManager.open(deepLink)
-            MPXTracker.sharedInstance.trackEvent(path: TrackingPaths.Events.Congrats.getSuccessTapCrossSellingPath())
+            MPXTracker.sharedInstance.trackEvent(event: PXResultTrackingEvents.didTapOnCrossSelling)
         }
         return action
     }
@@ -274,18 +277,18 @@ extension PXPaymentCongratsViewModel: PXNewResultViewModelInterface {
         }
     }
 
-    func getTrackingPath() -> String {
-        if let internalTrackingPath = paymentCongrats.internalTrackingPath {
+    func getTrackingPath() -> PXResultTrackingEvents? {
+        if let internalTrackingPath = paymentCongrats.internalTrackingPath as? PXResultTrackingEvents {
             return internalTrackingPath
         } else {
-            var screenPath = ""
+            var screenPath: PXResultTrackingEvents?
             let paymentStatus = paymentCongrats.type.getRawValue()
             if paymentStatus == PXPaymentStatus.APPROVED.rawValue || paymentStatus == PXPaymentStatus.PENDING.rawValue {
-                screenPath = TrackingPaths.Screens.PaymentResult.getSuccessPath(basePath: TrackingPaths.paymentCongrats)
+                screenPath = .congratsPaymentApproved(getTrackingProperties())
             } else if paymentStatus == PXPaymentStatus.IN_PROCESS.rawValue {
-                screenPath = TrackingPaths.Screens.PaymentResult.getFurtherActionPath(basePath: TrackingPaths.paymentCongrats)
+                screenPath = .congratsPaymentInProcess(getTrackingProperties())
             } else if paymentStatus == PXPaymentStatus.REJECTED.rawValue {
-                screenPath = TrackingPaths.Screens.PaymentResult.getErrorPath(basePath: TrackingPaths.paymentCongrats)
+                screenPath = .congratsPaymentRejected(getTrackingProperties())
             }
 
             return screenPath
