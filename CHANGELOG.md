@@ -1,5 +1,9 @@
+# v4.39.4
+🚀Private Release - 4.39.4 🚀
+- Adjusting project to manage tracks in a new way
+
 # v4.39.3
-🚀Private Release - 4.39.2 🚀
+🚀Private Release - 4.39.3 🚀
 - Conforming with old CardDrawer protocol
 
 # v4.39.0
