@@ -40,7 +40,13 @@ final class PXCardSliderViewModel {
         return applicationsData[selectedApplicationId] ?? nil
     }
     
-    init(_ applications: [PXApplicationId: PXCardSliderApplicationData], _ selectedApplicationId: String?, _ issuerId: String, _ cardId: String? = nil, creditsViewModel: PXCreditsViewModel? = nil, displayInfo: PXOneTapDisplayInfo?, comboSwitch: ComboSwitchView?) {
+    init(applications: [PXApplicationId: PXCardSliderApplicationData],
+        selectedApplicationId: String?,
+        issuerId: String,
+        cardId: String? = nil,
+        creditsViewModel: PXCreditsViewModel? = nil,
+        displayInfo: PXOneTapDisplayInfo?,
+        comboSwitch: ComboSwitchView?) {
         self.issuerId = issuerId
         self.cardId = cardId
         self.creditsViewModel = creditsViewModel
@@ -56,7 +62,7 @@ final class PXCardSliderViewModel {
     
     // MARK: - Public methods
     func trackCard(state: String) {
-        MPXTracker.sharedInstance.trackEvent(path: TrackingPaths.Events.getComboSwitch(), properties: ["option_selected" : state])
+        MPXTracker.sharedInstance.trackEvent(event: PXCardSliderTrackingEvents.comboSwitch(state))
     }
 }
 

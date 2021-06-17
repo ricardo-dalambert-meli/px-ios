@@ -221,6 +221,8 @@ extension PXBusinessResultViewModel {
             .withCustomSorting(pointsAndDiscounts?.customOrder)
             .withExpenseSplit(pointsAndDiscounts?.expenseSplit)
             .withAutoReturn(pointsAndDiscounts?.autoReturn)
+        
+        paymentCongratsData.withInstructions(pointsAndDiscounts?.instruction)
 
         // Payment Info
         if let paymentMethodTypeId = paymentData.paymentMethod?.paymentTypeId,

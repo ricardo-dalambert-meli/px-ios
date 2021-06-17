@@ -24,3 +24,25 @@ class TemplateCard: NSObject, CardUI {
     var cardLogoImageUrl: String?
     var bankImageUrl: String?
 }
+
+class TemplatePIX: NSObject, GenericCardUI {
+    var titleName = ""
+    var titleWeight = ""
+    var titleTextColor = ""
+    var subtitleName = ""
+    var subtitleWeight = ""
+    var subtitleTextColor = ""
+    var labelName = ""
+    var labelTextColor = ""
+    var labelBackgroundColor = ""
+    var labelWeight = ""
+    var cardBackgroundColor = UIColor.white
+    var logoImageURL = ""
+    var securityCodeLocation = MLCardSecurityCodeLocation.none
+    var placeholderName = ""
+    var placeholderExpiration = ""
+    var cardPattern = [4, 4, 4, 4]
+    var cardFontColor: UIColor = .white
+    var defaultUI = true
+    var securityCodePattern = 3
+}

@@ -9,7 +9,6 @@
 import Foundation
 
 extension MercadoPagoCheckout: PXPaymentResultHandlerProtocol {
-
     func finishPaymentFlow(error: MPSDKError) {
         let lastViewController = viewModel.pxNavigationHandler.navigationController.viewControllers.last
         if lastViewController is PXNewResultViewController || lastViewController is PXSecurityCodeViewController {
@@ -21,7 +20,7 @@ extension MercadoPagoCheckout: PXPaymentResultHandlerProtocol {
         }
     }
 
-    func finishPaymentFlow(paymentResult: PaymentResult, instructionsInfo: PXInstructions?, pointsAndDiscounts: PXPointsAndDiscounts?) {
+    func finishPaymentFlow(paymentResult: PaymentResult, instructionsInfo: PXInstruction?, pointsAndDiscounts: PXPointsAndDiscounts?) {
         viewModel.remedy = nil
         viewModel.paymentResult = paymentResult
         viewModel.instructionsInfo = instructionsInfo

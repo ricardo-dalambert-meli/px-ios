@@ -29,7 +29,7 @@ final internal class OneTapFlowModel: PXFlowModel {
     var threeDSAuthorization: Bool = false
     var readyToPay: Bool = false
     var paymentResult: PaymentResult?
-    var instructionsInfo: PXInstructions?
+    var instructionsInfo: PXInstruction?
     var pointsAndDiscounts: PXPointsAndDiscounts?
     var businessResult: PXBusinessResult?
     var customerPaymentOptions: [CustomerPaymentMethod]?

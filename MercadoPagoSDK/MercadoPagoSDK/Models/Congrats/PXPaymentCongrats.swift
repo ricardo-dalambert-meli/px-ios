@@ -44,7 +44,7 @@ public final class PXPaymentCongrats: NSObject {
     private(set) var hasCustomSorting: Bool = false
 
     // Instructions
-    private(set) var instructionsView: UIView?
+    private(set) var instructions: PXInstruction?
 
     // Footer Buttons
     private(set) var mainAction: PXAction?
@@ -71,7 +71,7 @@ public final class PXPaymentCongrats: NSObject {
     // Tracking
     private(set) var internalTrackingValues: [String: Any]?
     private(set) var externalTrackingValues: PXPaymentCongratsTracking?
-    private(set) var internalTrackingPath: String?
+    private(set) var internalTrackingPath: TrackingEvents?
     private(set) var internalFlowBehaviourResult: PXResultKey?
 
     // Error
@@ -134,8 +134,8 @@ extension PXPaymentCongrats {
      - returns: this builder `PXPaymentCongrats`
      */
     @discardableResult
-    internal func withInstructionView(_ view: UIView?) -> PXPaymentCongrats {
-        self.instructionsView = view
+    internal func withInstructions(_ instruction: PXInstruction?) -> PXPaymentCongrats {
+        self.instructions = instruction
         return self
     }
 
@@ -175,8 +175,8 @@ extension PXPaymentCongrats {
     }
 
     @discardableResult
-    internal func withTrackingPath(_ path: String) -> PXPaymentCongrats {
-        self.internalTrackingPath = path
+    internal func withTrackingPath(_ event: TrackingEvents?) -> PXPaymentCongrats {
+        self.internalTrackingPath = event
         return self
     }
 
