@@ -202,11 +202,10 @@ extension PXOneTapInstallmentInfoView {
         tapEnabled = true
     }
 
-    func render(_ width: CGFloat, experiment: PXExperiment? = nil) {
+    func render(_ width: CGFloat) {
         removeAllSubviews()
         setupSlider(width: width)
         setupFadeImages()
-//        setupChevron(experiment)
         setupTitleLabel()
         PXLayout.setHeight(owner: self, height: PXOneTapInstallmentInfoView.DEFAULT_ROW_HEIGHT).isActive = true
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(toggleInstallmentsWrapper)))

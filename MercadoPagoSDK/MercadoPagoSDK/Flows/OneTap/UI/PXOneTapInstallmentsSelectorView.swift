@@ -38,7 +38,7 @@ extension PXOneTapInstallmentsSelectorView {
         addSubviewToBottom(tableView)
         backgroundColor = .clear
         tableView.backgroundColor = .white
-        tableViewHeightConstraint = PXLayout.setHeight(owner: tableView, height: 100)
+        tableViewHeightConstraint = PXLayout.setHeight(owner: tableView, height: 125)
         tableViewHeightConstraint?.isActive = true
         PXLayout.pinLeft(view: tableView).isActive = true
         PXLayout.pinRight(view: tableView).isActive = true
