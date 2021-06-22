@@ -231,12 +231,22 @@ extension PXCardSlider {
 extension PXCardSlider {
     private func setupSlider(_ containerView: UIView) {
         containerView.addSubview(pagerView)
+        
+        let divider = UIView()
+        containerView.addSubview(divider)
+        divider.translatesAutoresizingMaskIntoConstraints = false
+        divider.backgroundColor = .pxMediumLightGray
+        PXLayout.setHeight(owner: divider, height: 1).isActive = true
+        PXLayout.matchWidth(ofView: divider).isActive = true
+        PXLayout.centerHorizontally(view: divider, to: containerView).isActive = true
+        PXLayout.pinTop(view: divider).isActive = true
+        
         pagerView.accessibilityIdentifier = "card_carrousel"
         PXLayout.setHeight(owner: pagerView, height: getItemSize(containerView).height).isActive = true
         PXLayout.pinLeft(view: pagerView).isActive = true
         PXLayout.pinRight(view: pagerView).isActive = true
         PXLayout.matchWidth(ofView: pagerView).isActive = true
-        PXLayout.pinTop(view: pagerView).isActive = true
+        PXLayout.put(view: pagerView, onBottomOf: divider, withMargin: PXLayout.XS_MARGIN)
         pagerView.dataSource = self
         pagerView.delegate = self
         pagerView.register(PXCardSliderPagerCell.getCell(), forCellWithReuseIdentifier: PXCardSliderPagerCell.identifier)
