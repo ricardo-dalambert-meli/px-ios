@@ -191,6 +191,7 @@ private extension PXOneTapHeaderView {
         
         merchantView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50.0).isActive = true
         
+
         // Add Summary
         let summaryView = PXOneTapSummaryView(data: model.data, delegate: self, splitMoney: model.splitConfiguration != nil)
         
@@ -216,6 +217,70 @@ private extension PXOneTapHeaderView {
         self.splitPaymentView?.isHidden = model.splitConfiguration == nil
 
     }
+
+//    func render() {
+//        removeAllSubviews()
+////        removeMargins()
+//        backgroundColor = ThemeManager.shared.navigationBar().backgroundColor
+//
+//        self.axis = .vertical
+//        self.alignment = .fill
+//        self.distribution = .fill
+//
+//        let summaryView = PXOneTapSummaryView(data: model.data, delegate: self, splitMoney: model.splitConfiguration != nil)
+//        self.summaryView = summaryView
+//
+//        addArrangedSubview(summaryView)
+//        PXLayout.matchWidth(ofView: summaryView).isActive = true
+//
+//        let splitPaymentView = PXOneTapSplitPaymentView(splitConfiguration: model.splitConfiguration) { (isOn, isUserSelection) in
+//            self.delegate?.splitPaymentSwitchChangedValue(isOn: isOn, isUserSelection: isUserSelection)
+//        }
+//        self.splitPaymentView = splitPaymentView
+//        addArrangedSubview(splitPaymentView)
+//        PXLayout.matchWidth(ofView: splitPaymentView).isActive = true
+//
+//        let initialSplitPaymentViewHeight = model.splitConfiguration != nil ? self.splitPaymentViewHeight : 0
+//        self.splitPaymentViewHeightConstraint = PXLayout.setHeight(owner: splitPaymentView, height: initialSplitPaymentViewHeight)
+//        self.splitPaymentViewHeightConstraint?.isActive = true
+//        PXLayout.centerHorizontally(view: splitPaymentView).isActive = true
+//        PXLayout.pinBottom(view: splitPaymentView).isActive = true
+//        PXLayout.put(view: splitPaymentView, onBottomOf: summaryView).isActive = true
+//
+//        let showHorizontally = shouldShowHorizontally(model: model)
+//        let merchantView = PXOneTapHeaderMerchantView(image: model.icon, title: model.title, subTitle: model.subTitle, showHorizontally: showHorizontally)
+//
+//        let headerTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeaderTap))
+//        merchantView.addGestureRecognizer(headerTapGesture)
+//
+//        self.merchantView = merchantView
+//        self.addArrangedSubview(merchantView)
+//
+//        let bestRelation = PXLayout.put(view: merchantView, aboveOf: summaryView, withMargin: -PXLayout.M_MARGIN)
+//        bestRelation.priority = UILayoutPriority(rawValue: 900)
+//        let minimalRelation = PXLayout.put(view: merchantView, aboveOf: summaryView, withMargin: -PXLayout.XXS_MARGIN, relation: .greaterThanOrEqual)
+//        minimalRelation.priority = UILayoutPriority(rawValue: 1000)
+//
+//        let horizontalConstraints = [PXLayout.pinTop(view: merchantView, withMargin: -PXLayout.XXL_MARGIN),
+//                                     bestRelation, minimalRelation,
+//                                     PXLayout.centerHorizontally(view: merchantView),
+//                                     PXLayout.matchWidth(ofView: merchantView)]
+//
+//        self.horizontalLayoutConstraints.append(contentsOf: horizontalConstraints)
+//
+//        let verticalLayoutConstraints = [PXLayout.pinTop(view: merchantView),
+//                                         PXLayout.put(view: merchantView, aboveOf: summaryView, relation: .greaterThanOrEqual),
+//                                         PXLayout.centerHorizontally(view: merchantView),
+//                                         PXLayout.matchWidth(ofView: merchantView)]
+//
+//        self.verticalLayoutConstraints.append(contentsOf: verticalLayoutConstraints)
+//
+//        if showHorizontally {
+//            animateHeaderLayout(direction: .horizontal)
+//        } else {
+//            animateHeaderLayout(direction: .vertical)
+//        }
+//    }
 }
 
 extension PXOneTapHeaderView: PXOneTapSummaryProtocol {
