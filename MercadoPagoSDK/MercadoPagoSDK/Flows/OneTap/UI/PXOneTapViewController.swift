@@ -187,17 +187,44 @@ extension PXOneTapViewController {
         
         contentView.fixHeight(height: contentViewHeight)
         PXLayout.pinBottom(view: contentView)
+        
+        let contentWrappedView = UIStackView()
+        contentWrappedView.axis = .vertical
+        contentWrappedView.alignment = .fill
+        contentWrappedView.distribution = .fill
+        contentView.addSubview(contentWrappedView)
+        
+//        PXLayout.matchWidth(ofView: contentWrappedView)
+//        PXLayout.centerHorizontally(view: contentWrappedView)
+        PXLayout.pinAllEdges(view: contentWrappedView)
+        
+        // Add header view.
+        let headerView = getHeaderView(selectedCard: selectedCard)
+        self.headerView = headerView
+        contentWrappedView.addArrangedSubview(headerView)
+        
+//        let redView = UIStackView()
+//        redView.backgroundColor = .red
+//        redView.axis = .vertical
+//        contentWrappedView.addArrangedSubview(redView)
+        
+        headerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50.0).isActive = true
+        
+        PXLayout.centerHorizontally(view: headerView).isActive = true
+        PXLayout.matchWidth(ofView: headerView).isActive = true
 
         // Add whiteView to contentView
         let whiteView = getWhiteView()
         self.whiteView = whiteView
-        contentView.addSubview(whiteView)
+        contentWrappedView.addArrangedSubview(whiteView)
         
         view.layoutIfNeeded()
         
-        PXLayout.pinBottom(view: whiteView).isActive = true
+//        PXLayout.pinBottom(view: whiteView).isActive = true
         PXLayout.matchWidth(ofView: whiteView, toView: contentView).isActive = true
         PXLayout.centerHorizontally(view: whiteView).isActive = true
+        
+//        whiteView.topAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
         
         //Add installmentsWrapperView to whiteView
         let installmentsWrapperView = UIStackView()
@@ -251,18 +278,6 @@ extension PXOneTapViewController {
         self.footerView = footerView
         
         whiteView.addArrangedSubview(footerView)
-        
-        // Add header view.
-        let headerView = getHeaderView(selectedCard: selectedCard)
-        self.headerView = headerView
-//        contentView.addSubview(headerView)
-////        PXLayout.setHeight(owner: headerView, height: PXCardSliderSizeManager.getHeaderViewHeight(viewController: self)).isActive = true
-//        PXLayout.centerHorizontally(view: headerView).isActive = true
-//        PXLayout.matchWidth(ofView: headerView).isActive = true
-//        PXLayout.pinTop(view: headerView).isActive = true
-//        PXLayout.put(view: headerView, aboveOf: whiteView).isActive = true
-        
-//        headerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 0.0).isActive = true
         
         view.layoutIfNeeded()
         
@@ -879,6 +894,14 @@ extension PXOneTapViewController: PXOneTapInstallmentInfoViewProtocol, PXOneTapI
         PXLayout.matchWidth(ofView: installmentsSelectorView).isActive = true
         
         PXLayout.setHeight(owner: installmentsSelectorView, height: 125).isActive = true
+        
+        let divider = UIView()
+        installmentsWrapperView.addArrangedSubview(divider)
+        divider.translatesAutoresizingMaskIntoConstraints = false
+        divider.backgroundColor = .pxMediumLightGray
+        PXLayout.setHeight(owner: divider, height: 1).isActive = true
+        PXLayout.matchWidth(ofView: divider).isActive = true
+        PXLayout.centerHorizontally(view: divider).isActive = true
         
         installmentsWrapperView.isHidden = false
 
