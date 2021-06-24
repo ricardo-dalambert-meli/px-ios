@@ -27,6 +27,7 @@ class PXOneTapSummaryView: PXComponentView {
     private var rows: [PXOneTapSummaryRow] = []
     private var currentAnimator: UIViewPropertyAnimator?
     private var splitMoney: Bool
+    private var contentViewHeight: NSLayoutConstraint?
 
     init(data: [PXOneTapSummaryRowData] = [], delegate: PXOneTapSummaryProtocol, splitMoney: Bool = false) {
         self.data = data.reversed()
@@ -46,6 +47,7 @@ class PXOneTapSummaryView: PXComponentView {
         self.backgroundColor = ThemeManager.shared.navigationBar().backgroundColor
 
         var offset: CGFloat = 0
+        
         for row in self.data {
             row.splitMoney = splitMoney
             let rowView = self.getSummaryRowView(with: row)
@@ -79,6 +81,11 @@ class PXOneTapSummaryView: PXComponentView {
             PXLayout.pinLeft(view: rowView, withMargin: 0).isActive = true
             PXLayout.pinRight(view: rowView, withMargin: 0).isActive = true
         }
+        
+        // Set contentView height constraint
+        self.contentViewHeight = self.getContentView().heightAnchor.constraint(equalToConstant: offset)
+        
+        contentViewHeight?.isActive = true
     }
 
     func tapRow(_ sender: UITapGestureRecognizer) {
@@ -139,8 +146,25 @@ class PXOneTapSummaryView: PXComponentView {
                 self.layoutIfNeeded()
             }
         }
+        
+        if let contentViewHeight = self.contentViewHeight {
+            // Update content view height constraint
+            let contentView = self.getContentView()
+            contentView.removeConstraint(contentViewHeight)
+            
+            // Calculate SummaryHeight including 1px of separator view
+            let calculatedHeight = self.rows.reduce(1.0) { (partialResult, row) -> CGFloat in
+                let rowHeight = row.rowHeight
+                let rowMargin = row.view.getRowMargin()
+                return partialResult + rowHeight + rowMargin
+            }
+            
+            self.contentViewHeight = contentView.heightAnchor.constraint(equalToConstant: calculatedHeight)
+            self.contentViewHeight?.isActive = true
+        }
 
         animator.addCompletion { (_) in
+            
             completion()
         }
 
