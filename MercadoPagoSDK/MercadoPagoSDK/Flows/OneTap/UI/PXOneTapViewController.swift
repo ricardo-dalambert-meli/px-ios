@@ -216,8 +216,6 @@ extension PXOneTapViewController {
         PXLayout.matchWidth(ofView: whiteView, toView: contentView).isActive = true
         PXLayout.centerHorizontally(view: whiteView).isActive = true
         
-//        whiteView.topAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
-        
         //Add installmentsWrapperView to whiteView
         let installmentsWrapperView = UIStackView()
         installmentsWrapperView.axis = .vertical
