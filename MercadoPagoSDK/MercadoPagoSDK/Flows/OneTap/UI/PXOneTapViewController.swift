@@ -194,8 +194,6 @@ extension PXOneTapViewController {
         contentWrappedView.distribution = .fill
         contentView.addSubview(contentWrappedView)
         
-//        PXLayout.matchWidth(ofView: contentWrappedView)
-//        PXLayout.centerHorizontally(view: contentWrappedView)
         PXLayout.pinAllEdges(view: contentWrappedView)
         
         // Add header view.
@@ -215,11 +213,8 @@ extension PXOneTapViewController {
         
         view.layoutIfNeeded()
         
-//        PXLayout.pinBottom(view: whiteView).isActive = true
         PXLayout.matchWidth(ofView: whiteView, toView: contentView).isActive = true
         PXLayout.centerHorizontally(view: whiteView).isActive = true
-        
-//        whiteView.topAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
         
         //Add installmentsWrapperView to whiteView
         let installmentsWrapperView = UIStackView()
@@ -254,9 +249,6 @@ extension PXOneTapViewController {
         
         // CardSlider with aspect ratio multiplier
         cardSliderContentView.translatesAutoresizingMaskIntoConstraints = false
-//        let widthSlider: NSLayoutConstraint = cardSliderContentView.widthAnchor.constraint(equalTo: whiteView.widthAnchor)
-//        widthSlider.isActive = true
-//        cardSliderContentView.widthAnchor.constraint(greaterThanOrEqualToConstant: 0.0).isActive = true
         PXLayout.matchWidth(ofView: cardSliderContentView)
         
         view.layoutIfNeeded()
@@ -545,11 +537,7 @@ extension PXOneTapViewController: PXOneTapHeaderProtocol {
             //Update all models payer cost and selected payer cost
             viewModel.updateAllCardSliderModels(splitPaymentEnabled: isOn)
         }
-
-        if let installmentInfoRow = installmentInfoRow, installmentInfoRow.isExpanded() {
-            installmentInfoRow.toggleInstallments()
-        }
-
+        
         //Update installment row
         installmentInfoRow?.update(model: viewModel.getInstallmentInfoViewModel())
 
@@ -561,13 +549,6 @@ extension PXOneTapViewController: PXOneTapHeaderProtocol {
             // If it's debit and has split, update split message
             if selectedApplication.paymentTypeId == PXPaymentTypes.DEBIT_CARD.rawValue {
                 selectedApplication.displayMessage = viewModel.getSplitMessageForDebit(amountToPay: selectedApplication.selectedPayerCost?.totalAmount ?? 0)
-            }
-
-            // Installments arrow animation
-            if selectedApplication.shouldShowArrow {
-                installmentInfoRow?.showArrow()
-            } else {
-                installmentInfoRow?.hideArrow()
             }
         }
     }
