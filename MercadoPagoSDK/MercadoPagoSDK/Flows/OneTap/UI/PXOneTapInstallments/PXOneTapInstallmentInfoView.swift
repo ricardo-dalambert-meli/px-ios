@@ -208,13 +208,13 @@ extension PXOneTapInstallmentInfoView {
         setupFadeImages()
         setupTitleLabel()
         PXLayout.setHeight(owner: self, height: PXOneTapInstallmentInfoView.DEFAULT_ROW_HEIGHT).isActive = true
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(toggleInstallmentsWrapper)))
+//        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(toggleInstallmentsWrapper)))
     }
 
-    @objc
-    func toggleInstallmentsWrapper() {
-        toggleInstallments()
-    }
+//    @objc
+//    func toggleInstallmentsWrapper() {
+//        toggleInstallments()
+//    }
 
     private func setupFadeImages() {
         let leftImage = ResourceManager.shared.getImage("one-tap-installments-info-left")
@@ -237,14 +237,6 @@ extension PXOneTapInstallmentInfoView {
         PXLayout.setWidth(owner: rightImageView, width: 30).isActive = true
     }
 
-    func showArrow(duration: Double = 0.5) {
-        animateArrow(alpha: 1, duration: duration)
-    }
-
-    func hideArrow(duration: Double = 0.5) {
-        animateArrow(alpha: 0, duration: duration)
-    }
-
     private func animateArrow(alpha: CGFloat, duration: Double) {
         var pxAnimator = PXAnimator(duration: duration, dampingRatio: 1)
         pxAnimator.addAnimation(animation: { [weak self] in
@@ -256,42 +248,6 @@ extension PXOneTapInstallmentInfoView {
 
     func setSliderOffset(offset: CGPoint) {
         pagerView.scrollToOffset(offset, animated: false)
-    }
-
-    @objc func toggleInstallments(completion: ((Bool) -> Void)? = nil) {
-        if let currentIndex = getCurrentIndex(), let currentModel = model, currentModel.indices.contains(currentIndex) {
-            let cardStatus = currentModel[currentIndex].status
-
-            if !cardStatus.isUsable() {
-                delegate?.cardTapped(status: cardStatus)
-            } else if currentModel[currentIndex].shouldShowArrow, tapEnabled {
-                let selectedModel = currentModel[currentIndex]
-                if let installmentData = selectedModel.installmentData {
-                    if arrowImage.tag != colapsedTag {
-                        delegate?.hideInstallments()
-                        UIView.animate(withDuration: 0.3, animations: { [weak self] in
-                            guard let self = self else { return }
-                            self.arrowImage.layer.transform = CATransform3DIdentity
-                            self.pagerView.alpha = 1
-                            self.titleLabel.alpha = 0
-                            self.accessibilityLabel = self.pagerView.cellForItem(at: self.pagerView.currentIndex)?.getAccessibilityMessage()
-                        }, completion: completion)
-                        arrowImage.tag = colapsedTag
-                    } else {
-                        delegate?.showInstallments(installmentData: installmentData, selectedPayerCost: selectedModel.selectedPayerCost, interest: selectedModel.benefits?.interestFree, reimbursement: selectedModel.benefits?.reimbursement)
-                        UIView.animate(withDuration: 0.3, animations: { [weak self] in
-                            let rotationAngle = (180.0 * CGFloat(Double.pi)) / 180.0
-                            guard let self = self else { return }
-                            self.arrowImage.layer.transform = CATransform3DRotate(CATransform3DIdentity, rotationAngle, 1.0, 0.0, 0.0)
-                            self.pagerView.alpha = 0
-                            self.titleLabel.alpha = 1
-                            self.accessibilityLabel = self.titleLabel.text
-                        }, completion: completion)
-                        arrowImage.tag = 1
-                    }
-                }
-            }
-        }
     }
 }
 
