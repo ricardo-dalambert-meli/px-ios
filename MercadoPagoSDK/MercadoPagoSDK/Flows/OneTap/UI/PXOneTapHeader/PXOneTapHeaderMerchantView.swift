@@ -49,11 +49,8 @@ class PXOneTapHeaderMerchantView: UIStackView {
         let imageContainerView = buildImageContainerView(image: image)
         innerContainer.addArrangedSubview(imageContainerView)
         
-        //PXLayout.matchWidth(ofView: imageContainerView).isActive = true
-        
         let titleContainer = UIStackView()
         titleContainer.axis = .vertical
-//        titleContainer.distribution = .equalCentering
         
         titleContainer.alignment = showHorizontally ? .leading : .center
         
@@ -78,9 +75,6 @@ class PXOneTapHeaderMerchantView: UIStackView {
         
         self.layoutIfNeeded()
 
-//        let direction: OneTapHeaderAnimationDirection = showHorizontally ? .horizontal : .vertical
-//        animateHeaderLayout(direction: direction)
-
         isUserInteractionEnabled = true
     }
 
@@ -89,21 +83,22 @@ class PXOneTapHeaderMerchantView: UIStackView {
         imageContainerView.axis = .vertical
         imageContainerView.alignment = .center
         imageContainerView.distribution = .equalSpacing
+        
         PXLayout.setHeight(owner: imageContainerView, height: layout.IMAGE_SIZE).isActive = true
-//        imageContainerView.translatesAutoresizingMaskIntoConstraints = false
+        
         imageContainerView.dropShadow(radius: 2, opacity: 0.15)
+        
         let imageView = PXUIImageView()
-//        imageView.layer.masksToBounds = false
+        
         imageView.layer.cornerRadius = layout.IMAGE_SIZE / 2
-//        imageView.clipsToBounds = false
-//        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
         PXLayout.setWidth(owner: imageView, width: layout.IMAGE_SIZE).isActive = true
         PXLayout.setHeight(owner: imageView, height: layout.IMAGE_SIZE).isActive = true
         imageView.enableFadeIn()
         imageView.backgroundColor = .white
         imageView.image = image
         imageContainerView.addArrangedSubview(imageView)
-//        _ = PXLayout.pinAllEdges(view: imageView).map { $0.isActive = true }
+        
         self.imageView = imageView
         return imageContainerView
     }
@@ -140,11 +135,6 @@ class PXOneTapHeaderMerchantView: UIStackView {
 extension PXOneTapHeaderMerchantView {
     func updateContentViewLayout(margin: CGFloat = PXLayout.M_MARGIN) {
         layoutIfNeeded()
-//        if UIDevice.isLargeDevice() || UIDevice.isExtraLargeDevice() {
-//            self.pinContentViewToTop(margin: margin)
-//        } else if !UIDevice.isSmallDevice() {
-//            self.pinContentViewToTop()
-//        }
     }
 
     func animateHeaderLayout(direction: OneTapHeaderAnimationDirection, duration: Double = 0) {
@@ -152,19 +142,6 @@ extension PXOneTapHeaderMerchantView {
         var pxAnimator = PXAnimator(duration: duration, dampingRatio: 1)
         pxAnimator.addAnimation(animation: { [weak self] in
             guard let self = self else { return }
-
-//            self.layoutIfNeeded()
-//            if direction == .horizontal {
-//                self.pinContentViewToTop()
-//            }
-//            for constraint in self.layout.getHorizontalContrainsts() {
-//                constraint.isActive = (direction == .horizontal)
-//            }
-//
-//            for constraint in self.layout.getVerticalContrainsts() {
-//                constraint.isActive = (direction == .vertical)
-//            }
-//            self.imageView?.layer.cornerRadius = (direction == .vertical) ? self.layout.IMAGE_SIZE / 2 :  self.layout.IMAGE_NAV_SIZE / 2
             self.layoutIfNeeded()
         })
 
