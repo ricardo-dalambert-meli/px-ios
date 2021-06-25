@@ -199,14 +199,9 @@ extension PXOneTapViewController {
         PXLayout.pinAllEdges(view: contentWrappedView)
         
         // Add header view.
-        let headerView = getHeaderView(selectedCard: selectedCard)
+        let headerView = getHeaderView(selectedCard: selectedCard, pxOneTapContext: self.pxOneTapContext)
         self.headerView = headerView
         contentWrappedView.addArrangedSubview(headerView)
-        
-//        let redView = UIStackView()
-//        redView.backgroundColor = .red
-//        redView.axis = .vertical
-//        contentWrappedView.addArrangedSubview(redView)
         
         headerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50.0).isActive = true
         
@@ -318,8 +313,8 @@ extension PXOneTapViewController {
 
 // MARK: Components Builders.
 extension PXOneTapViewController {
-    private func getHeaderView(selectedCard: PXCardSliderViewModel?) -> PXOneTapHeaderView {
-        let headerView = PXOneTapHeaderView(viewModel: viewModel.getHeaderViewModel(selectedCard: selectedCard), delegate: self)
+    private func getHeaderView(selectedCard: PXCardSliderViewModel?, pxOneTapContext: PXOneTapContext?) -> PXOneTapHeaderView {
+        let headerView = PXOneTapHeaderView(viewModel: viewModel.getHeaderViewModel(selectedCard: selectedCard, pxOneTapContext: pxOneTapContext), delegate: self)
         return headerView
     }
 
@@ -652,7 +647,7 @@ extension PXOneTapViewController: PXCardSliderProtocol {
         } else {
             displayCard(targetModel: targetModel)
             loadingButtonComponent?.setDisabled()
-            headerView.updateModel(viewModel.getHeaderViewModel(selectedCard: nil))
+            headerView.updateModel(viewModel.getHeaderViewModel(selectedCard: nil, pxOneTapContext: pxOneTapContext))
         }
     }
 
@@ -678,7 +673,7 @@ extension PXOneTapViewController: PXCardSliderProtocol {
             currentPaymentData.issuer = nil
             loadingButtonComponent?.setDisabled()
         }
-        headerView?.updateModel(viewModel.getHeaderViewModel(selectedCard: selectedCard))
+        headerView?.updateModel(viewModel.getHeaderViewModel(selectedCard: selectedCard, pxOneTapContext: pxOneTapContext))
 
         headerView?.updateSplitPaymentView(splitConfiguration: selectedApplication.amountConfiguration?.splitConfiguration)
         
