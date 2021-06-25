@@ -59,7 +59,7 @@ struct PXCardSliderSizeManager {
         case .small:
             if hasInstallments || hasSplit {
                 // On small devices, if it has installments or split, return medium size card
-                return .medium
+                return .small
             } else {
                 // On small devices if there is no installments or split return large size card
                 return .large
@@ -67,7 +67,7 @@ struct PXCardSliderSizeManager {
         case .regular:
             // On regular devices, if it has installments, return medium size card
             if hasInstallments {
-                return .medium
+                return .small
             } else {
                 return .large
             }

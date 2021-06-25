@@ -13,13 +13,15 @@ class PXOneTapHeaderViewModel {
     let subTitle: String?
     let data: [PXOneTapSummaryRowData]
     let splitConfiguration: PXSplitConfiguration?
+    let pxOneTapContext: PXOneTapContext?
 
-    init(icon: UIImage, title: String, subTitle: String?, data: [PXOneTapSummaryRowData], splitConfiguration: PXSplitConfiguration?) {
+    init(icon: UIImage, title: String, subTitle: String?, data: [PXOneTapSummaryRowData], splitConfiguration: PXSplitConfiguration?, pxOneTapContext: PXOneTapContext?) {
         self.icon = icon
         self.title = title
         self.subTitle = subTitle
         self.data = data
         self.splitConfiguration = splitConfiguration
+        self.pxOneTapContext = pxOneTapContext
     }
 
     internal func hasLargeHeaderOrLarger() -> Bool {
