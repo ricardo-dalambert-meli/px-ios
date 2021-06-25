@@ -102,20 +102,6 @@ private extension PXOneTapHeaderView {
         default:
             return true
         }
-        
-//        if UIDevice.isLargeOrExtraLargeDevice() {
-//            if UIDevice.isLargeDevice(), model.splitConfiguration != nil, model.data.first(where: { $0.type == PXOneTapSummaryRowView.RowType.discount }) != nil {
-//                return true
-//            }
-//            //an extra large device will always be able to accomodate al view in vertical mode
-//            return false
-//        }
-//        if UIDevice.isSmallDevice() {
-//            //a small device will never be able to accomodate al view in vertical mode
-//            return true
-//        }
-//        // a regular device will collapse if combined rows result in a medium sized header or larger
-//        return model.hasMediumHeaderOrLarger()
     }
 
     func removeAnimations() {
