@@ -270,7 +270,7 @@ extension PXOneTapViewController {
         
         DispatchQueue.main.async {
             if let selectedCard = self.selectedCard {
-                self.newCardDidSelected(targetModel: selectedCard)
+                self.newCardDidSelected(targetModel: selectedCard, forced: true)
             }
         }
     }
@@ -538,18 +538,9 @@ extension PXOneTapViewController: PXOneTapHeaderProtocol {
             viewModel.updateAllCardSliderModels(splitPaymentEnabled: isOn)
         }
         
-        //Update installment row
-        installmentInfoRow?.update(model: viewModel.getInstallmentInfoViewModel())
-
-        if let infoRow = installmentInfoRow, viewModel.getCardSliderViewModel().indices.contains(infoRow.getActiveRowIndex()) {
-            let selectedCard = viewModel.getCardSliderViewModel()[infoRow.getActiveRowIndex()]
-            
-            guard let selectedApplication = selectedCard.selectedApplication else { return }
-
-            // If it's debit and has split, update split message
-            if selectedApplication.paymentTypeId == PXPaymentTypes.DEBIT_CARD.rawValue {
-                selectedApplication.displayMessage = viewModel.getSplitMessageForDebit(amountToPay: selectedApplication.selectedPayerCost?.totalAmount ?? 0)
-            }
+        // Update current card view
+        if let selectedCard = self.selectedCard {
+            self.newCardDidSelected(targetModel: selectedCard, forced: true)
         }
     }
 
@@ -595,13 +586,15 @@ extension PXOneTapViewController: PXOneTapHeaderProtocol {
 // MARK: CardSlider delegate.
 extension PXOneTapViewController: PXCardSliderProtocol {
 
-    func newCardDidSelected(targetModel: PXCardSliderViewModel) {
+    func newCardDidSelected(targetModel: PXCardSliderViewModel, forced: Bool) {
         
         guard let selectedApplication = targetModel.selectedApplication else { return }
 
         selectedCard = targetModel
         
-        trackEvent(event: OneTapTrackingEvents.didSwipe)
+        if !forced {
+            trackEvent(event: OneTapTrackingEvents.didSwipe)
+        }
         
         // Update installment info row
         installmentInfoRow?.update(model: viewModel.getInstallmentInfoViewModel())
@@ -617,7 +610,7 @@ extension PXOneTapViewController: PXCardSliderProtocol {
             hideInstallments()
         }
         
-        guard let headerView = headerView, let whiteView = whiteView else { return }
+        guard let headerView = headerView else { return }
 
         // Add card. - card o credits payment method selected
         let validData = selectedApplication.cardData != nil || targetModel.isCredits
@@ -683,7 +676,7 @@ extension PXOneTapViewController: PXCardSliderProtocol {
                 return
             }
             let card = cardSliderViewModel[index]
-            newCardDidSelected(targetModel: card)
+            newCardDidSelected(targetModel: card, forced: false)
         }
     }
 

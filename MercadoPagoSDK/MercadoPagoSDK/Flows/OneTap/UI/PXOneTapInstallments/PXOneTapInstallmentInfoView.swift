@@ -208,13 +208,7 @@ extension PXOneTapInstallmentInfoView {
         setupFadeImages()
         setupTitleLabel()
         PXLayout.setHeight(owner: self, height: PXOneTapInstallmentInfoView.DEFAULT_ROW_HEIGHT).isActive = true
-//        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(toggleInstallmentsWrapper)))
     }
-
-//    @objc
-//    func toggleInstallmentsWrapper() {
-//        toggleInstallments()
-//    }
 
     private func setupFadeImages() {
         let leftImage = ResourceManager.shared.getImage("one-tap-installments-info-left")
