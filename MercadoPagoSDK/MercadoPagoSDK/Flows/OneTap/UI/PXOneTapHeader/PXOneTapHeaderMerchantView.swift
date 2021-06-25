@@ -35,48 +35,48 @@ class PXOneTapHeaderMerchantView: UIStackView {
         self.axis = .vertical
         self.alignment = .fill
         self.distribution = .fill
-//        PXLayout.setHeight(owner: self, height: layout.IMAGE_SIZE, relation: .greaterThanOrEqual).isActive = true
-//        if UIDevice.isLargeDevice(), showHorizontally {
-//            height.constant = layout.IMAGE_NAV_SIZE
-//        }
-
-//        let containerView = UIStackView()
-//        PXLayout.pinAllEdges(view: containerView)
         
-        // The image of the merchant
+        let innerContainer = UIStackView()
+        
+        innerContainer.axis = showHorizontally ? .horizontal : .vertical
+        innerContainer.alignment = showHorizontally ? .leading : .fill
+        innerContainer.distribution = showHorizontally ? .fillProportionally : .fill
+        
+        self.addArrangedSubview(innerContainer)
+        
+        
+        // Add the image of the merchant
         let imageContainerView = buildImageContainerView(image: image)
-        self.addArrangedSubview(imageContainerView)
+        innerContainer.addArrangedSubview(imageContainerView)
         
-        // The title
+        //PXLayout.matchWidth(ofView: imageContainerView).isActive = true
+        
+        let titleContainer = UIStackView()
+        titleContainer.axis = .vertical
+//        titleContainer.distribution = .equalCentering
+        
+        titleContainer.alignment = showHorizontally ? .leading : .center
+        
+        // Add the title
         merchantTitleLabel = buildTitleLabel(text: title)
         if let titleLabel = merchantTitleLabel {
-            self.addArrangedSubview(titleLabel)
+            titleContainer.addArrangedSubview(titleLabel)
         }
-
-//        addSubviewToBottom(containerView)
         
+        // Add the subtitle
         if layout.getLayoutType() == .titleSubtitle {
             let subTitleLabel = buildSubTitleLabel(text: subTitle)
-            self.addArrangedSubview(subTitleLabel)
+            titleContainer.addArrangedSubview(subTitleLabel)
         }
-
-//        if layout.getLayoutType() == .onlyTitle {
-//            if let titleLabel = merchantTitleLabel {
-//                layout.makeConstraints(containerView, imageContainerView, titleLabel)
-//            }
-//        } else {
-//            // The subTitle
-//            let subTitleLabel = buildSubTitleLabel(text: subTitle)
-//            containerView.addSubview(subTitleLabel)
-//            if let titleLabel = merchantTitleLabel {
-//                layout.makeConstraints(containerView, imageContainerView, titleLabel, subTitleLabel)
-//            }
-//        }
+        
+        innerContainer.addArrangedSubview(titleContainer)
         
         let emptyBottomSeparator = UIStackView()
         emptyBottomSeparator.axis = .vertical
         emptyBottomSeparator.heightAnchor.constraint(greaterThanOrEqualToConstant: 1.0).isActive = true
         self.addArrangedSubview(emptyBottomSeparator)
+        
+        self.layoutIfNeeded()
 
 //        let direction: OneTapHeaderAnimationDirection = showHorizontally ? .horizontal : .vertical
 //        animateHeaderLayout(direction: direction)
@@ -89,7 +89,6 @@ class PXOneTapHeaderMerchantView: UIStackView {
         imageContainerView.axis = .vertical
         imageContainerView.alignment = .center
         imageContainerView.distribution = .equalSpacing
-        PXLayout.matchWidth(ofView: imageContainerView).isActive = true
         PXLayout.setHeight(owner: imageContainerView, height: layout.IMAGE_SIZE).isActive = true
 //        imageContainerView.translatesAutoresizingMaskIntoConstraints = false
         imageContainerView.dropShadow(radius: 2, opacity: 0.15)

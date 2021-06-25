@@ -225,7 +225,7 @@ extension PXOneTapViewModel {
         return model
     }
 
-    func getHeaderViewModel(selectedCard: PXCardSliderViewModel?) -> PXOneTapHeaderViewModel {
+    func getHeaderViewModel(selectedCard: PXCardSliderViewModel?, pxOneTapContext: PXOneTapContext?) -> PXOneTapHeaderViewModel {
 
         let splitConfiguration = selectedCard?.selectedApplication?.amountConfiguration?.splitConfiguration
         let composer = PXSummaryComposer(amountHelper: amountHelper,
@@ -237,7 +237,7 @@ extension PXOneTapViewModel {
         // Populate header display data. From SP pref AdditionalInfo or instore retrocompatibility.
         let (headerTitle, headerSubtitle, headerImage) = getSummaryHeader(item: items.first, additionalInfoSummaryData: additionalInfoSummary)
 
-        let headerVM = PXOneTapHeaderViewModel(icon: headerImage, title: headerTitle, subTitle: headerSubtitle, data: summaryData, splitConfiguration: splitConfiguration)
+        let headerVM = PXOneTapHeaderViewModel(icon: headerImage, title: headerTitle, subTitle: headerSubtitle, data: summaryData, splitConfiguration: splitConfiguration, pxOneTapContext: pxOneTapContext)
         return headerVM
     }
 
