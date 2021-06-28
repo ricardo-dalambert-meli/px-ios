@@ -113,7 +113,7 @@ extension PXCardSlider: PXCardSliderPagerCellDelegate {
     func switchDidChange(_ selectedOption: String) {
         if model.indices.contains(selectedIndex) {
             let modelData = model[selectedIndex]
-            delegate?.newCardDidSelected(targetModel: modelData)
+            delegate?.newCardDidSelected(targetModel: modelData, forced: false)
             self.pagerView.reloadData()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 if let cell = self.pagerView.cellForItem(at: self.selectedIndex) as? PXCardSliderPagerCell { cell.showBottomMessageView(true) }
@@ -147,7 +147,7 @@ extension PXCardSlider: FSPagerViewDelegate {
             selectedIndex = targetIndex
             if model.indices.contains(targetIndex) {
                 let modelData = model[targetIndex]
-                delegate?.newCardDidSelected(targetModel: modelData)
+                delegate?.newCardDidSelected(targetModel: modelData, forced: false)
             }
         }
     }
@@ -200,7 +200,7 @@ extension PXCardSlider {
     func newCardDidSelected(_ index: Int) {
         if model.indices.contains(pageControl.currentPage) {
             let modelData = model[pageControl.currentPage]
-            delegate?.newCardDidSelected(targetModel: modelData)
+            delegate?.newCardDidSelected(targetModel: modelData, forced: false)
         }
     }
     
@@ -231,12 +231,13 @@ extension PXCardSlider {
 extension PXCardSlider {
     private func setupSlider(_ containerView: UIView) {
         containerView.addSubview(pagerView)
+        
         pagerView.accessibilityIdentifier = "card_carrousel"
         PXLayout.setHeight(owner: pagerView, height: getItemSize(containerView).height).isActive = true
         PXLayout.pinLeft(view: pagerView).isActive = true
         PXLayout.pinRight(view: pagerView).isActive = true
         PXLayout.matchWidth(ofView: pagerView).isActive = true
-        PXLayout.pinTop(view: pagerView).isActive = true
+        PXLayout.pinTop(view: pagerView, withMargin: PXLayout.XS_MARGIN)
         pagerView.dataSource = self
         pagerView.delegate = self
         pagerView.register(PXCardSliderPagerCell.getCell(), forCellWithReuseIdentifier: PXCardSliderPagerCell.identifier)
