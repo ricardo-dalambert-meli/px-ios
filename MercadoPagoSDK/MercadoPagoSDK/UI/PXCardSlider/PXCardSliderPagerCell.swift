@@ -41,7 +41,6 @@ protocol PXCardSliderPagerCellDelegate: NSObjectProtocol {
 
 // MARK: Publics.
 extension PXCardSliderPagerCell {
-    
     private func setupContainerView(_ masksToBounds: Bool = false) {
         containerView.layer.masksToBounds = masksToBounds
         containerView.removeAllSubviews()
@@ -110,8 +109,8 @@ extension PXCardSliderPagerCell {
         isAccessibilityElement = false
         if let newCardData = newCardData {
             let icon = ResourceManager.shared.getImage("add_new_card")
-            let newCardData = PXAddMethodData(title: newCardData.title, subtitle: newCardData.subtitle, icon: icon, compactMode: shouldApplyCompactMode)
-            let newCardView = PXAddMethodView(data: newCardData)
+            let newCardData = SplitableCardModel(title: newCardData.title, subtitle: newCardData.subtitle, icon: icon, compactMode: shouldApplyCompactMode, cardHeight: newMethodViewHeight)
+            let newCardView = SplitableCardView(data: newCardData)
             newCardView.translatesAutoresizingMaskIntoConstraints = false
             newCardView.layer.cornerRadius = cornerRadius
             containerView.addSubview(newCardView)
@@ -129,8 +128,8 @@ extension PXCardSliderPagerCell {
 
         if let newOfflineData = newOfflineData {
             let icon = ResourceManager.shared.getImage("add_new_offline")
-            let newOfflineData = PXAddMethodData(title: newOfflineData.title, subtitle: newOfflineData.subtitle, icon: icon, compactMode: shouldApplyCompactMode)
-            let newOfflineView = PXAddMethodView(data: newOfflineData)
+            let newOfflineData = SplitableCardModel(title: newOfflineData.title, subtitle: newOfflineData.subtitle, icon: icon, compactMode: shouldApplyCompactMode, cardHeight: newMethodViewHeight)
+            let newOfflineView = SplitableCardView(data: newOfflineData)
             newOfflineView.translatesAutoresizingMaskIntoConstraints = false
             newOfflineView.layer.cornerRadius = cornerRadius
 
