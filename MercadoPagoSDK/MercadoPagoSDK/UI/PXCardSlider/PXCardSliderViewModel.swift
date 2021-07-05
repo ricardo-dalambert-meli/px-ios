@@ -16,7 +16,7 @@ final class PXCardSliderViewModel {
     var cardUI: CardUI?
     var cardId: String?
     var displayInfo: PXOneTapDisplayInfo?
-    var comboSwitch: ComboSwitchView?
+    var comboSwitch: ComboSwitchSmallView?
     
     var accountMoneyBalance: Double?
     
@@ -40,13 +40,7 @@ final class PXCardSliderViewModel {
         return applicationsData[selectedApplicationId] ?? nil
     }
     
-    init(applications: [PXApplicationId: PXCardSliderApplicationData],
-        selectedApplicationId: String?,
-        issuerId: String,
-        cardId: String? = nil,
-        creditsViewModel: PXCreditsViewModel? = nil,
-        displayInfo: PXOneTapDisplayInfo?,
-        comboSwitch: ComboSwitchView?) {
+    init(_ applications: [PXApplicationId: PXCardSliderApplicationData], _ selectedApplicationId: String?, _ issuerId: String, _ cardId: String? = nil, creditsViewModel: PXCreditsViewModel? = nil, displayInfo: PXOneTapDisplayInfo?, comboSwitch: ComboSwitchSmallView?) {
         self.issuerId = issuerId
         self.cardId = cardId
         self.creditsViewModel = creditsViewModel
@@ -62,7 +56,7 @@ final class PXCardSliderViewModel {
     
     // MARK: - Public methods
     func trackCard(state: String) {
-        MPXTracker.sharedInstance.trackEvent(event: PXCardSliderTrackingEvents.comboSwitch(state))
+        MPXTracker.sharedInstance.trackEvent(path: TrackingPaths.Events.getComboSwitch(), properties: ["option_selected" : state])
     }
 }
 
