@@ -14,22 +14,28 @@ struct PXCardSliderSizeManager {
     static let cardDeltaDecrease: CGFloat = 60
     
     // Card type ratios
-    static let smallRatio : CGFloat = 0.328
-    static let mediumRatio : CGFloat = 0.492
     static let largeRatio : CGFloat = 0.61
+    static let mediumRatio : CGFloat = 0.492
+    static let smallRatio : CGFloat = 0.328
+    static let xSmallRatio : CGFloat = 0.265
+    static let miniRatio : CGFloat = 0.14
     
-    static func aspectRatio(forType type: MLCardDrawerType) -> CGFloat {
+    static func aspectRatio(forType type: MLCardDrawerTypeV3) -> CGFloat {
         switch type {
-        case .small:
-         return smallRatio
-        case .medium:
-         return mediumRatio
         case .large:
          return largeRatio
+        case .medium:
+         return mediumRatio
+        case .small:
+         return smallRatio
+        case .xSmall:
+         return xSmallRatio
+        case .mini:
+         return miniRatio
         }
     }
 
-    static func getCGSizeWithAspectRatioFor(_ width: CGFloat, _ type: MLCardDrawerType = .large) -> CGSize {
+    static func getCGSizeWithAspectRatioFor(_ width: CGFloat, _ type: MLCardDrawerTypeV3 = .large) -> CGSize {
         return CGSize(width: width, height: width * aspectRatio(forType: type))
     }
 
@@ -53,7 +59,7 @@ struct PXCardSliderSizeManager {
         }
     }
     
-    static func getCardTypeForContext(deviceSize: PXDeviceSize.Sizes, hasCharges: Bool, hasDiscounts: Bool, hasInstallments: Bool, hasSplit: Bool) -> MLCardDrawerType {
+    static func getCardTypeForContext(deviceSize: PXDeviceSize.Sizes, hasCharges: Bool, hasDiscounts: Bool, hasInstallments: Bool, hasSplit: Bool) -> MLCardDrawerTypeV3 {
         
         switch deviceSize {
         case .small:

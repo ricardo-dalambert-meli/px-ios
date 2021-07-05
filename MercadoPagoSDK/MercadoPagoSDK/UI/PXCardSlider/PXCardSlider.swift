@@ -29,7 +29,7 @@ final class PXCardSlider: NSObject {
     private var selectedIndex: Int = 0
     private let cardSliderCornerRadius: CGFloat = 11
     weak var termsAndCondDelegate: PXTermsAndConditionViewDelegate?
-    var cardType : MLCardDrawerType = .large
+    var cardType : MLCardDrawerTypeV3 = .large
 
     override init() {
         super.init()
@@ -67,7 +67,7 @@ extension PXCardSlider: FSPagerViewDataSource {
                     } else if let _ = targetModel.cardUI as? HybridAMCard {
                         cell.render(model: targetModel, cardSize: pagerView.itemSize, accessibilityData: accessibilityData, clearCardData: true, delegate: self)
                     } else {
-                        cell.render(model: targetModel, cardSize: pagerView.itemSize, accessibilityData: accessibilityData, delegate: self)
+                        cell.render(model: targetModel, cardSize: pagerView.itemSize, accessibilityData: accessibilityData, type: cardType, delegate: self)
                     }
                 }
                 return cell

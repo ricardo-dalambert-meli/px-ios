@@ -67,7 +67,7 @@ extension PXCardSliderPagerCell {
         }
     }
     
-    func render(model: PXCardSliderViewModel, cardSize: CGSize, accessibilityData: AccessibilityCardData, clearCardData: Bool = false, delegate: PXCardSliderPagerCellDelegate?) {
+    func render(model: PXCardSliderViewModel, cardSize: CGSize, accessibilityData: AccessibilityCardData, clearCardData: Bool = false, type: MLCardDrawerTypeV3 = .large, delegate: PXCardSliderPagerCellDelegate?) {
         
         guard let selectedApplication = model.selectedApplication, let cardUI = model.cardUI else { return }
         
@@ -77,7 +77,7 @@ extension PXCardSliderPagerCell {
         let bottomMessage = selectedApplication.bottomMessage
         
         setupContainerView()
-        setupCardHeader(cardDrawerController: MLCardDrawerController(cardUI, cardData, isDisabled), cardSize: cardSize)
+        setupCardHeader(cardDrawerController: MLCardDrawerController(cardUI: cardUI, type, cardData, isDisabled), cardSize: cardSize)
 
         if let headerView = cardHeader?.view {
             containerView.addSubview(headerView)
