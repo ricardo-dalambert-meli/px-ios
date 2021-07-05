@@ -55,12 +55,12 @@ class PXOneTapHeaderView: UIStackView {
 // MARK: Privates.
 private extension PXOneTapHeaderView {
 
-    func toggleSplitPaymentView(shouldShow: Bool, duration: Double = 0.5) {
+    func toggleSplitPaymentView(shouldHide: Bool, duration: Double = 0.5) {
         layoutIfNeeded()
         var pxAnimator = PXAnimator(duration: duration, dampingRatio: 1)
         pxAnimator.addAnimation(animation: { [weak self] in
             guard let self = self else { return }
-            self.splitPaymentView?.isHidden = !shouldShow
+            self.splitPaymentView?.isHidden = shouldHide
         })
 
         pxAnimator.animate()
@@ -137,11 +137,7 @@ private extension PXOneTapHeaderView {
         if shouldAnimateSplitPaymentView {
             layoutIfNeeded()
             superview?.layoutIfNeeded()
-            if shouldHideSplitPaymentView {
-                toggleSplitPaymentView(shouldShow: false, duration: animationDuration)
-            } else {
-                toggleSplitPaymentView(shouldShow: true, duration: animationDuration)
-            }
+            toggleSplitPaymentView(shouldHide: shouldHideSplitPaymentView, duration: animationDuration)
         }
     }
 
@@ -215,7 +211,9 @@ private extension PXOneTapHeaderView {
         self.splitPaymentView = splitPaymentView
 
         addArrangedSubview(splitPaymentView)
+        
         PXLayout.matchWidth(ofView: splitPaymentView).isActive = true
+        self.splitPaymentView?.isHidden = model.splitConfiguration == nil
 
     }
 }

@@ -617,12 +617,13 @@ extension PXOneTapViewModel {
         }
         
         var selectedApplicationId = applications.first?.paymentMethod.type
-        var comboSwitch: ComboSwitchView?
+        var comboSwitch: ComboSwitchSmallView?
         
         if let switchInfo = targetNode.displayInfo?.switchInfo {
-            comboSwitch = ComboSwitchView()
+            comboSwitch = ComboSwitchSmallView()
             selectedApplicationId = switchInfo.defaultState
             comboSwitch?.setSwitchModel(switchInfo)
+//            comboSwitch?.setCardType(MLCardDrawerTypeV3)
         }
         
         let viewModelCard = PXCardSliderViewModel(cardSliderApplications, selectedApplicationId, targetIssuerId, oneTapCard.cardId, displayInfo: targetNode.displayInfo, comboSwitch:  comboSwitch)
