@@ -102,7 +102,6 @@ final class PXOneTapViewController: PXComponentContainerViewController {
         super.viewDidLayoutSubviews()
         headerView?.updateConstraintsIfNecessary()
         if let cardSliderContentView = cardSliderContentView {
-//            print("cardSliderContentView width: \(cardSliderContentView.bounds.width)")
             if cardSliderContentView.subviews.count == 0 && cardSliderContentView.bounds.width > 0 {
                 addCardSlider(inContainerView: cardSliderContentView)
             }

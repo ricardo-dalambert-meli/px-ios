@@ -84,7 +84,7 @@ extension PXOneTapViewModel {
                 
                 cardSliderApplications[""] = cardSliderApplication
                 
-                let viewModelCard = PXCardSliderViewModel(applications: cardSliderApplications, selectedApplicationId: "", issuerId: "", displayInfo: targetNode.displayInfo, comboSwitch: nil)
+                let viewModelCard = PXCardSliderViewModel(cardSliderApplications, "", "", displayInfo: targetNode.displayInfo, comboSwitch: nil)
                 
                 sliderModel.append(viewModelCard)
 
@@ -121,7 +121,7 @@ extension PXOneTapViewModel {
                     
                     cardSliderApplications[targetNode.paymentTypeId ?? PXPaymentTypes.ACCOUNT_MONEY.rawValue] = cardSliderApplication
                     
-                    let viewModelCard = PXCardSliderViewModel(applications: cardSliderApplications, selectedApplicationId: targetNode.paymentTypeId ?? PXPaymentTypes.ACCOUNT_MONEY.rawValue, issuerId: "", cardId: accountMoney.getId(), displayInfo: targetNode.displayInfo, comboSwitch: nil)
+                    let viewModelCard = PXCardSliderViewModel(cardSliderApplications, targetNode.paymentTypeId ?? PXPaymentTypes.ACCOUNT_MONEY.rawValue, "", accountMoney.getId(), displayInfo: targetNode.displayInfo, comboSwitch: nil)
 
                     viewModelCard.setAccountMoney(accountMoneyBalance: accountMoney.availableBalance)
 
@@ -155,7 +155,7 @@ extension PXOneTapViewModel {
                 
                 cardSliderApplications[targetNode.paymentTypeId ?? PXPaymentTypes.CONSUMER_CREDITS.rawValue] = cardSliderApplication
 
-                let viewModelCard = PXCardSliderViewModel(applications: cardSliderApplications, selectedApplicationId: targetNode.paymentTypeId, issuerId: "", cardId: PXPaymentTypes.CONSUMER_CREDITS.rawValue, creditsViewModel: creditsViewModel, displayInfo: targetNode.displayInfo, comboSwitch: nil)
+                let viewModelCard = PXCardSliderViewModel(cardSliderApplications, targetNode.paymentTypeId, "", PXPaymentTypes.CONSUMER_CREDITS.rawValue, creditsViewModel: creditsViewModel, displayInfo: targetNode.displayInfo, comboSwitch: nil)
 
 
                 sliderModel.append(viewModelCard)
@@ -168,10 +168,10 @@ extension PXOneTapViewModel {
                 
                 cardSliderApplications[applicationName] = PXCardSliderApplicationData(paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId, cardData: cardData, cardUI: templateCard, payerCost: [], selectedPayerCost: nil, shouldShowArrow: false, amountConfiguration: nil, status: statusConfig, bottomMessage: nil, benefits: targetNode.benefits, payerPaymentMethod: nil, behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo, displayMessage: nil)
 
-                let viewModelCard = PXCardSliderViewModel(applications: cardSliderApplications,
-                                                          selectedApplicationId: applicationName,
-                                                          issuerId: "",
-                                                          cardId: "",
+                let viewModelCard = PXCardSliderViewModel(cardSliderApplications,
+                                                          applicationName,
+                                                          "",
+                                                          "",
                                                           creditsViewModel: nil,
                                                           displayInfo: nil,
                                                           comboSwitch: nil)
@@ -663,7 +663,7 @@ extension PXOneTapViewModel {
 //            comboSwitch?.setCardType(MLCardDrawerTypeV3)
         }
         
-        let viewModelCard = PXCardSliderViewModel(applications: cardSliderApplications, selectedApplicationId: selectedApplicationId, issuerId: targetIssuerId, cardId: oneTapCard.cardId, displayInfo: targetNode.displayInfo, comboSwitch:  comboSwitch)
+        let viewModelCard = PXCardSliderViewModel(cardSliderApplications, selectedApplicationId, targetIssuerId, oneTapCard.cardId, displayInfo: targetNode.displayInfo, comboSwitch:  comboSwitch)
         
         return viewModelCard
     }
