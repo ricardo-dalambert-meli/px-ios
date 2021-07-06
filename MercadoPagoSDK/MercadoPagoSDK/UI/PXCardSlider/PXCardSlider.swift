@@ -19,9 +19,11 @@ final class PXCardSlider: NSObject {
     
     private var model: [PXCardSliderViewModel] = [] {
         didSet {
-            self.pagerView.reloadData()
-            self.pagerView.layoutIfNeeded()
-            self.pageControl.numberOfPages = self.model.count
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
+                self.pagerView.reloadData()
+                self.pagerView.layoutIfNeeded()
+                self.pageControl.numberOfPages = self.model.count
+            }
         }
     }
     
