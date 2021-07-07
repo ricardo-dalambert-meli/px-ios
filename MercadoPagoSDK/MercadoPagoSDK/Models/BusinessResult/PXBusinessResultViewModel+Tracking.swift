@@ -103,7 +103,7 @@ extension PXBusinessResultViewModel: PXViewModelTrackingDataProtocol {
         } else if paymentStatus == PXPaymentStatus.REJECTED.rawValue {
             screenPath = .checkoutPaymentRejected(getTrackingProperties())
         }
-        return screenPath!
+        return screenPath
     }
 
     func getFlowBehaviourResult() -> PXResultKey {
