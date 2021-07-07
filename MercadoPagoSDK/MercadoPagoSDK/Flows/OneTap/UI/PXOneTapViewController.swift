@@ -592,7 +592,7 @@ extension PXOneTapViewController: PXCardSliderProtocol {
         selectedCard = targetModel
         
         if !forced {
-            trackEvent(path: TrackingPaths.Events.OneTap.getSwipePath())
+            trackEvent(event: OneTapTrackingEvents.didSwipe)
         }
         
         // Update installment info row
