@@ -162,6 +162,9 @@ extension ResourceManager {
             if paymentResult.isApproved() || paymentResult.isWaitingForPayment() {
                 return ThemeManager.shared.successColor()
             }
+            if paymentResult.isPixOrOfflinePayment() {
+                return ThemeManager.shared.successColor()
+            }
             if paymentResult.isRejectedWithRemedy() {
                 return ThemeManager.shared.remedyWarningColor()
             }

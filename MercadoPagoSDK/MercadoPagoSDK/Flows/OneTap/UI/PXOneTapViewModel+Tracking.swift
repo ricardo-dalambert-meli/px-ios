@@ -12,13 +12,32 @@ extension PXOneTapViewModel {
         var dic: [Any] = []
         if let expressData = expressData {
             for expressItem in expressData where expressItem.newCard == nil {
+                
+                var itemForTracking : [String: Any]
+                
                 if expressItem.oneTapCard != nil {
-                    dic.append(expressItem.getCardForTracking(amountHelper: amountHelper))
+                    itemForTracking = expressItem.getCardForTracking(amountHelper: amountHelper)
                 } else if expressItem.accountMoney != nil {
-                    dic.append(expressItem.getAccountMoneyForTracking())
+                    itemForTracking = expressItem.getAccountMoneyForTracking()
                 } else {
-                    dic.append(expressItem.getPaymentMethodForTracking())
+                    itemForTracking = expressItem.getPaymentMethodForTracking()
                 }
+                
+                if let applicationsArray = expressItem.applications {
+                    var applications: [[String : Any]] = []
+                    
+                    applicationsArray.forEach { application in
+                        applications.append(getValidationProgramProperties(oneTapApplication: application))
+                    }
+                    
+                    if var extraInfo = itemForTracking["extra_info"] as? [String: Any] {
+                        extraInfo["methods_applications"] = applications
+                        itemForTracking["extra_info"] = extraInfo
+                    }
+                    
+                }
+                
+                dic.append(itemForTracking)
             }
         }
         return dic
@@ -93,13 +112,6 @@ extension PXOneTapViewModel {
         properties["disabled_methods_quantity"] = disabledPMQuantity
         properties["total_amount"] = amountHelper.preferenceAmount
         properties["discount"] = amountHelper.getDiscountForTracking()
-        var applications: [[String : Any]] = []
-        
-        oneTapApplication.forEach { application in
-            applications.append(getValidationProgramProperties(oneTapApplication: application))
-        }
-
-        properties["applications"] = applications
         var itemsDic: [Any] = []
         for item in amountHelper.preference.items {
             itemsDic.append(item.getItemForTracking())

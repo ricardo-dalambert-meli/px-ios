@@ -13,8 +13,8 @@ class PXNewResultUtil {
     //TRACKING
     class func trackScreenAndConversion(viewModel: PXViewModelTrackingDataProtocol) {
         let path = viewModel.getTrackingPath()
-        if !path.isEmpty {
-            MPXTracker.sharedInstance.trackScreen(screenName: path, properties: viewModel.getTrackingProperties())
+        if let path = path {
+            MPXTracker.sharedInstance.trackScreen(event: path)
 
             let behaviourProtocol = PXConfiguratorManager.flowBehaviourProtocol
             behaviourProtocol.trackConversion(result: viewModel.getFlowBehaviourResult())
@@ -76,7 +76,7 @@ class PXNewResultUtil {
             button.add(for: .touchUpInside) {
                 //open deep link
                 PXDeepLinkManager.open(discounts.discountsAction.target)
-                MPXTracker.sharedInstance.trackEvent(path: TrackingPaths.Events.Congrats.getSuccessTapSeeAllDiscountsPath())
+                MPXTracker.sharedInstance.trackEvent(event: PXResultTrackingEvents.didTapOnAllDiscounts)
             }
             return ResultViewData(view: button, verticalMargin: PXLayout.M_MARGIN, horizontalMargin: PXLayout.L_MARGIN)
         } else {
@@ -85,7 +85,7 @@ class PXNewResultUtil {
             downloadAppView.addTapAction { (deepLink) in
                 //open deep link
                 PXDeepLinkManager.open(deepLink)
-                MPXTracker.sharedInstance.trackEvent(path: TrackingPaths.Events.Congrats.getSuccessTapDownloadAppPath())
+                MPXTracker.sharedInstance.trackEvent(event: PXResultTrackingEvents.didtapOnDownload)
             }
             return ResultViewData(view: downloadAppView, verticalMargin: PXLayout.M_MARGIN, horizontalMargin: PXLayout.L_MARGIN)
         }

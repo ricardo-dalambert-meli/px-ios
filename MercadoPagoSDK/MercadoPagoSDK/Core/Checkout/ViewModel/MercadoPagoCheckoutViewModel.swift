@@ -71,7 +71,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
     open var issuers: [PXIssuer]?
     open var entityTypes: [EntityType]?
     open var financialInstitutions: [PXFinancialInstitution]?
-    open var instructionsInfo: PXInstructions?
+    open var instructionsInfo: PXInstruction?
     open var pointsAndDiscounts: PXPointsAndDiscounts?
 
     static var error: MPSDKError?

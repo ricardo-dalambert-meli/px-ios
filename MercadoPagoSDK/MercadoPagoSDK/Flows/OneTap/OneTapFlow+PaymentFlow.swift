@@ -70,7 +70,7 @@ extension OneTapFlow: PXPaymentResultHandlerProtocol {
         securityCodeVC.resetButton()
     }
 
-    func finishPaymentFlow(paymentResult: PaymentResult, instructionsInfo: PXInstructions?, pointsAndDiscounts: PXPointsAndDiscounts?) {
+    func finishPaymentFlow(paymentResult: PaymentResult, instructionsInfo: PXInstruction?, pointsAndDiscounts: PXPointsAndDiscounts?) {
         model.paymentResult = paymentResult
         model.instructionsInfo = instructionsInfo
         model.pointsAndDiscounts = pointsAndDiscounts

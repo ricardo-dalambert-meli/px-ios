@@ -14,13 +14,14 @@ import MercadoPagoSDKV4
 class ViewController: UIViewController {
     private var checkout: MercadoPagoCheckout?
     
+    // Collector Public Key
     private var publicKey : String = ""
     
     // Payer private key
     private var privateKey : String = ""
     
     // Preference ID
-    private var preferenceId : String = "656525290-10485f3d-0c25-4d1f-9619-f16b34376e0a"
+    private var preferenceId : String = "656525290-7bda964b-26d9-4352-a04c-1b04801627ee"
     
     @IBAction func initDefault(_ sender: Any) {
 //         runMercadoPagoCheckout()

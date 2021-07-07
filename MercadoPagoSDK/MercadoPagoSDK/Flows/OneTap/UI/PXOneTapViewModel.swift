@@ -159,6 +159,24 @@ extension PXOneTapViewModel {
 
 
                 sliderModel.append(viewModelCard)
+            } else if targetNode.offlineTapCard != nil,
+                      let paymentMethodId = targetNode.paymentMethodId {
+                let templateCard = getOfflineCardUI(oneTap: targetNode)
+                let cardData = PXCardDataFactory().create(cardName: "", cardNumber: "", cardCode: "", cardExpiration: "")
+                var cardSliderApplications : [PXApplicationId:PXCardSliderApplicationData] = [:]
+                let applicationName = targetNode.paymentTypeId ?? PXPaymentTypes.BANK_TRANSFER.rawValue
+                
+                cardSliderApplications[applicationName] = PXCardSliderApplicationData(paymentMethodId: paymentMethodId, paymentTypeId: targetNode.paymentTypeId, cardData: cardData, cardUI: templateCard, payerCost: [], selectedPayerCost: nil, shouldShowArrow: false, amountConfiguration: nil, status: statusConfig, bottomMessage: nil, benefits: targetNode.benefits, payerPaymentMethod: nil, behaviours: targetNode.behaviours, displayInfo: targetNode.displayInfo, displayMessage: nil)
+
+                let viewModelCard = PXCardSliderViewModel(cardSliderApplications,
+                                                          applicationName,
+                                                          "",
+                                                          "",
+                                                          creditsViewModel: nil,
+                                                          displayInfo: nil,
+                                                          comboSwitch: nil)
+                        
+                sliderModel.append(viewModelCard)
             }
         }
         cardSliderViewModel = sliderModel
@@ -468,6 +486,25 @@ extension PXOneTapViewModel {
         }
         let cardData = PXCardDataFactory().create(cardName: cardName.uppercased(), cardNumber: cardNumber, cardCode: "", cardExpiration: cardExpiration, cardPattern: oneTapCard.cardUI?.cardPattern)
         return cardData
+    }
+    
+    private func getOfflineCardUI(oneTap: PXOneTapDto) -> CardUI {
+        let template = TemplatePIX()
+        
+        template.cardBackgroundColor = oneTap.offlineTapCard?.displayInfo?.color?.hexToUIColor() ?? .white
+        template.titleName = oneTap.offlineTapCard?.displayInfo?.title?.message ?? ""
+        template.titleWeight = oneTap.offlineTapCard?.displayInfo?.title?.weight ?? ""
+        template.titleTextColor = oneTap.offlineTapCard?.displayInfo?.title?.textColor ?? ""
+        template.subtitleName = oneTap.offlineTapCard?.displayInfo?.subtitle?.message ?? ""
+        template.subtitleWeight = oneTap.offlineTapCard?.displayInfo?.title?.weight ?? ""
+        template.subtitleTextColor = oneTap.offlineTapCard?.displayInfo?.subtitle?.textColor ?? ""
+        template.labelName = oneTap.displayInfo?.tag?.message?.uppercased() ?? ""
+        template.labelWeight = oneTap.displayInfo?.tag?.weight ?? ""
+        template.labelTextColor = oneTap.displayInfo?.tag?.textColor ?? ""
+        template.labelBackgroundColor = oneTap.displayInfo?.tag?.backgroundColor ?? ""
+        template.logoImageURL = oneTap.offlineTapCard?.displayInfo?.paymentMethodImageUrl ?? ""
+        
+        return template
     }
     
     private func getCardUI(oneTapCard: PXOneTapCardDto) -> CardUI {

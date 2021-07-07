@@ -95,14 +95,13 @@ final class PXOneTapViewController: PXComponentContainerViewController {
         slider.showBottomMessageIfNeeded(index: 0, targetIndex: 0)
         setupAutoDisplayOfflinePaymentMethods()
         UIAccessibility.post(notification: .layoutChanged, argument: headerView?.getMerchantView()?.getMerchantTitleLabel())
-        trackScreen(path: TrackingPaths.Screens.OneTap.getOneTapPath(), properties: viewModel.getOneTapScreenProperties(oneTapApplication: viewModel.applications))
+        trackScreen(event: MercadoPagoUITrackingEvents.reviewOneTap(viewModel.getOneTapScreenProperties(oneTapApplication: viewModel.applications)))
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         headerView?.updateConstraintsIfNecessary()
         if let cardSliderContentView = cardSliderContentView {
-//            print("cardSliderContentView width: \(cardSliderContentView.bounds.width)")
             if cardSliderContentView.subviews.count == 0 && cardSliderContentView.bounds.width > 0 {
                 addCardSlider(inContainerView: cardSliderContentView)
             }
@@ -393,11 +392,11 @@ extension PXOneTapViewController {
     private func handleBehaviour(_ behaviour: PXBehaviour, isSplit: Bool) {
         if let target = behaviour.target {
             let properties = viewModel.getTargetBehaviourProperties(behaviour)
-            trackEvent(path: TrackingPaths.Events.OneTap.getTargetBehaviourPath(), properties: properties)
+            trackEvent(event: OneTapTrackingEvents.didGetTargetBehaviour(properties))
             openKyCDeeplinkWithoutCallback(target)
         } else if let modal = behaviour.modal, let modalConfig = viewModel.modals?[modal] {
             let properties = viewModel.getDialogOpenProperties(behaviour, modalConfig)
-            trackEvent(path: TrackingPaths.Events.OneTap.getDialogOpenPath(), properties: properties)
+            trackEvent(event: OneTapTrackingEvents.didOpenDialog(properties))
 
             let mainActionProperties = viewModel.getDialogActionProperties(behaviour, modalConfig, "main_action", modalConfig.mainButton)
             let secondaryActionProperties = viewModel.getDialogActionProperties(behaviour, modalConfig, "secondary_action", modalConfig.secondaryButton)
@@ -416,7 +415,7 @@ extension PXOneTapViewController {
     func trackDialogEvent(trackingPath: String?, properties: [String: Any]?) {
         if shouldTrackModal, let trackingPath = trackingPath, let properties = properties {
             shouldTrackModal = false
-            trackEvent(path: trackingPath, properties: properties)
+            trackEvent(event: OneTapTrackingEvents.didDismissDialog(properties))
         }
     }
 
@@ -476,7 +475,7 @@ extension PXOneTapViewController {
             }, onError: { [weak self] _ in
                 // User abort validation or validation fail.
                 self?.isUIEnabled(true)
-                self?.trackEvent(path: TrackingPaths.Events.getErrorPath())
+                self?.trackEvent(event: GeneralErrorTrackingEvents.error([:]))
             })
         } else {
             doPayment()
@@ -489,7 +488,7 @@ extension PXOneTapViewController {
         if let selectedCardItem = selectedCard, let selectedApplication = selectedCardItem.selectedApplication {
             viewModel.amountHelper.getPaymentData().payerCost = selectedApplication.selectedPayerCost
             let properties = viewModel.getConfirmEventProperties(selectedCard: selectedCardItem, selectedIndex: slider.getSelectedIndex())
-            trackEvent(path: TrackingPaths.Events.OneTap.getConfirmPath(), properties: properties)
+            trackEvent(event: OneTapTrackingEvents.didConfirmPayment(properties))
         }
         let splitPayment = viewModel.splitPaymentEnabled
         hideBackButton()
@@ -504,7 +503,7 @@ extension PXOneTapViewController {
 
     func resetButton(error: MPSDKError) {
         progressButtonAnimationTimeOut()
-        trackEvent(path: TrackingPaths.Events.getErrorPath(), properties: viewModel.getErrorProperties(error: error))
+        trackEvent(event: GeneralErrorTrackingEvents.error(viewModel.getErrorProperties(error: error)))
     }
 
     private func cancelPayment() {
@@ -671,7 +670,7 @@ extension PXOneTapViewController: PXCardSliderProtocol {
             } catch {
                 // We shouldn't reach this line. Track friction
                 let properties = viewModel.getSelectCardEventProperties(index: index, count: cardSliderViewModel.count)
-                trackEvent(path: TrackingPaths.Events.getErrorPath(), properties: properties)
+//                trackEvent(path: TrackingPaths.Events.getErrorPath(), properties: properties)
                 selectFirstCardInSlider()
                 return
             }
@@ -697,7 +696,7 @@ extension PXOneTapViewController: PXCardSliderProtocol {
 
         self.currentModal = PXComponentFactory.Modal.show(viewController: vc, title: nil)
 
-        trackScreen(path: TrackingPaths.Screens.OneTap.getOneTapDisabledModalPath(), treatAsViewController: false)
+//        trackScreen(path: TrackingPaths.Screens.OneTap.getOneTapDisabledModalPath(), treatAsViewController: false)
     }
 
     internal func addNewCardDidTap() {
@@ -848,7 +847,7 @@ extension PXOneTapViewController: PXOneTapInstallmentInfoViewProtocol, PXOneTapI
 
         if let selectedCardItem = selectedCard {
             let properties = self.viewModel.getInstallmentsScreenProperties(installmentData: installmentData, selectedCard: selectedCardItem)
-            trackScreen(path: TrackingPaths.Screens.OneTap.getOneTapInstallmentsPath(), properties: properties, treatAsViewController: false)
+//            trackScreen(path: TrackingPaths.Screens.OneTap.getOneTapInstallmentsPath(), properties: properties, treatAsViewController: false)
         }
 
         PXFeedbackGenerator.selectionFeedback()

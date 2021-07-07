@@ -9,27 +9,27 @@ import Foundation
 // MARK: Tracking
 extension MercadoPagoUIViewController {
 
-    func trackScreen(path: String, properties: [String: Any] = [:], treatBackAsAbort: Bool = false, treatAsViewController: Bool = true) {
+    func trackScreen(event: TrackingEvents, treatBackAsAbort: Bool = false, treatAsViewController: Bool = true) {
         if treatAsViewController {
             self.treatBackAsAbort = treatBackAsAbort
-            screenPath = path
+            screenPath = event.name
         }
-        MPXTracker.sharedInstance.trackScreen(screenName: path, properties: properties)
+        MPXTracker.sharedInstance.trackScreen(event: event)
     }
 
-    func trackEvent(path: String, properties: [String: Any] = [:]) {
-        MPXTracker.sharedInstance.trackEvent(path: path, properties: properties)
+    func trackEvent(event: TrackingEvents) {
+        MPXTracker.sharedInstance.trackEvent(event: event)
     }
 
     func trackAbortEvent(properties: [String: Any] = [:]) {
         if let screenPath = screenPath {
-            trackEvent(path: TrackingPaths.Events.getAbortPath(screen: screenPath), properties: properties)
+            trackEvent(event: MercadoPagoUITrackingEvents.didAbort(screenPath, properties))
         }
     }
 
     func trackBackEvent() {
         if let screenPath = screenPath {
-            trackEvent(path: TrackingPaths.Events.getBackPath(screen: screenPath))
+            trackEvent(event: MercadoPagoUITrackingEvents.didGoBack(screenPath))
         }
     }
 }
