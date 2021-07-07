@@ -33,54 +33,22 @@ class PXCardSliderPagerCell: FSPagerViewCell {
     }
 
     open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        print(point.debugDescription)
-        print(event.debugDescription)
         
-//        if let headerView = containerView.subviews[0] as? MLCardDrawerController { //.point(inside: convert(point, to: myButton), with: event) {
-//            return headerView.view
-//        }
-        let headerView = containerView.subviews[0]
-        
-        var comboSwitchView: ComboSwitchSmallView?
-        
-        if let frontView = headerView.subviews[0] as? SmallFrontView {
-//            print(frontView)
-            frontView.subviews[0].subviews.forEach {
-                $0.subviews.forEach { (subSubView) in
-                    if let comboSwitchViewSubView = subSubView as? ComboSwitchSmallView {
-                        comboSwitchView = comboSwitchViewSubView
-                    }
-                }
-            }
-        }
-        
-        var comboSwitchStackView : UIStackView?
-        
-        if let comboSwitchView = comboSwitchView {
-            print(comboSwitchView.subviews.count)
-            
-            let switchControl = comboSwitchView.subviews[0].subviews[0]
-            
-            print(switchControl.subviews)
-            
-            switchControl.subviews.forEach {
-                if let stackView = $0 as? UIStackView {
-                    comboSwitchStackView = stackView
-                }
-            }
-        }
-        
-        if let comboSwitchStackView = comboSwitchStackView {
-            print(comboSwitchStackView.arrangedSubviews)
-            
-            if comboSwitchStackView.arrangedSubviews[0].point(inside: convert(point, to: comboSwitchStackView.arrangedSubviews[0]), with: event) {
-                return comboSwitchStackView.arrangedSubviews[0]
-            }
-
-            if comboSwitchStackView.arrangedSubviews[1].point(inside: convert(point, to: comboSwitchStackView.arrangedSubviews[1]), with: event) {
-                return comboSwitchStackView.arrangedSubviews[1]
-            }
-            
+        // If there is front view
+        if let frontView = containerView.subviews[0].subviews[0] as? SmallFrontView,
+        // and CustomView
+           let customView = frontView.customView,
+        // and CustomSwitch
+           let customSwitch = customView.subviews[0].subviews[0] as? CustomSwitch,
+        // and ComboSwitchStackView
+           let comboSwitchStackView = customSwitch.subviews.first(where: { (view) -> Bool in
+            return view is UIStackView
+           }) as? UIStackView,
+        // and the event was generetaed on a point that belongs to a ComboSwitch button
+           let hittedButton = comboSwitchStackView.arrangedSubviews.first(where: { (button) -> Bool in
+                return button.point(inside: convert(point, to: button), with: event)
+           }) {
+                return hittedButton
         }
         
         return super.hitTest(point, with: event)
