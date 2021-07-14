@@ -83,14 +83,3 @@ internal class PaymentMethodSearchService: MercadoPagoService {
         getInit(prefId: preferenceId, bodyJSON: bodyJSON, headers: headers, success: success, failure: failure)
     }
 }
-
-extension Data {
-    //MARK: - Support method, to debug requests
-    func mapToJSON() throws -> Any {
-        do {
-            return try JSONSerialization.jsonObject(with: self, options: [])
-        } catch {
-            fatalError()
-        }
-    }
-}
