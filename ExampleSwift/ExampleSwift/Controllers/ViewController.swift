@@ -15,18 +15,18 @@ class ViewController: UIViewController {
     private var checkout: MercadoPagoCheckout?
     
     // Collector Public Key
-    private var publicKey : String = ""
+    private var publicKey : String = "APP_USR-ff72d91b-ab33-4ed9-bbe9-31c8577e2fbd"
     
     // Payer private key
-    private var privateKey : String = ""
+    private var privateKey : String = "TEST-3464580437901222-082618-615d3c90cdc33435095318975a6b9add-632322989"
     
     // Preference ID
-    private var preferenceId : String = "656525290-7bda964b-26d9-4352-a04c-1b04801627ee"
+    private var preferenceId : String = "475845652-26307265-013b-4800-9c98-9569f25c6236"
     
     @IBAction func initDefault(_ sender: Any) {
 //         runMercadoPagoCheckout()
-//         runMercadoPagoCheckoutWithLifecycle()
-        runMercadoPagoCheckoutWithLifecycleAndCustomProcessor()
+         runMercadoPagoCheckoutWithLifecycle()
+//        runMercadoPagoCheckoutWithLifecycleAndCustomProcessor()
     }
 
     override func viewDidLoad() {
@@ -39,11 +39,11 @@ class ViewController: UIViewController {
         gradient.colors = [col1.cgColor, col2.cgColor]
         view.layer.insertSublayer(gradient, at: 0)
                 
-        if let path = Bundle.main.path(forResource: "Info", ofType: "plist"), let infoPlist = NSDictionary(contentsOfFile: path) {
-            // Initialize values from config
-            publicKey = infoPlist["PX_COLLECTOR_PUBLIC_KEY"] as? String ?? ""
-            privateKey = infoPlist["PX_PAYER_PRIVATE_KEY"] as? String ?? ""
-        }
+//        if let path = Bundle.main.path(forResource: "Info", ofType: "plist"), let infoPlist = NSDictionary(contentsOfFile: path) {
+//            // Initialize values from config
+//            publicKey = infoPlist["PX_COLLECTOR_PUBLIC_KEY"] as? String ?? ""
+//            privateKey = infoPlist["PX_PAYER_PRIVATE_KEY"] as? String ?? ""
+//        }
     }
 
     private func runMercadoPagoCheckout() {
