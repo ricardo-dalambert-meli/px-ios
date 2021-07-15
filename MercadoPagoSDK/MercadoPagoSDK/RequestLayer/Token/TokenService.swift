@@ -5,7 +5,7 @@
 //  Created by Matheus Leandro Martins on 15/07/21.
 //
 
-protocol GatewayServices {
+protocol TokenService {
     func getToken(accessToken: String?,
                   publicKey: String,
                   cardTokenJSON: Data?,
@@ -15,7 +15,7 @@ protocol GatewayServices {
     func validateToken(tokenId: String, publicKey: String, body: Data, completion: @escaping (PXToken?, PXError?) -> Void)
 }
 
-final class GatewayServicesImpl: GatewayServices {
+final class TokenServiceImpl: TokenService {
     // MARK: - Private properties
     private let service: Requesting<TokenRequestInfos>
     

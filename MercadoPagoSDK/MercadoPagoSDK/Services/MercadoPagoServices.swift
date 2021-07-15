@@ -19,8 +19,7 @@ internal class MercadoPagoServices: NSObject {
 
     private let customService: CustomServices
     private let remedyService: RemedyServices
-    private let instructionsService: InstructionsServices
-    private let gatewayService: TokenServices
+    private let gatewayService: TokenService
     private let paymentService: PaymentServices
 
     // MARK: - Internal properties
@@ -36,15 +35,13 @@ internal class MercadoPagoServices: NSObject {
          privateKey: String? = nil,
          customService: CustomServices = CustomServicesImpl(),
          remedyService: RemedyServices = RemedyServicesImpl(),
-         instructionsService: InstructionsServices = InstructionsServicesImpl(),
-         gatewayService: TokenServices = TokenServicesImpl(),
+         gatewayService: TokenService = TokenServiceImpl(),
          paymentService: PaymentServices = PaymentServicesImpl()) {
         self.publicKey = publicKey
         self.privateKey = privateKey
         self.customService = customService
         self.remedyService = remedyService
         self.gatewayService = gatewayService
-        self.instructionsService = instructionsService
         self.paymentService = paymentService
         super.init()
         addReachabilityObserver()

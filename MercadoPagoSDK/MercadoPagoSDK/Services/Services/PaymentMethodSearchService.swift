@@ -33,7 +33,6 @@ internal class PaymentMethodSearchService: MercadoPagoService {
         self.request(uri: uri, params: params, body: bodyJSON, method: HTTPMethod.post, headers:
             headers, cache: false, success: { (data) -> Void in
                 do {
-                    print(try? data.mapToJSON())
                     let jsonResult = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
                     if let paymentSearchDic = jsonResult as? NSDictionary {
                         if paymentSearchDic["error"] != nil {
