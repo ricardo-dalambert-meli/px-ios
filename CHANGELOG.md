@@ -3,7 +3,6 @@
 - Fix crashes caused because of mapToJSON() method on PaymentMethodSearchService class
 - Fix duplicate views on congrats after unlock phone
 - Remove forced unwrap from tracks
-- 
 
 # v4.39.4
 🚀Private Release - 4.39.4 🚀
