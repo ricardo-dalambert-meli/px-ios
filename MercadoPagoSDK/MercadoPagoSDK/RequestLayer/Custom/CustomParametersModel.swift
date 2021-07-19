@@ -6,6 +6,8 @@
 //
 
 struct CustomParametersModel {
+    let privateKey: String?
+    let publicKey: String
     let paymentMethodIds: String
     let paymentId: String
     let ifpe: String

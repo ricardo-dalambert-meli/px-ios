@@ -6,10 +6,10 @@
 //
 
 protocol RemedyServices {
-    func getRemedy(privateKey: String?,
+    func getRemedy(paymentMethodId: String,
+                   privateKey: String?,
                    oneTap: Bool,
-                   payerPaymentMethodRejected: PXPayerPaymentMethodRejected,
-                   alternativePayerPaymentMethods: [PXRemedyPaymentMethod]?,
+                   remedy: PXRemedyBody,
                    completion: @escaping (PXRemedy?, PXError?) -> Void)
 }
 
@@ -23,14 +23,13 @@ final class RemedyServicesImpl: RemedyServices {
     }
 
     // MARK: - Public methods
-    func getRemedy(privateKey: String?, oneTap: Bool, payerPaymentMethodRejected: PXPayerPaymentMethodRejected, alternativePayerPaymentMethods: [PXRemedyPaymentMethod]?, completion: @escaping (PXRemedy?, PXError?) -> Void) {
-        // TODO see this new parametrer
-        let remedyBody = PXRemedyBody(customStringConfiguration: nil, payerPaymentMethodRejected: payerPaymentMethodRejected, alternativePayerPaymentMethods: alternativePayerPaymentMethods)
+    func getRemedy(paymentMethodId: String, privateKey: String?, oneTap: Bool, remedy: PXRemedyBody, completion: @escaping (PXRemedy?, PXError?) -> Void) {
+        let remedyBody = remedy
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
         let body = try? encoder.encode(remedyBody)
 
-        service.requestData(target: .getRemedy(privateKey, oneTap, body)) { [weak self] data, error in
+        service.requestData(target: .getRemedy(paymentMethodId, privateKey, oneTap, body)) { [weak self] data, error in
             guard let data = data else { return }
             self?.buildRemedy(data: data, error: error, completion: { remedy, error in
                 completion(remedy, error)

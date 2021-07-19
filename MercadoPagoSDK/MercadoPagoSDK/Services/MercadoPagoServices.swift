@@ -109,30 +109,9 @@ internal class MercadoPagoServices: NSObject {
     }
 
     func getPointsAndDiscounts(url: String, uri: String, paymentIds: [String]? = nil, paymentMethodsIds: [String]? = nil, campaignId: String?, prefId: String?, platform: String, ifpe: Bool, merchantOrderId: Int?, headers: [String: String], callback : @escaping (PXPointsAndDiscounts) -> Void, failure: @escaping (() -> Void)) {
-//        let service: CustomService = CustomService(baseURL: url, URI: uri)
-//
-//        var params = MercadoPagoServices.getParamsAccessTokenAndPaymentIdsAndPlatform(privateKey, paymentIds, platform)
-//        params.paramsAppend(key: ApiParam.PAYMENT_METHODS_IDS, value: getPaymentMethodsIds(paymentMethodsIds))
-//
-//        params.paramsAppend(key: ApiParam.API_VERSION, value: PXServicesURLConfigs.API_VERSION)
-//        params.paramsAppend(key: ApiParam.IFPE, value: String(ifpe))
-//        params.paramsAppend(key: ApiParam.PREF_ID, value: prefId)
-//        params.paramsAppend(key: ApiParam.PUBLIC_KEY, value: publicKey)
-//
-//        if let campaignId = campaignId {
-//            params.paramsAppend(key: ApiParam.CAMPAIGN_ID, value: campaignId)
-//        }
-//
-//        if let flowName = MPXTracker.sharedInstance.getFlowName() {
-//            params.paramsAppend(key: ApiParam.FLOW_NAME, value: flowName)
-//        }
-//
-//        if let merchantOrderId = merchantOrderId {
-//            params.paramsAppend(key: ApiParam.MERCHANT_ORDER_ID, value: String(merchantOrderId))
-//        }
-//
-//        service.getPointsAndDiscounts(headers: headers, body: nil, params: params, success: callback, failure: failure)
-        let parameters = CustomParametersModel(paymentMethodIds: getPaymentMethodsIds(paymentMethodsIds),
+        let parameters = CustomParametersModel(privateKey: privateKey,
+                                               publicKey: publicKey,
+                                               paymentMethodIds: getPaymentMethodsIds(paymentMethodsIds),
                                                paymentId: getPaymentIds(paymentIds),
                                                ifpe: String(ifpe),
                                                prefId: prefId,
@@ -180,8 +159,15 @@ internal class MercadoPagoServices: NSObject {
         }
     }
     
-    func getRemedy(for paymentMethodId: String, payerPaymentMethodRejected: PXPayerPaymentMethodRejected, alternativePayerPaymentMethods: [PXRemedyPaymentMethod]?, customStringConfiguration: PXCustomStringConfiguration?, oneTap: Bool, success : @escaping (PXRemedy) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
-        remedyService.getRemedy(privateKey: privateKey, oneTap: oneTap, payerPaymentMethodRejected: payerPaymentMethodRejected, alternativePayerPaymentMethods: alternativePayerPaymentMethods) { remedy, error in
+    func getRemedy(for paymentMethodId: String,
+                   payerPaymentMethodRejected: PXPayerPaymentMethodRejected,
+                   alternativePayerPaymentMethods: [PXRemedyPaymentMethod]?,
+                   customStringConfiguration: PXCustomStringConfiguration?,
+                   oneTap: Bool,
+                   success : @escaping (PXRemedy) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
+        let remedy = PXRemedyBody(customStringConfiguration: customStringConfiguration, payerPaymentMethodRejected: payerPaymentMethodRejected, alternativePayerPaymentMethods: alternativePayerPaymentMethods)
+        
+        remedyService.getRemedy(paymentMethodId: paymentMethodId, privateKey: privateKey, oneTap: oneTap, remedy: remedy) { remedy, error in
             if let remedy = remedy {
                 success(remedy)
             } else if let error = error {
@@ -255,20 +241,18 @@ internal class MercadoPagoServices: NSObject {
     }
 
     func getPaymentIds(_ paymentIds: [String]?) -> String {
-        var params: String = ""
-
+        var paymentIdsString = ""
+        
         if let paymentIds = paymentIds, !paymentIds.isEmpty {
-            var paymentIdsString = ""
             for (index, paymentId) in paymentIds.enumerated() {
                 if index != 0 {
                     paymentIdsString.append(",")
                 }
                 paymentIdsString.append(paymentId)
             }
-            params.paramsAppend(key: ApiParam.PAYMENT_IDS, value: paymentIdsString)
         }
 
-        return params
+        return paymentIdsString
     }
 
     func getPaymentMethodsIds(_ paymentMethodsIds: [String]?) -> String {

@@ -15,7 +15,7 @@ extension CustomRequestInfos: RequestInfos {
     var endpoint: String {
         switch self {
         case .resetESCCap(let cardId, _): return "px_mobile/v1/esc_cap/\(cardId)"
-        case .getCongrats(_, _): return "px_mobile/congrats"
+        case .getCongrats(_, _): return "v1/px_mobile/congrats"
         case .createPayment(_, _, _, _): return "v1/px_mobile/payments"
         }
     }
@@ -30,8 +30,8 @@ extension CustomRequestInfos: RequestInfos {
     
     var shouldSetEnvironment: Bool {
         switch self {
-        case .resetESCCap(_, _), .getCongrats(_, _): return true
-        case .createPayment(_, _, _, _): return false
+        case .resetESCCap(_, _): return true
+        case .createPayment(_, _, _, _), .getCongrats(_, _): return false
         }
     }
     
@@ -75,6 +75,14 @@ extension CustomRequestInfos {
     func organizeParameters(parameters: CustomParametersModel) -> [String : Any] {
         var filteredParameters: [String : Any] = [:]
         
+        if let privateKey = parameters.privateKey {
+            filteredParameters.updateValue(privateKey, forKey: "access_token")
+        }
+        
+        if parameters.publicKey != "" {
+            filteredParameters.updateValue(parameters.publicKey, forKey: "public_key")
+        }
+        
         if parameters.paymentMethodIds != "" {
             filteredParameters.updateValue(parameters.paymentMethodIds, forKey: "payment_methods_ids")
         }
@@ -101,6 +109,7 @@ extension CustomRequestInfos {
         
         filteredParameters.updateValue("2.0", forKey: "api_version")
         filteredParameters.updateValue(parameters.ifpe, forKey: "ifpe")
+        filteredParameters.updateValue("MP", forKey: "platform")
         
         return filteredParameters
     }
