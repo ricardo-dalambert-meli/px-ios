@@ -68,7 +68,7 @@ internal class PXNavigationHandler: NSObject {
         if self.currentLoadingView != nil {
             DispatchQueue.main.async {
                 self.currentLoadingView?.modalTransitionStyle = .crossDissolve
-                self.currentLoadingView!.dismiss(animated: animated, completion: {
+                self.currentLoadingView?.dismiss(animated: animated, completion: {
                     self.currentLoadingView = nil
                     if let callback = finishCallback {
                         callback()

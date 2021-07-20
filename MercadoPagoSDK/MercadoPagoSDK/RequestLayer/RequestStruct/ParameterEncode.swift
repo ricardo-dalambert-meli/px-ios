@@ -25,7 +25,7 @@ final class ParameterEncodingImpl: ParameterEncode {
         var components: [(String, String)] = []
 
         for key in parameters.keys.sorted(by: <) {
-            let value = parameters[key]!
+            guard let value = parameters[key] else { continue }
             components += parseParameter(fromKey: key, value: value)
         }
 
