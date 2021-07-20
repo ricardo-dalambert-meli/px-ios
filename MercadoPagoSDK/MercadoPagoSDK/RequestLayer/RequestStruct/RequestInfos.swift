@@ -18,8 +18,6 @@ enum BackendEnvironment: String {
     case alpha = "alpha/"
     case beta = "beta/"
     case prod = "production/"
-    case v1 = "v1/"
-    case emp
 }
 
 internal protocol RequestInfos {

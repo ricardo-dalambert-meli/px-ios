@@ -75,10 +75,6 @@ extension CustomRequestInfos {
     func organizeParameters(parameters: CustomParametersModel) -> [String : Any] {
         var filteredParameters: [String : Any] = [:]
         
-        if let privateKey = parameters.privateKey {
-            filteredParameters.updateValue(privateKey, forKey: "access_token")
-        }
-        
         if parameters.publicKey != "" {
             filteredParameters.updateValue(parameters.publicKey, forKey: "public_key")
         }
@@ -89,6 +85,10 @@ extension CustomRequestInfos {
         
         if parameters.paymentId != "" {
             filteredParameters.updateValue(parameters.paymentId, forKey: "payment_ids")
+        }
+        
+        if let privateKey = parameters.privateKey {
+            filteredParameters.updateValue(privateKey, forKey: "access_token")
         }
         
         if let prefId = parameters.prefId {
