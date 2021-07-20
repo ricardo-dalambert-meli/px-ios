@@ -14,7 +14,7 @@ extension Data {
         do {
             return try JSONSerialization.jsonObject(with: self, options: [])
         } catch {
-            fatalError()
+            return error
         }
     }
 }
