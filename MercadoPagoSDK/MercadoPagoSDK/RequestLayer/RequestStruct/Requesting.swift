@@ -15,7 +15,8 @@ protocol RequestProtocol {
 }
 
 final class Requesting<Target: RequestInfos> : RequestProtocol {
-    let MP_DEFAULT_PRODUCT_ID = "BJEO9TFBF6RG01IIIOU0"
+    // MARK: - Perivate properties
+    let defaultProductId = "BJEO9TFBF6RG01IIIOU0"
     //MARK: - Public methods
     func requestObject<Model>(model: Model.Type, _ target: Target, completionHandler: @escaping (Model?, Error?) -> Void) where Model : Codable {
         guard let url = URL(string: "\(target.baseURL)\(target.shouldSetEnvironment ?  target.environment.rawValue : "")\(target.endpoint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")") else {
@@ -46,7 +47,7 @@ final class Requesting<Target: RequestInfos> : RequestProtocol {
         
         //Product ID Header
         if target.headers?[MercadoPagoService.HeaderField.productId.rawValue] == nil {
-            request.setValue(MP_DEFAULT_PRODUCT_ID, forHTTPHeaderField: MercadoPagoService.HeaderField.productId.rawValue)
+            request.setValue(defaultProductId, forHTTPHeaderField: MercadoPagoService.HeaderField.productId.rawValue)
         }
         
         if let headers = target.headers {
@@ -105,7 +106,7 @@ final class Requesting<Target: RequestInfos> : RequestProtocol {
         
         //Product ID Header
         if target.headers?[MercadoPagoService.HeaderField.productId.rawValue] == nil {
-            request.setValue(MP_DEFAULT_PRODUCT_ID, forHTTPHeaderField: MercadoPagoService.HeaderField.productId.rawValue)
+            request.setValue(defaultProductId, forHTTPHeaderField: MercadoPagoService.HeaderField.productId.rawValue)
         }
         
         if let headers = target.headers {
