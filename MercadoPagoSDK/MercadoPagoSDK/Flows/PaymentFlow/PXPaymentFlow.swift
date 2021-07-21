@@ -57,19 +57,17 @@ internal final class PXPaymentFlow: NSObject, PXFlow {
     }
 
     func executeNextStep() {
-        DispatchQueue.main.async {
-            switch self.model.nextStep() {
-            case .createDefaultPayment:
-                self.createPayment(programId: self.validationProgramId)
-            case .createPaymentPlugin:
-                self.createPaymentWithPlugin(plugin: self.model.paymentPlugin, programId: self.validationProgramId)
-            case .createPaymentPluginScreen:
-                self.showPaymentProcessor(paymentProcessor: self.model.paymentPlugin, programId: self.validationProgramId)
-            case .getPointsAndDiscounts:
-                self.getPointsAndDiscounts()
-            case .finish:
-                self.finishFlow()
-            }
+        switch self.model.nextStep() {
+        case .createDefaultPayment:
+            createPayment(programId: validationProgramId)
+        case .createPaymentPlugin:
+            createPaymentWithPlugin(plugin: model.paymentPlugin, programId: validationProgramId)
+        case .createPaymentPluginScreen:
+            showPaymentProcessor(paymentProcessor: model.paymentPlugin, programId: validationProgramId)
+        case .getPointsAndDiscounts:
+            getPointsAndDiscounts()
+        case .finish:
+            finishFlow()
         }
     }
 

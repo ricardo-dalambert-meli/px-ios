@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PXAvailableFeatures: Codable {
+struct PXAvailableFeatures: Decodable {
     let id: String
     let enabled: Bool
 }
