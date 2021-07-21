@@ -13,6 +13,7 @@ class PXCardSliderPagerCell: FSPagerViewCell {
         return UINib(nibName: PXCardSliderPagerCell.identifier, bundle: ResourceManager.shared.getBundle())
     }
 
+    // TODO: Make it variable
     private lazy var bottomMessageViewHeight: CGFloat = 24
     private lazy var cornerRadius: CGFloat = 11
     private var cardHeader: MLCardDrawerController?
@@ -28,30 +29,8 @@ class PXCardSliderPagerCell: FSPagerViewCell {
 
     override func prepareForReuse() {
         cardHeader?.view.removeFromSuperview()
-        setupContainerView()
+        containerView.removeAllSubviews()
         super.prepareForReuse()
-    }
-
-    open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        
-        // If there is front view
-        if let frontView = containerView.subviews[0].subviews[0] as? SmallFrontView,
-        // and CustomView
-           let customView = frontView.customView,
-        // and CustomSwitch
-           let customSwitch = customView.subviews[0].subviews[0] as? CustomSwitch,
-        // and ComboSwitchStackView
-           let comboSwitchStackView = customSwitch.subviews.first(where: { (view) -> Bool in
-            return view is UIStackView
-           }) as? UIStackView,
-        // and the event was generetaed on a point that belongs to a ComboSwitch button
-           let hittedButton = comboSwitchStackView.arrangedSubviews.first(where: { (button) -> Bool in
-                return button.point(inside: convert(point, to: button), with: event)
-           }) {
-                return hittedButton
-        }
-        
-        return super.hitTest(point, with: event)
     }
 }
 
@@ -63,8 +42,8 @@ protocol PXCardSliderPagerCellDelegate: NSObjectProtocol {
 
 // MARK: Publics.
 extension PXCardSliderPagerCell {
-    private func setupContainerView(_ masksToBounds: Bool = false) {
-        containerView.layer.masksToBounds = true
+    private func setupContainerView(_ cardSize: CGSize) {
+        containerView.layer.frame = CGRect(origin: CGPoint.zero, size: cardSize)
         containerView.removeAllSubviews()
         containerView.backgroundColor = .clear
         containerView.layer.cornerRadius = cornerRadius
@@ -88,7 +67,7 @@ extension PXCardSliderPagerCell {
         }
     }
     
-    func render(model: PXCardSliderViewModel, cardSize: CGSize, accessibilityData: AccessibilityCardData, clearCardData: Bool = false, type: MLCardDrawerTypeV3 = .large, delegate: PXCardSliderPagerCellDelegate?) {
+    func render(model: PXCardSliderViewModel, cardSize: CGSize, accessibilityData: AccessibilityCardData, clearCardData: Bool = false, cardType: MLCardDrawerTypeV3 = .large, delegate: PXCardSliderPagerCellDelegate?) {
         
         self.prepareForReuse()
         
@@ -99,8 +78,8 @@ extension PXCardSliderPagerCell {
         let isDisabled = selectedApplication.status.isDisabled()
         let bottomMessage = selectedApplication.bottomMessage
         
-        setupContainerView()
-        setupCardHeader(cardDrawerController: MLCardDrawerController(cardUI: cardUI, type, cardData, isDisabled), cardSize: cardSize)
+        setupContainerView(cardSize)
+        setupCardHeader(cardDrawerController: MLCardDrawerController(cardUI: cardUI, cardType, cardData, isDisabled), cardSize: cardSize)
 
         if let headerView = cardHeader?.view {
             containerView.addSubview(headerView)
@@ -112,6 +91,8 @@ extension PXCardSliderPagerCell {
             PXLayout.centerHorizontally(view: headerView).isActive = true
             PXLayout.centerVertically(view: headerView).isActive = true
         }
+        
+        self.bottomMessageViewHeight = cardType == .small ? 12 : 24
                     
         addBottomMessageView(message: bottomMessage)
         accessibilityLabel = getAccessibilityMessage(accessibilityData)
@@ -122,7 +103,7 @@ extension PXCardSliderPagerCell {
     func renderEmptyCard(newCardData: PXAddNewMethodData?, newOfflineData: PXAddNewMethodData?, cardSize: CGSize, delegate: PXCardSliderPagerCellDelegate) {
         self.cardSliderPagerCellDelegate = delegate
 
-        setupContainerView(true)
+        setupContainerView(cardSize)
 
         let bigSize = cardSize.height
         let smallSize = (cardSize.height - PXLayout.XS_MARGIN) / 2
@@ -182,7 +163,7 @@ extension PXCardSliderPagerCell {
         cardSliderPagerCellDelegate?.addNewOfflineMethod()
     }
     
-    func renderConsumerCreditsCard(model: PXCardSliderViewModel, cardSize: CGSize, accessibilityData: AccessibilityCardData) {
+    func renderConsumerCreditsCard(model: PXCardSliderViewModel, cardSize: CGSize, accessibilityData: AccessibilityCardData, cardType: MLCardDrawerTypeV3?) {
         guard let selectedApplication = model.selectedApplication else { return }
         guard let creditsViewModel = model.creditsViewModel else { return }
         let cardData = PXCardDataFactory()
@@ -192,12 +173,12 @@ extension PXCardSliderPagerCell {
         consumerCreditCard = ConsumerCreditsCard(creditsViewModel, isDisabled: isDisabled)
         guard let consumerCreditCard = consumerCreditCard else { return }
 
-        setupContainerView()
+        setupContainerView(cardSize)
         setupCardHeader(cardDrawerController: MLCardDrawerController(consumerCreditCard, cardData, isDisabled), cardSize: cardSize)
 
         if let headerView = cardHeader?.view {
             containerView.addSubview(headerView)
-            consumerCreditCard.render(containerView: containerView, creditsViewModel: creditsViewModel, isDisabled: isDisabled, size: cardSize, selectedInstallments: creditsInstallmentSelected)
+            consumerCreditCard.render(containerView: containerView, creditsViewModel: creditsViewModel, isDisabled: isDisabled, size: cardSize, selectedInstallments: creditsInstallmentSelected, cardType: cardType)
             consumerCreditCard.delegate = self
             PXLayout.centerHorizontally(view: headerView).isActive = true
             PXLayout.centerVertically(view: headerView).isActive = true
@@ -235,6 +216,9 @@ extension PXCardSliderPagerCell {
         messageLabelCenterConstraint?.isActive = true
 
         containerView.clipsToBounds = true
+        
+        containerView.layoutIfNeeded()
+        
         containerView.addSubview(messageView)
 
         NSLayoutConstraint.activate([
