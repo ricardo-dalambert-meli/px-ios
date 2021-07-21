@@ -59,15 +59,15 @@ extension PXCardSlider: FSPagerViewDataSource {
                 if targetModel.creditsViewModel != nil,
                    targetModel.cardUI is ConsumerCreditsCard {
                     cell.delegate = self
-                    cell.renderConsumerCreditsCard(model: targetModel, cardSize: pagerView.itemSize, accessibilityData: accessibilityData)
+                    cell.renderConsumerCreditsCard(model: targetModel, cardSize: pagerView.itemSize, accessibilityData: accessibilityData, cardType: cardType)
                 } else {
                     // AccountMoney, Hybrid and Other cards.
                     if let _ = targetModel.cardUI as? AccountMoneyCard {
-                        cell.render(model: targetModel, cardSize: pagerView.itemSize, accessibilityData: accessibilityData, clearCardData: true, delegate: self)
+                        cell.render(model: targetModel, cardSize: pagerView.itemSize, accessibilityData: accessibilityData, clearCardData: true, cardType: cardType, delegate: self)
                     } else if let _ = targetModel.cardUI as? HybridAMCard {
-                        cell.render(model: targetModel, cardSize: pagerView.itemSize, accessibilityData: accessibilityData, clearCardData: true, delegate: self)
+                        cell.render(model: targetModel, cardSize: pagerView.itemSize, accessibilityData: accessibilityData, clearCardData: true, cardType: cardType, delegate: self)
                     } else {
-                        cell.render(model: targetModel, cardSize: pagerView.itemSize, accessibilityData: accessibilityData, type: cardType, delegate: self)
+                        cell.render(model: targetModel, cardSize: pagerView.itemSize, accessibilityData: accessibilityData, cardType: cardType, delegate: self)
                     }
                 }
                 return cell
@@ -164,7 +164,7 @@ extension PXCardSlider: FSPagerViewDelegate {
 
 // MARK: Publics
 extension PXCardSlider {
-    func render(containerView: UIView, cardSliderProtocol: PXCardSliderProtocol? = nil) {
+    func render(containerView: UIStackView, cardSliderProtocol: PXCardSliderProtocol? = nil) {
         setupSlider(containerView)
         setupPager(containerView)
         delegate = cardSliderProtocol
@@ -229,15 +229,21 @@ extension PXCardSlider {
 
 // MARK: Privates
 extension PXCardSlider {
-    private func setupSlider(_ containerView: UIView) {
-        containerView.addSubview(pagerView)
+    private func setupSlider(_ containerView: UIStackView) {
+        let spacer = UIView()
         
+        PXLayout.setHeight(owner: spacer, height: 4)
+        PXLayout.matchWidth(ofView: spacer)
+        
+        containerView.addArrangedSubview(spacer)
+        
+        containerView.addArrangedSubview(pagerView)
         pagerView.accessibilityIdentifier = "card_carrousel"
-        PXLayout.setHeight(owner: pagerView, height: getItemSize(containerView).height).isActive = true
-        PXLayout.pinLeft(view: pagerView).isActive = true
-        PXLayout.pinRight(view: pagerView).isActive = true
+        
+        let pagerViewHeight = getItemSize(containerView).height
+        
+        PXLayout.setHeight(owner: pagerView, height: pagerViewHeight).isActive = true
         PXLayout.matchWidth(ofView: pagerView).isActive = true
-        PXLayout.pinTop(view: pagerView, withMargin: PXLayout.XS_MARGIN)
         pagerView.dataSource = self
         pagerView.delegate = self
         pagerView.register(PXCardSliderPagerCell.getCell(), forCellWithReuseIdentifier: PXCardSliderPagerCell.identifier)
@@ -250,8 +256,7 @@ extension PXCardSlider {
         pagerView.itemSize = getItemSize(containerView)
     }
 
-    private func setupPager(_ containerView: UIView) {
-        let pagerYMargin: CGFloat = PXLayout.S_MARGIN
+    private func setupPager(_ containerView: UIStackView) {
         let pagerHeight: CGFloat = 10
         pageControl.radius = 3
         pageControl.padding = 6
@@ -259,12 +264,10 @@ extension PXCardSlider {
         pageControl.numberOfPages = model.count
         pageControl.currentPage = 0
         pageControl.currentPageTintColor = ThemeManager.shared.getAccentColor()
-        containerView.addSubview(pageControl)
-        PXLayout.pinRight(view: pageControl).isActive = true
-        PXLayout.pinLeft(view: pageControl).isActive = true
+        containerView.addArrangedSubview(pageControl)
         PXLayout.centerHorizontally(view: pageControl).isActive = true
-        PXLayout.pinBottom(view: pageControl, to: pagerView, withMargin: -pagerYMargin).isActive = true
-        PXLayout.setHeight(owner: pageControl, height: pagerHeight).isActive = true
+        PXLayout.matchWidth(ofView: pageControl)
+        PXLayout.setHeight(owner: pageControl, height: pagerHeight + PXLayout.XS_MARGIN).isActive = true
         pageControl.layoutIfNeeded()
     }
 }

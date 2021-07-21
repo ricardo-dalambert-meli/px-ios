@@ -44,7 +44,7 @@ class ConsumerCreditsCard: NSObject, CustomCardDrawerUI {
 
 // MARK: Render
 extension ConsumerCreditsCard {
-    func render(containerView: UIView, creditsViewModel: PXCreditsViewModel, isDisabled: Bool, size: CGSize, selectedInstallments: Int?) {
+    func render(containerView: UIView, creditsViewModel: PXCreditsViewModel, isDisabled: Bool, size: CGSize, selectedInstallments: Int?, cardType: MLCardDrawerTypeV3? = .large) {
         let creditsImageHeight: CGFloat = size.height * 0.35
         let creditsImageWidth: CGFloat = size.height * 0.60
         let margins: CGFloat = 16
@@ -52,27 +52,42 @@ extension ConsumerCreditsCard {
 
         let consumerCreditsImage = getConsumerCreditsImageView(isDisabled: isDisabled)
         containerView.addSubview(consumerCreditsImage)
-        let vertialMargin = isDisabled ? 0 : -creditsImageHeight/2
+        
+        var verticalMargin : CGFloat = 0
+        
+        if !isDisabled {
+            if cardType != .small {
+                verticalMargin = -creditsImageHeight/2
+            } else {
+                verticalMargin = -creditsImageHeight/2 - 12
+            }
+        }
+        
         NSLayoutConstraint.activate([
             PXLayout.setWidth(owner: consumerCreditsImage, width: creditsImageWidth),
             PXLayout.setHeight(owner: consumerCreditsImage, height: creditsImageHeight),
             PXLayout.centerHorizontally(view: consumerCreditsImage),
-            PXLayout.centerVertically(view: consumerCreditsImage, to: containerView, withMargin: vertialMargin)
+            PXLayout.centerVertically(view: consumerCreditsImage, to: containerView, withMargin: verticalMargin)
         ])
 
         if !isDisabled {
-            //TITLE LABEL
-            let titleLabel = getTitleLabel(creditsViewModel: creditsViewModel)
-            containerView.addSubview(titleLabel)
-            NSLayoutConstraint.activate([
-                PXLayout.pinLeft(view: titleLabel, to: containerView, withMargin: margins),
-                PXLayout.pinRight(view: titleLabel, to: containerView, withMargin: margins),
-                PXLayout.put(view: titleLabel, onBottomOf: consumerCreditsImage)
-            ])
-
+            
+            if cardType != .small {
+                //TITLE LABEL
+                let titleLabel = getTitleLabel(creditsViewModel: creditsViewModel)
+                containerView.addSubview(titleLabel)
+                NSLayoutConstraint.activate([
+                    PXLayout.pinLeft(view: titleLabel, to: containerView, withMargin: margins),
+                    PXLayout.pinRight(view: titleLabel, to: containerView, withMargin: margins),
+                    PXLayout.put(view: titleLabel, onBottomOf: consumerCreditsImage)
+                ])
+            }
+            
             //TERMS AND CONDITIONS LABEL
-            let termsAndConditionsText = getTermsAndConditionsTextView(terms: creditsViewModel.displayInfo.bottomText, selectedInstallments: selectedInstallments)
+            let termsAndConditionsText = getTermsAndConditionsTextView(terms: creditsViewModel.displayInfo.bottomText, selectedInstallments: selectedInstallments, cardType: cardType)
+            
             containerView.addSubview(termsAndConditionsText)
+            
             NSLayoutConstraint.activate([
                 PXLayout.pinBottom(view: termsAndConditionsText, to: containerView, withMargin: margins - PXLayout.XXXS_MARGIN),
                 PXLayout.pinLeft(view: termsAndConditionsText, to: containerView, withMargin: margins),
@@ -120,7 +135,7 @@ extension ConsumerCreditsCard {
         return titleLabel
     }
 
-    private func getTermsAndConditionsTextView(terms: PXTermsDto, selectedInstallments: Int?) -> UITextView {
+    private func getTermsAndConditionsTextView(terms: PXTermsDto, selectedInstallments: Int?, cardType: MLCardDrawerTypeV3? = .large) -> UITextView {
         let termsAndConditionsText = UITextView()
         termsAndConditionsText.linkTextAttributes = [.foregroundColor: UIColor.white]
         termsAndConditionsText.delegate = self
@@ -130,14 +145,19 @@ extension ConsumerCreditsCard {
         termsAndConditionsText.translatesAutoresizingMaskIntoConstraints = false
 
         let attributedString = getTermsAndConditionsText(terms: terms, selectedCreditsInstallments: selectedInstallments)
+        
         termsAndConditionsText.attributedText = attributedString
         termsAndConditionsText.textAlignment = .center
         termsAndConditionsText.textColor = .white
+        
+        if cardType == .small {
+            termsAndConditionsText.font = termsAndConditionsText.font?.withSize(10)
+        }
 
         return termsAndConditionsText
     }
 
-    private func getTermsAndConditionsText(terms: PXTermsDto, selectedCreditsInstallments: Int?) -> NSAttributedString {
+    private func getTermsAndConditionsText(terms: PXTermsDto, selectedCreditsInstallments: Int?) -> NSMutableAttributedString {
         let tycText = terms.text
         let attributedString = NSMutableAttributedString(string: tycText)
 

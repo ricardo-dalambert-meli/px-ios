@@ -73,7 +73,11 @@ struct PXCardSliderSizeManager {
         case .regular:
             // On regular devices, if it has installments, return medium size card
             if hasInstallments {
-                return .small
+                if !hasCharges, !hasDiscounts, !hasSplit {
+                    return .large
+                } else {
+                    return .small
+                }
             } else {
                 return .large
             }

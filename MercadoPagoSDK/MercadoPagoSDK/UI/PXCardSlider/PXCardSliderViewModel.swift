@@ -16,7 +16,7 @@ final class PXCardSliderViewModel {
     var cardUI: CardUI?
     var cardId: String?
     var displayInfo: PXOneTapDisplayInfo?
-    var comboSwitch: ComboSwitchSmallView?
+    var comboSwitch: ComboSwitchView?
     
     var accountMoneyBalance: Double?
     
@@ -40,7 +40,7 @@ final class PXCardSliderViewModel {
         return applicationsData[selectedApplicationId] ?? nil
     }
     
-    init(_ applications: [PXApplicationId: PXCardSliderApplicationData], _ selectedApplicationId: String?, _ issuerId: String, _ cardId: String? = nil, creditsViewModel: PXCreditsViewModel? = nil, displayInfo: PXOneTapDisplayInfo?, comboSwitch: ComboSwitchSmallView?) {
+    init(_ applications: [PXApplicationId: PXCardSliderApplicationData], _ selectedApplicationId: String?, _ issuerId: String, _ cardId: String? = nil, creditsViewModel: PXCreditsViewModel? = nil, displayInfo: PXOneTapDisplayInfo?, comboSwitch: ComboSwitchView?) {
         self.issuerId = issuerId
         self.cardId = cardId
         self.creditsViewModel = creditsViewModel

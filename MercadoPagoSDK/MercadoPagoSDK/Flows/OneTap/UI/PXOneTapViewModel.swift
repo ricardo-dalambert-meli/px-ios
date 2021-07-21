@@ -31,6 +31,8 @@ final class PXOneTapViewModel: PXReviewViewModel {
     var splitPaymentSelectionByUser: Bool?
     var additionalInfoSummary: PXAdditionalInfoSummary?
     var disabledOption: PXDisabledOption?
+    
+    var cardType: MLCardDrawerTypeV3?
 
     // Current flow.
     weak var currentFlow: OneTapFlow?
@@ -52,7 +54,10 @@ final class PXOneTapViewModel: PXReviewViewModel {
 // MARK: ViewModels Publics.
 extension PXOneTapViewModel {
 
-    func createCardSliderViewModel() {
+    func createCardSliderViewModel(cardType: MLCardDrawerTypeV3) {
+        
+        self.cardType = cardType
+        
         var sliderModel: [PXCardSliderViewModel] = []
         guard let oneTapNode = expressData else { return }
 
@@ -654,16 +659,15 @@ extension PXOneTapViewModel {
         }
         
         var selectedApplicationId = applications.first?.paymentMethod.type
-        var comboSwitch: ComboSwitchSmallView?
+        var comboSwitch: ComboSwitchView?
         
         if let switchInfo = targetNode.displayInfo?.switchInfo {
-            comboSwitch = ComboSwitchSmallView()
+            comboSwitch = cardType == .small ? ComboSwitchSmallView() : ComboSwitchLargeView()
             selectedApplicationId = switchInfo.defaultState
             comboSwitch?.setSwitchModel(switchInfo)
-//            comboSwitch?.setCardType(MLCardDrawerTypeV3)
         }
         
-        let viewModelCard = PXCardSliderViewModel(cardSliderApplications, selectedApplicationId, targetIssuerId, oneTapCard.cardId, displayInfo: targetNode.displayInfo, comboSwitch:  comboSwitch)
+        let viewModelCard = PXCardSliderViewModel(cardSliderApplications, selectedApplicationId, targetIssuerId, oneTapCard.cardId, displayInfo: targetNode.displayInfo, comboSwitch: comboSwitch)
         
         return viewModelCard
     }

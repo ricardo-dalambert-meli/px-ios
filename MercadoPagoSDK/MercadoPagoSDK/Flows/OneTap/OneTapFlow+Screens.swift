@@ -72,7 +72,14 @@ extension OneTapFlow {
             return key != "hash_no_discount"
         }.count > 0
         
-        let hasCharges = model.chargeRules?.count ?? 0 > 0
+        var hasCharges : Bool = false
+        
+        if let chargeRules = model.chargeRules,
+           chargeRules.contains(where: { (chargeRule) -> Bool in
+            return chargeRule.amountCharge != 0
+           }) {
+            hasCharges = true
+        }
         
         let pxOneTapContext = PXOneTapContext(hasInstallments: hasInstallments, hasSplit: hasSplit, hasCharges: hasCharges, hasDiscounts: hasDiscounts)
         

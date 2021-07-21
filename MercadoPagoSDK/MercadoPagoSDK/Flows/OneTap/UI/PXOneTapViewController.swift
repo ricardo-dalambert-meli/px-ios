@@ -36,7 +36,7 @@ final class PXOneTapViewController: PXComponentContainerViewController {
     var footerView: UIView?
     var headerView: PXOneTapHeaderView?
     var whiteView: UIStackView?
-    var cardSliderContentView: UIView?
+    var cardSliderContentView: UIStackView?
     var selectedCard: PXCardSliderViewModel?
     var installmentsWrapperView: UIStackView?
 
@@ -49,6 +49,8 @@ final class PXOneTapViewController: PXComponentContainerViewController {
     private var navigationBarTapGesture: UITapGestureRecognizer?
     var installmentRow = PXOneTapInstallmentInfoView()
     private var andesBottomSheet: AndesBottomSheetViewController?
+    
+    var cardType : MLCardDrawerTypeV3
 
     // MARK: Lifecycle/Publics
     init(viewModel: PXOneTapViewModel, pxOneTapContext: PXOneTapContext, timeOutPayButton: TimeInterval = 15, callbackPaymentData : @escaping ((PXPaymentData) -> Void), callbackConfirm: @escaping ((PXPaymentData, Bool) -> Void), callbackUpdatePaymentOption: @escaping ((PaymentMethodOption) -> Void), callbackRefreshInit: @escaping ((String) -> Void), callbackExit: @escaping (() -> Void), finishButtonAnimation: @escaping (() -> Void)) {
@@ -61,6 +63,13 @@ final class PXOneTapViewController: PXComponentContainerViewController {
         self.callbackUpdatePaymentOption = callbackUpdatePaymentOption
         self.finishButtonAnimation = finishButtonAnimation
         self.timeOutPayButton = timeOutPayButton
+        
+        // Define device size
+        let deviceSize = PXDeviceSize.getDeviceSize(deviceHeight: UIScreen.main.bounds.height)
+        
+        // Define card type to use
+        self.cardType = PXCardSliderSizeManager.getCardTypeForContext(deviceSize: deviceSize, hasCharges: pxOneTapContext.hasCharges, hasDiscounts: pxOneTapContext.hasDiscounts, hasInstallments: pxOneTapContext.hasInstallments, hasSplit: pxOneTapContext.hasSplit)
+        
         super.init(adjustInsets: false)
     }
 
@@ -115,7 +124,7 @@ final class PXOneTapViewController: PXComponentContainerViewController {
     func update(viewModel: PXOneTapViewModel, cardId: String) {
         self.viewModel = viewModel
 
-        viewModel.createCardSliderViewModel()
+        viewModel.createCardSliderViewModel(cardType: cardType)
         let cardSliderViewModel = viewModel.getCardSliderViewModel()
         slider.update(cardSliderViewModel)
         installmentInfoRow?.update(model: viewModel.getInstallmentInfoViewModel())
@@ -163,7 +172,7 @@ extension PXOneTapViewController {
 
     private func setupUI() {
         if contentView.getSubviews().isEmpty {
-            viewModel.createCardSliderViewModel()
+            viewModel.createCardSliderViewModel(cardType: cardType)
             if let preSelectedCard = viewModel.getCardSliderViewModel().first {
                 selectedCard = preSelectedCard
                 viewModel.splitPaymentEnabled = preSelectedCard.selectedApplication?.amountConfiguration?.splitConfiguration?.splitEnabled ?? false
@@ -233,17 +242,13 @@ extension PXOneTapViewController {
         whiteView.addArrangedSubview(installmentRow)
 
         //Add cardSliderContentView to whiteView
-        let cardSliderContentView = UIView()
+        let cardSliderContentView = UIStackView()
+        
+        cardSliderContentView.axis = .vertical
         
         self.cardSliderContentView = cardSliderContentView
         
         whiteView.addArrangedSubview(cardSliderContentView)
-        
-        // Define device size
-        let deviceSize = PXDeviceSize.getDeviceSize(deviceHeight: UIScreen.main.bounds.height)
-        
-        // Define card type to use
-        let cardType : MLCardDrawerTypeV3 = PXCardSliderSizeManager.getCardTypeForContext(deviceSize: deviceSize, hasCharges: pxOneTapContext.hasCharges, hasDiscounts: pxOneTapContext.hasDiscounts, hasInstallments: pxOneTapContext.hasInstallments, hasSplit: pxOneTapContext.hasSplit)
         
         slider.cardType = cardType
         
@@ -339,8 +344,20 @@ extension PXOneTapViewController {
     private func getWhiteView() -> UIStackView {
         let whiteView = UIStackView()//UIView()
         whiteView.axis = .vertical
-        whiteView.backgroundColor = .white
         whiteView.distribution = .equalSpacing
+        
+        if #available(iOS 14.0, *) {
+            whiteView.backgroundColor = .white
+        } else {
+            // Fallback for coloring stackview background on iOS < 14
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = .white
+            
+            backgroundView.translatesAutoresizingMaskIntoConstraints = false
+            whiteView.insertSubview(backgroundView, at: 0)
+            PXLayout.pinAllEdges(view: backgroundView)
+        }
+        
         return whiteView
     }
 
@@ -355,7 +372,7 @@ extension PXOneTapViewController {
         }
     }
     
-    private func addCardSlider(inContainerView: UIView) {
+    private func addCardSlider(inContainerView: UIStackView) {
         slider.render(containerView: inContainerView, cardSliderProtocol: self)
         slider.termsAndCondDelegate = self
         slider.update(viewModel.getCardSliderViewModel())

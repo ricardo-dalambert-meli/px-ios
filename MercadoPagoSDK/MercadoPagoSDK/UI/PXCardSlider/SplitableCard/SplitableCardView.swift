@@ -34,7 +34,7 @@ final class SplitableCardView: UIView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.adjustsFontSizeToFitWidth = true
+        label.adjustsFontSizeToFitWidth = false
         label.translatesAutoresizingMaskIntoConstraints = false
         label.attributedText = data.title?.getAttributedString(fontSize: PXLayout.XS_FONT)
         label.textAlignment = data.compactMode ? .left : .center
@@ -91,10 +91,10 @@ extension SplitableCardView: ViewConfiguration {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            hStack.topAnchor.constraint(equalTo: topAnchor, constant: data.compactMode ? 0 : 16),
+            hStack.topAnchor.constraint(equalTo: topAnchor, constant: data.compactMode ? 8 : 16),
             hStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
             hStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
-            hStack.bottomAnchor.constraint(equalTo: bottomAnchor),
+            hStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
             
             chevronIcon.heightAnchor.constraint(equalToConstant: 24),
             chevronIcon.widthAnchor.constraint(equalToConstant: 24),

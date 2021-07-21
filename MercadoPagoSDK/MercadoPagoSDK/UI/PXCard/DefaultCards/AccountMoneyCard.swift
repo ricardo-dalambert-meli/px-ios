@@ -38,7 +38,7 @@ class AccountMoneyCard: NSObject, CustomCardDrawerUI {
 }
 
 extension AccountMoneyCard {
-    func render(containerView: UIView, isDisabled: Bool, size: CGSize) {
+    func render(containerView: UIView, isDisabled: Bool, size: CGSize, cardType: MLCardDrawerTypeV3 = .large) {
         let amImage = UIImageView()
         amImage.backgroundColor = .clear
         amImage.contentMode = .scaleAspectFit
@@ -46,6 +46,7 @@ extension AccountMoneyCard {
         amImage.image = isDisabled ? amImageRaw?.imageGreyScale() : amImageRaw
         amImage.alpha = 0.6
         containerView.addSubview(amImage)
+        
         PXLayout.setWidth(owner: amImage, width: size.height * 0.65).isActive = true
         PXLayout.setHeight(owner: amImage, height: size.height * 0.65).isActive = true
         PXLayout.pinTop(view: amImage).isActive = true
@@ -77,9 +78,14 @@ extension AccountMoneyCard {
             amLogo.image = isDisabled ? logoImage?.imageGreyScale() : logoImage
 
             containerView.addSubview(amLogo)
-
-            PXLayout.setWidth(owner: amLogo, width: size.height * 0.60).isActive = true
-            PXLayout.setHeight(owner: amLogo, height: size.height * 0.35).isActive = true
+            
+            let scaleFactor : CGFloat = cardType == .large ? 1 : 0.5
+            
+            let xAMLogoScaleFactor = 0.6 * scaleFactor
+            let yAMLogoScaleFactor = 0.35 * scaleFactor
+            
+            PXLayout.setWidth(owner: amLogo, width: size.height * xAMLogoScaleFactor).isActive = true
+            PXLayout.setHeight(owner: amLogo, height: size.height * yAMLogoScaleFactor).isActive = true
             PXLayout.pinTop(view: amLogo, withMargin: PXLayout.XXXS_MARGIN).isActive = true
             PXLayout.pinLeft(view: amLogo, withMargin: PXLayout.S_MARGIN).isActive = true
 
