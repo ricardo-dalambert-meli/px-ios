@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PXExperiment: Codable {
+struct PXExperiment: Decodable {
     let id: Int
     let name: String
     let variant: PXVariant

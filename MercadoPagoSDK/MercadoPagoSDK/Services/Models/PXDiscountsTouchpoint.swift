@@ -8,7 +8,7 @@
 import Foundation
 
 @objcMembers
-public class PXDiscountsTouchpoint: NSObject, Codable {
+public class PXDiscountsTouchpoint: NSObject, Decodable {
 
     let id: String
     let type: String
