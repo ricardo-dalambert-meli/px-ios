@@ -2,7 +2,7 @@
 🚀Private Release - 4.40.0 🚀
 - Added the new installments v2.1 component on OneTap
 - Added support for the new MLCardDrawerV3 card types
-- Improved ComboSwitch behaviour on small devices
+- Improved ComboSwitch behaviour on small devices 
 
 # v4.39.5
 🚀Private Release - 4.39.5 🚀
