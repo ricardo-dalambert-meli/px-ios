@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PXOneTapHeaderMerchantView: PXComponentView {
+class PXOneTapHeaderMerchantView: UIStackView {
     let image: UIImage
     let title: String
     private var subTitle: String?
@@ -22,65 +22,83 @@ class PXOneTapHeaderMerchantView: PXComponentView {
         self.showHorizontally = showHorizontally
         self.subTitle = subTitle
         self.layout = PXOneTapHeaderMerchantLayout(layoutType: subTitle == nil ? .onlyTitle : .titleSubtitle)
-        super.init()
+        super.init(frame: CGRect.init(x: 0, y: 0, width: 0, height: 0))
         render()
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     private func render() {
-        let height = PXLayout.setHeight(owner: self, height: layout.IMAGE_SIZE, relation: .greaterThanOrEqual)
-        if UIDevice.isLargeDevice(), showHorizontally {
-            height.constant = layout.IMAGE_NAV_SIZE
-        }
-
-        let containerView = UIView()
-        // The image of the merchant
+        
+        self.axis = .vertical
+        self.alignment = .fill
+        self.distribution = .fill
+        
+        let innerContainer = UIStackView()
+        
+        innerContainer.axis = showHorizontally ? .horizontal : .vertical
+        innerContainer.alignment = showHorizontally ? .leading : .fill
+        innerContainer.distribution = showHorizontally ? .fillProportionally : .fill
+        
+        self.addArrangedSubview(innerContainer)
+        
+        
+        // Add the image of the merchant
         let imageContainerView = buildImageContainerView(image: image)
-        containerView.addSubview(imageContainerView)
-        // The title
+        innerContainer.addArrangedSubview(imageContainerView)
+        
+        let titleContainer = UIStackView()
+        titleContainer.axis = .vertical
+        
+        titleContainer.alignment = showHorizontally ? .leading : .center
+        
+        // Add the title
         merchantTitleLabel = buildTitleLabel(text: title)
         if let titleLabel = merchantTitleLabel {
-            containerView.addSubview(titleLabel)
+            titleContainer.addArrangedSubview(titleLabel)
         }
-
-        addSubviewToBottom(containerView)
-
-        if layout.getLayoutType() == .onlyTitle {
-            if let titleLabel = merchantTitleLabel {
-                layout.makeConstraints(containerView, imageContainerView, titleLabel)
-            }
-        } else {
-            // The subTitle
+        
+        // Add the subtitle
+        if layout.getLayoutType() == .titleSubtitle {
             let subTitleLabel = buildSubTitleLabel(text: subTitle)
-            containerView.addSubview(subTitleLabel)
-            if let titleLabel = merchantTitleLabel {
-                layout.makeConstraints(containerView, imageContainerView, titleLabel, subTitleLabel)
-            }
+            titleContainer.addArrangedSubview(subTitleLabel)
         }
-
-        let direction: OneTapHeaderAnimationDirection = showHorizontally ? .horizontal : .vertical
-        animateHeaderLayout(direction: direction)
+        
+        innerContainer.addArrangedSubview(titleContainer)
+        
+        let emptyBottomSeparator = UIStackView()
+        emptyBottomSeparator.axis = .vertical
+        emptyBottomSeparator.heightAnchor.constraint(greaterThanOrEqualToConstant: 1.0).isActive = true
+        self.addArrangedSubview(emptyBottomSeparator)
+        
+        self.layoutIfNeeded()
 
         isUserInteractionEnabled = true
     }
 
     private func buildImageContainerView(image: UIImage) -> UIView {
-        let imageContainerView = UIView()
-        imageContainerView.translatesAutoresizingMaskIntoConstraints = false
+        let imageContainerView = UIStackView()
+        imageContainerView.axis = .vertical
+        imageContainerView.alignment = .center
+        imageContainerView.distribution = .equalSpacing
+        
+        PXLayout.setHeight(owner: imageContainerView, height: layout.IMAGE_SIZE).isActive = true
+        
         imageContainerView.dropShadow(radius: 2, opacity: 0.15)
+        
         let imageView = PXUIImageView()
-        imageView.layer.masksToBounds = false
+        
         imageView.layer.cornerRadius = layout.IMAGE_SIZE / 2
-        imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        PXLayout.setWidth(owner: imageView, width: layout.IMAGE_SIZE).isActive = true
+        PXLayout.setHeight(owner: imageView, height: layout.IMAGE_SIZE).isActive = true
         imageView.enableFadeIn()
         imageView.backgroundColor = .white
         imageView.image = image
-        imageContainerView.addSubview(imageView)
-        _ = PXLayout.pinAllEdges(view: imageView).map { $0.isActive = true }
+        imageContainerView.addArrangedSubview(imageView)
+        
         self.imageView = imageView
         return imageContainerView
     }
@@ -117,11 +135,6 @@ class PXOneTapHeaderMerchantView: PXComponentView {
 extension PXOneTapHeaderMerchantView {
     func updateContentViewLayout(margin: CGFloat = PXLayout.M_MARGIN) {
         layoutIfNeeded()
-        if UIDevice.isLargeDevice() || UIDevice.isExtraLargeDevice() {
-            self.pinContentViewToTop(margin: margin)
-        } else if !UIDevice.isSmallDevice() {
-            self.pinContentViewToTop()
-        }
     }
 
     func animateHeaderLayout(direction: OneTapHeaderAnimationDirection, duration: Double = 0) {
@@ -129,19 +142,6 @@ extension PXOneTapHeaderMerchantView {
         var pxAnimator = PXAnimator(duration: duration, dampingRatio: 1)
         pxAnimator.addAnimation(animation: { [weak self] in
             guard let self = self else { return }
-
-            self.layoutIfNeeded()
-            if direction == .horizontal {
-                self.pinContentViewToTop()
-            }
-            for constraint in self.layout.getHorizontalContrainsts() {
-                constraint.isActive = (direction == .horizontal)
-            }
-
-            for constraint in self.layout.getVerticalContrainsts() {
-                constraint.isActive = (direction == .vertical)
-            }
-            self.imageView?.layer.cornerRadius = (direction == .vertical) ? self.layout.IMAGE_SIZE / 2 :  self.layout.IMAGE_NAV_SIZE / 2
             self.layoutIfNeeded()
         })
 

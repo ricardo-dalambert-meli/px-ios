@@ -78,22 +78,11 @@ extension PXOneTapInstallmentInfoView: FSPagerViewDataSource {
         var benefitsText = ""
         if itemModel.shouldShowInstallmentsHeader, let benefitText = itemModel.benefits?.installmentsHeader?.getAttributedString(fontSize: PXLayout.XXXS_FONT) {
             benefitsText = benefitText.string
-            if shouldShowBadgeView {
-                let badgeView = buildBadgeView(benefitText, itemModel.benefits?.installmentsHeader?.getBackgroundColor())
-                benefitsLabel = badgeView
-                cell.addSubview(badgeView)
-                PXLayout.pinRight(view: badgeView, withMargin: PXLayout.M_MARGIN).isActive = true
-                PXLayout.centerVertically(view: badgeView).isActive = true
-                badgeView.heightAnchor.constraint(equalToConstant: 24).isActive = true
-                badgeView.widthAnchor.constraint(equalToConstant: badgeView.intrinsicContentSize.width + 20).isActive = true
-            } else {
-                let label = buildLabel(benefitText, UIFont.ml_regularSystemFont(ofSize: PXLayout.XXXS_FONT), .right)
-                benefitsLabel = label
-                cell.addSubview(label)
-                PXLayout.pinRight(view: label, withMargin: PXLayout.M_MARGIN).isActive = true
-                PXLayout.centerVertically(view: label).isActive = true
-                PXLayout.matchHeight(ofView: label).isActive = true
-            }
+            let label = buildLabel(benefitText, UIFont.ml_regularSystemFont(ofSize: PXLayout.XXXS_FONT), .right)
+            benefitsLabel = label
+            cell.addSubview(label)
+            PXLayout.pinRight(view: label, withMargin: PXLayout.M_MARGIN).isActive = true
+            PXLayout.centerVertically(view: label).isActive = true
         }
 
         let label = buildLabel(itemModel.text, nil, .left)
@@ -132,10 +121,15 @@ extension PXOneTapInstallmentInfoView: FSPagerViewDataSource {
 
 // MARK: Delegate
 extension PXOneTapInstallmentInfoView: FSPagerViewDelegate {
-    private func getCurrentIndex() -> Int? {
+    func getCurrentIndex() -> Int? {
         if let mModel = model, mModel.count > 0 {
             let scrollOffset = pagerView.scrollOffset
             let floorOffset = floor(scrollOffset)
+            
+            guard !(floorOffset.isNaN || floorOffset.isInfinite) else {
+                return nil
+            }
+            
             return Int(floorOffset)
         } else {
             return nil
@@ -208,43 +202,12 @@ extension PXOneTapInstallmentInfoView {
         tapEnabled = true
     }
 
-    func render(_ width: CGFloat, experiment: PXExperiment? = nil) {
+    func render(_ width: CGFloat) {
         removeAllSubviews()
         setupSlider(width: width)
         setupFadeImages()
-        setupChevron(experiment)
         setupTitleLabel()
         PXLayout.setHeight(owner: self, height: PXOneTapInstallmentInfoView.DEFAULT_ROW_HEIGHT).isActive = true
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(toggleInstallmentsWrapper)))
-    }
-
-    @objc
-    func toggleInstallmentsWrapper() {
-        toggleInstallments()
-    }
-
-    private func setupChevron(_ experiment: PXExperiment?) {
-        addSubview(arrowImage)
-        arrowImage.contentMode = .scaleAspectFit
-        arrowImage.tag = colapsedTag
-        if experiment == nil || !shouldShowPulseView(experiment) {
-            arrowImage.image = ResourceManager.shared.getImage("one-tap-installments-info-chevron")
-            PXLayout.centerVertically(view: arrowImage).isActive = true
-            PXLayout.pinTop(view: arrowImage).isActive = true
-            PXLayout.pinBottom(view: arrowImage).isActive = true
-            PXLayout.setWidth(owner: arrowImage, width: 56).isActive = true
-            PXLayout.pinRight(view: arrowImage, withMargin: 0).isActive = true
-            if shouldShowBadgeView(experiment) {
-                highlightInstallments(experiment)
-            }
-        } else {
-            highlightInstallments(experiment)
-        }
-
-        if let targetModel = model?.first, !targetModel.shouldShowArrow {
-            disableTap()
-            hideArrow()
-        }
     }
 
     private func setupFadeImages() {
@@ -268,14 +231,6 @@ extension PXOneTapInstallmentInfoView {
         PXLayout.setWidth(owner: rightImageView, width: 30).isActive = true
     }
 
-    func showArrow(duration: Double = 0.5) {
-        animateArrow(alpha: 1, duration: duration)
-    }
-
-    func hideArrow(duration: Double = 0.5) {
-        animateArrow(alpha: 0, duration: duration)
-    }
-
     private func animateArrow(alpha: CGFloat, duration: Double) {
         var pxAnimator = PXAnimator(duration: duration, dampingRatio: 1)
         pxAnimator.addAnimation(animation: { [weak self] in
@@ -287,42 +242,6 @@ extension PXOneTapInstallmentInfoView {
 
     func setSliderOffset(offset: CGPoint) {
         pagerView.scrollToOffset(offset, animated: false)
-    }
-
-    @objc func toggleInstallments(completion: ((Bool) -> Void)? = nil) {
-        if let currentIndex = getCurrentIndex(), let currentModel = model, currentModel.indices.contains(currentIndex) {
-            let cardStatus = currentModel[currentIndex].status
-
-            if !cardStatus.isUsable() {
-                delegate?.cardTapped(status: cardStatus)
-            } else if currentModel[currentIndex].shouldShowArrow, tapEnabled {
-                let selectedModel = currentModel[currentIndex]
-                if let installmentData = selectedModel.installmentData {
-                    if arrowImage.tag != colapsedTag {
-                        delegate?.hideInstallments()
-                        UIView.animate(withDuration: 0.3, animations: { [weak self] in
-                            guard let self = self else { return }
-                            self.arrowImage.layer.transform = CATransform3DIdentity
-                            self.pagerView.alpha = 1
-                            self.titleLabel.alpha = 0
-                            self.accessibilityLabel = self.pagerView.cellForItem(at: self.pagerView.currentIndex)?.getAccessibilityMessage()
-                        }, completion: completion)
-                        arrowImage.tag = colapsedTag
-                    } else {
-                        delegate?.showInstallments(installmentData: installmentData, selectedPayerCost: selectedModel.selectedPayerCost, interest: selectedModel.benefits?.interestFree, reimbursement: selectedModel.benefits?.reimbursement)
-                        UIView.animate(withDuration: 0.3, animations: { [weak self] in
-                            let rotationAngle = (180.0 * CGFloat(Double.pi)) / 180.0
-                            guard let self = self else { return }
-                            self.arrowImage.layer.transform = CATransform3DRotate(CATransform3DIdentity, rotationAngle, 1.0, 0.0, 0.0)
-                            self.pagerView.alpha = 0
-                            self.titleLabel.alpha = 1
-                            self.accessibilityLabel = self.titleLabel.text
-                        }, completion: completion)
-                        arrowImage.tag = 1
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -338,97 +257,5 @@ private extension PXOneTapInstallmentInfoView {
         label.textAlignment = textAlignment
         label.numberOfLines = numberOfLines
         return label
-    }
-}
-
-// MARK: Highlight Installments
-extension PXOneTapInstallmentInfoView {
-    private func highlightInstallments(_ experiment: PXExperiment?) {
-        if shouldShowPulseView(experiment) {
-            setupChevronBackgroundView()
-            if let chevronBackgroundView = chevronBackgroundView {
-                arrowImage.image = MLBusinessAppDataService().isMp() ? ResourceManager.shared.getImage("chevronMP") : ResourceManager.shared.getImage("chevronML")
-                arrowImage.translatesAutoresizingMaskIntoConstraints = false
-                addSubview(arrowImage)
-                NSLayoutConstraint.activate([
-                    arrowImage.centerYAnchor.constraint(equalTo: chevronBackgroundView.centerYAnchor),
-                    arrowImage.leadingAnchor.constraint(equalTo: chevronBackgroundView.leadingAnchor, constant: PXLayout.XXS_MARGIN),
-                    arrowImage.heightAnchor.constraint(equalToConstant: 24),
-                    arrowImage.widthAnchor.constraint(equalToConstant: 24)
-                ])
-                setupPulseView()
-            }
-        } else if shouldShowBadgeView(experiment) {
-            shouldShowBadgeView = true
-        }
-    }
-
-    private func shouldShowBadgeView(_ experiment: PXExperiment?) -> Bool {
-        return experiment?.variant.name == HighlightInstallmentsVariant.badge.getValue ? true : false
-    }
-
-    private func shouldShowPulseView(_ experiment: PXExperiment?) -> Bool {
-        return experiment?.variant.name == HighlightInstallmentsVariant.animationPulse.getValue ? true : false
-    }
-
-    private func buildBadgeView(_ attributedText: NSAttributedString, _ backgroundColor: UIColor?) -> UILabel {
-        let badgeView = UILabel()
-        badgeView.translatesAutoresizingMaskIntoConstraints = false
-        badgeView.numberOfLines = 1
-        badgeView.backgroundColor = backgroundColor
-        badgeView.attributedText = attributedText
-        badgeView.font = UIFont.ml_regularSystemFont(ofSize: PXLayout.XXXS_FONT)
-        badgeView.layer.cornerRadius = 12
-        badgeView.layer.masksToBounds = true
-        badgeView.textAlignment = .center
-        return badgeView
-    }
-
-    private func setupPulseView() {
-        pulseView = PXPulseView()
-        if let pulseView = pulseView {
-            arrowImage.addSubview(pulseView)
-            NSLayoutConstraint.activate([
-                pulseView.centerYAnchor.constraint(equalTo: arrowImage.centerYAnchor),
-                pulseView.centerXAnchor.constraint(equalTo: arrowImage.centerXAnchor),
-                pulseView.heightAnchor.constraint(equalToConstant: 32),
-                pulseView.widthAnchor.constraint(equalToConstant: 32)
-            ])
-        }
-    }
-
-    func removePulseView() {
-        if let pulse = pulseView {
-            pulse.removeFromSuperview()
-            pulseView = nil
-        }
-    }
-
-    private func setupChevronBackgroundView() {
-        chevronBackgroundView = UIView()
-        if let chevronBackgroundView = chevronBackgroundView {
-            chevronBackgroundView.translatesAutoresizingMaskIntoConstraints = false
-            chevronBackgroundView.backgroundColor = .white
-            addSubview(chevronBackgroundView)
-            NSLayoutConstraint.activate([
-                chevronBackgroundView.topAnchor.constraint(equalTo: self.topAnchor),
-                chevronBackgroundView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-                chevronBackgroundView.widthAnchor.constraint(equalToConstant: 56),
-                chevronBackgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-            ])
-        }
-    }
-
-    func addChevronBackgroundViewGradient() {
-        if let chevronBackgroundView = chevronBackgroundView {
-            let gradient = CAGradientLayer()
-            gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
-            gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
-            let whiteColor = UIColor.white
-            gradient.colors = [whiteColor.withAlphaComponent(0.0).cgColor, whiteColor.withAlphaComponent(1.0).cgColor, whiteColor.withAlphaComponent(1.0).cgColor]
-            gradient.locations = [NSNumber(value: 0.0), NSNumber(value: 0.2), NSNumber(value: 1.0)]
-            gradient.frame = chevronBackgroundView.bounds
-            chevronBackgroundView.layer.mask = gradient
-        }
     }
 }

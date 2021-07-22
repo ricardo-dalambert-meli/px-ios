@@ -27,7 +27,7 @@ final class PXOneTapInstallmentsSelectorView: PXComponentView {
 
     func update(viewModel: PXOneTapInstallmentsSelectorViewModel) {
         model = viewModel
-        render()
+        tableView.reloadData()
     }
 }
 
@@ -38,7 +38,7 @@ extension PXOneTapInstallmentsSelectorView {
         addSubviewToBottom(tableView)
         backgroundColor = .clear
         tableView.backgroundColor = .white
-        tableViewHeightConstraint = PXLayout.setHeight(owner: tableView, height: 0)
+        tableViewHeightConstraint = PXLayout.setHeight(owner: tableView, height: 125)
         tableViewHeightConstraint?.isActive = true
         PXLayout.pinLeft(view: tableView).isActive = true
         PXLayout.pinRight(view: tableView).isActive = true
@@ -55,45 +55,14 @@ extension PXOneTapInstallmentsSelectorView {
         PXLayout.setHeight(owner: tableViewTopSeparator, height: 0.5).isActive = true
         tableView.tableHeaderView?.layoutIfNeeded()
         tableView.reloadData()
-    }
-
-    func expand(animator: PXAnimator, completion: @escaping () -> Void) {
+        
         self.layoutIfNeeded()
-        self.tableViewTopSeparator.alpha = 1
-        self.tableView.alpha = 0
-        animateTableViewHeight(tableViewHeight: self.frame.height, tableViewAlpha: 1, completion: completion)
-        animator.animate()
-    }
-
-    func collapse(animator: PXAnimator, completion: @escaping () -> Void) {
-        self.layoutIfNeeded()
-        animateTableViewHeight(tableViewHeight: 0, tableViewAlpha: 0, hideTopSeparator: true, completion: completion)
-        animator.animate()
-    }
-
-    func animateTableViewHeight(tableViewHeight: CGFloat, tableViewAlpha: CGFloat, hideTopSeparator: Bool = false, completion: @escaping () -> Void) {
-        self.superview?.layoutIfNeeded()
-
-        tableView.isUserInteractionEnabled = false
-        var pxAnimator = PXAnimator(duration: 0.5, dampingRatio: 1)
-        pxAnimator.addAnimation(animation: { [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-
-            if hideTopSeparator {
-                strongSelf.tableViewTopSeparator.alpha = 0
-            }
-            strongSelf.tableViewHeightConstraint?.constant = tableViewHeight
-            strongSelf.tableView.alpha = tableViewAlpha
-            strongSelf.layoutIfNeeded()
-        })
-
-        pxAnimator.addCompletion(completion: completion)
-        pxAnimator.addCompletion { [weak self] in
-            self?.tableView.isUserInteractionEnabled = true
+        
+        if let selectedInstallmentIndex = model.installmentData.payerCosts.firstIndex(where: { payerCost -> Bool in
+            return model.selectedPayerCost?.installments == payerCost.installments
+        }) {
+            self.tableView.scrollToRow(at: IndexPath(row: selectedInstallmentIndex, section: 0), at: .middle, animated: false)
         }
-        pxAnimator.animate()
     }
 }
 
@@ -116,23 +85,9 @@ extension PXOneTapInstallmentsSelectorView: UITableViewDelegate, UITableViewData
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
         if let selectedPayerCost = model.getPayerCostForRowAt(indexPath) {
             delegate?.payerCostSelected(selectedPayerCost)
-        }
-    }
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        shadowView.contentMode = .scaleToFill
-        shadowView.translatesAutoresizingMaskIntoConstraints = false
-        if tableView.contentOffset.y > CGFloat(0.0) {
-            self.addSubview(shadowView)
-            PXLayout.pinRight(view: shadowView).isActive = true
-            PXLayout.pinLeft(view: shadowView).isActive = true
-            PXLayout.pinTop(view: shadowView).isActive = true
-            PXLayout.setHeight(owner: shadowView, height: 22).isActive = true
-        } else {
-            shadowView.removeFromSuperview()
-            shadowView.removeConstraints(shadowView.constraints)
         }
     }
 }

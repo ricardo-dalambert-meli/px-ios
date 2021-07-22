@@ -40,13 +40,7 @@ final class PXCardSliderViewModel {
         return applicationsData[selectedApplicationId] ?? nil
     }
     
-    init(applications: [PXApplicationId: PXCardSliderApplicationData],
-        selectedApplicationId: String?,
-        issuerId: String,
-        cardId: String? = nil,
-        creditsViewModel: PXCreditsViewModel? = nil,
-        displayInfo: PXOneTapDisplayInfo?,
-        comboSwitch: ComboSwitchView?) {
+    init(_ applications: [PXApplicationId: PXCardSliderApplicationData], _ selectedApplicationId: String?, _ issuerId: String, _ cardId: String? = nil, creditsViewModel: PXCreditsViewModel? = nil, displayInfo: PXOneTapDisplayInfo?, comboSwitch: ComboSwitchView?) {
         self.issuerId = issuerId
         self.cardId = cardId
         self.creditsViewModel = creditsViewModel

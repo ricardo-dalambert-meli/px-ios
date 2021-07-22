@@ -17,13 +17,23 @@ final class PXOneTapInstallmentsSelectorCell: UITableViewCell {
         let selectedView = UIView()
         selectedView.backgroundColor = #colorLiteral(red: 0.96, green: 0.96, blue: 0.96, alpha: 1.0)
         self.selectedBackgroundView = selectedView
+        
+        let selectedIndicatorView = PXCheckbox(selected: data.isSelected)
+        selectedIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(selectedIndicatorView)
+        
+        PXLayout.setWidth(owner: selectedIndicatorView, width: 20).isActive = true
+        PXLayout.setHeight(owner: selectedIndicatorView, height: 20).isActive = true
+        PXLayout.pinLeft(view: selectedIndicatorView, withMargin: PXLayout.SM_MARGIN).isActive = true
+        PXLayout.centerVertically(view: selectedIndicatorView)
 
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.attributedText = data.title
         titleLabel.textAlignment = .left
         contentView.addSubview(titleLabel)
-        PXLayout.pinLeft(view: titleLabel, withMargin: PXLayout.L_MARGIN).isActive = true
+        PXLayout.put(view: titleLabel, rightOf: selectedIndicatorView, withMargin: PXLayout.SM_MARGIN).isActive = true
         PXLayout.centerVertically(view: titleLabel).isActive = true
 
         let valueLabelsContainer = UIStackView()
@@ -52,17 +62,6 @@ final class PXOneTapInstallmentsSelectorCell: UITableViewCell {
         PXLayout.put(view: valueLabelsContainer, rightOf: titleLabel, withMargin: PXLayout.XXS_MARGIN).isActive = true
 
         setAccessibilityMessage(data.title.string, data.topValue?.string, data.bottomValue?.string)
-
-        if data.isSelected {
-            let selectedIndicatorView = UIView()
-            selectedIndicatorView.translatesAutoresizingMaskIntoConstraints = false
-            selectedIndicatorView.backgroundColor = ThemeManager.shared.getAccentColor()
-            contentView.addSubview(selectedIndicatorView)
-            PXLayout.setWidth(owner: selectedIndicatorView, width: 4).isActive = true
-            PXLayout.pinTop(view: selectedIndicatorView).isActive = true
-            PXLayout.pinBottom(view: selectedIndicatorView).isActive = true
-            PXLayout.pinLeft(view: selectedIndicatorView, withMargin: 0).isActive = true
-        }
     }
 }
 
