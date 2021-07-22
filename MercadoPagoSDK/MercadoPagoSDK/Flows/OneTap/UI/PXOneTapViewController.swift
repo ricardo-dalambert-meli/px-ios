@@ -431,7 +431,7 @@ extension PXOneTapViewController {
     }
 
     func trackDialogEvent(trackingPath: String?, properties: [String: Any]?) {
-        if shouldTrackModal, let _ = trackingPath, let properties = properties {
+        if shouldTrackModal, let trackingPath = trackingPath, let properties = properties {
             shouldTrackModal = false
             trackEvent(event: OneTapTrackingEvents.didDismissDialog(properties))
         }
@@ -688,7 +688,7 @@ extension PXOneTapViewController: PXCardSliderProtocol {
             } catch {
                 // We shouldn't reach this line. Track friction
                 let properties = viewModel.getSelectCardEventProperties(index: index, count: cardSliderViewModel.count)
-                trackEvent(event: GeneralErrorTrackingEvents.error(properties))
+//                trackEvent(path: TrackingPaths.Events.getErrorPath(), properties: properties)
                 selectFirstCardInSlider()
                 return
             }
@@ -714,7 +714,7 @@ extension PXOneTapViewController: PXCardSliderProtocol {
 
         self.currentModal = PXComponentFactory.Modal.show(viewController: vc, title: nil)
 
-        trackScreen(event: MercadoPagoUITrackingEvents.disabledPaymentMethods)
+//        trackScreen(path: TrackingPaths.Screens.OneTap.getOneTapDisabledModalPath(), treatAsViewController: false)
     }
 
     internal func addNewCardDidTap() {
@@ -865,7 +865,7 @@ extension PXOneTapViewController: PXOneTapInstallmentInfoViewProtocol, PXOneTapI
 
         if let selectedCardItem = selectedCard {
             let properties = self.viewModel.getInstallmentsScreenProperties(installmentData: installmentData, selectedCard: selectedCardItem)
-            trackScreen(event: MercadoPagoUITrackingEvents.installments(properties), treatAsViewController: false)
+//            trackScreen(path: TrackingPaths.Screens.OneTap.getOneTapInstallmentsPath(), properties: properties, treatAsViewController: false)
         }
 
         PXFeedbackGenerator.selectionFeedback()
