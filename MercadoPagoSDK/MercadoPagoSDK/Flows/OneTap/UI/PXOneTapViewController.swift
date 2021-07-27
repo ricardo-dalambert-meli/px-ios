@@ -759,9 +759,9 @@ extension PXOneTapViewController: PXCardSliderProtocol {
         let builder: MLCardFormBuilder
 
         if let privateKey = viewModel.privateKey {
-            builder = MLCardFormBuilder(privateKey: privateKey, siteId: siteId, flowId: flowId, lifeCycleDelegate: self)
+            builder = MLCardFormBuilder(privateKey: privateKey, siteId: siteId, flowId: flowId, acceptThirdPartyCard: viewModel.advancedConfiguration.acceptThirdPartyCard, activateCard: false, lifeCycleDelegate: self)
         } else {
-            builder = MLCardFormBuilder(publicKey: viewModel.publicKey, siteId: siteId, flowId: flowId, lifeCycleDelegate: self)
+            builder = MLCardFormBuilder(publicKey: viewModel.publicKey, siteId: siteId, flowId: flowId, acceptThirdPartyCard: viewModel.advancedConfiguration.acceptThirdPartyCard, activateCard: false, lifeCycleDelegate: self)
         }
 
         builder.setLanguage(Localizator.sharedInstance.getLanguage())

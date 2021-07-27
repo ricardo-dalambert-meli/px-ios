@@ -20,7 +20,7 @@ extension MercadoPagoCheckout: PXOneTapResultHandlerProtocol {
         InitFlowRefresh.cardId = cardId
         viewModel.checkoutPreference.setCardId(cardId: "cards")
         viewModel.prepareForNewSelection()
-        viewModel.refreshInitFlow()
+        viewModel.refreshInitFlow(cardId: cardId)
     }
 
     func cancelOneTap() {

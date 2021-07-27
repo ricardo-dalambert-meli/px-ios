@@ -52,8 +52,9 @@ extension MercadoPagoCheckoutViewModel {
         initFlow?.start()
     }
 
-    func refreshInitFlow() {
+    func refreshInitFlow(cardId: String) {
         initFlow?.initFlowModel.updateInitModel(paymentMethodsResponse: nil)
+        initFlow?.newCardId = cardId
         initFlow?.start()
     }
 
