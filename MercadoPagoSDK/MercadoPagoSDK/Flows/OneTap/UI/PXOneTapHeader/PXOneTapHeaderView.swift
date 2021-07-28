@@ -77,7 +77,13 @@ private extension PXOneTapHeaderView {
         switch deviceSize {
         case .small:
             // On small devices always use horizontal header
-            return true
+            if pxOneTapContext.hasInstallments && ((pxOneTapContext.hasSplit && pxOneTapContext.hasCharges) || (pxOneTapContext.hasSplit && pxOneTapContext.hasDiscounts)) {
+                // If it has installments, or split payment, or charges and discounts, use horizontal header
+                return true
+            } else {
+                // If it just has charges or discounts use vertical header
+                return false
+            }
         case .regular:
             // On regular devices
             if pxOneTapContext.hasInstallments || pxOneTapContext.hasSplit || (pxOneTapContext.hasCharges && pxOneTapContext.hasDiscounts) {

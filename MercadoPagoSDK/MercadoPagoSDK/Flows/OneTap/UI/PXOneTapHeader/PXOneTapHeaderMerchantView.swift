@@ -90,6 +90,7 @@ class PXOneTapHeaderMerchantView: UIStackView {
         
         let imageView = PXUIImageView()
         
+        imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = layout.IMAGE_SIZE / 2
         
         PXLayout.setWidth(owner: imageView, width: layout.IMAGE_SIZE).isActive = true
