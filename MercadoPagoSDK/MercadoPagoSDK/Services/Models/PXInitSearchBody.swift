@@ -37,7 +37,7 @@ struct PXInitBody: Codable {
         case charges
         case discountConfiguration = "discount_configuration"
         case features
-        case newCardId
+        case newCardId = "new_card_id"
     }
 
     public func toJSON() throws -> Data {
