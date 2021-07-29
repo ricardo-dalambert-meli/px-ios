@@ -10,6 +10,7 @@ import Foundation
 
 final class InitFlow {
     let initFlowModel: InitFlowModel
+    var newCardId: String?
 
     private var status: PXFlowStatus = .ready
     private let finishInitCallback: ((PXCheckoutPreference, PXInitDTO) -> Void)

@@ -29,6 +29,13 @@ open class PXAdvancedConfiguration: NSObject {
      */
     @available(*, deprecated)
     open var escEnabled: Bool = true
+    
+    /**
+     Add the possibility to accept cards from people different than the user.
+     If set as true, then it will be accept.
+     If set as false, then it will not be accept.
+     */
+    open var acceptThirdPartyCard: Bool = true
 
     /**
      Add the possibility to enabled/disabled express checkout.

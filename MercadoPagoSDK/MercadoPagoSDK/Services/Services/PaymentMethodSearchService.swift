@@ -63,20 +63,20 @@ internal class PaymentMethodSearchService: MercadoPagoService {
         return PXError(domain: ApiDomain.GET_PAYMENT_METHODS, code: code, userInfo: [NSLocalizedDescriptionKey: "Hubo un error", NSLocalizedFailureReasonErrorKey: reason], apiException: apiException)
     }
 
-    internal func getOpenPrefInit(pref: PXCheckoutPreference, cardsWithEsc: [String], splitEnabled: Bool, discountParamsConfiguration: PXDiscountParamsConfiguration?, flow: String?, charges: [PXPaymentTypeChargeRule], headers: [String: String]?, success: @escaping (_ paymentMethodSearch: PXInitDTO) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
+    internal func getOpenPrefInit(pref: PXCheckoutPreference, cardsWithEsc: [String], splitEnabled: Bool, discountParamsConfiguration: PXDiscountParamsConfiguration?, flow: String?, charges: [PXPaymentTypeChargeRule], headers: [String: String]?, newCardId: String?, success: @escaping (_ paymentMethodSearch: PXInitDTO) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
 
         let bodyFeatures = PXInitFeatures(split: splitEnabled, comboCard: true, hybridCard: true, validationPrograms: ["stp"], pix: true)
-        let body = PXInitBody(preference: pref, publicKey: merchantPublicKey, flow: flow, cardsWithESC: cardsWithEsc, charges: charges, discountConfiguration: discountParamsConfiguration, features: bodyFeatures)
+        let body = PXInitBody(preference: pref, publicKey: merchantPublicKey, flow: flow, cardsWithESC: cardsWithEsc, charges: charges, discountConfiguration: discountParamsConfiguration, features: bodyFeatures, newCardId: newCardId)
 
         let bodyJSON = try? body.toJSON()
         
         getInit(prefId: nil, bodyJSON: bodyJSON, headers: headers, success: success, failure: failure)
     }
 
-    internal func getClosedPrefInit(preferenceId: String, cardsWithEsc: [String], splitEnabled: Bool, discountParamsConfiguration: PXDiscountParamsConfiguration?, flow: String?, charges: [PXPaymentTypeChargeRule], headers: [String: String]?, success: @escaping (_ paymentMethodSearch: PXInitDTO) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
+    internal func getClosedPrefInit(preferenceId: String, cardsWithEsc: [String], splitEnabled: Bool, discountParamsConfiguration: PXDiscountParamsConfiguration?, flow: String?, charges: [PXPaymentTypeChargeRule], headers: [String: String]?, newCardId: String?, success: @escaping (_ paymentMethodSearch: PXInitDTO) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
 
         let bodyFeatures = PXInitFeatures(split: splitEnabled, comboCard: true, hybridCard: true, validationPrograms: ["stp"])
-        let body = PXInitBody(preference: nil, publicKey: merchantPublicKey, flow: flow, cardsWithESC: cardsWithEsc, charges: charges, discountConfiguration: discountParamsConfiguration, features: bodyFeatures)
+        let body = PXInitBody(preference: nil, publicKey: merchantPublicKey, flow: flow, cardsWithESC: cardsWithEsc, charges: charges, discountConfiguration: discountParamsConfiguration, features: bodyFeatures, newCardId: newCardId)
 
         let bodyJSON = try? body.toJSON()
 
