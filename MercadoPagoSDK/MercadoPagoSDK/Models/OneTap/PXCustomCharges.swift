@@ -7,7 +7,7 @@
 
 import Foundation
 
-public typealias PXCustomCharges = [String: PXCustomCharge]
+public typealias PXCustomCharges = [String: PXCustomCharge?]
 
 public struct PXCustomCharge: Codable {
     let charge: Double
