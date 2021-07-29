@@ -101,6 +101,19 @@ internal struct PXAmountHelper {
         return 0
     }
 
+    internal var chargeRuleLabel: String? {
+        guard let rules = chargeRules else {
+            return nil
+        }
+        
+        for rule in rules {
+            if rule.paymentTypeId == paymentData.paymentMethod?.paymentTypeId {
+                return rule.label
+            }
+        }
+        return nil
+    }
+    
     internal func getPaymentData() -> PXPaymentData {
 
         // Set total card amount with charges without discount
