@@ -1,3 +1,7 @@
+# v4.41.0
+🚀Private Release - 4.41.0 🚀
+- BCRA regulation
+
 # v4.40.1
 🚀Private Release - 4.40.1 🚀
 - Fixed header merchant view cornerRadius
