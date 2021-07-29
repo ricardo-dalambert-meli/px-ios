@@ -1,6 +1,6 @@
 # v4.41.1
 🚀Private Release - 4.41.1 🚀
-- IDC regulation
+- IDC regulation 
 
 # v4.41.0
 🚀Private Release - 4.41.0 🚀
