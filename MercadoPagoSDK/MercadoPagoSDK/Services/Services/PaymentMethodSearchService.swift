@@ -65,8 +65,8 @@ internal class PaymentMethodSearchService: MercadoPagoService {
 
     internal func getOpenPrefInit(pref: PXCheckoutPreference, cardsWithEsc: [String], splitEnabled: Bool, discountParamsConfiguration: PXDiscountParamsConfiguration?, flow: String?, charges: [PXPaymentTypeChargeRule], headers: [String: String]?, newCardId: String?, success: @escaping (_ paymentMethodSearch: PXInitDTO) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
 
-        let bodyFeatures = PXInitFeatures(split: splitEnabled, comboCard: true, hybridCard: true, validationPrograms: ["stp"], pix: true)
-        let body = PXInitBody(preference: pref, publicKey: merchantPublicKey, flow: flow, cardsWithESC: cardsWithEsc, charges: charges, discountConfiguration: discountParamsConfiguration, features: bodyFeatures, newCardId: newCardId)
+        let bodyFeatures = PXInitFeatures(split: splitEnabled, comboCard: true, hybridCard: true, validationPrograms: ["stp"], pix: true, customCharges: true)
+        let body = PXInitBody(preference: pref, publicKey: merchantPublicKey, flow: flow, cardsWithESC: cardsWithEsc, charges: charges, discountConfiguration: discountParamsConfiguration, features: bodyFeatures)
 
         let bodyJSON = try? body.toJSON()
         
@@ -75,8 +75,8 @@ internal class PaymentMethodSearchService: MercadoPagoService {
 
     internal func getClosedPrefInit(preferenceId: String, cardsWithEsc: [String], splitEnabled: Bool, discountParamsConfiguration: PXDiscountParamsConfiguration?, flow: String?, charges: [PXPaymentTypeChargeRule], headers: [String: String]?, newCardId: String?, success: @escaping (_ paymentMethodSearch: PXInitDTO) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
 
-        let bodyFeatures = PXInitFeatures(split: splitEnabled, comboCard: true, hybridCard: true, validationPrograms: ["stp"])
-        let body = PXInitBody(preference: nil, publicKey: merchantPublicKey, flow: flow, cardsWithESC: cardsWithEsc, charges: charges, discountConfiguration: discountParamsConfiguration, features: bodyFeatures, newCardId: newCardId)
+        let bodyFeatures = PXInitFeatures(split: splitEnabled, comboCard: true, hybridCard: true, validationPrograms: ["stp"], pix: true, customCharges: true)
+        let body = PXInitBody(preference: nil, publicKey: merchantPublicKey, flow: flow, cardsWithESC: cardsWithEsc, charges: charges, discountConfiguration: discountParamsConfiguration, features: bodyFeatures)
 
         let bodyJSON = try? body.toJSON()
 

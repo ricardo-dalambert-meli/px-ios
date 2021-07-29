@@ -14,7 +14,7 @@ extension PXSummaryComposer {
         let helperImage = shouldDisplayHelper ? helpIcon(color: summaryColor()) : nil
         let amountToShow = Utils.getAmountFormated(amount: amount, forCurrency: currency)
         let defaultChargeText = "Cargos".localized
-        let chargeText = additionalInfoSummary?.charges ?? defaultChargeText
+        let chargeText = getChargesLabel() ?? additionalInfoSummary?.charges ?? defaultChargeText
         let row = PXOneTapSummaryRowData(title: chargeText, value: amountToShow, highlightedColor: summaryColor(), alpha: textTransparency, isTotal: false, image: helperImage, type: .charges)
         return row
     }

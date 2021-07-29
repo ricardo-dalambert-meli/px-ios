@@ -31,7 +31,11 @@ extension PXSummaryComposer {
     func getChargesAmount() -> Double {
         return amountHelper.chargeRuleAmount
     }
-
+    
+    func getChargesLabel() -> String? {
+        return amountHelper.chargeRuleLabel
+    }
+    
     func shouldDisplayDiscount() -> Bool {
         return getDiscountData() != nil
     }
