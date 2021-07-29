@@ -80,7 +80,7 @@ final internal class OneTapFlowModel: PXFlowModel {
         if let customCharges = search.customCharges {
             // If there is custom charges iterate each one
             customCharges.keys.forEach { customChargeKey in
-                if let customCharge = customCharges[customChargeKey] {
+                if let customCharge = customCharges[customChargeKey] as? PXCustomCharge {
                     if let chargeRule = checkoutViewModel.chargeRules?.first(where: { chargeRule -> Bool in
                         return chargeRule.paymentTypeId == customChargeKey
                     }) {
