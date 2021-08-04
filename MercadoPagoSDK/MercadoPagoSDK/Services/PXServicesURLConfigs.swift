@@ -16,12 +16,12 @@ enum PX_ENVIRONMENTS : CaseIterable {
 
 internal class PXServicesURLConfigs {
     static let MP_ALPHA_ENV = "/alpha"
-    static let MP_BETA_ENV = "/beta"
-    static let MP_PROD_ENV = "/v1"
+    static let MP_BETA_ENV = "/alpha"
+    static let MP_PROD_ENV = "/alpha"
 
     static let NEW_API_ALPHA_ENV = "/alpha"
-    static let NEW_API_BETA_ENV = "/beta"
-    static let NEW_API_PROD_ENV = "/production"
+    static let NEW_API_BETA_ENV = "/alpha"
+    static let NEW_API_PROD_ENV = "/alpha"
     
     static let API_VERSION = "2.0"
     
