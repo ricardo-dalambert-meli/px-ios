@@ -156,9 +156,7 @@ extension MercadoPagoCheckout {
     }
 
     func startOneTapFlow() {
-        guard let search = viewModel.search else {
-            return
-        }
+        guard let search = viewModel.search else { return }
 
         let paymentFlow = viewModel.createPaymentFlow(paymentErrorHandler: self)
 
