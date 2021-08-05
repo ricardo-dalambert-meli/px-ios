@@ -16,12 +16,12 @@ enum PX_ENVIRONMENTS : CaseIterable {
 
 internal class PXServicesURLConfigs {
     static let MP_ALPHA_ENV = "/alpha"
-    static let MP_BETA_ENV = "/alpha"
-    static let MP_PROD_ENV = "/alpha"
+    static let MP_BETA_ENV = "/beta"
+    static let MP_PROD_ENV = "/v1"
 
     static let NEW_API_ALPHA_ENV = "/alpha"
-    static let NEW_API_BETA_ENV = "/alpha"
-    static let NEW_API_PROD_ENV = "/alpha"
+    static let NEW_API_BETA_ENV = "/beta"
+    static let NEW_API_PROD_ENV = "/production"
     
     static let API_VERSION = "2.0"
     
@@ -65,7 +65,7 @@ internal class PXServicesURLConfigs {
         
         self.MP_REMEDY_URI = NEW_API_SELECTED_ENV + "/px_mobile/v1/remedies/${payment_id}"
         self.MP_PAYMENTS_URI = MP_SELECTED_ENV + "/px_mobile/payments"
-        self.MP_INIT_URI = NEW_API_SELECTED_ENV + "/px_mobile/v2/checkout"
+        self.MP_INIT_URI = "/alpha" + "/px_mobile/v2/checkout"
         self.MP_RESET_ESC_CAP = NEW_API_SELECTED_ENV + "/px_mobile/v1/esc_cap"
         self.MP_POINTS_URI = MP_SELECTED_ENV + "/px_mobile/congrats"
     }
