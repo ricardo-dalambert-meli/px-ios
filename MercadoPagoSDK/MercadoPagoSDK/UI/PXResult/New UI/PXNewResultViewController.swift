@@ -275,6 +275,15 @@ extension PXNewResultViewController {
         if let instruction = viewModel.getInstructions() {
             views.append(ResultViewData(view: InstructionView(instruction: instruction, delegate: self)))
         }
+        
+        //AndesMessage
+        if let message = viewModel.getAndesMessage() {
+            views.append(ResultViewData(view: AndesMessage(hierarchy: message.andesHierarchy,
+                                                           type: message.andesType,
+                                                           title: "",
+                                                           body: message.body)))
+            
+        }
 
         if let topTextBoxView = buildTopTextBoxView() {
             views.append(ResultViewData(view: topTextBoxView, verticalMargin: PXLayout.ZERO_MARGIN, horizontalMargin: PXLayout.ZERO_MARGIN))
