@@ -444,6 +444,10 @@ extension PXResultViewModel {
             let splitPaymentInfo = getPaymentMethod(paymentData: splitPaymentData, amountHelper: amountHelper) {
             paymentcongrats.withSplitPaymentInfo(splitPaymentInfo)
         }
+        
+        if let infoOperation = pointsAndDiscounts?.infoOperation {
+            paymentcongrats.withInfoOperation(infoOperation)
+        }
 
         paymentcongrats.withStatementDescription(paymentResult.statementDescription)
 

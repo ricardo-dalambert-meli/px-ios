@@ -105,5 +105,5 @@ protocol PXNewResultViewModelInterface: PXViewModelTrackingDataProtocol {
     func getAutoReturn() -> PXAutoReturn?
     
     ///AndesMessage
-    func getAndesMessage()
+    func getAndesMessage() -> InfoOperation?
 }

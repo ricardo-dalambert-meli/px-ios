@@ -38,7 +38,9 @@ class PXPaymentCongratsViewModel {
 }
 
 extension PXPaymentCongratsViewModel: PXNewResultViewModelInterface {
-    func getAndesMessage() { }
+    func getAndesMessage() -> InfoOperation? {
+        return paymentCongrats.infoOperation
+    }
     
     // HEADER
     func getHeaderColor() -> UIColor {
