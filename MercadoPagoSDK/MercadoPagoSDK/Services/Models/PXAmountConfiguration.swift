@@ -7,6 +7,7 @@
 
 import UIKit
 
+// payment_option
 open class PXAmountConfiguration: NSObject, Codable {
     open var selectedPayerCostIndex: Int?
     open var selectedPayerCost: PXPayerCost? {
@@ -21,13 +22,15 @@ open class PXAmountConfiguration: NSObject, Codable {
     open var splitConfiguration: PXSplitConfiguration?
     open var discountToken: Int64?
     open var amount: Double?
+    open var taxFreeAmount: Double?
 
-    public init(selectedPayerCostIndex: Int?, payerCosts: [PXPayerCost]?, splitConfiguration: PXSplitConfiguration?, discountToken: Int64?, amount: Double?) {
+    public init(selectedPayerCostIndex: Int?, payerCosts: [PXPayerCost]?, splitConfiguration: PXSplitConfiguration?, discountToken: Int64?, amount: Double?, taxFreeAmount: Double?) {
         self.selectedPayerCostIndex = selectedPayerCostIndex
         self.payerCosts = payerCosts
         self.splitConfiguration = splitConfiguration
         self.discountToken = discountToken
         self.amount = amount
+        self.taxFreeAmount = taxFreeAmount
     }
 
     public enum PXPayerCostConfiguration: String, CodingKey {
@@ -36,6 +39,7 @@ open class PXAmountConfiguration: NSObject, Codable {
         case split
         case discountToken = "discount_token"
         case amount
+        case taxFreeAmount = "tax_free_amount"
     }
 
     required public convenience init(from decoder: Decoder) throws {
@@ -45,7 +49,8 @@ open class PXAmountConfiguration: NSObject, Codable {
         let splitConfiguration: PXSplitConfiguration? = try container.decodeIfPresent(PXSplitConfiguration.self, forKey: .split)
         let discountToken: Int64? = try container.decodeIfPresent(Int64.self, forKey: .discountToken)
         let amount: Double? = try container.decodeIfPresent(Double.self, forKey: .amount)
-        self.init(selectedPayerCostIndex: selectedPayerCostIndex, payerCosts: payerCosts, splitConfiguration: splitConfiguration, discountToken: discountToken, amount: amount)
+        let taxFreeAmount: Double? = try container.decodeIfPresent(Double.self, forKey: .taxFreeAmount)
+        self.init(selectedPayerCostIndex: selectedPayerCostIndex, payerCosts: payerCosts, splitConfiguration: splitConfiguration, discountToken: discountToken, amount: amount, taxFreeAmount: taxFreeAmount)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -55,6 +60,7 @@ open class PXAmountConfiguration: NSObject, Codable {
         try container.encodeIfPresent(self.splitConfiguration, forKey: .split)
         try container.encodeIfPresent(self.discountToken, forKey: .discountToken)
         try container.encodeIfPresent(self.amount, forKey: .amount)
+        try container.encodeIfPresent(self.taxFreeAmount, forKey: .taxFreeAmount)
     }
 
     open func toJSONString() throws -> String? {
