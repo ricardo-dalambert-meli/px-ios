@@ -33,17 +33,31 @@ class PXOneTapHeaderMerchantView: UIStackView {
     private func render() {
         
         self.axis = .vertical
-        self.alignment = .fill
-        self.distribution = .fill
+        self.alignment = .center
+        self.distribution = .equalCentering
+        
+        self.backgroundColor = .red
         
         let innerContainer = UIStackView()
         
         innerContainer.axis = showHorizontally ? .horizontal : .vertical
-        innerContainer.alignment = showHorizontally ? .leading : .fill
-        innerContainer.distribution = showHorizontally ? .fillProportionally : .fill
+        innerContainer.alignment = showHorizontally ? .leading : .center
+        innerContainer.distribution = showHorizontally ? .fillProportionally : .equalCentering
         
         self.addArrangedSubview(innerContainer)
         
+        if !showHorizontally {
+            let emptyTopSeparator = UIStackView()
+            emptyTopSeparator.axis = .vertical
+            emptyTopSeparator.heightAnchor.constraint(greaterThanOrEqualToConstant: 1.0).isActive = true
+            
+            emptyTopSeparator.backgroundColor = .green
+            
+            self.addArrangedSubview(emptyTopSeparator)
+            
+            PXLayout.matchWidth(ofView: emptyTopSeparator)
+            PXLayout.centerHorizontally(view: emptyTopSeparator)
+        }
         
         // Add the image of the merchant
         let imageContainerView = buildImageContainerView(image: image)
@@ -71,7 +85,15 @@ class PXOneTapHeaderMerchantView: UIStackView {
         let emptyBottomSeparator = UIStackView()
         emptyBottomSeparator.axis = .vertical
         emptyBottomSeparator.heightAnchor.constraint(greaterThanOrEqualToConstant: 1.0).isActive = true
+        
+        emptyBottomSeparator.backgroundColor = .yellow
+        
         self.addArrangedSubview(emptyBottomSeparator)
+        
+        PXLayout.matchWidth(ofView: emptyBottomSeparator)
+        PXLayout.centerHorizontally(view: emptyBottomSeparator)
+        
+        self.heightAnchor.constraint(greaterThanOrEqualToConstant: 1.0).isActive = true
         
         self.layoutIfNeeded()
 

@@ -86,7 +86,7 @@ private extension PXOneTapHeaderView {
             }
         case .regular:
             // On regular devices
-            if pxOneTapContext.hasInstallments || pxOneTapContext.hasSplit || (pxOneTapContext.hasCharges && pxOneTapContext.hasDiscounts) {
+            if pxOneTapContext.hasInstallments && pxOneTapContext.hasSplit && pxOneTapContext.hasCharges && pxOneTapContext.hasDiscounts {
                 // If it has installments, or split payment, or charges and discounts, use horizontal header
                 return true
             } else {
@@ -195,8 +195,6 @@ private extension PXOneTapHeaderView {
         PXLayout.matchWidth(ofView: merchantView).isActive = true
         PXLayout.centerHorizontally(view: merchantView).isActive = true
         
-        merchantView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50.0).isActive = true
-        
         // Add Summary
         let summaryView = PXOneTapSummaryView(data: model.data, delegate: self, splitMoney: model.splitConfiguration != nil)
         
@@ -206,8 +204,6 @@ private extension PXOneTapHeaderView {
         
         PXLayout.matchWidth(ofView: summaryView).isActive = true
         PXLayout.centerHorizontally(view: summaryView).isActive = true
-        
-        summaryView.heightAnchor.constraint(greaterThanOrEqualToConstant: 1.0).isActive = true
         
         // Add SplitPaymentView
         let splitPaymentView = PXOneTapSplitPaymentView(splitConfiguration: model.splitConfiguration) { (isOn, isUserSelection) in

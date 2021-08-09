@@ -14,10 +14,10 @@ class PXOneTapSummaryRow: Equatable {
 
     var data: PXOneTapSummaryRowData
     var view: PXOneTapSummaryRowView
-    var constraint: NSLayoutConstraint
+    var constraint: NSLayoutConstraint?
     var rowHeight: CGFloat
 
-    init(data: PXOneTapSummaryRowData, view: PXOneTapSummaryRowView, constraint: NSLayoutConstraint, rowHeight: CGFloat) {
+    init(data: PXOneTapSummaryRowData, view: PXOneTapSummaryRowView, constraint: NSLayoutConstraint?, rowHeight: CGFloat) {
         self.data = data
         self.view = view
         self.constraint = constraint

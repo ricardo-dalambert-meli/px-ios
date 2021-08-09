@@ -57,7 +57,7 @@ class PXOneTapSummaryRowView: UIView {
         if data.isTotal {
             return !UIDevice.isSmallDevice() ? PXOneTapSummaryRowView.TOTAL_ROW_DEFAULT_HEIGHT : PXOneTapSummaryRowView.TOTAL_ROW_DEFAULT_HEIGHT - 4
         } else {
-            return data.rowHasBrief() ? PXOneTapSummaryRowView.DEFAULT_HEIGHT * 3 : PXOneTapSummaryRowView.DEFAULT_HEIGHT
+            return ( data.rowHasBrief() ? PXOneTapSummaryRowView.DEFAULT_HEIGHT * 3 : PXOneTapSummaryRowView.DEFAULT_HEIGHT ) + PXLayout.S_MARGIN
         }
     }
 

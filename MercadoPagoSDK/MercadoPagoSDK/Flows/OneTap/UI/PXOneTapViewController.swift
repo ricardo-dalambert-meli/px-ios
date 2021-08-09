@@ -12,7 +12,7 @@ import MLUI
 import AndesUI
 import MLCardDrawer
 
-final class PXOneTapViewController: PXComponentContainerViewController {
+final class PXOneTapViewController: MercadoPagoUIViewController {
 
     // MARK: Definitions
     lazy var itemViews = [UIView]()
@@ -51,6 +51,8 @@ final class PXOneTapViewController: PXComponentContainerViewController {
     private var andesBottomSheet: AndesBottomSheetViewController?
     
     var cardType : MLCardDrawerTypeV3
+    
+    var contentView = UIStackView()
 
     // MARK: Lifecycle/Publics
     init(viewModel: PXOneTapViewModel, pxOneTapContext: PXOneTapContext, timeOutPayButton: TimeInterval = 15, callbackPaymentData : @escaping ((PXPaymentData) -> Void), callbackConfirm: @escaping ((PXPaymentData, Bool) -> Void), callbackUpdatePaymentOption: @escaping ((PaymentMethodOption) -> Void), callbackRefreshInit: @escaping ((String) -> Void), callbackExit: @escaping (() -> Void), finishButtonAnimation: @escaping (() -> Void)) {
@@ -70,7 +72,8 @@ final class PXOneTapViewController: PXComponentContainerViewController {
         // Define card type to use
         self.cardType = PXCardSliderSizeManager.getCardTypeForContext(deviceSize: deviceSize, hasCharges: pxOneTapContext.hasCharges, hasDiscounts: pxOneTapContext.hasDiscounts, hasInstallments: pxOneTapContext.hasInstallments, hasSplit: pxOneTapContext.hasSplit)
         
-        super.init(adjustInsets: false)
+        super.init(nibName: nil, bundle: nil)
+//        super.init(adjustInsets: false)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -157,8 +160,8 @@ final class PXOneTapViewController: PXComponentContainerViewController {
 
 // MARK: UI Methods.
 extension PXOneTapViewController {
-    private func setupNavigationBar() {
-        setBackground(color: ThemeManager.shared.navigationBar().backgroundColor)
+    private func setupNavigationBar() {        
+        view.backgroundColor = ThemeManager.shared.navigationBar().backgroundColor
         navBarTextColor = ThemeManager.shared.labelTintColor()
         loadMPStyles()
         navigationController?.navigationBar.isTranslucent = true
@@ -171,7 +174,7 @@ extension PXOneTapViewController {
     }
 
     private func setupUI() {
-        if contentView.getSubviews().isEmpty {
+        if contentView.arrangedSubviews.isEmpty {
             viewModel.createCardSliderViewModel(cardType: cardType)
             if let preSelectedCard = viewModel.getCardSliderViewModel().first {
                 selectedCard = preSelectedCard
@@ -185,29 +188,44 @@ extension PXOneTapViewController {
     }
 
     private func renderViews() {
-        contentView.prepareForRender()
+        for view in contentView.arrangedSubviews {
+            view.removeFromSuperview()
+        }
         
-        scrollView.isScrollEnabled = false
-        scrollView.showsVerticalScrollIndicator = false
+        for constraint in contentView.constraints {
+            constraint.isActive = false
+        }
+        
+        PXLayout.pinAllEdges(view: view)
+        
+        contentView.axis = .vertical
+        contentView.alignment = .fill
+        contentView.distribution = .fill
+        
+        view.addSubview(contentView)
         
         // Set contentView height and position
         let contentViewHeight = PXLayout.getAvailabelScreenHeight(in: self)
         
-        contentView.fixHeight(height: contentViewHeight)
-        PXLayout.pinBottom(view: contentView)
+//        contentView.fixHeight(height: contentViewHeight)
         
-        let contentWrappedView = UIStackView()
-        contentWrappedView.axis = .vertical
-        contentWrappedView.alignment = .fill
-        contentWrappedView.distribution = .fill
-        contentView.addSubview(contentWrappedView)
+        PXLayout.setHeight(owner: contentView, height: contentViewHeight).isActive = true
+        PXLayout.pinBottom(view: contentView).isActive = true
+        PXLayout.matchWidth(ofView: contentView).isActive = true
+        PXLayout.centerHorizontally(view: contentView).isActive = true
         
-        PXLayout.pinAllEdges(view: contentWrappedView)
-        
+//        let contentWrappedView = UIStackView()
+//        contentWrappedView.axis = .vertical
+//        contentWrappedView.alignment = .fill
+//        contentWrappedView.distribution = .fill
+//        contentView.addArrangedSubview(contentWrappedView)
+//
+//        PXLayout.pinAllEdges(view: contentWrappedView)
+//
         // Add header view.
         let headerView = getHeaderView(selectedCard: selectedCard, pxOneTapContext: self.pxOneTapContext)
         self.headerView = headerView
-        contentWrappedView.addArrangedSubview(headerView)
+        contentView.addArrangedSubview(headerView)
         
         headerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50.0).isActive = true
         
@@ -217,7 +235,7 @@ extension PXOneTapViewController {
         // Add whiteView to contentView
         let whiteView = getWhiteView()
         self.whiteView = whiteView
-        contentWrappedView.addArrangedSubview(whiteView)
+        contentView.addArrangedSubview(whiteView)
         
         view.layoutIfNeeded()
         

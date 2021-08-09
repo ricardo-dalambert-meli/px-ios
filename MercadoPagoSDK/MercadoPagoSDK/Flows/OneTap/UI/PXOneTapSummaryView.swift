@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PXOneTapSummaryView: PXComponentView {
+class PXOneTapSummaryView: UIStackView {
     private var data: [PXOneTapSummaryRowData] = [] {
         willSet {
             if data.count > newValue.count {
@@ -30,21 +30,28 @@ class PXOneTapSummaryView: PXComponentView {
     private var contentViewHeight: NSLayoutConstraint?
 
     init(data: [PXOneTapSummaryRowData] = [], delegate: PXOneTapSummaryProtocol, splitMoney: Bool = false) {
-        self.data = data.reversed()
+        self.data = data
         self.delegate = delegate
         self.splitMoney = splitMoney
-        super.init()
+//        super.init()
+        super.init(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 0, height: 0)))
         render()
     }
-
-    required public init?(coder aDecoder: NSCoder) {
+    
+    required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+//    required public init?(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
 
     func render() {
         self.removeAllSubviews()
-        self.pinContentViewToBottom()
+//        self.pinContentViewToBottom()
         self.backgroundColor = ThemeManager.shared.navigationBar().backgroundColor
+        
+        self.axis = .vertical
 
         var offset: CGFloat = 0
         
@@ -54,28 +61,30 @@ class PXOneTapSummaryView: PXComponentView {
             let margin = rowView.getRowMargin()
 
             offset += margin
-
-            self.addSubview(rowView)
-            let rowViewConstraint = PXLayout.pinBottom(view: rowView, withMargin: offset)
-
-            offset += rowView.getRowHeight()
-
-            self.rows.append(PXOneTapSummaryRow(data: row, view: rowView, constraint: rowViewConstraint, rowHeight: rowView.getTotalHeightNeeded()))
-
+            
             if row.isTotal {
                 let separatorView = UIView()
                 separatorView.backgroundColor = ThemeManager.shared.boldLabelTintColor()
                 separatorView.alpha = 0.1
                 separatorView.translatesAutoresizingMaskIntoConstraints = false
 
-                self.addSubview(separatorView)
-                PXLayout.pinBottom(view: separatorView, withMargin: offset).isActive = true
+                self.addArrangedSubview(separatorView)
+//                PXLayout.pinBottom(view: separatorView, withMargin: offset).isActive = true
                 PXLayout.setHeight(owner: separatorView, height: 1).isActive = true
                 PXLayout.pinLeft(view: separatorView, withMargin: PXLayout.M_MARGIN).isActive = true
                 PXLayout.pinRight(view: separatorView, withMargin: PXLayout.M_MARGIN).isActive = true
-                offset += PXLayout.S_MARGIN
-                self.bringSubviewToFront(rowView)
+//                offset += PXLayout.S_MARGIN
+//                self.bringSubviewToFront(rowView)
+            } else {
+                rowView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
             }
+
+            self.addArrangedSubview(rowView)
+//            let rowViewConstraint = PXLayout.pinBottom(view: rowView, withMargin: offset)
+
+            offset += rowView.getRowHeight()
+
+            self.rows.append(PXOneTapSummaryRow(data: row, view: rowView, constraint: nil, rowHeight: rowView.getTotalHeightNeeded()))
 
             PXLayout.centerHorizontally(view: rowView).isActive = true
             PXLayout.pinLeft(view: rowView, withMargin: 0).isActive = true
@@ -83,12 +92,12 @@ class PXOneTapSummaryView: PXComponentView {
         }
         
         // Set contentView height constraint
-        self.contentViewHeight = self.getContentView().heightAnchor.constraint(equalToConstant: offset)
+//        self.contentViewHeight = self.getContentView().heightAnchor.constraint(equalToConstant: offset)
         
         contentViewHeight?.isActive = true
     }
 
-    func tapRow(_ sender: UITapGestureRecognizer) {
+    @objc func tapRow(_ sender: UITapGestureRecognizer) {
         if let rowView = sender.view as? PXOneTapSummaryRowView,
             let type = rowView.getData().type,
             let action = rowAction(for: type) {
@@ -122,46 +131,46 @@ class PXOneTapSummaryView: PXComponentView {
             self.updateAllRows(newData: newData)
         }
 
-        for (index, row) in rowsToAnimate.enumerated() {
-            self.sendSubviewToBack(row.view)
-            animator.addAnimations {
-                row.view.alpha = animateIn ? 1 : 0
-                if distanceArray == nil || distanceArray?.isEmpty ?? true || rowsToMove.count == 2 {
-                    row.constraint.constant += animateIn ? -distance : distance
-                } else if let distanceArray = distanceArray, index < distanceArray.count, rowsToMove.isEmpty {
-                    row.constraint.constant = distanceArray[index]
-                }
-                self.layoutIfNeeded()
-            }
-        }
-
-        for (index, mRow) in rowsToMove.enumerated() {
-            self.sendSubviewToBack(mRow.view)
-            animator.addAnimations {
-                if distanceArray == nil || distanceArray?.isEmpty ?? true {
-                    mRow.constraint.constant += animateIn ? -distance : distance
-                } else if let distanceArray = distanceArray, index < distanceArray.count {
-                    mRow.constraint.constant = distanceArray[index]
-                }
-                self.layoutIfNeeded()
-            }
-        }
+//        for (index, row) in rowsToAnimate.enumerated() {
+//            self.sendSubviewToBack(row.view)
+//            animator.addAnimations {
+//                row.view.alpha = animateIn ? 1 : 0
+//                if distanceArray == nil || distanceArray?.isEmpty ?? true || rowsToMove.count == 2 {
+//                    row.constraint.constant += animateIn ? -distance : distance
+//                } else if let distanceArray = distanceArray, index < distanceArray.count, rowsToMove.isEmpty {
+//                    row.constraint.constant = distanceArray[index]
+//                }
+//                self.layoutIfNeeded()
+//            }
+//        }
+//
+//        for (index, mRow) in rowsToMove.enumerated() {
+//            self.sendSubviewToBack(mRow.view)
+//            animator.addAnimations {
+//                if distanceArray == nil || distanceArray?.isEmpty ?? true {
+//                    mRow.constraint.constant += animateIn ? -distance : distance
+//                } else if let distanceArray = distanceArray, index < distanceArray.count {
+//                    mRow.constraint.constant = distanceArray[index]
+//                }
+//                self.layoutIfNeeded()
+//            }
+//        }
         
-        if let contentViewHeight = self.contentViewHeight {
-            // Update content view height constraint
-            let contentView = self.getContentView()
-            contentView.removeConstraint(contentViewHeight)
-            
-            // Calculate SummaryHeight including 1px of separator view
-            let calculatedHeight = self.rows.reduce(1.0) { (partialResult, row) -> CGFloat in
-                let rowHeight = row.rowHeight
-                let rowMargin = row.view.getRowMargin()
-                return partialResult + rowHeight + rowMargin
-            }
-            
-            self.contentViewHeight = contentView.heightAnchor.constraint(equalToConstant: calculatedHeight)
-            self.contentViewHeight?.isActive = true
-        }
+//        if let contentViewHeight = self.contentViewHeight {
+//            // Update content view height constraint
+//            let contentView = self.getContentView()
+//            contentView.removeConstraint(contentViewHeight)
+//
+//            // Calculate SummaryHeight including 1px of separator view
+//            let calculatedHeight = self.rows.reduce(1.0) { (partialResult, row) -> CGFloat in
+//                let rowHeight = row.rowHeight
+//                let rowMargin = row.view.getRowMargin()
+//                return partialResult + rowHeight + rowMargin
+//            }
+//
+//            self.contentViewHeight = contentView.heightAnchor.constraint(equalToConstant: calculatedHeight)
+//            self.contentViewHeight?.isActive = true
+//        }
 
         animator.addCompletion { (_) in
             
@@ -286,15 +295,15 @@ class PXOneTapSummaryView: PXComponentView {
     }
 
     func updateAllRows(newData: [PXOneTapSummaryRowData]) {
-        for (index, row) in rows.enumerated() {
-            let newRowData = newData[index]
-            row.view.update(newRowData)
-            row.updateData(newRowData)
-        }
+//        for (index, row) in rows.enumerated() {
+//            let newRowData = newData[index]
+//            row.view.update(newRowData)
+//            row.updateData(newRowData)
+//        }
     }
 
     func update(_ newData: [PXOneTapSummaryRowData], hideAnimatedView: Bool = false) {
-        self.data = newData.reversed()
+        self.data = newData//.reversed()
     }
 
     func updateSplitMoney(_ splitMoney: Bool) {
@@ -456,12 +465,12 @@ extension PXOneTapSummaryView {
     }
 
     private func updatePurchaseRowBottomConstraint() {
-        if !UIDevice.isSmallDevice() {
-            let bottomConstraintStartingPoint: CGFloat = PXOneTapSummaryRowView.TOTAL_ROW_DEFAULT_HEIGHT + 24
-            rows.last?.constraint.constant = rows.count == 4 ? -bottomConstraintStartingPoint - (PXOneTapSummaryRowView.DEFAULT_HEIGHT * 3) - (PXOneTapSummaryRowView.MARGIN * 2) : -bottomConstraintStartingPoint - (PXOneTapSummaryRowView.DEFAULT_HEIGHT * 2) - PXOneTapSummaryRowView.MARGIN
-        } else {
-            let bottomConstraintStartingPoint: CGFloat = PXOneTapSummaryRowView.TOTAL_ROW_DEFAULT_HEIGHT - 4 + 24
-            rows.last?.constraint.constant = rows.count == 4 ? -bottomConstraintStartingPoint - (PXOneTapSummaryRowView.DEFAULT_HEIGHT * 3) - (PXOneTapSummaryRowView.MARGIN * 2) : -bottomConstraintStartingPoint - (PXOneTapSummaryRowView.DEFAULT_HEIGHT * 2) - PXOneTapSummaryRowView.MARGIN
-        }
+//        if !UIDevice.isSmallDevice() {
+//            let bottomConstraintStartingPoint: CGFloat = PXOneTapSummaryRowView.TOTAL_ROW_DEFAULT_HEIGHT + 24
+//            rows.last?.constraint.constant = rows.count == 4 ? -bottomConstraintStartingPoint - (PXOneTapSummaryRowView.DEFAULT_HEIGHT * 3) - (PXOneTapSummaryRowView.MARGIN * 2) : -bottomConstraintStartingPoint - (PXOneTapSummaryRowView.DEFAULT_HEIGHT * 2) - PXOneTapSummaryRowView.MARGIN
+//        } else {
+//            let bottomConstraintStartingPoint: CGFloat = PXOneTapSummaryRowView.TOTAL_ROW_DEFAULT_HEIGHT - 4 + 24
+//            rows.last?.constraint.constant = rows.count == 4 ? -bottomConstraintStartingPoint - (PXOneTapSummaryRowView.DEFAULT_HEIGHT * 3) - (PXOneTapSummaryRowView.MARGIN * 2) : -bottomConstraintStartingPoint - (PXOneTapSummaryRowView.DEFAULT_HEIGHT * 2) - PXOneTapSummaryRowView.MARGIN
+//        }
     }
 }
