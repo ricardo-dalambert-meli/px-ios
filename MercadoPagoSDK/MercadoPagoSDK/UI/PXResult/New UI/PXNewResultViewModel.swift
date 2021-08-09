@@ -103,4 +103,7 @@ protocol PXNewResultViewModelInterface: PXViewModelTrackingDataProtocol {
     func shouldAutoReturn() -> Bool
     func getBackUrl() -> URL?
     func getAutoReturn() -> PXAutoReturn?
+    
+    ///AndesMessage
+    func getAndesMessage()
 }

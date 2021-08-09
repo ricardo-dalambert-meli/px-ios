@@ -23,8 +23,25 @@ struct PXPointsAndDiscounts: Decodable {
     let backUrl: String?
     let autoReturn: PXAutoReturn?
     let instruction: PXInstruction?
+    let infoOperation: InfoOperation?
 
-    init(points: PXPoints?, discounts: PXDiscounts?, crossSelling: [PXCrossSellingItem]?, viewReceiptAction: PXRemoteAction?, topTextBox: PXText?, customOrder: Bool?, expenseSplit: PXExpenseSplit?, paymentMethodsImages: [String: String]?, primaryButton: PXButton?, secondaryButton: PXButton?, redirectUrl: String?, backUrl: String?, autoReturn: PXAutoReturn?, instruction: PXInstruction?) {
+    init(
+        points: PXPoints?,
+        discounts: PXDiscounts?,
+        crossSelling: [PXCrossSellingItem]?,
+        viewReceiptAction: PXRemoteAction?,
+        topTextBox: PXText?,
+        customOrder: Bool?,
+        expenseSplit: PXExpenseSplit?,
+        paymentMethodsImages: [String: String]?,
+        primaryButton: PXButton?,
+        secondaryButton: PXButton?,
+        redirectUrl: String?,
+        backUrl: String?,
+        autoReturn: PXAutoReturn?,
+        instruction: PXInstruction?,
+        infoOperation: InfoOperation?
+    ) {
         self.points = points
         self.discounts = discounts
         self.crossSelling = crossSelling
@@ -39,6 +56,7 @@ struct PXPointsAndDiscounts: Decodable {
         self.backUrl = backUrl
         self.autoReturn = autoReturn
         self.instruction = instruction
+        self.infoOperation = infoOperation
     }
 
     enum PointsAndDiscountsCodingKeys: String, CodingKey {
@@ -56,6 +74,7 @@ struct PXPointsAndDiscounts: Decodable {
         case backUrl = "back_url"
         case autoReturn = "auto_return"
         case instruction = "instructions"
+        case infoOperation = "operation_info"
     }
 
     init(from decoder: Decoder) throws {
@@ -74,6 +93,23 @@ struct PXPointsAndDiscounts: Decodable {
         let backUrl: String? = try container.decodeIfPresent(String.self, forKey: .backUrl)
         let autoReturn: PXAutoReturn? = try container.decodeIfPresent(PXAutoReturn.self, forKey: .autoReturn)
         let instruction: PXInstruction? = try container.decodeIfPresent(PXInstruction.self, forKey: .instruction)
-        self.init(points: points, discounts: discounts, crossSelling: crossSelling, viewReceiptAction: viewReceiptAction, topTextBox: topTextBox, customOrder: customOrder, expenseSplit: expenseSplit, paymentMethodsImages: paymentMethodsImages, primaryButton: primaryButton, secondaryButton: secondaryButton, redirectUrl: redirectUrl, backUrl: backUrl, autoReturn: autoReturn, instruction: instruction)
+        let infoOperation: InfoOperation? = try container.decodeIfPresent(InfoOperation.self, forKey: .infoOperation)
+        self.init(
+            points: points,
+            discounts: discounts,
+            crossSelling: crossSelling,
+            viewReceiptAction: viewReceiptAction,
+            topTextBox: topTextBox,
+            customOrder: customOrder,
+            expenseSplit: expenseSplit,
+            paymentMethodsImages: paymentMethodsImages,
+            primaryButton: primaryButton,
+            secondaryButton: secondaryButton,
+            redirectUrl: redirectUrl,
+            backUrl: backUrl,
+            autoReturn: autoReturn,
+            instruction: instruction,
+            infoOperation: infoOperation
+        )
     }
 }
