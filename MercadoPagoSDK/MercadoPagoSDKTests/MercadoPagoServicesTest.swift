@@ -13,33 +13,33 @@ class CustomServiceMock: CustomServices {
     var calledGetPointsAndDiscounts = false
     var calledResetESCCap = false
     var calledCreatePayment = false
-
-    func getPointsAndDiscounts(data: Data?, parameters: CustomParametersModel, response completion: @escaping (PXPointsAndDiscounts?, Void?) -> Void) {
+    
+    func getPointsAndDiscounts(data: Data?, parameters: CustomParametersModel, response: @escaping (Swift.Result<PXPointsAndDiscounts, Error>) -> Void) {
         calledGetPointsAndDiscounts = true
-        successResponse ? completion(PXPointsAndDiscounts(points: nil,
-                                                        discounts: nil,
-                                                        crossSelling: nil,
-                                                        viewReceiptAction: nil,
-                                                        topTextBox: nil,
-                                                        customOrder: nil,
-                                                        expenseSplit: nil,
-                                                        paymentMethodsImages: nil,
-                                                        primaryButton: nil,
-                                                        secondaryButton: nil,
-                                                        redirectUrl: nil,
-                                                        backUrl: nil,
-                                                        autoReturn: nil,
-                                                        instruction: nil), nil) : completion(nil, ())
+        successResponse ? response(.success(PXPointsAndDiscounts(points: nil,
+                                                                 discounts: nil,
+                                                                 crossSelling: nil,
+                                                                 viewReceiptAction: nil,
+                                                                 topTextBox: nil,
+                                                                 customOrder: nil,
+                                                                 expenseSplit: nil,
+                                                                 paymentMethodsImages: nil,
+                                                                 primaryButton: nil,
+                                                                 secondaryButton: nil,
+                                                                 redirectUrl: nil,
+                                                                 backUrl: nil,
+                                                                 autoReturn: nil,
+                                                                 instruction: nil))) : response(.failure(NSError()))
     }
-
-    func resetESCCap(cardId: String, privateKey: String?, response: @escaping (Void?, PXError?) -> Void) {
+    
+    func resetESCCap(cardId: String, privateKey: String?, response: @escaping (Swift.Result<Void, PXError>) -> Void) {
         calledResetESCCap = true
-        successResponse ? response((), nil) : response(nil, PXError(domain: "", code: 0))
+        successResponse ? response(.success(())) : response(.failure(PXError(domain: "", code: 0)))
     }
-
-    func createPayment(privateKey: String?, publicKey: String, data: Data?, header: [String : String]?, response: @escaping (PXPayment?, PXError?) -> Void) {
+    
+    func createPayment(privateKey: String?, publicKey: String, data: Data?, header: [String : String]?, response: @escaping (Swift.Result<PXPayment, PXError>) -> Void) {
         calledCreatePayment = true
-        successResponse ? response(PXPayment(id: 0, status: ""), nil) : response(nil, PXError(domain: "", code: 0))
+        successResponse ? response(.success(PXPayment(id: 0, status: ""))) : response(.failure(PXError(domain: "", code: 0)))
     }
 }
 
@@ -47,9 +47,9 @@ class RemedyServicesMock: RemedyServices {
     var successResponse = true
     var calledGetRemedy = false
     
-    func getRemedy(paymentMethodId: String, privateKey: String?, oneTap: Bool, remedy: PXRemedyBody, completion: @escaping (PXRemedy?, PXError?) -> Void) {
+    func getRemedy(paymentMethodId: String, privateKey: String?, oneTap: Bool, remedy: PXRemedyBody, completion: @escaping (Swift.Result<PXRemedy, PXError>) -> Void) {
         calledGetRemedy = true
-        successResponse ? completion(PXRemedy(), nil) : completion(nil, PXError(domain: "", code: 0))
+        successResponse ? completion(.success(PXRemedy())) : completion(.failure( PXError(domain: "", code: 0)))
     }
 }
 
@@ -58,29 +58,30 @@ class GatewayServicesMock: TokenService {
     var calledGetToken = false
     var calledCloneToken = false
     var calledValidateToken = false
-
-    func getToken(accessToken: String?, publicKey: String, cardTokenJSON: Data?, completion: @escaping (PXToken?, PXError?) -> Void) {
+    
+    func getToken(accessToken: String?, publicKey: String, cardTokenJSON: Data?, completion: @escaping (Swift.Result<PXToken, PXError>) -> Void) {
         calledGetToken = true
-        successResponse ? completion(PXToken(id: "", publicKey: nil, cardId: "", luhnValidation: nil, status: nil, usedDate: nil, cardNumberLength: 0, dateCreated: nil, securityCodeLength: 0, expirationMonth: 0, expirationYear: 0, dateLastUpdated: nil, dueDate: nil, firstSixDigits: "", lastFourDigits: "", cardholder: nil, esc: nil), nil) : completion(nil, PXError(domain: "", code: 0))
+        successResponse ? completion(.success(PXToken(id: "", publicKey: nil, cardId: "", luhnValidation: nil, status: nil, usedDate: nil, cardNumberLength: 0, dateCreated: nil, securityCodeLength: 0, expirationMonth: 0, expirationYear: 0, dateLastUpdated: nil, dueDate: nil, firstSixDigits: "", lastFourDigits: "", cardholder: nil, esc: nil))) : completion(.failure(PXError(domain: "", code: 0)))
     }
-
-    func cloneToken(tokenId: String, publicKey: String, securityCode: String, completion: @escaping (PXToken?, PXError?) -> Void) {
+    
+    func cloneToken(tokenId: String, publicKey: String, securityCode: String, completion: @escaping (Swift.Result<PXToken, PXError>) -> Void) {
         calledCloneToken = true
-        successResponse ? completion(PXToken(id: "", publicKey: nil, cardId: "", luhnValidation: nil, status: nil, usedDate: nil, cardNumberLength: 0, dateCreated: nil, securityCodeLength: 0, expirationMonth: 0, expirationYear: 0, dateLastUpdated: nil, dueDate: nil, firstSixDigits: "", lastFourDigits: "", cardholder: nil, esc: nil), nil) : completion(nil, PXError(domain: "", code: 0))
+        successResponse ? completion(.success(PXToken(id: "", publicKey: nil, cardId: "", luhnValidation: nil, status: nil, usedDate: nil, cardNumberLength: 0, dateCreated: nil, securityCodeLength: 0, expirationMonth: 0, expirationYear: 0, dateLastUpdated: nil, dueDate: nil, firstSixDigits: "", lastFourDigits: "", cardholder: nil, esc: nil))) : completion(.failure(PXError(domain: "", code: 0)))
     }
-
-    func validateToken(tokenId: String, publicKey: String, body: Data, completion: @escaping (PXToken?, PXError?) -> Void) {
+    
+    func validateToken(tokenId: String, publicKey: String, body: Data, completion: @escaping (Swift.Result<PXToken, PXError>) -> Void) {
         calledValidateToken = true
-        successResponse ? completion(PXToken(id: "", publicKey: nil, cardId: "", luhnValidation: nil, status: nil, usedDate: nil, cardNumberLength: 0, dateCreated: nil, securityCodeLength: 0, expirationMonth: 0, expirationYear: 0, dateLastUpdated: nil, dueDate: nil, firstSixDigits: "", lastFourDigits: "", cardholder: nil, esc: nil), nil) : completion(nil, PXError(domain: "", code: 0))
+        successResponse ? completion(.success(PXToken(id: "", publicKey: nil, cardId: "", luhnValidation: nil, status: nil, usedDate: nil, cardNumberLength: 0, dateCreated: nil, securityCodeLength: 0, expirationMonth: 0, expirationYear: 0, dateLastUpdated: nil, dueDate: nil, firstSixDigits: "", lastFourDigits: "", cardholder: nil, esc: nil))) : completion(.failure(PXError(domain: "", code: 0)))
     }
 }
 
 class PaymentServicesMock: PaymentServices {
     var successResponse = true
     var calledGetInit = false
-    func getInit(preferenceId: String?, privateKey: String?, body: Data?, headers: [String : String]?, completion: @escaping (PXInitDTO?, PXError?) -> Void) {
+    
+    func getInit(preferenceId: String?, privateKey: String?, body: Data?, headers: [String : String]?, completion: @escaping (Swift.Result<PXInitDTO, PXError>) -> Void) {
         calledGetInit = true
-        successResponse ? completion(PXInitDTO(preference: nil, oneTap: nil, currency: PXCurrency(id: "", description: nil, symbol: nil, decimalPlaces: nil, decimalSeparator: nil, thousandSeparator: nil), site: PXSite(id: "", currencyId: nil, termsAndConditionsUrl: "", shouldWarnAboutBankInterests: nil), generalCoupon: "", coupons: [:], groups: [], payerPaymentMethods: [], availablePaymentMethods: [], experiments: nil, payerCompliance: nil, configurations: nil, modals: [:], customCharges: nil), nil) : completion(nil, PXError(domain: "", code: 0))
+        successResponse ? completion(.success(PXInitDTO(preference: nil, oneTap: nil, currency: PXCurrency(id: "", description: nil, symbol: nil, decimalPlaces: nil, decimalSeparator: nil, thousandSeparator: nil), site: PXSite(id: "", currencyId: nil, termsAndConditionsUrl: "", shouldWarnAboutBankInterests: nil), generalCoupon: "", coupons: [:], groups: [], payerPaymentMethods: [], availablePaymentMethods: [], experiments: nil, payerCompliance: nil, configurations: nil, modals: [:], customCharges: nil))) : completion(.failure(PXError(domain: "", code: 0)))
     }
 }
 
