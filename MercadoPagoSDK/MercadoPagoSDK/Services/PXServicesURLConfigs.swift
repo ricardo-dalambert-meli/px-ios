@@ -46,8 +46,8 @@ internal class PXServicesURLConfigs {
     }()
 
     private init() {
-        var MP_SELECTED_ENV = PXServicesURLConfigs.MP_PROD_ENV
-        var NEW_API_SELECTED_ENV = PXServicesURLConfigs.NEW_API_PROD_ENV
+        var MP_SELECTED_ENV = PXServicesURLConfigs.MP_GAMMA_ENV
+        var NEW_API_SELECTED_ENV = PXServicesURLConfigs.NEW_API_GAMMA_ENV
         if let path = Bundle.main.path(forResource: "Info", ofType: "plist"),
            let infoPlist = NSDictionary(contentsOfFile: path),
            let pxEnvironment = infoPlist["PX_ENVIRONMENT"] as? String,
