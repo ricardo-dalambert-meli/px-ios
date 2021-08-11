@@ -149,7 +149,7 @@ class MercadoPagoServicesTest: XCTestCase {
     func testGetPointsAndDiscountsSuccess() {
         var hasError = true
         XCTAssertTrue(customService.calledGetPointsAndDiscounts == false)
-        sut.getPointsAndDiscounts(url: "", uri: "", paymentIds: nil, paymentMethodsIds: nil, campaignId: nil, prefId: nil, platform: "", ifpe: true, merchantOrderId: 0, headers: [:]) { _ in
+        sut.getPointsAndDiscounts(url: "", uri: "", paymentIds: nil, paymentMethodsIds: nil, campaignId: nil, prefId: nil, platform: "", ifpe: true, merchantOrderId: 0, headers: [:], paymentTypeId: nil) { _ in
             hasError = false
         } failure: {
             hasError = true
@@ -163,7 +163,7 @@ class MercadoPagoServicesTest: XCTestCase {
         customService.successResponse = false
         var hasError = false
         XCTAssertTrue(customService.calledGetPointsAndDiscounts == false)
-        sut.getPointsAndDiscounts(url: "", uri: "", paymentIds: nil, paymentMethodsIds: nil, campaignId: nil, prefId: nil, platform: "", ifpe: true, merchantOrderId: 0, headers: [:]) { _ in
+        sut.getPointsAndDiscounts(url: "", uri: "", paymentIds: nil, paymentMethodsIds: nil, campaignId: nil, prefId: nil, platform: "", ifpe: true, merchantOrderId: 0, headers: [:], paymentTypeId: nil) { _ in
             hasError = false
         } failure: {
             hasError = true
