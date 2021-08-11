@@ -467,10 +467,19 @@ extension PXResultViewModel {
 
     private func assemblePaymentMethodInfo(paymentData: PXPaymentData, amountHelper: PXAmountHelper, currency: PXCurrency, paymentType: PXPaymentTypes, paymentMethodId: String, externalPaymentMethodInfo: Data?) -> PXCongratsPaymentInfo {
         var paidAmount: String
-        if let transactionAmountWithDiscount = paymentData.getTransactionAmountWithDiscount() {
+        
+        
+        if let paymentOptionsAmount = paymentData.amount {
+            paidAmount = Utils.getAmountFormated(amount: paymentOptionsAmount, forCurrency: currency)
+        } else if let transactionAmountWithDiscount = paymentData.getTransactionAmountWithDiscount() {
             paidAmount = Utils.getAmountFormated(amount: transactionAmountWithDiscount, forCurrency: currency)
         } else {
             paidAmount = Utils.getAmountFormated(amount: amountHelper.amountToPay, forCurrency: currency)
+        }
+        
+        var noDiscountAmount : String?
+        if let paymentDataNoDiscountAmount = paymentData.noDiscountAmount {
+            noDiscountAmount = Utils.getAmountFormated(amount: paymentDataNoDiscountAmount, forCurrency: currency)
         }
 
         let transactionAmount = Utils.getAmountFormated(amount: paymentData.transactionAmount?.doubleValue ?? 0.0, forCurrency: currency)
@@ -491,7 +500,7 @@ extension PXResultViewModel {
         }
 
         return PXCongratsPaymentInfo(paidAmount: paidAmount,
-                                     rawAmount: transactionAmount,
+                                     rawAmount: noDiscountAmount ?? transactionAmount,
                                      paymentMethodName: paymentData.paymentMethod?.name,
                                      paymentMethodLastFourDigits: paymentData.token?.lastFourDigits,
                                      paymentMethodDescription: paymentData.paymentMethod?.creditsDisplayInfo?.description?.message,
