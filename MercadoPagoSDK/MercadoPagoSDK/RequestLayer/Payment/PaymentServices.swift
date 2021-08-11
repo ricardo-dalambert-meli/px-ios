@@ -24,7 +24,7 @@ final class PaymentServicesImpl: PaymentServices {
 
     // MARK: - Public methods
     func getInit(preferenceId: String?, privateKey: String?, body: Data?, headers: [String: String]?, completion: @escaping (PXInitDTO?, PXError?) -> Void) {
-        service.requestObject(model: PXInitDTO.self, .getInit(preferenceId, privateKey, body, headers)) { apiResponse in
+        service.requestObject(model: PXInitDTO.self, .getInit(preferenceId: preferenceId, privateKey: privateKey, body: body, headers: headers)) { apiResponse in
             switch apiResponse {
             case .success(let payment): completion(payment, nil)
             case .failure: completion(nil, PXError(domain: ApiDomain.GET_REMEDY,

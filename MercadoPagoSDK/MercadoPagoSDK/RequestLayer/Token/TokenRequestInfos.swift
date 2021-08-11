@@ -5,11 +5,10 @@
 //  Created by Matheus Leandro Martins on 15/07/21.
 //
 
-//Todo: dar nomes para os parametros
 enum TokenRequestInfos {
-    case getToken(String?, String, Data?)
-    case cloneToken(String, String)
-    case validateToken(String, String, Data)
+    case getToken(accessToken: String?, publicKey: String, cardTokenJSON: Data?)
+    case cloneToken(tokenId: String, publicKey: String)
+    case validateToken(tokenId: String, publicKey: String, body: Data)
 }
 
 extension TokenRequestInfos: RequestInfos {
@@ -41,7 +40,7 @@ extension TokenRequestInfos: RequestInfos {
         case .getToken(let accessToken, let publicKey, _):
             if let token = accessToken {
                 return [
-//                    "access_token" : token,
+                    "access_token" : token,
                     "public_key" : publicKey
                 ]
             } else {

@@ -48,7 +48,7 @@ extension CustomRequestInfos: RequestInfos {
                 ]
             } else {
                 return [
-                    "public_key" : publicKey,
+//                    "public_key" : publicKey,
                     "api_version" : "2.0"
                 ]
             }

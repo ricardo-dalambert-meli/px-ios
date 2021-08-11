@@ -153,7 +153,7 @@ internal class MercadoPagoServices: NSObject {
     }
 
     func cloneToken(tokenId: String, securityCode: String, callback : @escaping (PXToken) -> Void, failure: @escaping ((_ error: NSError) -> Void)) {
-        gatewayService.cloneToken(tokeniD: tokenId, publicKey: publicKey, securityCode: securityCode) { token, error in
+        gatewayService.cloneToken(tokenId: tokenId, publicKey: publicKey, securityCode: securityCode) { token, error in
             if let token = token {
                 callback(token)
             } else if let error = error {

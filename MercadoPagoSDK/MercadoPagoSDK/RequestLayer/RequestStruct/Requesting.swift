@@ -136,8 +136,6 @@ final class Requesting<Target: RequestInfos> : RequestProtocol {
     private func setupStandardHeaders(baseRequest: URLRequest, accessToken: String?) -> URLRequest {
         var request = baseRequest
         
-        print(accessToken)
-        
         if let accessToken = accessToken {
             request.setValue(accessToken, forHTTPHeaderField: "access_token")
         }

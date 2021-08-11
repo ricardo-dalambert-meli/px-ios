@@ -64,7 +64,7 @@ class GatewayServicesMock: TokenService {
         successResponse ? completion(PXToken(id: "", publicKey: nil, cardId: "", luhnValidation: nil, status: nil, usedDate: nil, cardNumberLength: 0, dateCreated: nil, securityCodeLength: 0, expirationMonth: 0, expirationYear: 0, dateLastUpdated: nil, dueDate: nil, firstSixDigits: "", lastFourDigits: "", cardholder: nil, esc: nil), nil) : completion(nil, PXError(domain: "", code: 0))
     }
 
-    func cloneToken(tokeniD: String, publicKey: String, securityCode: String, completion: @escaping (PXToken?, PXError?) -> Void) {
+    func cloneToken(tokenId: String, publicKey: String, securityCode: String, completion: @escaping (PXToken?, PXError?) -> Void) {
         calledCloneToken = true
         successResponse ? completion(PXToken(id: "", publicKey: nil, cardId: "", luhnValidation: nil, status: nil, usedDate: nil, cardNumberLength: 0, dateCreated: nil, securityCodeLength: 0, expirationMonth: 0, expirationYear: 0, dateLastUpdated: nil, dueDate: nil, firstSixDigits: "", lastFourDigits: "", cardholder: nil, esc: nil), nil) : completion(nil, PXError(domain: "", code: 0))
     }

@@ -6,7 +6,7 @@
 //
 
 enum RemedyRequestInfos {
-    case getRemedy(String, privateKey: String?, Bool, Data?)
+    case getRemedy(paymentMethodId: String, privateKey: String?, oneTap: Bool, body: Data?)
 }
 
 extension RemedyRequestInfos: RequestInfos {

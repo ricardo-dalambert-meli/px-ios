@@ -8,7 +8,7 @@
 import Foundation
 
 enum PaymentRequestInfos {
-    case getInit(String?, String?, Data?, [String: String]?)
+    case getInit(preferenceId: String?, privateKey: String?, body: Data?, headers: [String: String]?)
 }
 
 extension PaymentRequestInfos: RequestInfos {
@@ -42,8 +42,8 @@ extension PaymentRequestInfos: RequestInfos {
 
     var parameters: [String : Any]? {
         switch self {
-        case .getInit(let preferenceId, let accessToken, _, _): return nil
-//            if let token = accessToken, preferenceId != nil { return ["access_token" : token] } else { return nil }
+        case .getInit(let preferenceId, let accessToken, _, _): //return nil
+            if let token = accessToken, preferenceId != nil { return ["access_token" : token] } else { return nil }
         }
     }
     

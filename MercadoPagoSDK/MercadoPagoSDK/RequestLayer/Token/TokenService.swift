@@ -11,7 +11,7 @@ protocol TokenService {
                   cardTokenJSON: Data?,
                   completion: @escaping (PXToken?, PXError?) -> Void)
     
-    func cloneToken(tokeniD: String, publicKey: String, securityCode: String, completion: @escaping (PXToken?, PXError?) -> Void)
+    func cloneToken(tokenId: String, publicKey: String, securityCode: String, completion: @escaping (PXToken?, PXError?) -> Void)
     func validateToken(tokenId: String, publicKey: String, body: Data, completion: @escaping (PXToken?, PXError?) -> Void)
 }
 
@@ -26,7 +26,7 @@ final class TokenServiceImpl: TokenService {
     
     // MARK: - Public methods
     func getToken(accessToken: String?, publicKey: String, cardTokenJSON: Data?, completion: @escaping (PXToken?, PXError?) -> Void) {
-        service.requestObject(model: PXToken.self, .getToken(accessToken, publicKey, cardTokenJSON)) { apiResponse in
+        service.requestObject(model: PXToken.self, .getToken(accessToken: accessToken, publicKey: publicKey, cardTokenJSON: cardTokenJSON)) { apiResponse in
             switch apiResponse {
             case .success(let token): completion(token, nil)
             case .failure: completion(nil, PXError(domain: ApiDomain.GET_TOKEN,
@@ -39,8 +39,8 @@ final class TokenServiceImpl: TokenService {
         }
     }
     
-    func cloneToken(tokeniD: String, publicKey: String, securityCode: String, completion: @escaping (PXToken?, PXError?) -> Void) {
-        service.requestData(target: .cloneToken(tokeniD, publicKey)) { [weak self] apiResponse in
+    func cloneToken(tokenId: String, publicKey: String, securityCode: String, completion: @escaping (PXToken?, PXError?) -> Void) {
+        service.requestData(target: .cloneToken(tokenId: tokenId, publicKey: publicKey)) { [weak self] apiResponse in
             switch apiResponse {
             case .success(let data):
                 if let token = try? JSONDecoder().decode(PXToken.self , from: data) {
@@ -74,7 +74,7 @@ final class TokenServiceImpl: TokenService {
     }
     
     func validateToken(tokenId: String, publicKey: String, body: Data, completion: @escaping (PXToken?, PXError?) -> Void) {
-        service.requestObject(model: PXToken.self, .validateToken(tokenId, publicKey, body)) { apiResponse in
+        service.requestObject(model: PXToken.self, .validateToken(tokenId: tokenId, publicKey: publicKey, body: body)) { apiResponse in
             switch apiResponse {
             case .success(let token): completion(token, nil)
             case .failure: completion(nil, PXError(domain: ApiDomain.CLONE_TOKEN,
