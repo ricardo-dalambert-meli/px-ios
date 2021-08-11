@@ -31,12 +31,14 @@ internal class MercadoPagoServices: NSObject {
     open var privateKey: String?
 
     // MARK: - Initialization
-    init(publicKey: String,
-         privateKey: String? = nil,
-         customService: CustomServices = CustomServicesImpl(),
-         remedyService: RemedyServices = RemedyServicesImpl(),
-         gatewayService: TokenService = TokenServiceImpl(),
-         paymentService: PaymentServices = PaymentServicesImpl()) {
+    init(
+        publicKey: String,
+        privateKey: String? = nil,
+        customService: CustomServices = CustomServicesImpl(),
+        remedyService: RemedyServices = RemedyServicesImpl(),
+        gatewayService: TokenService = TokenServiceImpl(),
+        paymentService: PaymentServices = PaymentServicesImpl()
+    ) {
         self.publicKey = publicKey
         self.privateKey = privateKey
         self.customService = customService
