@@ -107,6 +107,10 @@ extension CustomRequestInfos {
             filteredParameters.updateValue(merchantOrderId, forKey: "merchant_order_id")
         }
         
+        if let paymentTypeId = parameters.paymentTypeId {
+            filteredParameters.updateValue(paymentTypeId, forKey: "payment_type_id ")
+        }
+        
         filteredParameters.updateValue("2.0", forKey: "api_version")
         filteredParameters.updateValue(parameters.ifpe, forKey: "ifpe")
         filteredParameters.updateValue("MP", forKey: "platform")

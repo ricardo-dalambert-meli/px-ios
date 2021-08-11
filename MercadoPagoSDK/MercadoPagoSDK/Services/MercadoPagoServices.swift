@@ -110,7 +110,7 @@ internal class MercadoPagoServices: NSObject {
         }
     }
 
-    func getPointsAndDiscounts(url: String, uri: String, paymentIds: [String]? = nil, paymentMethodsIds: [String]? = nil, campaignId: String?, prefId: String?, platform: String, ifpe: Bool, merchantOrderId: Int?, headers: [String: String], callback : @escaping (PXPointsAndDiscounts) -> Void, failure: @escaping (() -> Void)) {
+    func getPointsAndDiscounts(url: String, uri: String, paymentIds: [String]? = nil, paymentMethodsIds: [String]? = nil, campaignId: String?, prefId: String?, platform: String, ifpe: Bool, merchantOrderId: Int?, headers: [String: String], paymentTypeId: String?,callback : @escaping (PXPointsAndDiscounts) -> Void, failure: @escaping (() -> Void)) {
         let parameters = CustomParametersModel(privateKey: privateKey,
                                                publicKey: publicKey,
                                                paymentMethodIds: getPaymentMethodsIds(paymentMethodsIds),
@@ -119,7 +119,8 @@ internal class MercadoPagoServices: NSObject {
                                                prefId: prefId,
                                                campaignId: campaignId,
                                                flowName: MPXTracker.sharedInstance.getFlowName(),
-                                               merchantOrderId: merchantOrderId != nil ? String(merchantOrderId!) : nil)
+                                               merchantOrderId: merchantOrderId != nil ? String(merchantOrderId!) : nil,
+                                               paymentTypeId: paymentTypeId)
         customService.getPointsAndDiscounts(data: nil, parameters: parameters) { pointsAndDiscounts, error in
             if let pointsAndDiscounts = pointsAndDiscounts {
                 callback(pointsAndDiscounts)

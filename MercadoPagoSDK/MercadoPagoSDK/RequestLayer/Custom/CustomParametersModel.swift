@@ -15,4 +15,5 @@ struct CustomParametersModel {
     let campaignId: String?
     let flowName: String?
     let merchantOrderId: String?
+    let paymentTypeId: String?
 }
