@@ -39,6 +39,8 @@ internal protocol RequestInfos {
     var body: Data? { get }
 
     var parameterEncoding: ParameterEncode { get }
+    
+    var accessToken: String? { get }
 
 }
 

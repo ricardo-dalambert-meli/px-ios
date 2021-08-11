@@ -37,12 +37,12 @@ extension CustomRequestInfos: RequestInfos {
     
     var parameters: [String : Any]? {
         switch self {
-        case .resetESCCap(_, let privateKey): if let privateKey = privateKey { return ["access_token" : privateKey] } else { return nil }
+        case .resetESCCap(_, _): return nil
         case .getCongrats(_, let parameters): return organizeParameters(parameters: parameters)
         case .createPayment(let privateKey, let publicKey, _, _):
             if let token = privateKey {
                 return [
-                    "access_token" : token,
+//                    "access_token" : token,
                     "public_key" : publicKey,
                     "api_version" : "2.0"
                 ]
@@ -67,6 +67,14 @@ extension CustomRequestInfos: RequestInfos {
         case .resetESCCap(_, _): return nil
         case .getCongrats(let data, _): return data
         case .createPayment(_, _, let data, _): return data
+        }
+    }
+    
+    var accessToken: String? {
+        switch self {
+        case .resetESCCap(_, let privateKey): return privateKey
+        case .getCongrats(_, let parameters): return parameters.privateKey
+        case .createPayment(let privateKey, _, _, _): return privateKey
         }
     }
 }

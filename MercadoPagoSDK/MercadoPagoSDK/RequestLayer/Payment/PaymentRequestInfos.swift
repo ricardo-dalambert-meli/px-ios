@@ -42,8 +42,15 @@ extension PaymentRequestInfos: RequestInfos {
 
     var parameters: [String : Any]? {
         switch self {
+        case .getInit(let preferenceId, let accessToken, _, _): return nil
+//            if let token = accessToken, preferenceId != nil { return ["access_token" : token] } else { return nil }
+        }
+    }
+    
+    var accessToken: String? {
+        switch self {
         case .getInit(let preferenceId, let accessToken, _, _):
-        if let token = accessToken, preferenceId != nil { return [ "access_token" : token ] } else { return nil }
+        if let token = accessToken, preferenceId != nil { return token } else { return nil }
         }
     }
 }

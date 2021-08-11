@@ -6,7 +6,7 @@
 //
 
 enum RemedyRequestInfos {
-    case getRemedy(String, String?, Bool, Data?)
+    case getRemedy(String, privateKey: String?, Bool, Data?)
 }
 
 extension RemedyRequestInfos: RequestInfos {
@@ -35,11 +35,16 @@ extension RemedyRequestInfos: RequestInfos {
     var parameters: [String : Any]? {
         switch self {
         case .getRemedy(_, let privateKey, let oneTap, _):
-            let key = privateKey ?? ""
             return [
-            "access_token" : key,
+//            "access_token" : privateKey,
             "one_tap" : oneTap ? "true" : "false"
         ]
+        }
+    }
+    
+    var accessToken: String? {
+        switch self {
+        case .getRemedy(_, let privateKey, _, _): return privateKey
         }
     }
 }

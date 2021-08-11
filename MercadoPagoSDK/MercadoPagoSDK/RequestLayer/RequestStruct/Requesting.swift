@@ -43,7 +43,7 @@ final class Requesting<Target: RequestInfos> : RequestProtocol {
         request.cachePolicy = .useProtocolCachePolicy
         request.timeoutInterval = 15.0
         
-        request = setupStandardHeaders(baseRequest: request)
+        request = setupStandardHeaders(baseRequest: request, accessToken: target.accessToken)
         
         //Product ID Header
         if target.headers?[MercadoPagoService.HeaderField.productId.rawValue] == nil {
@@ -102,7 +102,7 @@ final class Requesting<Target: RequestInfos> : RequestProtocol {
         request.cachePolicy = .useProtocolCachePolicy
         request.timeoutInterval = 15.0
         
-        request = setupStandardHeaders(baseRequest: request)
+        request = setupStandardHeaders(baseRequest: request, accessToken: target.accessToken)
         
         //Product ID Header
         if target.headers?[MercadoPagoService.HeaderField.productId.rawValue] == nil {
@@ -133,8 +133,15 @@ final class Requesting<Target: RequestInfos> : RequestProtocol {
     }
     
     // MARK: - Private merthods
-    private func setupStandardHeaders(baseRequest: URLRequest) -> URLRequest {
+    private func setupStandardHeaders(baseRequest: URLRequest, accessToken: String?) -> URLRequest {
         var request = baseRequest
+        
+        print(accessToken)
+        
+        if let accessToken = accessToken {
+            request.setValue(accessToken, forHTTPHeaderField: "access_token")
+        }
+        
         request.setValue("application/json", forHTTPHeaderField: MercadoPagoService.HeaderField.contentType.rawValue)
         if let sdkVersion = MercadoPagoBundle.bundleShortVersionString() {
             let value = "PX/iOS/" + sdkVersion

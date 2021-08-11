@@ -5,6 +5,7 @@
 //  Created by Matheus Leandro Martins on 15/07/21.
 //
 
+//Todo: dar nomes para os parametros
 enum TokenRequestInfos {
     case getToken(String?, String, Data?)
     case cloneToken(String, String)
@@ -40,7 +41,7 @@ extension TokenRequestInfos: RequestInfos {
         case .getToken(let accessToken, let publicKey, _):
             if let token = accessToken {
                 return [
-                    "access_token" : token,
+//                    "access_token" : token,
                     "public_key" : publicKey
                 ]
             } else {
@@ -62,6 +63,13 @@ extension TokenRequestInfos: RequestInfos {
         case .getToken(_, _, let data): return data
         case .cloneToken(_, _): return nil
         case  .validateToken(_, _, let data): return data
+        }
+    }
+    
+    var accessToken: String? {
+        switch self {
+        case .getToken(let privateKey, _, _): return privateKey
+        case .cloneToken(_, _), .validateToken(_, _, _): return nil
         }
     }
 }

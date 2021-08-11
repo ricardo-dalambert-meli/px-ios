@@ -29,7 +29,7 @@ final class RemedyServicesImpl: RemedyServices {
         encoder.keyEncodingStrategy = .convertToSnakeCase
         let body = try? encoder.encode(remedyBody)
 
-        service.requestData(target: .getRemedy(paymentMethodId, privateKey, oneTap, body)) { [weak self] apiResponse in
+        service.requestData(target: .getRemedy(paymentMethodId, privateKey: privateKey, oneTap, body)) { [weak self] apiResponse in
             switch apiResponse {
             case .success(let data):
                 self?.buildRemedy(data: data, error: nil, completion: { remedy, error in
