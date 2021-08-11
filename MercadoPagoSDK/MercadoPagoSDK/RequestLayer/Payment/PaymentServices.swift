@@ -10,7 +10,7 @@ protocol PaymentServices {
                  privateKey: String?,
                  body: Data?,
                  headers: [String: String]?,
-                 completion: @escaping (PXInitDTO?, PXError?) -> Void)
+                 completion: @escaping (Swift.Result<PXInitDTO, PXError>) -> Void)
 }
 
 final class PaymentServicesImpl: PaymentServices {
@@ -23,16 +23,18 @@ final class PaymentServicesImpl: PaymentServices {
     }
 
     // MARK: - Public methods
-    func getInit(preferenceId: String?, privateKey: String?, body: Data?, headers: [String: String]?, completion: @escaping (PXInitDTO?, PXError?) -> Void) {
+    func getInit(preferenceId: String?, privateKey: String?, body: Data?, headers: [String: String]?, completion: @escaping (Swift.Result<PXInitDTO, PXError>) -> Void) {
         service.requestObject(model: PXInitDTO.self, .getInit(preferenceId: preferenceId, privateKey: privateKey, body: body, headers: headers)) { apiResponse in
             switch apiResponse {
-            case .success(let payment): completion(payment, nil)
-            case .failure: completion(nil, PXError(domain: ApiDomain.GET_REMEDY,
-                                                   code: ErrorTypes.NO_INTERNET_ERROR,
-                                                   userInfo: [
-                                                       NSLocalizedDescriptionKey: "Hubo un error",
-                                                       NSLocalizedFailureReasonErrorKey: "Verifique su conexión a internet e intente nuevamente"
-                                                   ]))
+            case .success(let payment): completion(.success(payment))
+            case .failure: completion(.failure(PXError(domain: ApiDomain.GET_REMEDY,
+                                                       code: ErrorTypes.NO_INTERNET_ERROR,
+                                                       userInfo: [
+                                                        NSLocalizedDescriptionKey: "Hubo un error",
+                                                        NSLocalizedFailureReasonErrorKey: "Verifique su conexión a internet e intente nuevamente"
+                                                       ])
+                                                )
+                                        )
             }
         }
     }

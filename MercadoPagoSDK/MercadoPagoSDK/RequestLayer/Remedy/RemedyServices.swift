@@ -10,7 +10,7 @@ protocol RemedyServices {
                    privateKey: String?,
                    oneTap: Bool,
                    remedy: PXRemedyBody,
-                   completion: @escaping (PXRemedy?, PXError?) -> Void)
+                   completion: @escaping (Swift.Result<PXRemedy, PXError>) -> Void)
 }
 
 final class RemedyServicesImpl: RemedyServices {
@@ -23,7 +23,7 @@ final class RemedyServicesImpl: RemedyServices {
     }
 
     // MARK: - Public methods
-    func getRemedy(paymentMethodId: String, privateKey: String?, oneTap: Bool, remedy: PXRemedyBody, completion: @escaping (PXRemedy?, PXError?) -> Void) {
+    func getRemedy(paymentMethodId: String, privateKey: String?, oneTap: Bool, remedy: PXRemedyBody, completion: @escaping (Swift.Result<PXRemedy, PXError>) -> Void) {
         let remedyBody = remedy
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
@@ -33,11 +33,13 @@ final class RemedyServicesImpl: RemedyServices {
             switch apiResponse {
             case .success(let data):
                 self?.buildRemedy(data: data, error: nil, completion: { remedy, error in
-                    completion(remedy, error)
+                    if let remedy = remedy { completion(.success(remedy)) }
+                    if let error = error{ completion(.failure(error)) }
                 })
             case .failure(let error):
                 self?.buildRemedy(data: nil, error: error, completion: { remedy, error in
-                    completion(remedy, error)
+                    if let remedy = remedy { completion(.success(remedy)) }
+                    if let error = error{ completion(.failure(error)) }
                 })
             }
         }

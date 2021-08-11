@@ -63,7 +63,7 @@ internal class MercadoPagoServices: NSObject {
     }
 
     func resetESCCap(cardId: String, onCompletion : @escaping () -> Void) {
-        customService.resetESCCap(cardId: cardId, privateKey: privateKey) { _, _ in
+        customService.resetESCCap(cardId: cardId, privateKey: privateKey) { _ in
             onCompletion()
         }
     }
@@ -76,11 +76,10 @@ internal class MercadoPagoServices: NSObject {
         
         let bodyJSON = try? body.toJSON()
         
-        paymentService.getInit(preferenceId: nil, privateKey: privateKey, body: bodyJSON, headers: headers) { dto, error in
-            if let dto = dto {
-                callback(dto)
-            } else if let error = error {
-                failure(error)
+        paymentService.getInit(preferenceId: nil, privateKey: privateKey, body: bodyJSON, headers: headers) { apiResponse in
+            switch apiResponse {
+            case .success(let dto): callback(dto)
+            case .failure(let error): failure(error)
             }
         }
     }
@@ -91,21 +90,19 @@ internal class MercadoPagoServices: NSObject {
         
         let bodyJSON = try? body.toJSON()
         
-        paymentService.getInit(preferenceId: preferenceId, privateKey: privateKey, body: bodyJSON, headers: headers) { dto, error in
-            if let dto = dto {
-                callback(dto)
-            } else if let error = error {
-                failure(error)
+        paymentService.getInit(preferenceId: preferenceId, privateKey: privateKey, body: bodyJSON, headers: headers) { apiResponse in
+            switch apiResponse {
+            case .success(let dto): callback(dto)
+            case .failure(let error): failure(error)
             }
         }
     }
 
     func createPayment(url: String, uri: String, transactionId: String? = nil, paymentDataJSON: Data, query: [String: String]? = nil, headers: [String: String]? = nil, callback : @escaping (PXPayment) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
-        customService.createPayment(privateKey: privateKey, publicKey: publicKey, data: paymentDataJSON, header: headers) { payment, error in
-            if let payment = payment {
-                callback(payment)
-            } else if let error = error {
-                failure(error)
+        customService.createPayment(privateKey: privateKey, publicKey: publicKey, data: paymentDataJSON, header: headers) { apiResponse in
+            switch apiResponse {
+            case .success(let payment): callback(payment)
+            case .failure(let error): failure(error)
             }
         }
     }
@@ -121,11 +118,10 @@ internal class MercadoPagoServices: NSObject {
                                                flowName: MPXTracker.sharedInstance.getFlowName(),
                                                merchantOrderId: merchantOrderId != nil ? String(merchantOrderId!) : nil,
                                                paymentTypeId: paymentTypeId)
-        customService.getPointsAndDiscounts(data: nil, parameters: parameters) { pointsAndDiscounts, error in
-            if let pointsAndDiscounts = pointsAndDiscounts {
-                callback(pointsAndDiscounts)
-            } else if let _ = error {
-                failure()
+        customService.getPointsAndDiscounts(data: nil, parameters: parameters) { apiResponse in
+            switch apiResponse {
+            case .success(let pointsAndDiscounts): callback(pointsAndDiscounts)
+            case .failure: failure()
             }
         }
     }
@@ -143,21 +139,19 @@ internal class MercadoPagoServices: NSObject {
     }
 
     func createToken(cardToken: Data?, callback : @escaping (PXToken) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
-        gatewayService.getToken(accessToken: privateKey, publicKey: publicKey, cardTokenJSON: cardToken) { token, error in
-            if let token = token {
-                callback(token)
-            } else if let error = error {
-                failure(error)
+        gatewayService.getToken(accessToken: privateKey, publicKey: publicKey, cardTokenJSON: cardToken) { apiResponse in
+            switch apiResponse {
+            case .success(let token): callback(token)
+            case .failure(let error): failure(error)
             }
         }
     }
 
     func cloneToken(tokenId: String, securityCode: String, callback : @escaping (PXToken) -> Void, failure: @escaping ((_ error: NSError) -> Void)) {
-        gatewayService.cloneToken(tokenId: tokenId, publicKey: publicKey, securityCode: securityCode) { token, error in
-            if let token = token {
-                callback(token)
-            } else if let error = error {
-                failure(error)
+        gatewayService.cloneToken(tokenId: tokenId, publicKey: publicKey, securityCode: securityCode) { apiResponse in
+            switch apiResponse {
+            case .success(let token): callback(token)
+            case .failure(let error): failure(error)
             }
         }
     }
@@ -170,11 +164,10 @@ internal class MercadoPagoServices: NSObject {
                    success : @escaping (PXRemedy) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
         let remedy = PXRemedyBody(customStringConfiguration: customStringConfiguration, payerPaymentMethodRejected: payerPaymentMethodRejected, alternativePayerPaymentMethods: alternativePayerPaymentMethods)
         
-        remedyService.getRemedy(paymentMethodId: paymentMethodId, privateKey: privateKey, oneTap: oneTap, remedy: remedy) { remedy, error in
-            if let remedy = remedy {
-                success(remedy)
-            } else if let error = error {
-                failure(error)
+        remedyService.getRemedy(paymentMethodId: paymentMethodId, privateKey: privateKey, oneTap: oneTap, remedy: remedy) { apiResponse in
+            switch apiResponse {
+            case .success(let remedy): success(remedy)
+            case .failure(let error): failure(error)
             }
         }
     }
