@@ -10,17 +10,17 @@ import Foundation
 protocol RequestProtocol {
     associatedtype
         Target: RequestInfos
-    func requestObject<Model: Codable>(model: Model.Type, _ target: Target, completionHandler: @escaping (_ result: Model?, _ error: Error?) -> Void)
-    func requestData(target: Target, completionHandler: @escaping (_ data: Data?, _ error: Error?) -> Void)
+    func requestObject<Model: Codable>(model: Model.Type, _ target: Target, completionHandler: @escaping (Swift.Result<Model, Error>) -> Void)
+    func requestData(target: Target, completionHandler: @escaping (Swift.Result<Data, Error>) -> Void)
 }
 
 final class Requesting<Target: RequestInfos> : RequestProtocol {
     // MARK: - Perivate properties
     let defaultProductId = "BJEO9TFBF6RG01IIIOU0"
     //MARK: - Public methods
-    func requestObject<Model>(model: Model.Type, _ target: Target, completionHandler: @escaping (Model?, Error?) -> Void) where Model : Codable {
+    func requestObject<Model>(model: Model.Type, _ target: Target, completionHandler: @escaping (Swift.Result<Model, Error>) -> Void) where Model : Codable {
         guard let url = URL(string: "\(target.baseURL)\(target.shouldSetEnvironment ?  target.environment.rawValue : "")\(target.endpoint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")") else {
-            completionHandler(nil, NSError())
+            completionHandler(.failure(NSError()))
             return
         }
         
@@ -35,7 +35,7 @@ final class Requesting<Target: RequestInfos> : RequestProtocol {
         do {
             request = try target.parameterEncoding.encode(request: URLRequest(url: url), parameters: target.parameters)
         } catch {
-            completionHandler(nil, NSError())
+            completionHandler(.failure(NSError()))
         }
         
         request.httpBody = target.body
@@ -60,26 +60,26 @@ final class Requesting<Target: RequestInfos> : RequestProtocol {
         
         URLSession.shared.dataTask(with: request) { data, resp, error in
             if let error = error {
-                completionHandler(nil, error)
+                completionHandler(.failure(error))
             }
             
             guard let data = data else {
-                completionHandler(nil, NSError())
+                completionHandler(.failure(NSError()))
                 return
             }
             
             do {
                 let modelList = try JSONDecoder().decode(Model.self , from: data)
-                completionHandler(modelList, nil)
+                completionHandler(.success(modelList))
             } catch {
-                completionHandler(nil, NSError())
+                completionHandler(.failure(NSError()))
             }
         }.resume()
     }
     
-    func requestData(target: Target, completionHandler: @escaping (_ data: Data?, _ error: Error?) -> Void) {
+    func requestData(target: Target, completionHandler: @escaping (Swift.Result<Data, Error>) -> Void) {
         guard let url = URL(string: "\(target.baseURL)\(target.environment.rawValue)\(target.endpoint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")") else {
-            completionHandler(nil, NSError())
+            completionHandler(.failure(NSError()))
             return
         }
         
@@ -88,13 +88,13 @@ final class Requesting<Target: RequestInfos> : RequestProtocol {
         do {
             request = try target.parameterEncoding.encode(request: URLRequest(url: url), parameters: target.headers)
         } catch {
-            completionHandler(nil, NSError())
+            completionHandler(.failure(NSError()))
         }
         
         do {
             request = try target.parameterEncoding.encode(request: URLRequest(url: url), parameters: target.parameters)
         } catch {
-            completionHandler(nil, NSError())
+            completionHandler(.failure(NSError()))
         }
         
         request.httpBody = target.body
@@ -119,15 +119,15 @@ final class Requesting<Target: RequestInfos> : RequestProtocol {
         
         URLSession.shared.dataTask(with: request) { data, resp, error in
             if let error = error {
-                completionHandler(nil, error)
+                completionHandler(.failure(error))
             }
             
             guard let data = data else {
-                completionHandler(nil, NSError())
+                completionHandler(.failure(NSError()))
                 return
             }
             
-            completionHandler(data, nil)
+            completionHandler(.success(data))
             
         }.resume()
     }

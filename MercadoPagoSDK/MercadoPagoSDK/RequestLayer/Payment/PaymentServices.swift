@@ -24,16 +24,15 @@ final class PaymentServicesImpl: PaymentServices {
 
     // MARK: - Public methods
     func getInit(preferenceId: String?, privateKey: String?, body: Data?, headers: [String: String]?, completion: @escaping (PXInitDTO?, PXError?) -> Void) {
-        service.requestObject(model: PXInitDTO.self, .getInit(preferenceId, privateKey, body, headers)) { payment, error in
-            if let _ = error {
-                completion(nil, PXError(domain: ApiDomain.GET_REMEDY,
-                                        code: ErrorTypes.NO_INTERNET_ERROR,
-                                        userInfo: [
-                                            NSLocalizedDescriptionKey: "Hubo un error",
-                                            NSLocalizedFailureReasonErrorKey: "Verifique su conexión a internet e intente nuevamente"
-                                        ]))
-            } else {
-                completion(payment, nil)
+        service.requestObject(model: PXInitDTO.self, .getInit(preferenceId, privateKey, body, headers)) { apiResponse in
+            switch apiResponse {
+            case .success(let payment): completion(payment, nil)
+            case .failure: completion(nil, PXError(domain: ApiDomain.GET_REMEDY,
+                                                   code: ErrorTypes.NO_INTERNET_ERROR,
+                                                   userInfo: [
+                                                       NSLocalizedDescriptionKey: "Hubo un error",
+                                                       NSLocalizedFailureReasonErrorKey: "Verifique su conexión a internet e intente nuevamente"
+                                                   ]))
             }
         }
     }
