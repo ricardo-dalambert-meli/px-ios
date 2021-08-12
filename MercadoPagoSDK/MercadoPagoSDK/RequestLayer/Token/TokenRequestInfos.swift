@@ -40,7 +40,7 @@ extension TokenRequestInfos: RequestInfos {
         case .getToken(let accessToken, let publicKey, _):
             if let token = accessToken {
                 return [
-                    "access_token" : token,
+//                    "access_token" : token,
                     "public_key" : publicKey
                 ]
             } else {

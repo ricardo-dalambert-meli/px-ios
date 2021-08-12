@@ -14,9 +14,26 @@ protocol RequestProtocol {
     func requestData(target: Target, completionHandler: @escaping (Swift.Result<Data, Error>) -> Void)
 }
 
+enum HeaderFields: String {
+    case productId = "X-Product-Id"
+    case userAgent = "User-Agent"
+    case contentType = "Content-Type"
+    case sessionId = "X-Session-Id"
+    case requestId = "X-Request-Id"
+    case idempotencyKey = "X-Idempotency-Key"
+    case density = "x-density"
+    case language = "Accept-Language"
+    case platform = "x-platform"
+    case flowId = "x-flow-id"
+    case security = "X-Security"
+    case locationEnabled = "X-Location-Enabled"
+    case accessToken = "access_token"
+    case isPublic = "x-public"
+}
+
 final class Requesting<Target: RequestInfos> : RequestProtocol {
     // MARK: - Perivate properties
-    let defaultProductId = "BJEO9TFBF6RG01IIIOU0"
+    private let defaultProductId = "BJEO9TFBF6RG01IIIOU0"
     //MARK: - Public methods
     func requestObject<Model>(model: Model.Type, _ target: Target, completionHandler: @escaping (Swift.Result<Model, Error>) -> Void) where Model : Codable {
         guard let url = URL(string: "\(target.baseURL)\(target.shouldSetEnvironment ?  target.environment.rawValue : "")\(target.endpoint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")") else {
@@ -46,8 +63,8 @@ final class Requesting<Target: RequestInfos> : RequestProtocol {
         request = setupStandardHeaders(baseRequest: request, accessToken: target.accessToken)
         
         //Product ID Header
-        if target.headers?[MercadoPagoService.HeaderField.productId.rawValue] == nil {
-            request.setValue(defaultProductId, forHTTPHeaderField: MercadoPagoService.HeaderField.productId.rawValue)
+        if target.headers?[HeaderFields.productId.rawValue] == nil {
+            request.setValue(defaultProductId, forHTTPHeaderField: HeaderFields.productId.rawValue)
         }
         
         if let headers = target.headers {
@@ -105,8 +122,8 @@ final class Requesting<Target: RequestInfos> : RequestProtocol {
         request = setupStandardHeaders(baseRequest: request, accessToken: target.accessToken)
         
         //Product ID Header
-        if target.headers?[MercadoPagoService.HeaderField.productId.rawValue] == nil {
-            request.setValue(defaultProductId, forHTTPHeaderField: MercadoPagoService.HeaderField.productId.rawValue)
+        if target.headers?[HeaderFields.productId.rawValue] == nil {
+            request.setValue(defaultProductId, forHTTPHeaderField: HeaderFields.productId.rawValue)
         }
         
         if let headers = target.headers {
@@ -137,30 +154,30 @@ final class Requesting<Target: RequestInfos> : RequestProtocol {
         var request = baseRequest
         
         if let accessToken = accessToken {
-            request.setValue(accessToken, forHTTPHeaderField: "access_token")
+            request.setValue(accessToken, forHTTPHeaderField: HeaderFields.accessToken.rawValue)
         }
         
-        request.setValue("application/json", forHTTPHeaderField: MercadoPagoService.HeaderField.contentType.rawValue)
+        request.setValue("application/json", forHTTPHeaderField: HeaderFields.contentType.rawValue)
         if let sdkVersion = MercadoPagoBundle.bundleShortVersionString() {
             let value = "PX/iOS/" + sdkVersion
-            request.setValue(value, forHTTPHeaderField: MercadoPagoService.HeaderField.userAgent.rawValue)
+            request.setValue(value, forHTTPHeaderField: HeaderFields.userAgent.rawValue)
         }
         
         // Add session id
-        request.setValue(MPXTracker.sharedInstance.getRequestId(), forHTTPHeaderField: MercadoPagoService.HeaderField.requestId.rawValue)
-        request.setValue(MPXTracker.sharedInstance.getSessionID(), forHTTPHeaderField: MercadoPagoService.HeaderField.sessionId.rawValue)
+        request.setValue(MPXTracker.sharedInstance.getRequestId(), forHTTPHeaderField: HeaderFields.requestId.rawValue)
+        request.setValue(MPXTracker.sharedInstance.getSessionID(), forHTTPHeaderField: HeaderFields.sessionId.rawValue)
         
         // Language
-        request.setValue(Localizator.sharedInstance.getLanguage(), forHTTPHeaderField: MercadoPagoService.HeaderField.language.rawValue)
+        request.setValue(Localizator.sharedInstance.getLanguage(), forHTTPHeaderField: HeaderFields.language.rawValue)
         
         //Density Header
-        request.setValue("xxxhdpi", forHTTPHeaderField: MercadoPagoService.HeaderField.density.rawValue)
+        request.setValue("xxxhdpi", forHTTPHeaderField: HeaderFields.density.rawValue)
         
         // Add platform
-        request.setValue(MLBusinessAppDataService().getAppIdentifier().rawValue, forHTTPHeaderField: MercadoPagoService.HeaderField.platform.rawValue)
+        request.setValue(MLBusinessAppDataService().getAppIdentifier().rawValue, forHTTPHeaderField: HeaderFields.platform.rawValue)
         
         // Add flow id
-        request.setValue(MPXTracker.sharedInstance.getFlowName() ?? "unknown", forHTTPHeaderField: MercadoPagoService.HeaderField.flowId.rawValue)
+        request.setValue(MPXTracker.sharedInstance.getFlowName() ?? "unknown", forHTTPHeaderField: HeaderFields.flowId.rawValue)
         
         return request
     }
