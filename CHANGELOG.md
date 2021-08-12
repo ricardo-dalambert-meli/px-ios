@@ -1,7 +1,7 @@
 # v4.42.0
 🚀Private Release - 4.42.0 🚀
 - IDC regulation improvements
-- Fix BCRA retries
+- Fix BCRA retries 
 
 # v4.41.1
 🚀Private Release - 4.41.1 🚀
