@@ -65,6 +65,39 @@ internal class PXPaymentConfigurationServices {
         }
         return nil
     }
+    
+    // Amount for Payment Method
+    func getAmount(paymentOptionId: String?, paymentMethodId: String?, paymentTypeId: String?) -> Double? {
+        guard let paymentOptionId = paymentOptionId else {
+            return nil
+        }
+        if let paymentOptionConfiguration = getPaymentOptionConfiguration(paymentOptionID: paymentOptionId, paymentMethodId: paymentMethodId, paymentTypeId: paymentTypeId) {
+            return paymentOptionConfiguration.amountConfiguration?.amount
+        }
+        return nil
+    }
+    
+    // Tax Free Amount for Payment Method
+    func getTaxFreeAmount(paymentOptionId: String?, paymentMethodId: String?, paymentTypeId: String?) -> Double? {
+        guard let paymentOptionId = paymentOptionId else {
+            return nil
+        }
+        if let paymentOptionConfiguration = getPaymentOptionConfiguration(paymentOptionID: paymentOptionId, paymentMethodId: paymentMethodId, paymentTypeId: paymentTypeId) {
+            return paymentOptionConfiguration.amountConfiguration?.taxFreeAmount
+        }
+        return nil
+    }
+    
+    // No Discount Amount for Payment Method
+    func getNoDiscountAmount(paymentOptionId: String?, paymentMethodId: String?, paymentTypeId: String?) -> Double? {
+        guard let paymentOptionId = paymentOptionId else {
+            return nil
+        }
+        if let paymentOptionConfiguration = getPaymentOptionConfiguration(paymentOptionID: paymentOptionId, paymentMethodId: paymentMethodId, paymentTypeId: paymentTypeId) {
+            return paymentOptionConfiguration.amountConfiguration?.noDiscountAmount
+        }
+        return nil
+    }
 
     // Discount Configuration for Payment Method
     func getDiscountConfigurationForPaymentMethod(paymentOptionID: String, paymentMethodId: String?, paymentTypeId: String?) -> PXDiscountConfiguration? {

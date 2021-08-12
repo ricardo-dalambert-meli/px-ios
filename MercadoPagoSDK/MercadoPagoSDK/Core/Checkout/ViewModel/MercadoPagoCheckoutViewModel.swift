@@ -354,7 +354,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
         if self.paymentOptionSelected!.isCustomerPaymentMethod() {
             self.findAndCompletePaymentMethodFor(paymentMethodId: newPaymentOptionSelected.getId())
         } else if !newPaymentOptionSelected.isCard() && !newPaymentOptionSelected.hasChildren() {
-            self.paymentData.updatePaymentDataWith(paymentMethod: Utils.findPaymentMethod(self.availablePaymentMethods!, paymentMethodId: newPaymentOptionSelected.getId()))
+            self.paymentData.updatePaymentDataWith(paymentMethod: Utils.findPaymentMethod(self.availablePaymentMethods!, paymentMethodId: newPaymentOptionSelected.getId()), paymentOptionId: newPaymentOptionSelected.getId())
         }
     }
 
@@ -537,7 +537,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
             fatalError("availablePaymentMethods cannot be nil")
         }
         if paymentMethodId == PXPaymentTypes.ACCOUNT_MONEY.rawValue {
-            paymentData.updatePaymentDataWith(paymentMethod: Utils.findPaymentMethod(availablePaymentMethods, paymentMethodId: paymentMethodId))
+            paymentData.updatePaymentDataWith(paymentMethod: Utils.findPaymentMethod(availablePaymentMethods, paymentMethodId: paymentMethodId), paymentOptionId: paymentOptionSelected?.getId())
         } else if let cardInformation = paymentOptionSelected as? PXCardInformation {
             if let paymentMethod = Utils.findPaymentMethod(availablePaymentMethods, paymentMethodId: cardInformation.getPaymentMethodId()) {
                 cardInformation.setupPaymentMethodSettings(paymentMethod.settings)
