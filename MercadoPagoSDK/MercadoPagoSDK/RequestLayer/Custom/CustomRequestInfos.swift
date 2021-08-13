@@ -39,19 +39,12 @@ extension CustomRequestInfos: RequestInfos {
         switch self {
         case .resetESCCap(_, _): return nil
         case .getCongrats(_, let parameters): return organizeParameters(parameters: parameters)
-        case .createPayment(let privateKey, let publicKey, _, _):
-            if let token = privateKey {
-                return [
-//                    "access_token" : token,
-                    "public_key" : publicKey,
-                    "api_version" : "2.0"
-                ]
-            } else {
-                return [
-//                    "public_key" : publicKey,
-                    "api_version" : "2.0"
-                ]
-            }
+        case .createPayment(_, let publicKey, _, _):
+            return [
+                "public_key" : publicKey,
+                "api_version" : "2.0"
+            ]
+            
         }
     }
     
@@ -93,10 +86,6 @@ extension CustomRequestInfos {
         
         if parameters.paymentId != "" {
             filteredParameters.updateValue(parameters.paymentId, forKey: "payment_ids")
-        }
-        
-        if let privateKey = parameters.privateKey {
-            filteredParameters.updateValue(privateKey, forKey: "access_token")
         }
         
         if let prefId = parameters.prefId {

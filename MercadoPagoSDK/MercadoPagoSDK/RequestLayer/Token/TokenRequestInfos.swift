@@ -37,15 +37,7 @@ extension TokenRequestInfos: RequestInfos {
 
     var parameters: [String : Any]? {
         switch self {
-        case .getToken(let accessToken, let publicKey, _):
-            if let token = accessToken {
-                return [
-//                    "access_token" : token,
-                    "public_key" : publicKey
-                ]
-            } else {
-                return [ "public_key" : publicKey ]
-            }
+        case .getToken(_, let publicKey, _): return [ "public_key" : publicKey ]
         case .cloneToken(_, let publicKey), .validateToken(_, let publicKey, _): return [ "public_key" : publicKey ]
         }
     }

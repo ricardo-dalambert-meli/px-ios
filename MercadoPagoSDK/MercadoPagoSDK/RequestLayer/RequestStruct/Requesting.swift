@@ -27,8 +27,8 @@ enum HeaderFields: String {
     case flowId = "x-flow-id"
     case security = "X-Security"
     case locationEnabled = "X-Location-Enabled"
-    case accessToken = "access_token"
-    case isPublic = "x-public"
+    case accessToken = "Authorization"
+    case isPublic = "X-public"
 }
 
 final class Requesting<Target: RequestInfos> : RequestProtocol {
@@ -154,7 +154,7 @@ final class Requesting<Target: RequestInfos> : RequestProtocol {
         var request = baseRequest
         
         if let accessToken = accessToken {
-            request.setValue(accessToken, forHTTPHeaderField: HeaderFields.accessToken.rawValue)
+            request.setValue("Bearer " + accessToken, forHTTPHeaderField: HeaderFields.accessToken.rawValue)
         }
         
         request.setValue("application/json", forHTTPHeaderField: HeaderFields.contentType.rawValue)

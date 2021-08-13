@@ -34,11 +34,10 @@ extension RemedyRequestInfos: RequestInfos {
 
     var parameters: [String : Any]? {
         switch self {
-        case .getRemedy(_, let privateKey, let oneTap, _):
+        case .getRemedy(_, _, let oneTap, _):
             return [
-//            "access_token" : privateKey,
             "one_tap" : oneTap ? "true" : "false"
-        ]
+            ]
         }
     }
     
