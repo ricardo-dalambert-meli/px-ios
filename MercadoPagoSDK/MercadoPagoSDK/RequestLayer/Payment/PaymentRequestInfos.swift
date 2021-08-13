@@ -48,8 +48,8 @@ extension PaymentRequestInfos: RequestInfos {
     
     var accessToken: String? {
         switch self {
-        case .getInit(let preferenceId, let accessToken, _, _):
-        if let token = accessToken, preferenceId != nil { return token } else { return nil }
+        case .getInit(_, let accessToken, _, _):
+        if let token = accessToken { return token } else { return nil }
         }
     }
 }

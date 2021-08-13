@@ -70,12 +70,11 @@ internal class MercadoPagoServices: NSObject {
 
     func getOpenPrefInitSearch(pref: PXCheckoutPreference, cardsWithEsc: [String], oneTapEnabled: Bool, splitEnabled: Bool, discountParamsConfiguration: PXDiscountParamsConfiguration?, flow: String?, charges: [PXPaymentTypeChargeRule], headers: [String: String]?,  newCardId: String?, callback : @escaping (PXInitDTO) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
         
-        
         let bodyFeatures = PXInitFeatures(oneTap: oneTapEnabled, split: splitEnabled)
         let body = PXInitBody(preference: pref, publicKey: publicKey, flow: flow, cardsWithESC: cardsWithEsc, charges: charges, discountConfiguration: discountParamsConfiguration, features: bodyFeatures, newCardId: newCardId)
-        
+
         let bodyJSON = try? body.toJSON()
-        
+
         paymentService.getInit(preferenceId: nil, privateKey: privateKey, body: bodyJSON, headers: headers) { apiResponse in
             switch apiResponse {
             case .success(let dto): callback(dto)
@@ -87,9 +86,9 @@ internal class MercadoPagoServices: NSObject {
     func getClosedPrefInitSearch(preferenceId: String, cardsWithEsc: [String], oneTapEnabled: Bool, splitEnabled: Bool, discountParamsConfiguration: PXDiscountParamsConfiguration?, flow: String?, charges: [PXPaymentTypeChargeRule], headers: [String: String]?, newCardId: String?, callback : @escaping (PXInitDTO) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
         let bodyFeatures = PXInitFeatures(oneTap: oneTapEnabled, split: splitEnabled)
         let body = PXInitBody(preference: nil, publicKey: publicKey, flow: flow, cardsWithESC: cardsWithEsc, charges: charges, discountConfiguration: discountParamsConfiguration, features: bodyFeatures, newCardId: newCardId)
-        
+
         let bodyJSON = try? body.toJSON()
-        
+
         paymentService.getInit(preferenceId: preferenceId, privateKey: privateKey, body: bodyJSON, headers: headers) { apiResponse in
             switch apiResponse {
             case .success(let dto): callback(dto)
