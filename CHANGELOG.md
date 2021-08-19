@@ -1,3 +1,8 @@
+# v4.43.0
+🚀Private Release - 4.43.0 🚀
+- Added ProfileID protocol, default and header key-value for payments call with default processor
+- Adds a parameter on congrats request
+
 # v4.42.0
 🚀Private Release - 4.42.0 🚀
 - IDC regulation improvements
