@@ -28,6 +28,9 @@ open class PXConfiguratorManager: NSObject {
     // 3DS
     internal static var threeDSProtocol: PXThreeDSProtocol = PXThreeDSDefault()
     internal static var threeDSConfig: PXThreeDSConfig = PXThreeDSConfig.createConfig()
+    
+    // ProfileID
+    internal static var profileIDProtocol: PXProfileIDProtocol = PXProfileIDDefault()
 
     // MARK: Public
     // Set external implementation of PXBiometricProtocol
@@ -48,5 +51,10 @@ open class PXConfiguratorManager: NSObject {
     // Set external implementation of PXThreeDSProtocol
     public static func with(threeDSProtocol: PXThreeDSProtocol) {
         self.threeDSProtocol = threeDSProtocol
+    }
+    
+    // Set external implementation of PXProfileIDProtocol
+    public static func with(profileIDProtocol: PXProfileIDProtocol) {
+        self.profileIDProtocol = profileIDProtocol
     }
 }
