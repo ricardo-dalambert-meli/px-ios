@@ -275,15 +275,6 @@ extension PXNewResultViewController {
         if let instruction = viewModel.getInstructions() {
             views.append(ResultViewData(view: InstructionView(instruction: instruction, delegate: self)))
         }
-        
-        //AndesMessage
-        if let message = viewModel.getAndesMessage() {
-            views.append(ResultViewData(view: AndesMessage(hierarchy: message.andesHierarchy,
-                                                           type: message.andesType,
-                                                           title: "",
-                                                           body: message.body)))
-            
-        }
 
         if let topTextBoxView = buildTopTextBoxView() {
             views.append(ResultViewData(view: topTextBoxView, verticalMargin: PXLayout.ZERO_MARGIN, horizontalMargin: PXLayout.ZERO_MARGIN))
@@ -301,6 +292,15 @@ extension PXNewResultViewController {
         /// Top Custom View
         if customOrder == true {
             views.append(contentsOf: addReceiptAndPaymentViews(customOrder))
+        }
+        
+        //AndesMessage
+        if let message = viewModel.getAndesMessage() {
+            views.append(ResultViewData(view: AndesMessage(hierarchy: message.andesHierarchy,
+                                                           type: message.andesType,
+                                                           title: "",
+                                                           body: message.body), verticalMargin: PXLayout.S_MARGIN, horizontalMargin: PXLayout.L_MARGIN))
+            
         }
 
         //Points and Discounts
