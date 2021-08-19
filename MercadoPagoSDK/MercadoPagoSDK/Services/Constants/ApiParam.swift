@@ -39,4 +39,5 @@ internal struct ApiParam {
     static let MERCHANT_ORDER_ID = "merchant_order_id"
     static let IFPE = "ifpe"
     static let PREF_ID = "pref_id"
+    static let PAYMENT_TYPE_ID = "payment_type_id"
 }
