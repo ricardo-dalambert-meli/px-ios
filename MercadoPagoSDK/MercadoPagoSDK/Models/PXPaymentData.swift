@@ -28,6 +28,10 @@ import UIKit
     internal private(set) var consumedDiscount: Bool?
     internal private(set) var discountDescription: PXDiscountDescription?
     private let paymentTypesWithoutInstallments = [PXPaymentTypes.PREPAID_CARD.rawValue]
+    internal var paymentOptionId: String?
+    internal var amount: Double?
+    internal var taxFreeAmount: Double?
+    internal var noDiscountAmount: Double?
 
     /// :nodoc:
     public func copy(with zone: NSZone? = nil) -> Any {
@@ -43,6 +47,10 @@ import UIKit
         copyObj.consumedDiscount = consumedDiscount
         copyObj.discountDescription = discountDescription
         copyObj.payer = payer
+        copyObj.paymentOptionId = paymentOptionId
+        copyObj.amount = amount
+        copyObj.taxFreeAmount = taxFreeAmount
+        copyObj.noDiscountAmount = noDiscountAmount
         return copyObj
     }
 
@@ -169,6 +177,30 @@ extension PXPaymentData {
     public func getRawAmount() -> NSDecimalNumber? {
         return transactionAmount
     }
+    
+    
+    /**
+     backend payment_option amount
+     */
+    public func getAmount() -> Double? {
+        return amount
+    }
+    
+    
+    /**
+     backend paymentt_option tax_free_amount
+     */
+    public func getTaxFreeAmount() -> Double? {
+        return taxFreeAmount
+    }
+    
+
+    /**
+     backend paymentt_option no_discount_amount
+     */
+    public func getNoDiscountAmount() -> Double? {
+        return noDiscountAmount
+    }
 
     internal func getTransactionAmountWithDiscount() -> Double? {
         if let transactionAmount = transactionAmount {
@@ -201,6 +233,17 @@ extension PXPaymentData {
         cleanToken()
         cleanPayerCost()
         self.paymentMethod = paymentMethod
+    }
+    
+    internal func updatePaymentDataWith(paymentMethod: PXPaymentMethod?, paymentOptionId: String?) {
+        guard let paymentMethod = paymentMethod else {
+            return
+        }
+        cleanIssuer()
+        cleanToken()
+        cleanPayerCost()
+        self.paymentMethod = paymentMethod
+        self.paymentOptionId = paymentOptionId
     }
 
     internal func updatePaymentDataWith(token: PXToken?) {

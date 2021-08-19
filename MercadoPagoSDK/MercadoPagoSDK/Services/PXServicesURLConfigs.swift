@@ -11,16 +11,19 @@ import Foundation
 enum PX_ENVIRONMENTS : CaseIterable {
     case alpha
     case beta
+    case gamma
     case prod
 }
 
 internal class PXServicesURLConfigs {
     static let MP_ALPHA_ENV = "/alpha"
     static let MP_BETA_ENV = "/beta"
+    static let MP_GAMMA_ENV = "/gamma"
     static let MP_PROD_ENV = "/v1"
 
     static let NEW_API_ALPHA_ENV = "/alpha"
     static let NEW_API_BETA_ENV = "/beta"
+    static let NEW_API_GAMMA_ENV = "/gamma"
     static let NEW_API_PROD_ENV = "/production"
     
     static let API_VERSION = "2.0"
@@ -57,6 +60,9 @@ internal class PXServicesURLConfigs {
                 case .beta:
                     MP_SELECTED_ENV = PXServicesURLConfigs.MP_BETA_ENV
                     NEW_API_SELECTED_ENV = PXServicesURLConfigs.NEW_API_BETA_ENV
+                case .gamma:
+                    MP_SELECTED_ENV = PXServicesURLConfigs.MP_GAMMA_ENV
+                    NEW_API_SELECTED_ENV = PXServicesURLConfigs.NEW_API_GAMMA_ENV
                 case .prod:
                     MP_SELECTED_ENV = PXServicesURLConfigs.MP_PROD_ENV
                     NEW_API_SELECTED_ENV = PXServicesURLConfigs.NEW_API_PROD_ENV
