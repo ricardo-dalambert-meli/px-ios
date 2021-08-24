@@ -92,7 +92,7 @@ class PXOneTapSummaryRowView: UIView {
             clearDiscountIcon()
             clearOverviewBrief()
             
-            titleLabel.text = "Se essa rua, se essa rua, fosse minha. Eu tentava, eu tentava, ladrilhar"//data.title
+            titleLabel.text = data.title
             titleLabel.textColor = data.highlightedColor
             titleLabel.font = data.isTotal ? UIFont.ml_regularSystemFont(ofSize: PXLayout.S_FONT) : UIFont.ml_regularSystemFont(ofSize: PXLayout.XXS_FONT)
             
@@ -169,7 +169,7 @@ class PXOneTapSummaryRowView: UIView {
         
         if data.discountOverview == nil {
             titleLabel.translatesAutoresizingMaskIntoConstraints = false
-            titleLabel.text = "Se essa rua, se essa rua, fosse minha. Eu tentava, eu tentava, ladrilhar"//data.title
+            titleLabel.text = data.title
             titleLabel.font = titleFont
             addSubview(titleLabel)
             PXLayout.pinLeft(view: titleLabel, withMargin: PXLayout.L_MARGIN).isActive = true
