@@ -136,12 +136,12 @@ internal struct PXAmountHelper {
                let amount = paymentConfigurationService.getAmount(paymentOptionId: paymentOptionId, paymentMethodId: paymentMethod.id, paymentTypeId: paymentMethod.paymentTypeId),
                let taxFreeAmount = paymentConfigurationService.getTaxFreeAmount(paymentOptionId: paymentOptionId, paymentMethodId: paymentMethod.id, paymentTypeId: paymentMethod.paymentTypeId),
                let noDiscountAmount = paymentConfigurationService.getNoDiscountAmount(paymentOptionId: paymentOptionId, paymentMethodId: paymentMethod.id, paymentTypeId: paymentMethod.paymentTypeId) {
-                self.paymentData.transactionAmount = NSDecimalNumber(floatLiteral: taxFreeAmount)
+                self.paymentData.transactionAmount = NSDecimalNumber(string: String(taxFreeAmount))
                 self.paymentData.amount = amount
                 self.paymentData.taxFreeAmount = taxFreeAmount
                 self.paymentData.noDiscountAmount = noDiscountAmount
             } else {
-                self.paymentData.transactionAmount = NSDecimalNumber(floatLiteral: preferenceAmountWithCharges)
+                self.paymentData.transactionAmount = NSDecimalNumber(string: String(preferenceAmountWithCharges))
             }
         }
         return paymentData
