@@ -27,17 +27,10 @@ open class MercadoPagoCheckout: NSObject {
     // until the init flow is refreshed with this new payment method
     internal struct InitFlowRefresh {
         static var cardId: String?
-        static var countRetries: Int = 0
-        static let maxRetries: Int = 3
         static let retryDelay: Double = 0.5
-
-        static var hasReachedMaxRetries: Bool {
-            return countRetries >= maxRetries
-        }
 
         static func resetValues() {
             cardId = nil
-            countRetries = 0
         }
     }
 

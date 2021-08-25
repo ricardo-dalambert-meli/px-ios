@@ -1,3 +1,13 @@
+# v4.43.2
+🚀Private Release - 4.43.2 🚀
+- Added ProfileID protocol, default and header key-value for payments call with default processor
+- Adds a parameter on congrats request
+
+# v4.42.0
+🚀Private Release - 4.42.0 🚀
+- IDC regulation improvements
+- Fix BCRA retries
+
 # v4.41.1
 🚀Private Release - 4.41.1 🚀
 - IDC regulation 
