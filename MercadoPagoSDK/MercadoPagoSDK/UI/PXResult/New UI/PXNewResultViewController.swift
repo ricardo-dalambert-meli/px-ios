@@ -293,6 +293,15 @@ extension PXNewResultViewController {
         if customOrder == true {
             views.append(contentsOf: addReceiptAndPaymentViews(customOrder))
         }
+        
+        //AndesMessage
+        if let message = viewModel.getAndesMessage() {
+            views.append(ResultViewData(view: AndesMessage(hierarchy: message.andesHierarchy,
+                                                           type: message.andesType,
+                                                           title: "",
+                                                           body: message.body), verticalMargin: PXLayout.S_MARGIN, horizontalMargin: PXLayout.L_MARGIN))
+            
+        }
 
         //Points and Discounts
         let pointsView = buildPointsView()

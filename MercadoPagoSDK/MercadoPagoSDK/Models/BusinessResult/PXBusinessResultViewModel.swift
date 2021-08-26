@@ -259,6 +259,11 @@ extension PXBusinessResultViewModel {
         // URL Managment
         paymentCongratsData.withRedirectURLs(getRedirectUrl())
             .shouldAutoReturn(shouldAutoReturn())
+        
+        if let infoOperation = pointsAndDiscounts?.infoOperation {
+            paymentCongratsData.withInfoOperation(infoOperation)
+        }
+        
         return paymentCongratsData
     }
 
