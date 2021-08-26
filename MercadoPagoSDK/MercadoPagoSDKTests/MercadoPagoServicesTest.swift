@@ -29,7 +29,8 @@ class CustomServiceMock: CustomServices {
                                                                  redirectUrl: nil,
                                                                  backUrl: nil,
                                                                  autoReturn: nil,
-                                                                 instruction: nil))) : response(.failure(NSError()))
+                                                                 instruction: nil,
+                                                                 infoOperation: nil))) : response(.failure(NSError()))
     }
     
     func resetESCCap(cardId: String, privateKey: String?, response: @escaping (Swift.Result<Void, PXError>) -> Void) {
