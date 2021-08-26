@@ -41,7 +41,15 @@ internal struct PXAmountHelper {
     }
 
     var preferenceAmountWithCharges: Double {
-        return preferenceAmount + chargeRuleAmount
+        // preferenceAmount + chargeRuleAmount
+        let decimalPreferenceAmount = PXAmountHelper.getRoundedAmountAsNsDecimalNumber(amount: preferenceAmount)
+        let decimalChargeRuleAmount = PXAmountHelper.getRoundedAmountAsNsDecimalNumber(amount: chargeRuleAmount)
+        
+        let sum = decimalPreferenceAmount.adding(decimalChargeRuleAmount)
+        
+        guard let doubleSum = Double(sum.stringValue) else { return preferenceAmount + chargeRuleAmount }
+        
+        return doubleSum
     }
     
     var amount: Double? {
@@ -60,11 +68,7 @@ internal struct PXAmountHelper {
         if let payerCost = paymentData.payerCost {
             return payerCost.totalAmount
         }
-        if let couponAmount = paymentData.discount?.couponAmount {
-            return preferenceAmount - couponAmount + chargeRuleAmount
-        } else {
-            return preferenceAmount + chargeRuleAmount
-        }
+        return amountToPayWithoutPayerCost
     }
 
     var isSplitPayment: Bool {
@@ -81,9 +85,19 @@ internal struct PXAmountHelper {
 
     private var amountToPayWithoutPayerCost: Double {
         if let couponAmount = paymentData.discount?.couponAmount {
-            return preferenceAmount - couponAmount + chargeRuleAmount
+            // preferenceAmount - couponAmount + chargeRuleAmount
+            let decimalPreferenceAmount = PXAmountHelper.getRoundedAmountAsNsDecimalNumber(amount: preferenceAmount)
+            let decimalCouponAmount = PXAmountHelper.getRoundedAmountAsNsDecimalNumber(amount: couponAmount)
+            let decimalChargeRuleAmount = PXAmountHelper.getRoundedAmountAsNsDecimalNumber(amount: chargeRuleAmount)
+            
+            let sum = (decimalPreferenceAmount.subtracting(decimalCouponAmount)).adding(decimalChargeRuleAmount)
+            
+            guard let doubleSum = Double(sum.stringValue) else { return preferenceAmount + chargeRuleAmount }
+            
+            return doubleSum
         } else {
-            return preferenceAmount + chargeRuleAmount
+            // preferenceAmount + chargeRuleAmount
+            return preferenceAmountWithCharges
         }
     }
 
