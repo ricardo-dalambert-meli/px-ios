@@ -159,8 +159,12 @@ extension MercadoPagoCheckout {
         guard let search = viewModel.search else { return }
 
         let paymentFlow = viewModel.createPaymentFlow(paymentErrorHandler: self)
-
-        viewModel.onetapFlow = OneTapFlow(checkoutViewModel: viewModel, search: search, paymentOptionSelected: viewModel.paymentOptionSelected, oneTapResultHandler: self)
+        
+        if viewModel.onetapFlow == nil {
+            viewModel.onetapFlow = OneTapFlow(checkoutViewModel: viewModel, search: search, paymentOptionSelected: viewModel.paymentOptionSelected, oneTapResultHandler: self)
+        } else {
+            viewModel.onetapFlow?.update(checkoutViewModel: viewModel, search: search, paymentOptionSelected: viewModel.paymentOptionSelected)
+        }
 
         guard let onetapFlow = viewModel.onetapFlow else {
             // onetapFlow shouldn't be nil by this point
