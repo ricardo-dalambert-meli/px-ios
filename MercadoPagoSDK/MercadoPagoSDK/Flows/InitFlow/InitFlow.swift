@@ -43,14 +43,16 @@ extension InitFlow: PXFlow {
     }
 
     func executeNextStep() {
-        let nextStep = initFlowModel.nextStep()
-        switch nextStep {
-        case .SERVICE_GET_INIT:
-            getInitSearch()
-        case .FINISH:
-            finishFlow()
-        case .ERROR:
-            cancelFlow()
+        DispatchQueue.main.async {
+            let nextStep = self.initFlowModel.nextStep()
+            switch nextStep {
+            case .SERVICE_GET_INIT:
+                self.getInitSearch()
+            case .FINISH:
+                self.finishFlow()
+            case .ERROR:
+                self.cancelFlow()
+            }
         }
     }
 
