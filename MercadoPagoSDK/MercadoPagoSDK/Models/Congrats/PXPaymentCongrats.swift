@@ -84,9 +84,11 @@ public final class PXPaymentCongrats: NSObject {
 
     // Buttons
     private(set) var primaryButton: PXButton?
+    
+    // AndesMessage
+    private(set) var infoOperation: InfoOperation?
 
     // MARK: Initializer
-
     public override init() {
         super.init()
     }
@@ -136,6 +138,12 @@ extension PXPaymentCongrats {
     @discardableResult
     internal func withInstructions(_ instruction: PXInstruction?) -> PXPaymentCongrats {
         self.instructions = instruction
+        return self
+    }
+    
+    @discardableResult
+    internal func withInfoOperation(_ infoOperation: InfoOperation?) -> PXPaymentCongrats {
+        self.infoOperation = infoOperation
         return self
     }
 
