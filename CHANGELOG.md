@@ -1,3 +1,10 @@
+# v4.44.0
+🚀Private Release - 4.44.0 🚀
+- Added new network layer with access token in header instead query param
+- Added AndesMessage on congrats screen
+- Fix label on oneTap header to limit its characters and not invading value label
+- Fix on OneTapFlow where OneTapFlow instance was being killed intead of being updated
+
 # v4.43.2
 🚀Private Release - 4.43.2 🚀
 - Added ProfileID protocol, default and header key-value for payments call with default processor
