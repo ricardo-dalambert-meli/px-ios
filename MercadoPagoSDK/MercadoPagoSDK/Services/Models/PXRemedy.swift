@@ -7,6 +7,14 @@
 
 import Foundation
 
+enum CardSize: String, Codable {
+    case mini = "mini"
+    case xSmall = "xsmall"
+    case small = "small"
+    case medium = "medium"
+    case large = "large"
+}
+
 struct PXRemedy: Codable {
     let cvv: PXInvalidCVV?
     let highRisk: PXHighRisk?
@@ -93,6 +101,7 @@ struct PXRemedyPaymentMethod: Codable {
     let securityCodeLength: Int?
     let installmentsList: [PXPaymentMethodInstallment]?
     let installment: PXPaymentMethodInstallment?
+    let cardSize: CardSize
 }
 
 struct PXPaymentMethodInstallment: Codable {
