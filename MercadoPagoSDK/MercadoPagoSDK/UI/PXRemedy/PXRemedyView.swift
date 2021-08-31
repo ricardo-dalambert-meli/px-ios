@@ -6,11 +6,16 @@
 //
 
 import UIKit
+import AndesUI
 import MLCardDrawer
 import MLCardForm
+import MLUI
 
-protocol PXRemedyViewProtocol: class {
+protocol PXRemedyViewDelegate: AnyObject {
     func remedyViewButtonTouchUpInside(_ sender: PXAnimatedButton)
+    func showModal(modalInfos: PXOneTapDisabledViewController)
+    func selectAnotherPaymentMethod()
+    func dismissModal()
 }
 
 struct PXRemedyViewData {
@@ -20,7 +25,7 @@ struct PXRemedyViewData {
     let remedy: PXRemedy
 
     weak var animatedButtonDelegate: PXAnimatedButtonDelegate?
-    weak var remedyViewProtocol: PXRemedyViewProtocol?
+    weak var remedyViewProtocol: PXRemedyViewDelegate?
     let remedyButtonTapped: ((String?) -> Void)?
 }
 
@@ -385,17 +390,47 @@ class PXRemedyView: UIView {
         button.setTitle(normalText, for: .normal)
         button.layer.cornerRadius = 4
         button.add(for: .touchUpInside, { [weak self] in
-            if let remedyButtonTapped = self?.data.remedyButtonTapped {
-                remedyButtonTapped(self?.textField?.getValue())
-            }
-            if let button = self?.button {
-                self?.data.remedyViewProtocol?.remedyViewButtonTouchUpInside(button)
-            }
+            self?.data.remedy.suggestedPaymentMethod?.modal != nil ? self?.showModal() : self?.handlePayment()
         })
         if shouldShowTextField() {
             button.setDisabled()
         }
         return button
+    }
+    
+    private func handlePayment() {
+        if let remedyButtonTapped = data.remedyButtonTapped {
+            remedyButtonTapped(textField?.getValue())
+        }
+        
+        if let button = button {
+            data.remedyViewProtocol?.remedyViewButtonTouchUpInside(button)
+        }
+    }
+    
+    private func showModal() {
+        guard let modalInfos = data.remedy.suggestedPaymentMethod?.modal else {
+            handlePayment()
+            return
+        }
+        
+        let primaryButton = PXAction(label: modalInfos.mainButton.label) { [weak self] in
+            self?.data.remedyViewProtocol?.dismissModal()
+            self?.handlePayment()
+        }
+        
+        let secondaryButton = PXAction(label: modalInfos.secondaryButton.label) { [weak self] in
+            self?.data.remedyViewProtocol?.dismissModal()
+            self?.data.remedyViewProtocol?.selectAnotherPaymentMethod()
+        }
+        
+        let modalController = PXOneTapDisabledViewController(title: modalInfos.title,
+                                                             description: modalInfos.description,
+                                                             primaryButton: primaryButton,
+                                                             secondaryButton: secondaryButton,
+                                                             iconUrl: nil)
+        
+        data.remedyViewProtocol?.showModal(modalInfos: modalController)
     }
 }
 
