@@ -101,7 +101,7 @@ struct PXRemedyPaymentMethod: Codable {
     let securityCodeLength: Int?
     let installmentsList: [PXPaymentMethodInstallment]?
     let installment: PXPaymentMethodInstallment?
-    let cardSize: CardSize
+    let cardSize: CardSize?
 }
 
 struct PXPaymentMethodInstallment: Codable {

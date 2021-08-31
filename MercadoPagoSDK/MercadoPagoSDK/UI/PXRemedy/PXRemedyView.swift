@@ -213,10 +213,18 @@ class PXRemedyView: UIView {
         } else {
             return nil
         }
+        
+        var cardSize: MLCardDrawerTypeV3 = .large
+        
+        switch data.remedy.suggestedPaymentMethod?.alternativePaymentMethod?.cardSize {
+        case .mini: cardSize = .small
+        case .small, .xSmall: cardSize = .medium
+        case .large, .medium: cardSize = .large
+        case .none: cardSize = .medium
+        }
 
-        let controller = MLCardDrawerController(cardUI, cardData, false, .medium)
-        let screenWidth = PXLayout.getScreenWidth(applyingMarginFactor: CONTENT_WIDTH_PERCENT)
-        controller.view.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth, height: CARD_VIEW_HEIGHT))
+        let controller = MLCardDrawerController(cardUI: cardUI, cardSize, cardData, false)
+        controller.view.frame = CGRect(origin: CGPoint.zero, size: CardSizeManager.getSizeByGoldenAspectRatio(width: controller.view.frame.width, type: cardSize))
         controller.view.translatesAutoresizingMaskIntoConstraints = false
         controller.animated(false)
         controller.show()
