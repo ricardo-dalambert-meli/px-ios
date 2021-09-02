@@ -793,10 +793,4 @@ extension PXNewResultViewController: ActionViewDelegate {
 }
 
 // MARK: PXTermsAndConditionViewDelegate
-extension PXNewResultViewController: PXTermsAndConditionViewDelegate {
-    func shouldOpenTermsCondition(_ title: String, url: URL) {
-        let webVC = WebViewController(url: url, navigationBarTitle: title)
-        webVC.title = title
-        navigationController?.pushViewController(webVC, animated: true)
-    }
-}
+extension PXNewResultViewController: PXTermsAndConditionViewDelegate { }

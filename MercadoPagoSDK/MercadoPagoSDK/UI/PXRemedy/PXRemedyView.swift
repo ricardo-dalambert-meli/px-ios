@@ -40,13 +40,13 @@ class PXRemedyView: UIView {
     
     private lazy var termsAndConditionsTextView: UITextView = {
         let textView = UITextView()
-        textView.linkTextAttributes = [.foregroundColor: UIColor.white]
+        textView.linkTextAttributes = [.foregroundColor: UIColor.pxBlueMp]
         textView.delegate = self
         textView.isUserInteractionEnabled = true
         textView.isEditable = false
         textView.backgroundColor = .clear
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.textAlignment = .center
+        textView.font = UIFont.ml_systemFont(withWeight: 14, size: 12)
         return textView
     }()
 
@@ -282,27 +282,26 @@ class PXRemedyView: UIView {
     
     private func addCreditTermsIfNeeded(terms: PXTermsDto?) {
         guard !subviews.contains(termsAndConditionsTextView), let terms = terms else { return }
-        let attributedString = getTermsAndConditionsText(terms: terms)
-        
-        termsAndConditionsTextView.attributedText = attributedString
+        let termsAndConditionsTextHeight: CGFloat = 44
+        termsAndConditionsTextView.attributedText = getTermsAndConditionsMutableAttributedString(terms: terms)
+        termsAndConditionsTextView.textAlignment = .center
         addSubview(termsAndConditionsTextView)
         NSLayoutConstraint.activate([
+            termsAndConditionsTextView.heightAnchor.constraint(equalToConstant: termsAndConditionsTextHeight),
             termsAndConditionsTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: PXLayout.M_MARGIN),
             termsAndConditionsTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -PXLayout.M_MARGIN),
             termsAndConditionsTextView.bottomAnchor.constraint(equalTo: payButton.topAnchor, constant: -PXLayout.S_MARGIN)
         ])
     }
 
-    private func getTermsAndConditionsText(terms: PXTermsDto) -> NSMutableAttributedString {
-        let tycText = terms.text
-        let attributedString = NSMutableAttributedString(string: tycText)
+    private func getTermsAndConditionsMutableAttributedString(terms: PXTermsDto) -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString(string: terms.text)
 
-        var phrases: [PXLinkablePhraseDto] = [PXLinkablePhraseDto]()
-        if let remotePhrases = terms.linkablePhrases {
-            phrases = remotePhrases
-        }
-
-        for linkablePhrase in phrases {
+        for linkablePhrase in terms.linkablePhrases ?? [] {
+            let phraseRange = attributedString.mutableString.range(of: linkablePhrase.phrase)
+            
+            attributedString.addAttribute(.foregroundColor, value: UIColor.fromHex(linkablePhrase.textColor), range: phraseRange)
+            
             var customLink = linkablePhrase.link
             if customLink == nil, let customHtml = linkablePhrase.html {
                 customLink = HtmlStorage.shared.set(customHtml)
@@ -310,9 +309,8 @@ class PXRemedyView: UIView {
                 return attributedString
             }
             if let customLink = customLink {
-                let tycLinkRange = (tycText as NSString).range(of: linkablePhrase.phrase)
-                attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: tycLinkRange)
-                attributedString.addAttribute(NSAttributedString.Key.link, value: customLink, range: tycLinkRange)
+                attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: phraseRange)
+                attributedString.addAttribute(.link, value: customLink, range: phraseRange)
             }
         }
 

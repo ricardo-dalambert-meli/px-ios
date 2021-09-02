@@ -947,14 +947,9 @@ private extension PXOneTapViewController {
 }
 
 // MARK: Terms and Conditions
-extension PXOneTapViewController: PXTermsAndConditionViewDelegate {
-    func shouldOpenTermsCondition(_ title: String, url: URL) {
-        let webVC = WebViewController(url: url, navigationBarTitle: title)
-        webVC.title = title
-        navigationController?.pushViewController(webVC, animated: true)
-    }
-}
+extension PXOneTapViewController: PXTermsAndConditionViewDelegate { }
 
+// MARK: MLCardFormLifeCycleDelegate
 extension PXOneTapViewController: MLCardFormLifeCycleDelegate {
     func didAddCard(cardID: String) {
         callbackRefreshInit(cardID)
@@ -964,6 +959,7 @@ extension PXOneTapViewController: MLCardFormLifeCycleDelegate {
     }
 }
 
+// MARK: UINavigationControllerDelegate
 extension PXOneTapViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if [fromVC, toVC].filter({$0 is MLCardFormViewController || $0 is PXSecurityCodeViewController}).count > 0 {
