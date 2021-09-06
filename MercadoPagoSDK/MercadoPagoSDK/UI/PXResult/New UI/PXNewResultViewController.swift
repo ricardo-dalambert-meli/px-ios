@@ -735,6 +735,7 @@ extension PXNewResultViewController: PXAnimatedButtonDelegate {
     }
 }
 
+// MARK: PXRemedyViewDelegate
 extension PXNewResultViewController: PXRemedyViewDelegate {
     func selectAnotherPaymentMethod() {
         viewModel.getFooterSecondaryAction()?.action()

@@ -292,7 +292,7 @@ final class PXRemedyView: UIView {
     
     private func addCreditTermsIfNeeded(terms: PXTermsDto?) {
         guard !subviews.contains(termsAndConditionsTextView), let terms = terms else { return }
-        let termsAndConditionsTextHeight: CGFloat = 44
+        let termsAndConditionsTextHeight: CGFloat = 50
         termsAndConditionsTextView.attributedText = getTermsAndConditionsMutableAttributedString(terms: terms)
         termsAndConditionsTextView.textAlignment = .center
         addSubview(termsAndConditionsTextView)
@@ -453,7 +453,7 @@ final class PXRemedyView: UIView {
     }
     private func handlePayment() {
         if let remedyButtonTapped = data.remedyButtonTapped {
-            remedyButtonTapped(textField?.getValue())
+            remedyButtonTapped(textField.getValue())
         }
         
         data.remedyViewProtocol?.remedyViewButtonTouchUpInside(payButton)
