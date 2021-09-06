@@ -6,11 +6,16 @@
 //
 
 import UIKit
+import AndesUI
 import MLCardDrawer
 import MLCardForm
+import MLUI
 
-protocol PXRemedyViewProtocol: class {
+protocol PXRemedyViewDelegate: AnyObject {
     func remedyViewButtonTouchUpInside(_ sender: PXAnimatedButton)
+    func showModal(modalInfos: PXOneTapDisabledViewController)
+    func selectAnotherPaymentMethod()
+    func dismissModal()
 }
 
 struct PXRemedyViewData {
@@ -20,7 +25,7 @@ struct PXRemedyViewData {
     let remedy: PXRemedy
 
     weak var animatedButtonDelegate: PXAnimatedButtonDelegate?
-    weak var remedyViewProtocol: PXRemedyViewProtocol?
+    weak var remedyViewProtocol: PXRemedyViewDelegate?
     let remedyButtonTapped: ((String?) -> Void)?
 }
 
@@ -58,10 +63,7 @@ final class PXRemedyView: UIView {
         button.setTitle(normalText, for: .normal)
         button.layer.cornerRadius = 4
         button.add(for: .touchUpInside, { [weak self] in
-            if let remedyButtonTapped = self?.data.remedyButtonTapped {
-                remedyButtonTapped(self?.textField.getValue())
-            }
-            self?.data.remedyViewProtocol?.remedyViewButtonTouchUpInside(button)
+            self?.data.remedy.suggestedPaymentMethod?.modal != nil ? self?.showModal() : self?.handlePayment()
         })
         if shouldShowTextField() {
             button.setDisabled()
@@ -248,10 +250,18 @@ final class PXRemedyView: UIView {
         } else {
             return nil
         }
+        
+        var cardSize: MLCardDrawerTypeV3 = .medium
+        
+        switch data.remedy.suggestedPaymentMethod?.alternativePaymentMethod?.cardSize {
+        case .mini: cardSize = .small
+        case .small, .xSmall: cardSize = .medium
+        case .large, .medium: cardSize = .large
+        case .none: cardSize = .medium
+        }
 
-        let controller = MLCardDrawerController(cardUI, cardData, false, .medium)
-        let screenWidth = PXLayout.getScreenWidth(applyingMarginFactor: CONTENT_WIDTH_PERCENT)
-        controller.view.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth, height: CARD_VIEW_HEIGHT))
+        let controller = MLCardDrawerController(cardUI: cardUI, cardSize, cardData, false)
+        controller.view.frame = CGRect(origin: CGPoint.zero, size: CardSizeManager.getSizeByGoldenAspectRatio(width: PXLayout.getScreenWidth(applyingMarginFactor: CONTENT_WIDTH_PERCENT), type: cardSize))
         controller.view.translatesAutoresizingMaskIntoConstraints = false
         controller.animated(false)
         controller.show()
@@ -440,6 +450,38 @@ final class PXRemedyView: UIView {
         ])
 
         return totalView
+    }
+    private func handlePayment() {
+        if let remedyButtonTapped = data.remedyButtonTapped {
+            remedyButtonTapped(textField?.getValue())
+        }
+        
+        data.remedyViewProtocol?.remedyViewButtonTouchUpInside(payButton)
+    }
+    
+    private func showModal() {
+        guard let modalInfos = data.remedy.suggestedPaymentMethod?.modal else {
+            handlePayment()
+            return
+        }
+        
+        let primaryButton = PXAction(label: modalInfos.mainButton.label) { [weak self] in
+            self?.data.remedyViewProtocol?.dismissModal()
+            self?.handlePayment()
+        }
+        
+        let secondaryButton = PXAction(label: modalInfos.secondaryButton.label) { [weak self] in
+            self?.data.remedyViewProtocol?.dismissModal()
+            self?.data.remedyViewProtocol?.selectAnotherPaymentMethod()
+        }
+        
+        let modalController = PXOneTapDisabledViewController(title: modalInfos.title,
+                                                             description: modalInfos.description,
+                                                             primaryButton: primaryButton,
+                                                             secondaryButton: secondaryButton,
+                                                             iconUrl: nil)
+        
+        data.remedyViewProtocol?.showModal(modalInfos: modalController)
     }
 }
 
