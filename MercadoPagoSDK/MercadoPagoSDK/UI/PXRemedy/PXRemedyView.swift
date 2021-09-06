@@ -24,8 +24,7 @@ struct PXRemedyViewData {
     let remedyButtonTapped: ((String?) -> Void)?
 }
 
-class PXRemedyView: UIView {
-    private let data: PXRemedyViewData
+final class PXRemedyView: UIView {
     
     private lazy var hintLabel: UILabel = {
         let label = UILabel()
@@ -80,6 +79,7 @@ class PXRemedyView: UIView {
         return textField
     }()
     
+    private let data: PXRemedyViewData
     private weak var termsAndCondDelegate: PXTermsAndConditionViewDelegate?
 
     init(data: PXRemedyViewData, termsAndCondDelegate: PXTermsAndConditionViewDelegate?) {
@@ -113,7 +113,7 @@ class PXRemedyView: UIView {
         let height = UILabel.requiredHeight(forText: getRemedyMessage(), withFont: titleLabel.font, inWidth: screenWidth)
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: PXLayout.M_MARGIN),
-            titleLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: CONTENT_WIDTH_PERCENT  / 100),
+            titleLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: CONTENT_WIDTH_PERCENT / 100),
             titleLabel.heightAnchor.constraint(equalToConstant: height),
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
