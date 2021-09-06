@@ -175,6 +175,7 @@ final class PXRemedyView: UIView {
                 payButton.heightAnchor.constraint(equalToConstant: BUTTON_HEIGHT),
                 payButton.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
+            addCreditTermsIfNeeded(terms: data.oneTapDto?.oneTapCreditsInfo?.displayInfo.bottomText)
         }
 
         self.layoutIfNeeded()
@@ -274,7 +275,6 @@ final class PXRemedyView: UIView {
             let creditsViewModel = PXCreditsViewModel(customConsumerCredits)
             let view = controller.getCardView()
                 consumerCreditsCard.render(containerView: view, creditsViewModel: creditsViewModel, isDisabled: false, size: view.bounds.size, selectedInstallments: data.paymentData?.payerCost?.installments)
-            addCreditTermsIfNeeded(terms: creditsViewModel.displayInfo.bottomText)
         }
 
         return controller.view
