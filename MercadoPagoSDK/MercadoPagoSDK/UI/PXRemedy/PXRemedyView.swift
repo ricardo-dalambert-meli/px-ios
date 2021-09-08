@@ -168,7 +168,8 @@ final class PXRemedyView: UIView {
             }
         }
 
-        if shouldShowButton(), let lastView = subviews.last ?? textField {
+        if shouldShowButton() {
+            let lastView = subviews.last ?? textField
             addSubview(payButton)
             NSLayoutConstraint.activate([
                 payButton.topAnchor.constraint(greaterThanOrEqualTo: lastView.bottomAnchor, constant: PXLayout.M_MARGIN),
