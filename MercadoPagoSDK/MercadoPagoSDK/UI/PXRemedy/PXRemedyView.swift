@@ -41,18 +41,6 @@ final class PXRemedyView: UIView {
         label.lineBreakMode = .byWordWrapping
         return label
     }()
-    
-    private lazy var termsAndConditionsTextView: UITextView = {
-        let textView = UITextView()
-        textView.linkTextAttributes = [.foregroundColor: UIColor.pxBlueMp]
-        textView.delegate = self
-        textView.isUserInteractionEnabled = true
-        textView.isEditable = false
-        textView.backgroundColor = .clear
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.font = UIFont.ml_systemFont(withWeight: 14, size: 12)
-        return textView
-    }()
 
     lazy var payButton: PXAnimatedButton = {
         let normalText = "Pagar".localized
@@ -245,20 +233,21 @@ final class PXRemedyView: UIView {
             }
             cardUI = templateCard
         } else if let consumerCredits = oneTapDto.oneTapCreditsInfo {
-            let creditsViewModel = PXCreditsViewModel(consumerCredits)
+            let creditsViewModel = PXCreditsViewModel(consumerCredits, needsTermsAndConditions: false)
             cardData = PXCardDataFactory()
-            cardUI = ConsumerCreditsCard(creditsViewModel, isDisabled: oneTapDto.status.isDisabled(), needsTermsAndConditions: false)
+            cardUI = ConsumerCreditsCard(creditsViewModel, isDisabled: oneTapDto.status.isDisabled())
         } else {
             return nil
         }
         
-        var cardSize: MLCardDrawerTypeV3 = .medium
+        let cardSize: MLCardDrawerTypeV3
         
         switch data.remedy.suggestedPaymentMethod?.alternativePaymentMethod?.cardSize {
-        case .mini: cardSize = .small
-        case .small, .xSmall: cardSize = .medium
-        case .large, .medium: cardSize = .large
-        case .none: cardSize = .medium
+        case .mini: cardSize = .mini
+        case .small: cardSize = .small
+        case .xSmall: cardSize = .xSmall
+        case .medium, .none: cardSize = .medium
+        case .large: cardSize = .large
         }
 
         let controller = MLCardDrawerController(cardUI: cardUI, cardSize, cardData, false)
@@ -283,19 +272,21 @@ final class PXRemedyView: UIView {
                                                                                             linkablePhrases: nil,
                                                                                             links: nil),
                                                                                          bottomText: consumerCredits.displayInfo.bottomText))
-            let creditsViewModel = PXCreditsViewModel(customConsumerCredits)
+            let creditsViewModel = PXCreditsViewModel(customConsumerCredits, needsTermsAndConditions: false)
             let view = controller.getCardView()
-                consumerCreditsCard.render(containerView: view, creditsViewModel: creditsViewModel, isDisabled: false, size: view.bounds.size, selectedInstallments: data.paymentData?.payerCost?.installments)
+            consumerCreditsCard.render(containerView: view, creditsViewModel: creditsViewModel, isDisabled: false, size: view.bounds.size, selectedInstallments: data.paymentData?.payerCost?.installments, cardType: cardSize)
         }
 
         return controller.view
     }
     
     private func addCreditTermsIfNeeded(terms: PXTermsDto?) {
-        guard !subviews.contains(termsAndConditionsTextView), let terms = terms else { return }
-        let termsAndConditionsTextHeight: CGFloat = 50
-        termsAndConditionsTextView.attributedText = getTermsAndConditionsMutableAttributedString(terms: terms)
+        guard let terms = terms else { return }
+        let termsAndConditionsTextView = PXTermsAndConditionsTextView(terms: terms, selectedInstallments: nil, cardType: .mini, textColor: .black, linkColor: .pxBlueMp)
+        termsAndConditionsTextView.delegate = self
         termsAndConditionsTextView.textAlignment = .center
+        
+        let termsAndConditionsTextHeight: CGFloat = 50
         addSubview(termsAndConditionsTextView)
         NSLayoutConstraint.activate([
             termsAndConditionsTextView.heightAnchor.constraint(equalToConstant: termsAndConditionsTextHeight),
@@ -303,29 +294,6 @@ final class PXRemedyView: UIView {
             termsAndConditionsTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -PXLayout.M_MARGIN),
             termsAndConditionsTextView.bottomAnchor.constraint(equalTo: payButton.topAnchor, constant: -PXLayout.S_MARGIN)
         ])
-    }
-
-    private func getTermsAndConditionsMutableAttributedString(terms: PXTermsDto) -> NSMutableAttributedString {
-        let attributedString = NSMutableAttributedString(string: terms.text)
-
-        for linkablePhrase in terms.linkablePhrases ?? [] {
-            let phraseRange = attributedString.mutableString.range(of: linkablePhrase.phrase)
-            
-            attributedString.addAttribute(.foregroundColor, value: UIColor.fromHex(linkablePhrase.textColor), range: phraseRange)
-            
-            var customLink = linkablePhrase.link
-            if customLink == nil, let customHtml = linkablePhrase.html {
-                customLink = HtmlStorage.shared.set(customHtml)
-            } else if terms.links != nil {
-                return attributedString
-            }
-            if let customLink = customLink {
-                attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: phraseRange)
-                attributedString.addAttribute(.link, value: customLink, range: phraseRange)
-            }
-        }
-
-        return attributedString
     }
     
     private func buildTotalAmountView() -> UIView? {
