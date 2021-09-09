@@ -87,7 +87,6 @@ final class PXRemedyView: UIView {
     let CONTENT_WIDTH_PERCENT: CGFloat = 84.0
     let TITLE_FONT_SIZE: CGFloat = PXLayout.XS_FONT
     let CARD_VIEW_WIDTH: CGFloat = 335
-    let CARD_VIEW_HEIGHT: CGFloat = 109
     let TEXTFIELD_HEIGHT: CGFloat = 50.0
     let TEXTFIELD_FONT_SIZE: CGFloat = PXLayout.M_FONT
     let TOTAL_FONT_SIZE: CGFloat = PXLayout.XS_FONT
@@ -114,7 +113,6 @@ final class PXRemedyView: UIView {
             NSLayoutConstraint.activate([
                 cardDrawerView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: PXLayout.M_MARGIN),
                 cardDrawerView.widthAnchor.constraint(equalTo: titleLabel.widthAnchor),
-                cardDrawerView.heightAnchor.constraint(equalToConstant: CARD_VIEW_HEIGHT),
                 cardDrawerView.centerXAnchor.constraint(equalTo: centerXAnchor)
             ])
         }
@@ -282,7 +280,7 @@ final class PXRemedyView: UIView {
     
     private func addCreditTermsIfNeeded(terms: PXTermsDto?) {
         guard let terms = terms else { return }
-        let termsAndConditionsTextView = PXTermsAndConditionsTextView(terms: terms, selectedInstallments: nil, cardType: .mini, textColor: .black, linkColor: .pxBlueMp)
+        let termsAndConditionsTextView = PXTermsAndConditionsTextView(terms: terms, selectedInstallments: nil, textColor: .black, linkColor: .pxBlueMp)
         termsAndConditionsTextView.delegate = self
         termsAndConditionsTextView.textAlignment = .center
         

@@ -75,7 +75,7 @@ extension ConsumerCreditsCard {
                 consumerCreditsImage.image = isDisabled ? consumerCreditsImageRaw?.imageGreyScale() : consumerCreditsImageRaw
                 containerView.addSubview(consumerCreditsImage)
                 
-                let termsAndConditionsText = PXTermsAndConditionsTextView(terms: creditsViewModel.displayInfo.bottomText, selectedInstallments: selectedInstallments, cardType: cardType, textColor: .white, linkColor: .white)
+                let termsAndConditionsText = PXTermsAndConditionsTextView(terms: creditsViewModel.displayInfo.bottomText, selectedInstallments: selectedInstallments, textColor: .white, linkColor: .white)
                 termsAndConditionsText.delegate = self
                 containerView.addSubview(termsAndConditionsText)
                 
