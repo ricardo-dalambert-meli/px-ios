@@ -1,3 +1,7 @@
+# v4.45.0
+🚀Private Release - 4.45.0 🚀
+- Fixed decimal calculation for getRawAmount
+
 # v4.44.0
 🚀Private Release - 4.44.0 🚀
 - Added new network layer with access token in header instead query param

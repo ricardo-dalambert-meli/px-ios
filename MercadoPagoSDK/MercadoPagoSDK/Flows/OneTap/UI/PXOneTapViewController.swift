@@ -656,12 +656,26 @@ extension PXOneTapViewController: PXCardSliderProtocol {
             currentPaymentData.payerCost = newPayerCost
             currentPaymentData.paymentMethod = newPaymentMethod
             currentPaymentData.issuer = selectedApplication.payerPaymentMethod?.issuer ?? PXIssuer(id: targetModel.issuerId, name: nil)
+            
+            currentPaymentData.amount = selectedApplication.payerPaymentMethod?.selectedPaymentOption?.amount
+            currentPaymentData.taxFreeAmount = selectedApplication.payerPaymentMethod?.selectedPaymentOption?.taxFreeAmount
+            currentPaymentData.noDiscountAmount = selectedApplication.payerPaymentMethod?.selectedPaymentOption?.noDiscountAmount
+            
+            if let taxFreeAmount = selectedApplication.payerPaymentMethod?.selectedPaymentOption?.taxFreeAmount {
+                currentPaymentData.transactionAmount = NSDecimalNumber(string: String(taxFreeAmount))
+            } else {
+                currentPaymentData.transactionAmount = NSDecimalNumber(string: String(viewModel.amountHelper.preferenceAmountWithCharges))
+            }
+            
+            currentPaymentData.paymentOptionId = targetModel.cardId ?? targetModel.selectedApplication?.paymentMethodId
+            
             callbackUpdatePaymentOption(targetModel)
             loadingButtonComponent?.setEnabled()
         } else {
             currentPaymentData.payerCost = nil
             currentPaymentData.paymentMethod = nil
             currentPaymentData.issuer = nil
+            currentPaymentData.paymentOptionId = nil
             loadingButtonComponent?.setDisabled()
         }
         headerView?.updateModel(viewModel.getHeaderViewModel(selectedCard: selectedCard, pxOneTapContext: pxOneTapContext))
