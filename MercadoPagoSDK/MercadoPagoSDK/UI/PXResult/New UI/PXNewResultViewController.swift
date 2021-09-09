@@ -16,6 +16,7 @@ class PXNewResultViewController: MercadoPagoUIViewController {
     private lazy var elasticHeader = UIView()
     private let statusBarHeight = PXLayout.getStatusBarHeight()
     private var contentViewHeightConstraint: NSLayoutConstraint?
+    internal var modalTeste: MLModal?
     let scrollView = UIScrollView()
     let contentView = UIView()
     let viewModel: PXNewResultViewModelInterface
@@ -734,7 +735,19 @@ extension PXNewResultViewController: PXAnimatedButtonDelegate {
     }
 }
 
-extension PXNewResultViewController: PXRemedyViewProtocol {
+extension PXNewResultViewController: PXRemedyViewDelegate {
+    func selectAnotherPaymentMethod() {
+        viewModel.getFooterSecondaryAction()?.action()
+    }
+    
+    func dismissModal() {
+        modalTeste?.dismiss()
+    }
+    
+    func showModal(modalInfos: PXOneTapDisabledViewController) {
+        modalTeste = PXComponentFactory.Modal.show(viewController: modalInfos, title: nil)
+    }
+    
     func remedyViewButtonTouchUpInside(_ sender: PXAnimatedButton) {
         subscribeToAnimatedButtonNotifications(button: sender)
         sender.startLoading()
