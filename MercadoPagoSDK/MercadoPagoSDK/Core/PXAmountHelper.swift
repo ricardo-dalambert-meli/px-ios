@@ -142,6 +142,21 @@ internal struct PXAmountHelper {
     
     internal func getPaymentData() -> PXPaymentData {
         // Set total card amount with charges without discount
+        if paymentData.transactionAmount == nil || paymentData.transactionAmount == 0 {
+            
+            if let paymentMethod = paymentData.paymentMethod,
+               let paymentOptionId = paymentData.paymentOptionId,
+               let amount = paymentConfigurationService.getAmount(paymentOptionId: paymentOptionId, paymentMethodId: paymentMethod.id, paymentTypeId: paymentMethod.paymentTypeId),
+               let taxFreeAmount = paymentConfigurationService.getTaxFreeAmount(paymentOptionId: paymentOptionId, paymentMethodId: paymentMethod.id, paymentTypeId: paymentMethod.paymentTypeId),
+               let noDiscountAmount = paymentConfigurationService.getNoDiscountAmount(paymentOptionId: paymentOptionId, paymentMethodId: paymentMethod.id, paymentTypeId: paymentMethod.paymentTypeId) {
+                self.paymentData.transactionAmount = NSDecimalNumber(floatLiteral: taxFreeAmount)
+                self.paymentData.amount = amount
+                self.paymentData.taxFreeAmount = taxFreeAmount
+                self.paymentData.noDiscountAmount = noDiscountAmount
+            } else {
+                self.paymentData.transactionAmount = NSDecimalNumber(floatLiteral: preferenceAmountWithCharges)
+            }
+        }
         return paymentData
     }
 }
