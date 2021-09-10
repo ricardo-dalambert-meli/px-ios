@@ -31,6 +31,18 @@ struct PXRemedyViewData {
 
 final class PXRemedyView: UIView {
     
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        label.textColor = #colorLiteral(red: 0.1725280285, green: 0.1725597382, blue: 0.1725237072, alpha: 1)
+        label.numberOfLines = 0
+        label.font = .ml_semiboldSystemFont(ofSize: TITLE_FONT_SIZE) ?? Utils.getSemiBoldFont(size: TITLE_FONT_SIZE)
+        label.lineBreakMode = .byWordWrapping
+        label.lineBreakMode = .byTruncatingTail
+        return label
+    }()
+    
     private lazy var hintLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -95,8 +107,9 @@ final class PXRemedyView: UIView {
 
     private func render() {
         removeAllSubviews()
+        
         // Title Label
-        let titleLabel = buildTitleLabel(text: getRemedyMessage())
+        titleLabel.text = getRemedyMessage()
         addSubview(titleLabel)
         let screenWidth = PXLayout.getScreenWidth(applyingMarginFactor: CONTENT_WIDTH_PERCENT)
         let height = UILabel.requiredHeight(forText: getRemedyMessage(), withFont: titleLabel.font, inWidth: screenWidth)
@@ -113,6 +126,7 @@ final class PXRemedyView: UIView {
             NSLayoutConstraint.activate([
                 cardDrawerView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: PXLayout.M_MARGIN),
                 cardDrawerView.widthAnchor.constraint(equalTo: titleLabel.widthAnchor),
+                cardDrawerView.heightAnchor.constraint(equalToConstant: cardDrawerView.frame.height),
                 cardDrawerView.centerXAnchor.constraint(equalTo: centerXAnchor)
             ])
         }
@@ -170,19 +184,6 @@ final class PXRemedyView: UIView {
         self.layoutIfNeeded()
     }
 
-    private func buildTitleLabel(text: String) -> UILabel {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .left
-        label.textColor = #colorLiteral(red: 0.1725280285, green: 0.1725597382, blue: 0.1725237072, alpha: 1)
-        label.numberOfLines = 0
-        label.text = text
-        label.font = UIFont.ml_semiboldSystemFont(ofSize: TITLE_FONT_SIZE) ?? Utils.getSemiBoldFont(size: TITLE_FONT_SIZE)
-        label.lineBreakMode = .byWordWrapping
-        label.lineBreakMode = .byTruncatingTail
-        return label
-    }
-
     private func buildCardDrawerView() -> UIView? {
         guard data.remedy.cvv != nil || data.remedy.suggestedPaymentMethod != nil,
             let oneTapDto = data.oneTapDto else {
@@ -237,9 +238,7 @@ final class PXRemedyView: UIView {
         } else {
             return nil
         }
-        
         let cardSize: MLCardDrawerTypeV3
-        
         switch data.remedy.suggestedPaymentMethod?.alternativePaymentMethod?.cardSize {
         case .mini: cardSize = .mini
         case .small: cardSize = .small
