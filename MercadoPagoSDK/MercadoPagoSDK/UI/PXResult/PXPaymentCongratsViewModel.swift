@@ -197,11 +197,11 @@ extension PXPaymentCongratsViewModel: PXNewResultViewModelInterface {
         return paymentCongrats.errorBodyView
     }
 
-    func getRemedyView(animatedButtonDelegate: PXAnimatedButtonDelegate?, remedyViewProtocol: PXRemedyViewDelegate?) -> UIView? {
+    func getRemedyView(animatedButtonDelegate: PXAnimatedButtonDelegate?, termsAndCondDelegate: PXTermsAndConditionViewDelegate?, remedyViewProtocol: PXRemedyViewDelegate?) -> UIView? {
         if isPaymentResultRejectedWithRemedy(), var remedyViewData = paymentCongrats.remedyViewData {
             remedyViewData.animatedButtonDelegate = animatedButtonDelegate
             remedyViewData.remedyViewProtocol = remedyViewProtocol
-            return PXRemedyView(data: remedyViewData)
+            return PXRemedyView(data: remedyViewData, termsAndCondDelegate: termsAndCondDelegate)
         }
         return nil
     }

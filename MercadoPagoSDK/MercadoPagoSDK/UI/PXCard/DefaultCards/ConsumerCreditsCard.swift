@@ -26,13 +26,17 @@ class ConsumerCreditsCard: NSObject, CustomCardDrawerUI {
     var fontType: String = "light"
     var ownOverlayImage: UIImage? = ResourceManager.shared.getImage("creditsOverlayMask")
     var ownGradient: CAGradientLayer = CAGradientLayer()
+    private let needsTermsAndConditions: Bool
 
-    init(_ creditsViewModel: PXCreditsViewModel, isDisabled: Bool) {
+    init(_ creditsViewModel: PXCreditsViewModel, isDisabled: Bool, needsTermsAndConditions: Bool = true) {
+        self.needsTermsAndConditions = needsTermsAndConditions
+        
         if isDisabled {
             ownOverlayImage = ResourceManager.shared.getImage("Overlay")
         }
         ownGradient = ConsumerCreditsCard.getCustomGradient(creditsViewModel)
     }
+    
     static func getCustomGradient(_ creditsViewModel: PXCreditsViewModel) -> CAGradientLayer {
         let gradient = CAGradientLayer()
         gradient.colors = creditsViewModel.getCardColors()
@@ -84,17 +88,19 @@ extension ConsumerCreditsCard {
             }
             
             //TERMS AND CONDITIONS LABEL
-            let termsAndConditionsText = getTermsAndConditionsTextView(terms: creditsViewModel.displayInfo.bottomText, selectedInstallments: selectedInstallments, cardType: cardType)
-            
-            containerView.addSubview(termsAndConditionsText)
-            
-            NSLayoutConstraint.activate([
-                PXLayout.pinBottom(view: termsAndConditionsText, to: containerView, withMargin: margins - PXLayout.XXXS_MARGIN),
-                PXLayout.pinLeft(view: termsAndConditionsText, to: containerView, withMargin: margins),
-                PXLayout.pinRight(view: termsAndConditionsText, to: containerView, withMargin: margins)
-                ])
+            if needsTermsAndConditions {
+                let termsAndConditionsText = getTermsAndConditionsTextView(terms: creditsViewModel.displayInfo.bottomText, selectedInstallments: selectedInstallments, cardType: cardType)
+                
+                containerView.addSubview(termsAndConditionsText)
+                
+                NSLayoutConstraint.activate([
+                    PXLayout.pinBottom(view: termsAndConditionsText, to: containerView, withMargin: margins - PXLayout.XXXS_MARGIN),
+                    PXLayout.pinLeft(view: termsAndConditionsText, to: containerView, withMargin: margins),
+                    PXLayout.pinRight(view: termsAndConditionsText, to: containerView, withMargin: margins)
+                    ])
 
-            PXLayout.setHeight(owner: termsAndConditionsText, height: termsAndConditionsTextHeight).isActive = true
+                PXLayout.setHeight(owner: termsAndConditionsText, height: termsAndConditionsTextHeight).isActive = true
+            }
         }
     }
 }

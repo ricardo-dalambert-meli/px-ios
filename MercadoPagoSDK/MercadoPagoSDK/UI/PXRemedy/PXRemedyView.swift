@@ -29,15 +29,69 @@ struct PXRemedyViewData {
     let remedyButtonTapped: ((String?) -> Void)?
 }
 
-class PXRemedyView: UIView {
-    private let data: PXRemedyViewData
+final class PXRemedyView: UIView {
+    
+    private lazy var hintLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        label.textColor = #colorLiteral(red: 0.3621281683, green: 0.3621373773, blue: 0.3621324301, alpha: 1)
+        label.numberOfLines = 0
+        label.font = UIFont.ml_semiboldSystemFont(ofSize: HINT_FONT_SIZE) ?? Utils.getSemiBoldFont(size: HINT_FONT_SIZE)
+        label.lineBreakMode = .byWordWrapping
+        return label
+    }()
+    
+    private lazy var termsAndConditionsTextView: UITextView = {
+        let textView = UITextView()
+        textView.linkTextAttributes = [.foregroundColor: UIColor.pxBlueMp]
+        textView.delegate = self
+        textView.isUserInteractionEnabled = true
+        textView.isEditable = false
+        textView.backgroundColor = .clear
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.font = UIFont.ml_systemFont(withWeight: 14, size: 12)
+        return textView
+    }()
 
-    init(data: PXRemedyViewData) {
+    lazy var payButton: PXAnimatedButton = {
+        let normalText = "Pagar".localized
+        let button = PXAnimatedButton(normalText: normalText, loadingText: "Procesando tu pago".localized, retryText: "Reintentar".localized)
+        button.animationDelegate = data.animatedButtonDelegate
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = ThemeManager.shared.getAccentColor()
+        button.setTitle(normalText, for: .normal)
+        button.layer.cornerRadius = 4
+        button.add(for: .touchUpInside, { [weak self] in
+            self?.data.remedy.suggestedPaymentMethod?.modal != nil ? self?.showModal() : self?.handlePayment()
+        })
+        if shouldShowTextField() {
+            button.setDisabled()
+        }
+        return button
+    }()
+    
+    private lazy var textField: MLCardFormField = {
+        let title = getRemedyHintMessage()
+        let lenght = getRemedyMaxLength()
+        let cardFormFieldSetting = PXCardFormFieldSetting(lenght: lenght, title: title)
+        let textField = MLCardFormField(fieldProperty: PXCardSecurityCodeFormFieldProperty(fieldSetting: cardFormFieldSetting))
+        textField.notifierProtocol = self
+        textField.render()
+        return textField
+    }()
+    
+    private let data: PXRemedyViewData
+    private weak var termsAndCondDelegate: PXTermsAndConditionViewDelegate?
+
+    init(data: PXRemedyViewData, termsAndCondDelegate: PXTermsAndConditionViewDelegate?) {
         self.data = data
+        self.termsAndCondDelegate = termsAndCondDelegate
         super.init(frame: .zero)
         render()
     }
 
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -52,9 +106,6 @@ class PXRemedyView: UIView {
     let HINT_FONT_SIZE: CGFloat = PXLayout.XXS_FONT
     let BUTTON_HEIGHT: CGFloat = 50.0
 
-    var textField: MLCardFormField?
-    public var button: PXAnimatedButton?
-
     private func render() {
         removeAllSubviews()
         // Title Label
@@ -64,7 +115,7 @@ class PXRemedyView: UIView {
         let height = UILabel.requiredHeight(forText: getRemedyMessage(), withFont: titleLabel.font, inWidth: screenWidth)
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: PXLayout.M_MARGIN),
-            titleLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: CONTENT_WIDTH_PERCENT  / 100),
+            titleLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: CONTENT_WIDTH_PERCENT / 100),
             titleLabel.heightAnchor.constraint(equalToConstant: height),
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
@@ -94,8 +145,6 @@ class PXRemedyView: UIView {
 
         if shouldShowTextField() {
             // TextField
-            let textField = buildTextField()
-            self.textField = textField
             let lastView = subviews.last ?? titleLabel
             addSubview(textField)
             NSLayoutConstraint.activate([
@@ -106,10 +155,10 @@ class PXRemedyView: UIView {
             ])
 
             //Hint Label
-            if let hint = getRemedyFieldTitle() {
-                let hintLabel = buildHintLabel(with: hint)
+            if let hintText = getRemedyFieldTitle() {
+                hintLabel.text = hintText
                 addSubview(hintLabel)
-                let height = UILabel.requiredHeight(forText: hint, withFont: hintLabel.font, inWidth: screenWidth)
+                let height = UILabel.requiredHeight(forText: hintText, withFont: hintLabel.font, inWidth: screenWidth)
                 NSLayoutConstraint.activate([
                     hintLabel.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: PXLayout.XS_MARGIN),
                     hintLabel.widthAnchor.constraint(equalTo: titleLabel.widthAnchor),
@@ -119,18 +168,17 @@ class PXRemedyView: UIView {
             }
         }
 
-        if shouldShowButton(), let lastView = subviews.last ?? textField {
-            //Button
-            let button = buildPayButton(normalText: "Pagar".localized, loadingText: "Procesando tu pago".localized, retryText: "Reintentar".localized)
-            self.button = button
-            addSubview(button)
+        if shouldShowButton() {
+            let lastView = subviews.last ?? textField
+            addSubview(payButton)
             NSLayoutConstraint.activate([
-                button.topAnchor.constraint(greaterThanOrEqualTo: lastView.bottomAnchor, constant: PXLayout.M_MARGIN),
-                button.leadingAnchor.constraint(equalTo: leadingAnchor, constant: PXLayout.S_MARGIN),
-                button.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -PXLayout.S_MARGIN),
-                button.heightAnchor.constraint(equalToConstant: BUTTON_HEIGHT),
-                button.bottomAnchor.constraint(equalTo: bottomAnchor)
+                payButton.topAnchor.constraint(greaterThanOrEqualTo: lastView.bottomAnchor, constant: PXLayout.M_MARGIN),
+                payButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: PXLayout.S_MARGIN),
+                payButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -PXLayout.S_MARGIN),
+                payButton.heightAnchor.constraint(equalToConstant: BUTTON_HEIGHT),
+                payButton.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
+            addCreditTermsIfNeeded(terms: data.oneTapDto?.oneTapCreditsInfo?.displayInfo.bottomText)
         }
 
         self.layoutIfNeeded()
@@ -147,16 +195,6 @@ class PXRemedyView: UIView {
         label.lineBreakMode = .byWordWrapping
         label.lineBreakMode = .byTruncatingTail
         return label
-    }
-
-    private func buildTextField() -> MLCardFormField {
-        let title = getRemedyHintMessage()
-        let lenght = getRemedyMaxLength()
-        let cardFormFieldSetting = PXCardFormFieldSetting(lenght: lenght, title: title)
-        let textField = MLCardFormField(fieldProperty: PXCardSecurityCodeFormFieldProperty(fieldSetting: cardFormFieldSetting))
-        textField.notifierProtocol = self
-        textField.render()
-        return textField
     }
 
     private func buildCardDrawerView() -> UIView? {
@@ -209,7 +247,7 @@ class PXRemedyView: UIView {
         } else if let consumerCredits = oneTapDto.oneTapCreditsInfo {
             let creditsViewModel = PXCreditsViewModel(consumerCredits)
             cardData = PXCardDataFactory()
-            cardUI = ConsumerCreditsCard(creditsViewModel, isDisabled: oneTapDto.status.isDisabled())
+            cardUI = ConsumerCreditsCard(creditsViewModel, isDisabled: oneTapDto.status.isDisabled(), needsTermsAndConditions: false)
         } else {
             return nil
         }
@@ -252,7 +290,44 @@ class PXRemedyView: UIView {
 
         return controller.view
     }
+    
+    private func addCreditTermsIfNeeded(terms: PXTermsDto?) {
+        guard !subviews.contains(termsAndConditionsTextView), let terms = terms else { return }
+        let termsAndConditionsTextHeight: CGFloat = 50
+        termsAndConditionsTextView.attributedText = getTermsAndConditionsMutableAttributedString(terms: terms)
+        termsAndConditionsTextView.textAlignment = .center
+        addSubview(termsAndConditionsTextView)
+        NSLayoutConstraint.activate([
+            termsAndConditionsTextView.heightAnchor.constraint(equalToConstant: termsAndConditionsTextHeight),
+            termsAndConditionsTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: PXLayout.M_MARGIN),
+            termsAndConditionsTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -PXLayout.M_MARGIN),
+            termsAndConditionsTextView.bottomAnchor.constraint(equalTo: payButton.topAnchor, constant: -PXLayout.S_MARGIN)
+        ])
+    }
 
+    private func getTermsAndConditionsMutableAttributedString(terms: PXTermsDto) -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString(string: terms.text)
+
+        for linkablePhrase in terms.linkablePhrases ?? [] {
+            let phraseRange = attributedString.mutableString.range(of: linkablePhrase.phrase)
+            
+            attributedString.addAttribute(.foregroundColor, value: UIColor.fromHex(linkablePhrase.textColor), range: phraseRange)
+            
+            var customLink = linkablePhrase.link
+            if customLink == nil, let customHtml = linkablePhrase.html {
+                customLink = HtmlStorage.shared.set(customHtml)
+            } else if terms.links != nil {
+                return attributedString
+            }
+            if let customLink = customLink {
+                attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: phraseRange)
+                attributedString.addAttribute(.link, value: customLink, range: phraseRange)
+            }
+        }
+
+        return attributedString
+    }
+    
     private func buildTotalAmountView() -> UIView? {
         guard data.remedy.cvv == nil && data.remedy.suggestedPaymentMethod != nil,
             let paymentData = data.paymentData,
@@ -377,43 +452,12 @@ class PXRemedyView: UIView {
 
         return totalView
     }
-
-    private func buildHintLabel(with text: String) -> UILabel {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .left
-        label.textColor = #colorLiteral(red: 0.3621281683, green: 0.3621373773, blue: 0.3621324301, alpha: 1)
-        label.numberOfLines = 0
-        label.text = text
-        label.font = UIFont.ml_semiboldSystemFont(ofSize: HINT_FONT_SIZE) ?? Utils.getSemiBoldFont(size: HINT_FONT_SIZE)
-        label.lineBreakMode = .byWordWrapping
-        return label
-    }
-
-    private func buildPayButton(normalText: String, loadingText: String, retryText: String) -> PXAnimatedButton {
-        let button = PXAnimatedButton(normalText: normalText, loadingText: loadingText, retryText: retryText)
-        button.animationDelegate = data.animatedButtonDelegate
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = ThemeManager.shared.getAccentColor()
-        button.setTitle(normalText, for: .normal)
-        button.layer.cornerRadius = 4
-        button.add(for: .touchUpInside, { [weak self] in
-            self?.data.remedy.suggestedPaymentMethod?.modal != nil ? self?.showModal() : self?.handlePayment()
-        })
-        if shouldShowTextField() {
-            button.setDisabled()
-        }
-        return button
-    }
-    
     private func handlePayment() {
         if let remedyButtonTapped = data.remedyButtonTapped {
-            remedyButtonTapped(textField?.getValue())
+            remedyButtonTapped(textField.getValue())
         }
         
-        if let button = button {
-            data.remedyViewProtocol?.remedyViewButtonTouchUpInside(button)
-        }
+        data.remedyViewProtocol?.remedyViewButtonTouchUpInside(payButton)
     }
     
     private func showModal() {
@@ -442,12 +486,13 @@ class PXRemedyView: UIView {
     }
 }
 
+// MARK: MLCardFormFieldNotifierProtocol
 extension PXRemedyView: MLCardFormFieldNotifierProtocol {
     func didChangeValue(newValue: String?, from: MLCardFormField) {
         if from.property.isValid(value: newValue) {
-            button?.setEnabled()
+            payButton.setEnabled()
         } else {
-            button?.setDisabled()
+            payButton.setDisabled()
         }
     }
 }
@@ -515,5 +560,17 @@ extension PXRemedyView {
             return cvv
         }
         return nil
+    }
+}
+
+// MARK: UITextViewDelegate
+extension PXRemedyView: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+            if let range = Range(characterRange, in: textView.text),
+                let text = textView.text?[range] {
+                let title = String(text).capitalized
+                termsAndCondDelegate?.shouldOpenTermsCondition(title, url: URL)
+            }
+        return false
     }
 }
