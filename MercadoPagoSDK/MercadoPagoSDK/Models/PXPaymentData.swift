@@ -232,6 +232,7 @@ extension PXPaymentData {
         cleanIssuer()
         cleanToken()
         cleanPayerCost()
+        cleanPaymentOptionId()
         self.paymentMethod = paymentMethod
     }
     
@@ -242,6 +243,7 @@ extension PXPaymentData {
         cleanIssuer()
         cleanToken()
         cleanPayerCost()
+        cleanPaymentOptionId()
         self.paymentMethod = paymentMethod
         self.paymentOptionId = paymentOptionId
     }
@@ -293,6 +295,10 @@ extension PXPaymentData {
     internal func cleanPaymentMethod() {
         self.paymentMethod = nil
     }
+    
+    internal func cleanPaymentOptionId() {
+        self.paymentOptionId = nil
+    }
 
     internal func clearCollectedData() {
         clearPaymentMethodData()
@@ -305,6 +311,7 @@ extension PXPaymentData {
         self.payerCost = nil
         self.token = nil
         self.transactionDetails = nil
+        self.paymentOptionId = nil
         // No borrar el descuento
     }
 
