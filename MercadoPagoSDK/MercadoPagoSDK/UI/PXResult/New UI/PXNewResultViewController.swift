@@ -753,6 +753,7 @@ extension PXNewResultViewController: PXRemedyViewDelegate {
         sender.startLoading()
         scrollView.isScrollEnabled = false
         view.isUserInteractionEnabled = false
+        MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didResultRemedyError(viewModel.getTrackingRemediesProperties()))
         hideBackButton()
         hideNavBar()
     }
