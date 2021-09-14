@@ -472,7 +472,7 @@ extension PXResultViewModel {
                 .withTrackingProperties(getTrackingProperties())
                 .withTrackingPath(getTrackingPath())
                 .withErrorBodyView(errorBodyView())
-                .withTrackingRemedies(getRemedyProperties())
+                .withTrackingRemedies(getTrackingRemediesProperties())
 
         return paymentcongrats
     }

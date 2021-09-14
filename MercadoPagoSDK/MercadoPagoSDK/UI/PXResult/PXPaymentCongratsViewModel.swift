@@ -341,13 +341,13 @@ extension PXPaymentCongratsViewModel {
                                                                 sessionId: extConf.sessionId)
             trackingConfiguration.updateTracker()
             var properties: [String: Any] = [:]
-            properties["style"] = "custom"
-            properties["payment_method_id"] = extConf.paymentMethodId
-            properties["payment_method_type"] = extConf.paymentMethodType
-            properties["payment_id"] = extConf.paymentId
+            properties["index"] = 0
             properties["payment_status"] = paymentCongrats.type.getRawValue()
-            properties["total_amount"] = extConf.totalAmount
             properties["payment_status_detail"] = extConf.paymentStatusDetail
+            properties["payment_status_detail"] = extConf.paymentStatusDetail
+            if let trackingData = paymentCongrats.remedyViewData?.remedy.trackingData {
+                properties["extra_info"] = trackingData
+            }
             return properties
         }
     }
