@@ -52,4 +52,8 @@ extension PaymentRequestInfos: RequestInfos {
         if let token = accessToken { return token } else { return nil }
         }
     }
+    
+    var mockURL: URL? {
+        return nil//URL(string: "https://run.mocky.io/v3/74e6faeb-d015-408a-8705-cd6416a44f20")! //nil
+    }
 }
