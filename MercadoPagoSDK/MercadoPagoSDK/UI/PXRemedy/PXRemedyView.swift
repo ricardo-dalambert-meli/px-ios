@@ -16,6 +16,7 @@ protocol PXRemedyViewDelegate: AnyObject {
     func showModal(modalInfos: PXOneTapDisabledViewController)
     func selectAnotherPaymentMethod()
     func dismissModal()
+    func trackingChangeMethod(isModal: Bool)
 }
 
 struct PXRemedyViewData {
@@ -28,6 +29,7 @@ struct PXRemedyViewData {
     weak var remedyViewProtocol: PXRemedyViewDelegate?
     let remedyButtonTapped: ((String?) -> Void)?
 }
+
 
 class PXRemedyView: UIView {
     private let data: PXRemedyViewData
@@ -425,12 +427,12 @@ class PXRemedyView: UIView {
         let primaryButton = PXAction(label: modalInfos.mainButton.label) { [weak self] in
             self?.data.remedyViewProtocol?.dismissModal()
             self?.handlePayment()
-            
         }
         
         let secondaryButton = PXAction(label: modalInfos.secondaryButton.label) { [weak self] in
             self?.data.remedyViewProtocol?.dismissModal()
             self?.data.remedyViewProtocol?.selectAnotherPaymentMethod()
+            self?.data.remedyViewProtocol?.trackingChangeMethod(isModal: true)
         }
         
         let modalController = PXOneTapDisabledViewController(title: modalInfos.title,

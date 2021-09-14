@@ -110,13 +110,7 @@ internal class PXResultViewModel: NSObject {
 
     private func getRemedyButtonAction() -> ((String?) -> Void)? {
         let action = { (text: String?) in
-                MPXTracker.sharedInstance.trackEvent(event: PXResultTrackingEvents.changePaymentMethod(self.getRemedyChangePaymentMethod())) // "from": "modal | view"
-                MPXTracker.sharedInstance.trackEvent(event: PXResultTrackingEvents.didResultRemedyError(self.getRemedyChangePaymentMethod())) // siempre "from": "modal
-                MPXTracker.sharedInstance.trackEvent(event: PXResultTrackingEvents.viewErrorPaymentResult(self.getRemedyPropertiesMethod())) //Nodo remedies -> extra_info
-                MPXTracker.sharedInstance.trackEvent(event: PXResultTrackingEvents.didShowRemedyErrorModal(self.getRemedyProperties()))
-                MPXTracker.sharedInstance.trackEvent(event: PXResultTrackingEvents.didCloseRemedyModalAbort(self.getRemedyProperties()))
-
-            //legado - primary_action"
+            
             MPXTracker.sharedInstance.trackEvent(event: PXResultTrackingEvents.didShowRemedyError(self.getRemedyProperties()))
 
             if let callback = self.callback {
@@ -201,40 +195,6 @@ extension PXResultViewModel {
             properties["extra_info"] = trackingData
         }
 
-        return properties
-    }
-    
-    func getRemedyPropertiesMethod() -> [String: Any] {
-        var properties: [String: Any] = [:]
-        guard let remedy = remedy else { return properties }
-
-        properties["index"] = 0
-        var type: String?
-        if remedy.suggestedPaymentMethod != nil {
-            type = "payment_method_suggestion"
-        } else if remedy.cvv != nil {
-            type = "cvv_request"
-        } else if remedy.highRisk != nil {
-            type = "kyc_request"
-        }
-        if let type = type {
-            properties["type"] = type
-        }
-        
-        if let trackingData = remedy.trackingData {
-            properties["extra_info"] = trackingData
-        }
-        return properties
-    }
-    
-    func getRemedyChangePaymentMethod() -> [String: Any] {
-        var properties: [String: Any] = [:]
-        var from: String?
-        let isModal = self.remedy?.suggestedPaymentMethod?.modal != nil ? "modal" : "view"
-        from = isModal
-        if let from = from {
-            properties["from"] = from
-        }
         return properties
     }
 

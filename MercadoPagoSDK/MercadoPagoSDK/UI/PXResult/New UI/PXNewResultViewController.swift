@@ -756,6 +756,14 @@ extension PXNewResultViewController: PXRemedyViewDelegate {
         hideBackButton()
         hideNavBar()
     }
+    
+    func trackingChangeMethod(isModal: Bool){
+        if isModal {
+            MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.changePaymentMethod(isFrom: "modal"))
+        } else {
+            MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.changePaymentMethod(isFrom: "view"))
+        }
+    }
 }
 
 // MARK: Notifications
