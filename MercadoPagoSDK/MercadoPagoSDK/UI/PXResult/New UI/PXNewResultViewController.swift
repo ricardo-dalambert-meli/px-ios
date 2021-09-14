@@ -265,7 +265,7 @@ extension PXNewResultViewController {
         views.append(ResultViewData(view: view))
 
         //Remedy body View
-        if let view = viewModel.getRemedyView(animatedButtonDelegate: self, remedyViewProtocol: self) {
+        if let view = viewModel.getRemedyView(animatedButtonDelegate: self, termsAndCondDelegate: self, remedyViewProtocol: self) {
             subscribeToKeyboardNotifications()
             views.append(ResultViewData(view: view))
             // If payment has remedy don't show anything else in congrats
@@ -431,7 +431,7 @@ extension PXNewResultViewController {
 
     private func getRemedyViewAnimatedButton() -> PXAnimatedButton? {
         if let remedyView = scrollView.subviews.first?.subviews.first(where: { $0 is PXRemedyView }) as? PXRemedyView? {
-            return remedyView?.button
+            return remedyView?.payButton
         }
         return nil
     }
@@ -735,6 +735,7 @@ extension PXNewResultViewController: PXAnimatedButtonDelegate {
     }
 }
 
+// MARK: PXRemedyViewDelegate
 extension PXNewResultViewController: PXRemedyViewDelegate {
     func selectAnotherPaymentMethod() {
         viewModel.getFooterSecondaryAction()?.action()
@@ -815,3 +816,6 @@ extension PXNewResultViewController: ActionViewDelegate {
 
     }
 }
+
+// MARK: PXTermsAndConditionViewDelegate
+extension PXNewResultViewController: PXTermsAndConditionViewDelegate { }
