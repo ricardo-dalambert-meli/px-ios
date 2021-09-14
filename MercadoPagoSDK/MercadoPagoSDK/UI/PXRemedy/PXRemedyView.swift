@@ -425,6 +425,7 @@ class PXRemedyView: UIView {
         let primaryButton = PXAction(label: modalInfos.mainButton.label) { [weak self] in
             self?.data.remedyViewProtocol?.dismissModal()
             self?.handlePayment()
+            
         }
         
         let secondaryButton = PXAction(label: modalInfos.secondaryButton.label) { [weak self] in
