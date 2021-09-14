@@ -194,7 +194,6 @@ extension PXResultViewModel {
         if let trackingData = remedy.trackingData {
             properties["extra_info"] = trackingData
         }
-
         return properties
     }
 
@@ -404,7 +403,25 @@ extension PXResultViewModel: PXViewModelTrackingDataProtocol {
 
         return properties
     }
+    
+    func getTrackingRemediesProperties() -> [String: Any] {
+        var properties: [String: Any] = amountHelper.getPaymentData().getPaymentDataForTracking()
+        properties["style"] = "custom"
+        if let paymentId = getPaymentId() {
+            properties["payment_id"] = Int64(paymentId)
+        }
+        properties["payment_status"] = paymentResult.status
+        properties["payment_status_detail"] = paymentResult.statusDetail
+        properties["has_split_payment"] = amountHelper.isSplitPayment
+        properties["currency_id"] = SiteManager.shared.getCurrency().id
+        properties["discount_coupon_amount"] = amountHelper.getDiscountCouponAmountForTracking()
+        properties = PXCongratsTracking.getProperties(dataProtocol: self, properties: properties)
 
+        if let rawAmount = amountHelper.getPaymentData().getRawAmount() {
+            properties["total_amount"] = rawAmount.decimalValue
+        }
+        return properties
+    }
 }
 
 extension PXResultViewModel {
@@ -455,6 +472,7 @@ extension PXResultViewModel {
                 .withTrackingProperties(getTrackingProperties())
                 .withTrackingPath(getTrackingPath())
                 .withErrorBodyView(errorBodyView())
+                .withTrackingRemedies(getRemedyProperties())
 
         return paymentcongrats
     }

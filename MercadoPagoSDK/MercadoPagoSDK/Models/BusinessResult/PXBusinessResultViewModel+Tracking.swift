@@ -93,6 +93,7 @@ extension PXBusinessResultViewModel: PXCongratsTrackingDataProtocol {
 }
 
 extension PXBusinessResultViewModel: PXViewModelTrackingDataProtocol {
+    
     func getTrackingPath() -> PXResultTrackingEvents? {
         let paymentStatus = businessResult.paymentStatus
         var screenPath: PXResultTrackingEvents?
@@ -137,5 +138,25 @@ extension PXBusinessResultViewModel: PXViewModelTrackingDataProtocol {
        }
 
        return properties
+    }
+    
+    func getTrackingRemediesProperties() -> [String : Any] {
+        var properties: [String: Any] = amountHelper.getPaymentData().getPaymentDataForTracking()
+        properties["style"] = "custom"
+        if let paymentId = getPaymentId() {
+            properties["payment_id"] = Int64(paymentId)
+        }
+        properties["payment_status"] = businessResult.paymentStatus
+        properties["payment_status_detail"] = businessResult.paymentStatusDetail
+        properties["has_split_payment"] = amountHelper.isSplitPayment
+        properties["currency_id"] = SiteManager.shared.getCurrency().id
+        properties["discount_coupon_amount"] = amountHelper.getDiscountCouponAmountForTracking()
+        properties = PXCongratsTracking.getProperties(dataProtocol: self, properties: properties)
+
+        if let rawAmount = amountHelper.getPaymentData().getRawAmount() {
+            properties["total_amount"] = rawAmount.decimalValue
+        }
+
+        return properties
     }
 }

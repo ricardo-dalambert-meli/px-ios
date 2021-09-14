@@ -330,17 +330,9 @@ extension PXPaymentCongratsViewModel: PXNewResultViewModelInterface {
 }
 
 extension PXPaymentCongratsViewModel {
-//    MPXTracker.sharedInstance.trackEvent(event: PXResultTrackingEvents.changePaymentMethod(self.getRemedyChangePaymentMethod())) // body
-//    MPXTracker.sharedInstance.trackEvent(event: PXResultTrackingEvents.didResultRemedyError(self.getRemedyChangePaymentMethod())) // siempre "from": "modal
-//    MPXTracker.sharedInstance.trackEvent(event: PXResultTrackingEvents.viewErrorPaymentResult(self.getRemedyPropertiesMethod())) //Nodo remedies -> extra_info
-//    MPXTracker.sharedInstance.trackEvent(event: PXResultTrackingEvents.didShowRemedyErrorModal(self.getRemedyProperties())) //mercado créditos - enviar remedies/:paymentId nodo modal
-//    MPXTracker.sharedInstance.trackEvent(event: PXResultTrackingEvents.didCloseRemedyModalAbort(self.getRemedyProperties()))//clicando no x do modal
-    
-    
-    
-    func getRemedyPropertiesMethod() -> [String: Any] {
-        if let internalTrackingValues = paymentCongrats.internalTrackingValues {
-            return internalTrackingValues
+    func getTrackingRemediesProperties() -> [String: Any] {
+        if let internalTrackingRemedyValues = paymentCongrats.internalTrackingRemedyValues {
+            return internalTrackingRemedyValues
         } else {
             guard let extConf = paymentCongrats.externalTrackingValues else { return [:] }
             let trackingConfiguration = PXTrackingConfiguration(trackListener: extConf.trackListener,
@@ -364,8 +356,46 @@ extension PXPaymentCongratsViewModel {
         var properties: PXRemediesTrackEvents?
         let paymentStatus = paymentCongrats.type.getRawValue()
         if paymentStatus == PXPaymentStatus.REJECTED.rawValue {
-            properties = .viewErrorPaymentResult(getRemedyPropertiesMethod())
+            properties = .viewErrorPaymentResult(getTrackingRemediesProperties())
+        }
+        return properties
+    }
+    
+    func getRemedydidResultRemedyError() -> PXRemediesTrackEvents? {
+        var properties: PXRemediesTrackEvents?
+        let paymentStatus = paymentCongrats.type.getRawValue()
+        if paymentStatus == PXPaymentStatus.REJECTED.rawValue {
+            properties = .didResultRemedyError(getTrackingRemediesProperties())
+        }
+        return properties
+    }
+    
+    func getRemedyviewErrorPaymentResult() -> PXRemediesTrackEvents? {
+        var properties: PXRemediesTrackEvents?
+        let paymentStatus = paymentCongrats.type.getRawValue()
+        if paymentStatus == PXPaymentStatus.REJECTED.rawValue {
+            properties = .viewErrorPaymentResult(getTrackingRemediesProperties())
+        }
+        return properties
+    }
+    
+    func getRemedydidShowRemedyErrorModal() -> PXRemediesTrackEvents? {
+        var properties: PXRemediesTrackEvents?
+        let paymentStatus = paymentCongrats.type.getRawValue()
+        if paymentStatus == PXPaymentStatus.REJECTED.rawValue {
+            properties = .didShowRemedyErrorModal(getTrackingRemediesProperties())
+        }
+        return properties
+    }
+    
+    func getRemedydidCloseRemedyModalAbort() -> PXRemediesTrackEvents? {
+        var properties: PXRemediesTrackEvents?
+        let paymentStatus = paymentCongrats.type.getRawValue()
+        if paymentStatus == PXPaymentStatus.REJECTED.rawValue {
+            properties = .didCloseRemedyModalAbort
         }
         return properties
     }
 }
+    
+    

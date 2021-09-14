@@ -73,6 +73,7 @@ public final class PXPaymentCongrats: NSObject {
     private(set) var externalTrackingValues: PXPaymentCongratsTracking?
     private(set) var internalTrackingPath: TrackingEvents?
     private(set) var internalFlowBehaviourResult: PXResultKey?
+    private(set) var internalTrackingRemedyValues: [String: Any]?
 
     // Error
     private(set) var errorBodyView: UIView?
@@ -185,6 +186,12 @@ extension PXPaymentCongrats {
     @discardableResult
     internal func withTrackingPath(_ event: TrackingEvents?) -> PXPaymentCongrats {
         self.internalTrackingPath = event
+        return self
+    }
+    
+    @discardableResult
+    internal func withTrackingRemedies(_ trackingRemedies: [String: Any]) -> PXPaymentCongrats {
+        self.internalTrackingRemedyValues = trackingRemedies
         return self
     }
 
