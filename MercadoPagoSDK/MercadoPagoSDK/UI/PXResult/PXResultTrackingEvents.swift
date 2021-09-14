@@ -29,7 +29,6 @@ enum PXResultTrackingEvents: TrackingEvents {
     case didCloseRemedyModalAbort([String:Any])
     case changePaymentMethod([String:Any])
     case viewErrorPaymentResult([String:Any])
-    case viewmodalPaymentMethod([String:Any])
     
     
     var name: String {
@@ -64,7 +63,7 @@ enum PXResultTrackingEvents: TrackingEvents {
              .checkoutPaymentInProcess(let properties), .checkoutPaymentRejected(let properties),
              .congratsPaymentApproved(let properties), .congratsPaymentInProcess(let properties),
              .congratsPaymentRejected(let properties): return properties
-        case .didResultRemedyError(let properties), .didShowRemedyErrorModal(let properties), .didCloseRemedyModalAbort(let properties), .changePaymentMethod(let properties), .viewErrorPaymentResult(let properties),.viewmodalPaymentMethod(let properties) : return properties
+        case .didResultRemedyError(let properties), .didShowRemedyErrorModal(let properties), .didCloseRemedyModalAbort(let properties), .changePaymentMethod(let properties), .viewErrorPaymentResult(let properties): return properties
         }
     }
 }
