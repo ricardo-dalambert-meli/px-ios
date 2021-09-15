@@ -23,6 +23,7 @@ protocol PXViewModelTrackingDataProtocol {
     func getFlowBehaviourResult() -> PXResultKey
     func getTrackingProperties() -> [String: Any]
     func getTrackingRemediesProperties() -> [String: Any]
+
 }
 
 final class PXCongratsTracking {

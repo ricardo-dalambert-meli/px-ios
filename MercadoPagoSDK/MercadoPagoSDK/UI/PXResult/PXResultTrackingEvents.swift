@@ -56,31 +56,3 @@ enum PXResultTrackingEvents: TrackingEvents {
         }
     }
 }
-
-
-enum PXRemediesTrackEvents: TrackingEvents {
-    case didResultRemedyError([String:Any])
-    case didShowRemedyErrorModal([String:Any])
-    case didCloseRemedyModalAbort
-    case changePaymentMethod(isFrom: String)
-    case viewErrorPaymentResult([String:Any])
-    
-    var name: String {
-        switch self {
- 
-        case .didResultRemedyError: return "px_checkout/result/error/remedy" // body
-        case .changePaymentMethod: return "/px_checkout/result/error/change_payment_method" // "from": "modal | view" - segundo botao
-        case .didShowRemedyErrorModal: return "/px_checkout/result/error/remedy/modal" //mercado créditos - enviar endpoint remedies/:paymentId viene el nodo modal
-        case .didCloseRemedyModalAbort: return "/px_checkout/result/error/remedy/modal/abort" //clicando no x do modal
-        case .viewErrorPaymentResult(_): return "/px_checkout/result/error" //Nodo remedies -> extra_info agregar info de card_size
-        }
-    }
-    
-    var properties: [String : Any] {
-        switch self {
-            case .didResultRemedyError(let properties), .didShowRemedyErrorModal(let properties),   .viewErrorPaymentResult(let properties): return properties
-            case .changePaymentMethod,.didCloseRemedyModalAbort: return [:]
-           
-        }
-    }
-}

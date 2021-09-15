@@ -330,7 +330,28 @@ extension PXPaymentCongratsViewModel: PXNewResultViewModelInterface {
 }
 
 extension PXPaymentCongratsViewModel {
-    func getTrackingRemediesProperties() -> [String: Any] {
+    
+    func getTrackingRemediesProperties() -> [String : Any] {
+        if let internalTrackingRemedyValues = paymentCongrats.internalTrackingRemedyValues {
+            return internalTrackingRemedyValues
+        } else {
+            guard let extConf = paymentCongrats.externalTrackingValues else { return [:] }
+            let trackingConfiguration = PXTrackingConfiguration(trackListener: extConf.trackListener,
+                                                                flowName: extConf.flowName,
+                                                                flowDetails: extConf.flowDetails,
+                                                                sessionId: extConf.sessionId)
+            trackingConfiguration.updateTracker()
+            var properties: [String: Any] = [:]
+            properties["index"] = 0
+            properties["type"] = paymentCongrats.type
+            if let trackingData = paymentCongrats.remedyViewData?.remedy.trackingData {
+                properties["extra_info"] = trackingData
+            }
+            return properties
+        }
+    }
+    
+    func getViewErrorPaymentResult() -> [String: Any] {
         if let internalTrackingRemedyValues = paymentCongrats.internalTrackingRemedyValues {
             return internalTrackingRemedyValues
         } else {
@@ -344,6 +365,26 @@ extension PXPaymentCongratsViewModel {
             properties["index"] = 0
             properties["payment_status"] = paymentCongrats.type.getRawValue()
             properties["payment_status_detail"] = extConf.paymentStatusDetail
+            if let trackingData = paymentCongrats.remedyViewData?.remedy.trackingData {
+                properties["extra_info"] = trackingData
+            }
+            return properties
+        }
+    }
+    
+    func getDidShowRemedyErrorModal() -> [String: Any] {
+        if let internalTrackingRemedyValues = paymentCongrats.internalTrackingRemedyValues {
+            return internalTrackingRemedyValues
+        } else {
+            guard let extConf = paymentCongrats.externalTrackingValues else { return [:] }
+            let trackingConfiguration = PXTrackingConfiguration(trackListener: extConf.trackListener,
+                                                                flowName: extConf.flowName,
+                                                                flowDetails: extConf.flowDetails,
+                                                                sessionId: extConf.sessionId)
+            trackingConfiguration.updateTracker()
+            var properties: [String: Any] = [:]
+            properties["index"] = 0
+            properties["payment_status"] = paymentCongrats.type.getRawValue()
             properties["payment_status_detail"] = extConf.paymentStatusDetail
             if let trackingData = paymentCongrats.remedyViewData?.remedy.trackingData {
                 properties["extra_info"] = trackingData
@@ -352,15 +393,7 @@ extension PXPaymentCongratsViewModel {
         }
     }
     
-    func getRemedyChangePaymentMethod() -> PXRemediesTrackEvents? {
-        var properties: PXRemediesTrackEvents?
-        let paymentStatus = paymentCongrats.type.getRawValue()
-        if paymentStatus == PXPaymentStatus.REJECTED.rawValue {
-            properties = .viewErrorPaymentResult(getTrackingRemediesProperties())
-        }
-        return properties
-    }
-    
+    //view /px_checkout/result/error
     func getRemedydidResultRemedyError() -> PXRemediesTrackEvents? {
         var properties: PXRemediesTrackEvents?
         let paymentStatus = paymentCongrats.type.getRawValue()
@@ -370,32 +403,26 @@ extension PXPaymentCongratsViewModel {
         return properties
     }
     
+    //event /px_checkout/result/error/remedy
+    //if mercado créditos - enviar o envíar a track de view /px_checkout/result/error/remedy/modal
+    // Quandno o usuario clicar no pagar boleto - modal deverá enviar o tracking /px_checkout/result/error/remedy
+    
     func getRemedyviewErrorPaymentResult() -> PXRemediesTrackEvents? {
         var properties: PXRemediesTrackEvents?
         let paymentStatus = paymentCongrats.type.getRawValue()
         if paymentStatus == PXPaymentStatus.REJECTED.rawValue {
-            properties = .viewErrorPaymentResult(getTrackingRemediesProperties())
+            properties = .viewErrorPaymentResult(getViewErrorPaymentResult())
         }
         return properties
     }
     
+    //view /px_checkout/result/error/remedy/modal
     func getRemedydidShowRemedyErrorModal() -> PXRemediesTrackEvents? {
         var properties: PXRemediesTrackEvents?
         let paymentStatus = paymentCongrats.type.getRawValue()
         if paymentStatus == PXPaymentStatus.REJECTED.rawValue {
-            properties = .didShowRemedyErrorModal(getTrackingRemediesProperties())
-        }
-        return properties
-    }
-    
-    func getRemedydidCloseRemedyModalAbort() -> PXRemediesTrackEvents? {
-        var properties: PXRemediesTrackEvents?
-        let paymentStatus = paymentCongrats.type.getRawValue()
-        if paymentStatus == PXPaymentStatus.REJECTED.rawValue {
-            properties = .didCloseRemedyModalAbort
+            properties = .didShowRemedyErrorModal(getDidShowRemedyErrorModal())
         }
         return properties
     }
 }
-    
-    
