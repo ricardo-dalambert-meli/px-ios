@@ -8,10 +8,9 @@
 enum PXCardSliderTrackingEvents: TrackingEvents {
     case comboSwitch(String)
     
-    
     var name: String {
         switch self {
-        case .comboSwitch(_): return "/px_checkout/combo_switch"
+        case .comboSwitch: return "/px_checkout/combo_switch"
         }
     }
     
@@ -19,5 +18,9 @@ enum PXCardSliderTrackingEvents: TrackingEvents {
         switch self {
         case .comboSwitch(let state): return ["option_selected": state]
         }
+    }
+    
+    var needsExternalData: Bool {
+        return true
     }
 }

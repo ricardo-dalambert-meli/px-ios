@@ -10,7 +10,7 @@ enum ThreeDSTrackingEvents: TrackingEvents {
     
     var name: String {
         switch self {
-        case .didGetProgramValidation(_): return "/px_checkout/program_validation"
+        case .didGetProgramValidation: return "/px_checkout/program_validation"
         }
     }
     
@@ -18,5 +18,9 @@ enum ThreeDSTrackingEvents: TrackingEvents {
         switch self {
         case .didGetProgramValidation(let properties): return properties
         }
+    }
+    
+    var needsExternalData: Bool {
+        return true
     }
 }

@@ -8,8 +8,8 @@
 
 import UIKit
 
-@objc internal class MPXTracker: NSObject {
-    @objc internal static let sharedInstance = MPXTracker()
+@objc class MPXTracker: NSObject {
+    @objc static let sharedInstance = MPXTracker()
     private var trackListener: PXTrackerListener?
     private var flowDetails: [String: Any]?
     private var flowName: String?
@@ -19,7 +19,7 @@ import UIKit
 }
 
 // MARK: Getters/setters.
-internal extension MPXTracker {
+extension MPXTracker {
 
     func setTrack(listener: PXTrackerListener) {
         if isPXAddonTrackListener() {
@@ -79,28 +79,47 @@ internal extension MPXTracker {
         }
         return false
     }
+    
+    private func appendExternalData(to metadata: [String: Any]) -> [String: Any] {
+        var metadata = metadata
+        if let flowName = flowName {
+            metadata["flow"] = flowName
+        }
+        
+        if let flowDetails = flowDetails {
+            metadata["flow_detail"] = flowDetails
+        }
+        
+//            metadata["collector_id"] =
+
+        metadata[SessionService.SESSION_ID_KEY] = getSessionID()
+        metadata["session_time"] = PXTrackingStore.sharedInstance.getSecondsAfterInit()
+        
+        if let checkoutType = PXTrackingStore.sharedInstance.getChoType() {
+            metadata["checkout_type"] = checkoutType
+        }
+        
+        metadata["security_enabled"] = PXConfiguratorManager.hasSecurityValidation()
+        
+//            externalData["device_secured"] =
+        
+        if let experiments = experiments {
+            metadata["experiments"] = PXExperiment.getExperimentsForTracking(experiments)
+        }
+        return metadata
+    }
 }
 
 // MARK: Public interfase.
-internal extension MPXTracker {
+extension MPXTracker {
     func trackScreen(event: TrackingEvents) {
         if let trackListenerInterfase = trackListener {
             var metadata = event.properties
-            if let flowDetails = flowDetails {
-                metadata["flow_detail"] = flowDetails
+            
+            if event.needsExternalData {
+                metadata = appendExternalData(to: metadata)
             }
-            if let flowName = flowName {
-                metadata["flow"] = flowName
-            }
-            if let experiments = experiments {
-                metadata["experiments"] = PXExperiment.getExperimentsForTracking(experiments)
-            }
-            metadata[SessionService.SESSION_ID_KEY] = getSessionID()
-            metadata["security_enabled"] = PXConfiguratorManager.hasSecurityValidation()
-            metadata["session_time"] = PXTrackingStore.sharedInstance.getSecondsAfterInit()
-            if let checkoutType = PXTrackingStore.sharedInstance.getChoType() {
-                metadata["checkout_type"] = checkoutType
-            }
+            
             trackListenerInterfase.trackScreen(screenName: event.name, extraParams: metadata)
             #if DEBUG
             print("\nview - \(event.name)\n\(metadata as AnyObject)\n")

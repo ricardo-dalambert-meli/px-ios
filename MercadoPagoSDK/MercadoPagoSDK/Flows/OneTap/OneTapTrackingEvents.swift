@@ -16,11 +16,11 @@ enum OneTapTrackingEvents: TrackingEvents {
     var name: String {
         switch self {
         case .didTapOnOfflineMethods: return "/px_checkout/review/one_tap/offline_methods/start_kyc_flow"
-        case .didGetTargetBehaviour(_): return "/px_checkout/review/one_tap/target_behaviour"
-        case .didOpenDialog(_): return "/px_checkout/dialog/open"
-        case .didConfirmPayment(_): return "/px_checkout/review/confirm"
+        case .didGetTargetBehaviour: return "/px_checkout/review/one_tap/target_behaviour"
+        case .didOpenDialog: return "/px_checkout/dialog/open"
+        case .didConfirmPayment: return "/px_checkout/review/confirm"
         case .didSwipe: return "/px_checkout/review/one_tap/swipe"
-        case .didDismissDialog(_): return "/px_checkout/dialog/dismiss"
+        case .didDismissDialog: return "/px_checkout/dialog/dismiss"
         }
     }
     
@@ -29,5 +29,9 @@ enum OneTapTrackingEvents: TrackingEvents {
         case .didGetTargetBehaviour(let properties), .didOpenDialog(let properties), .didConfirmPayment(let properties), .didDismissDialog(let properties): return properties
         case .didTapOnOfflineMethods, .didSwipe: return [:]
         }
+    }
+    
+    var needsExternalData: Bool {
+        return true
     }
 }

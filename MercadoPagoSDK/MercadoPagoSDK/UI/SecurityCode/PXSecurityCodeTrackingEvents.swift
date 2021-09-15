@@ -10,7 +10,7 @@ enum PXSecurityCodeTrackingEvents: TrackingEvents {
     
     var name: String {
         switch self {
-        case .didConfirmCode(_): return "/px_checkout/review/confirm"
+        case .didConfirmCode: return "/px_checkout/review/confirm"
         }
     }
     
@@ -18,5 +18,9 @@ enum PXSecurityCodeTrackingEvents: TrackingEvents {
         switch self {
         case .didConfirmCode(let properties): return properties
         }
+    }
+    
+    var needsExternalData: Bool {
+        return true
     }
 }
