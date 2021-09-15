@@ -42,6 +42,8 @@ internal protocol RequestInfos {
     var parameterEncoding: ParameterEncode { get }
     
     var accessToken: String? { get }
+    
+    var mockURL: URL? { get }
 
 }
 
@@ -60,5 +62,9 @@ extension RequestInfos {
 
     var shouldSetEnvironment: Bool {
         return true
+    }
+    
+    var mockURL: URL? {
+        return nil
     }
 }
