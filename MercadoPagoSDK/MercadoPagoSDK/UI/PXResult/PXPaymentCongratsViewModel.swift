@@ -330,68 +330,49 @@ extension PXPaymentCongratsViewModel: PXNewResultViewModelInterface {
 }
 
 extension PXPaymentCongratsViewModel {
-    
+
+    //"px_checkout/result/error/remedy"
     func getTrackingRemediesProperties() -> [String : Any] {
-        if let internalTrackingRemedyValues = paymentCongrats.internalTrackingRemedyValues {
-            return internalTrackingRemedyValues
-        } else {
             guard let extConf = paymentCongrats.externalTrackingValues else { return [:] }
-            let trackingConfiguration = PXTrackingConfiguration(trackListener: extConf.trackListener,
-                                                                flowName: extConf.flowName,
-                                                                flowDetails: extConf.flowDetails,
-                                                                sessionId: extConf.sessionId)
-            trackingConfiguration.updateTracker()
             var properties: [String: Any] = [:]
             properties["index"] = 0
-            properties["type"] = paymentCongrats.type
+            properties["type"] = paymentCongrats.type.getRawValue()
+            properties["payment_status"] = paymentCongrats.type.getRawValue()
+            properties["payment_status_detail"] = extConf.paymentStatusDetail
             if let trackingData = paymentCongrats.remedyViewData?.remedy.trackingData {
                 properties["extra_info"] = trackingData
             }
             return properties
         }
-    }
-    
+
+    //"/px_checkout/result/error"
     func getViewErrorPaymentResult() -> [String: Any] {
-        if let internalTrackingRemedyValues = paymentCongrats.internalTrackingRemedyValues {
-            return internalTrackingRemedyValues
-        } else {
-            guard let extConf = paymentCongrats.externalTrackingValues else { return [:] }
-            let trackingConfiguration = PXTrackingConfiguration(trackListener: extConf.trackListener,
-                                                                flowName: extConf.flowName,
-                                                                flowDetails: extConf.flowDetails,
-                                                                sessionId: extConf.sessionId)
-            trackingConfiguration.updateTracker()
-            var properties: [String: Any] = [:]
-            properties["index"] = 0
-            properties["payment_status"] = paymentCongrats.type.getRawValue()
-            properties["payment_status_detail"] = extConf.paymentStatusDetail
-            if let trackingData = paymentCongrats.remedyViewData?.remedy.trackingData {
-                properties["extra_info"] = trackingData
-            }
-            return properties
+        guard let extConf = paymentCongrats.externalTrackingValues else { return [:] }
+        var properties: [String: Any] = [:]
+        properties["index"] = 0
+        properties["type"] = paymentCongrats.type.getRawValue()
+        properties["payment_status"] = paymentCongrats.type.getRawValue()
+        properties["payment_status_detail"] = extConf.paymentStatusDetail
+        if let trackingData = paymentCongrats.remedyViewData?.remedy.trackingData {
+            properties["extra_info"] = trackingData
         }
+        return properties
+    }
+
+    //"/px_checkout/result/error/remedy/modal"
+    func getDidShowRemedyErrorModal() -> [String: Any] {
+        guard let extConf = paymentCongrats.externalTrackingValues else { return [:] }
+        var properties: [String: Any] = [:]
+        properties["index"] = 0
+        properties["type"] = paymentCongrats.type.getRawValue()
+        properties["payment_status"] = paymentCongrats.type.getRawValue()
+        properties["payment_status_detail"] = extConf.paymentStatusDetail
+        if let trackingData = paymentCongrats.remedyViewData?.remedy.trackingData {
+            properties["extra_info"] = trackingData
+        }
+        return properties
     }
     
-    func getDidShowRemedyErrorModal() -> [String: Any] {
-        if let internalTrackingRemedyValues = paymentCongrats.internalTrackingRemedyValues {
-            return internalTrackingRemedyValues
-        } else {
-            guard let extConf = paymentCongrats.externalTrackingValues else { return [:] }
-            let trackingConfiguration = PXTrackingConfiguration(trackListener: extConf.trackListener,
-                                                                flowName: extConf.flowName,
-                                                                flowDetails: extConf.flowDetails,
-                                                                sessionId: extConf.sessionId)
-            trackingConfiguration.updateTracker()
-            var properties: [String: Any] = [:]
-            properties["index"] = 0
-            properties["payment_status"] = paymentCongrats.type.getRawValue()
-            properties["payment_status_detail"] = extConf.paymentStatusDetail
-            if let trackingData = paymentCongrats.remedyViewData?.remedy.trackingData {
-                properties["extra_info"] = trackingData
-            }
-            return properties
-        }
-    }
     
     //view /px_checkout/result/error
     func getRemedydidResultRemedyError() -> PXRemediesTrackEvents? {
@@ -402,6 +383,7 @@ extension PXPaymentCongratsViewModel {
         }
         return properties
     }
+
     
     //event /px_checkout/result/error/remedy
     //if mercado créditos - enviar o envíar a track de view /px_checkout/result/error/remedy/modal
@@ -425,4 +407,11 @@ extension PXPaymentCongratsViewModel {
         }
         return properties
     }
+    
+    //"/px_checkout/result/error/abort" -> enviar somente o externalData
+    //"/px_checkout/result/error/change_payment_method  -> enviar somente o externalData
+    //"/px_checkout/result/error" -> envair uma lista do nó de remedies
+    //"/px_checkout/result/error/remedy -> enviar o externalData + 5 atributos
+    //"/px_checkout/result/error/remedy/modal -> envair remedies/:paymentId no nó de modal
+
 }
