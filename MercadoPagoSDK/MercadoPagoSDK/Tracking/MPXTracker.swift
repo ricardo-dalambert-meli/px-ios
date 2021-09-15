@@ -102,6 +102,9 @@ internal extension MPXTracker {
                 metadata["checkout_type"] = checkoutType
             }
             trackListenerInterfase.trackScreen(screenName: event.name, extraParams: metadata)
+            #if DEBUG
+            print("\nview - \(event.name)\n\(metadata as AnyObject)\n")
+            #endif
         }
     }
 
@@ -141,6 +144,9 @@ internal extension MPXTracker {
             metadata["security_enabled"] = PXConfiguratorManager.hasSecurityValidation()
             metadata["session_time"] = PXTrackingStore.sharedInstance.getSecondsAfterInit()
             trackListenerInterfase.trackEvent(screenName: event.name, action: "", result: "", extraParams: metadata)
+            #if DEBUG
+            print("\nevent - \(event.name)\n\(metadata as AnyObject)\n")
+            #endif
         }
     }
 }
