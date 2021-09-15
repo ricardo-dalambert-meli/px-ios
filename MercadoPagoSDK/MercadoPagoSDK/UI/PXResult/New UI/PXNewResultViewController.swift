@@ -746,8 +746,10 @@ extension PXNewResultViewController: PXRemedyViewDelegate {
     }
     
     func showModal(modalInfos: PXOneTapDisabledViewController) {
-        modalTeste = PXComponentFactory.Modal.show(viewController: modalInfos, title: nil)
-    }
+        modalTeste = PXComponentFactory.Modal.show(viewController: modalInfos, dismissBlock: {
+            MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didCloseRemedyModalAbort)
+        })
+      }
     
     func remedyViewButtonTouchUpInside(_ sender: PXAnimatedButton) {
         subscribeToAnimatedButtonNotifications(button: sender)

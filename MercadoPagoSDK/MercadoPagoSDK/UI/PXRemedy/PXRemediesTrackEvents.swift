@@ -26,7 +26,8 @@ enum PXRemediesTrackEvents: TrackingEvents {
     var properties: [String : Any] {
         switch self {
             case .didResultRemedyError(let properties), .didShowRemedyErrorModal(let properties),   .viewErrorPaymentResult(let properties): return properties
-            case .changePaymentMethod,.didCloseRemedyModalAbort: return [:]
+            case .changePaymentMethod(let from): return ["from": from]
+            case .didCloseRemedyModalAbort: return [:]
            
         }
     }
