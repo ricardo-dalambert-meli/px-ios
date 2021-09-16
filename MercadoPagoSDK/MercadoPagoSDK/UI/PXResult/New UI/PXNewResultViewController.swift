@@ -684,7 +684,7 @@ extension PXNewResultViewController {
         guard let paymentData = viewModel.getSplitPaymentViewData() else { return nil }
         return PXNewCustomView(data: paymentData)
     }
-
+    
     //FOOTER
     func buildFooterView() -> UIView {
         if let primaryButton = viewModel.getPrimaryButton() {
@@ -752,17 +752,15 @@ extension PXNewResultViewController: PXRemedyViewDelegate {
       }
     
     func remedyViewButtonTouchUpInside(_ sender: PXAnimatedButton) {
-        MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didResultRemedyError(viewModel.getTrackingRemediesProperties()))
         subscribeToAnimatedButtonNotifications(button: sender)
+        self.itsPaidMarket()
         sender.startLoading()
         scrollView.isScrollEnabled = false
         view.isUserInteractionEnabled = false
-        
         hideBackButton()
         hideNavBar()
     }
     
- 
     func trackingChangeMethod(isModal: Bool){
         let from: String
         if isModal {
@@ -795,6 +793,14 @@ extension PXNewResultViewController {
     func unsubscribeFromAnimatedButtonNotifications() {
         if let button = getRemedyViewAnimatedButton() {
             PXNotificationManager.UnsuscribeTo.animateButton(button)
+        }
+    }
+    
+    func itsPaidMarket(){
+        if viewModel.selectPaymentMethodConsumerCredits(){
+          MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didResultRemedyError(viewModel.getDidShowRemedyErrorModal()))
+        } else {
+           MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didResultRemedyError(viewModel.getTrackingRemediesProperties()))
         }
     }
 }

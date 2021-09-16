@@ -29,6 +29,13 @@ internal class PXResultViewModel: NSObject {
         self.remedy = remedy
         self.oneTapDto = oneTapDto
     }
+    
+    func selectPaymentMethodConsumerCredits() -> Bool {
+        if paymentResult.paymentMethodId == PXPaymentTypes.CONSUMER_CREDITS.rawValue {
+            return true
+        }
+        return false
+    }
 
     func getPaymentData() -> PXPaymentData {
         guard let paymentData = paymentResult.paymentData else {

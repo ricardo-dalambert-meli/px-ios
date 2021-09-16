@@ -239,6 +239,13 @@ extension PXPaymentCongratsViewModel: PXNewResultViewModelInterface {
     func getBottomCustomView() -> UIView? {
         return paymentCongrats.bottomView
     }
+    
+    func selectPaymentMethodConsumerCredits() -> Bool {
+        if paymentCongrats.externalTrackingValues?.paymentMethodId == PXPaymentTypes.CONSUMER_CREDITS.rawValue {
+            return true
+        }
+       return false
+    }
 
     //CALLBACKS & TRACKING
     func getTrackingProperties() -> [String: Any] {
@@ -372,9 +379,9 @@ extension PXPaymentCongratsViewModel {
         }
         return properties
     }
-    //"/px_checkout/result/error/abort" -> enviar somente o externalData
-    //"/px_checkout/result/error/change_payment_method  -> enviar somente o externalData
-    //"/px_checkout/result/error" -> envair uma lista do nó de remedies
-    //"/px_checkout/result/error/remedy -> enviar o externalData + 5 atributos
+    //"/px_checkout/result/error/abort" -> enviar somente o externalData - ok
+    //"/px_checkout/result/error/change_payment_method  -> enviar somente o externalData - ok
+    //"/px_checkout/result/error" -> envair uma lista do nó de remedies - ok
+    //"/px_checkout/result/error/remedy -> enviar o externalData + 5 atributos - ok
     //"/px_checkout/result/error/remedy/modal -> enviar remedies/:paymentId no nó de modal
 }
