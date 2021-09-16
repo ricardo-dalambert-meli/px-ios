@@ -256,6 +256,8 @@ extension PXBusinessResultViewModel {
             .withFlowBehaviorResult(getFlowBehaviourResult())
             .withTrackingPath(getTrackingPath())
             .withTrackingRemedies(getTrackingRemediesProperties())
+            .withTrackingRemedies(getViewErrorPaymentResult())
+            .withTrackingRemedies(getDidShowRemedyErrorModal())
         
         // URL Managment
         paymentCongratsData.withRedirectURLs(getRedirectUrl())

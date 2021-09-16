@@ -752,15 +752,17 @@ extension PXNewResultViewController: PXRemedyViewDelegate {
       }
     
     func remedyViewButtonTouchUpInside(_ sender: PXAnimatedButton) {
+        MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didResultRemedyError(viewModel.getTrackingRemediesProperties()))
         subscribeToAnimatedButtonNotifications(button: sender)
         sender.startLoading()
         scrollView.isScrollEnabled = false
         view.isUserInteractionEnabled = false
-        MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didResultRemedyError(viewModel.getTrackingRemediesProperties()))
+        
         hideBackButton()
         hideNavBar()
     }
     
+ 
     func trackingChangeMethod(isModal: Bool){
         let from: String
         if isModal {

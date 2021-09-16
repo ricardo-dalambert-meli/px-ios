@@ -422,6 +422,22 @@ extension PXResultViewModel: PXViewModelTrackingDataProtocol {
         }
         return properties
     }
+    
+    func getViewErrorPaymentResult() -> [String: Any] {
+        var properties: [String: Any] = [:]
+        properties["index"] = 0
+        properties["payment_status"] = paymentResult.status
+        properties["payment_status_detail"] = paymentResult.statusDetail
+        return properties
+    }
+    
+    func getDidShowRemedyErrorModal() -> [String: Any] {
+        var properties: [String: Any] = [:]
+        properties["index"] = 0
+        properties["payment_status"] = paymentResult.status
+        properties["payment_status_detail"] = paymentResult.statusDetail
+        return properties
+    }
 }
 
 extension PXResultViewModel {
@@ -472,7 +488,6 @@ extension PXResultViewModel {
                 .withTrackingProperties(getTrackingProperties())
                 .withTrackingPath(getTrackingPath())
                 .withErrorBodyView(errorBodyView())
-                .withTrackingRemedies(getTrackingRemediesProperties())
 
         return paymentcongrats
     }

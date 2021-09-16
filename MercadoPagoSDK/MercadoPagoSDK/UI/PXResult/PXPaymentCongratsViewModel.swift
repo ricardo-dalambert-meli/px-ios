@@ -372,42 +372,7 @@ extension PXPaymentCongratsViewModel {
         }
         return properties
     }
-    
-    
-    //view /px_checkout/result/error
-    func getRemedydidResultRemedyError() -> PXRemediesTrackEvents? {
-        var properties: PXRemediesTrackEvents?
-        let paymentStatus = paymentCongrats.type.getRawValue()
-        if paymentStatus == PXPaymentStatus.REJECTED.rawValue {
-            properties = .didResultRemedyError(getTrackingRemediesProperties())
-        }
-        return properties
-    }
 
-    
-    //event /px_checkout/result/error/remedy
-    //if mercado créditos - enviar o envíar a track de view /px_checkout/result/error/remedy/modal
-    // Quandno o usuario clicar no pagar boleto - modal deverá enviar o tracking /px_checkout/result/error/remedy
-    
-    func getRemedyviewErrorPaymentResult() -> PXRemediesTrackEvents? {
-        var properties: PXRemediesTrackEvents?
-        let paymentStatus = paymentCongrats.type.getRawValue()
-        if paymentStatus == PXPaymentStatus.REJECTED.rawValue {
-            properties = .viewErrorPaymentResult(getViewErrorPaymentResult())
-        }
-        return properties
-    }
-    
-    //view /px_checkout/result/error/remedy/modal
-    func getRemedydidShowRemedyErrorModal() -> PXRemediesTrackEvents? {
-        var properties: PXRemediesTrackEvents?
-        let paymentStatus = paymentCongrats.type.getRawValue()
-        if paymentStatus == PXPaymentStatus.REJECTED.rawValue {
-            properties = .didShowRemedyErrorModal(getDidShowRemedyErrorModal())
-        }
-        return properties
-    }
-    
     //"/px_checkout/result/error/abort" -> enviar somente o externalData
     //"/px_checkout/result/error/change_payment_method  -> enviar somente o externalData
     //"/px_checkout/result/error" -> envair uma lista do nó de remedies
