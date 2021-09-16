@@ -21,6 +21,8 @@ enum PXSecurityCodeTrackingEvents: TrackingEvents {
     }
     
     var needsExternalData: Bool {
-        return true
+        switch self {
+        case .didConfirmCode: return true
+        }
     }
 }

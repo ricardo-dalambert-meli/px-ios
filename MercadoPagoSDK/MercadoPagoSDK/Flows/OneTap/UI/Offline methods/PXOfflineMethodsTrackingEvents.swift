@@ -21,6 +21,8 @@ enum PXOfflineMethodsTrackingEvents: TrackingEvents {
     }
     
     var needsExternalData: Bool {
-        return true
+        switch self {
+        case .didConfirm: return true
+        }
     }
 }

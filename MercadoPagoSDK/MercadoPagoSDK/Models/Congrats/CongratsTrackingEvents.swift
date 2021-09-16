@@ -21,6 +21,8 @@ enum CongratsTrackingEvents: TrackingEvents {
     }
     
     var needsExternalData: Bool {
-        return true
+        switch self {
+        case .didTapDiscount: return true
+        }
     }
 }

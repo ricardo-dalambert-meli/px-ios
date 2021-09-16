@@ -21,6 +21,8 @@ enum PXCardSliderTrackingEvents: TrackingEvents {
     }
     
     var needsExternalData: Bool {
-        return true
+        switch self {
+        case .comboSwitch: return false
+        }
     }
 }

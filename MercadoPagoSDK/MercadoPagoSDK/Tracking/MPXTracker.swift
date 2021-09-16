@@ -122,6 +122,7 @@ extension MPXTracker {
             
             trackListenerInterfase.trackScreen(screenName: event.name, extraParams: metadata)
             #if DEBUG
+            print(flowName)
             print("\nview - \(event.name)\n\(metadata as AnyObject)\n")
             #endif
         }
@@ -131,16 +132,7 @@ extension MPXTracker {
         if let trackListenerInterfase = trackListener {
             var metadata = event.properties
             let checkoutType: String? = PXTrackingStore.sharedInstance.getChoType()
-            if event.name != TrackingPaths.Events.getErrorPath() {
-                if let flowDetails = flowDetails {
-                    metadata["flow_detail"] = flowDetails
-                }
-                if let flowName = flowName {
-                    metadata["flow"] = flowName
-                }
-                metadata[SessionService.SESSION_ID_KEY] = getSessionID()
-                metadata["checkout_type"] = checkoutType
-            } else {
+            if event.name == TrackingPaths.Events.getErrorPath() {
                 if let extraInfo = metadata["extra_info"] as? [String: Any] {
                     var frictionExtraInfo: [String: Any] = extraInfo
                     frictionExtraInfo["flow_detail"] = flowDetails
@@ -156,14 +148,20 @@ extension MPXTracker {
                     frictionExtraInfo["checkout_type"] = checkoutType
                     metadata["extra_info"] = frictionExtraInfo
                 }
+                if let experiments = experiments {
+                    metadata["experiments"] = PXExperiment.getExperimentsForTracking(experiments)
+                }
+                metadata["security_enabled"] = PXConfiguratorManager.hasSecurityValidation()
+                metadata["session_time"] = PXTrackingStore.sharedInstance.getSecondsAfterInit()
             }
-            if let experiments = experiments {
-                metadata["experiments"] = PXExperiment.getExperimentsForTracking(experiments)
+            
+            if event.needsExternalData {
+                metadata = appendExternalData(to: metadata)
             }
-            metadata["security_enabled"] = PXConfiguratorManager.hasSecurityValidation()
-            metadata["session_time"] = PXTrackingStore.sharedInstance.getSecondsAfterInit()
+            
             trackListenerInterfase.trackEvent(screenName: event.name, action: "", result: "", extraParams: metadata)
             #if DEBUG
+            print(flowName)
             print("\nevent - \(event.name)\n\(metadata as AnyObject)\n")
             #endif
         }

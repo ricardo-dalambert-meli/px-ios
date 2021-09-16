@@ -53,6 +53,12 @@ enum PXResultTrackingEvents: TrackingEvents {
     }
     
     var needsExternalData: Bool {
-        return true
+        switch self {
+        case .didTapOnAllDiscounts, .didtapOnDownload, .didTapOnReceipt, .didTapOnScore, .didTapOnDeeplink,
+             .didTapOnCrossSelling, .didShowRemedyError, .checkoutPaymentApproved:
+            return true
+        case .checkoutPaymentInProcess, .checkoutPaymentRejected, .congratsPaymentApproved, .congratsPaymentInProcess, .congratsPaymentRejected:
+            return false
+        }
     }
 }
