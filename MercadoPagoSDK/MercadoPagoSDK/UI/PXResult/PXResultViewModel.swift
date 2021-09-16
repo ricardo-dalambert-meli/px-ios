@@ -425,10 +425,45 @@ extension PXResultViewModel: PXViewModelTrackingDataProtocol {
     
     func getViewErrorPaymentResult() -> [String: Any] {
         var properties: [String: Any] = [:]
-        properties["index"] = 0
-        properties["payment_status"] = paymentResult.status
-        properties["payment_status_detail"] = paymentResult.statusDetail
-        return properties
+            properties["style"] = "generic"
+            if let paymentId = getPaymentId() {
+                properties["payment_id"] = Int64(paymentId)
+            }
+            properties["payment_status"] = paymentResult.status
+            properties["payment_status_detail"] = paymentResult.statusDetail
+
+            properties["has_split_payment"] = amountHelper.isSplitPayment
+            properties["currency_id"] = SiteManager.shared.getCurrency().id
+            properties["discount_coupon_amount"] = amountHelper.getDiscountCouponAmountForTracking()
+            properties = PXCongratsTracking.getProperties(dataProtocol: self, properties: properties)
+
+            if let rawAmount = amountHelper.getPaymentData().getRawAmount() {
+                properties["total_amount"] = rawAmount.decimalValue
+            }
+
+            let paymentStatus = paymentResult.status
+            if paymentStatus == PXPaymentStatus.REJECTED.rawValue {
+                var remedies: [[String: Any]] = []
+                if let remedy = remedy,
+                    !(remedy.isEmpty) {
+                    if remedy.suggestedPaymentMethod != nil {
+                        remedies.append(["index": 0,
+                                         "type": "payment_method_suggestion",
+                                         "extra_info": remedy.trackingData ?? ""])
+                    } else if remedy.cvv != nil {
+                        remedies.append(["index": 0,
+                                         "type": "cvv_request",
+                                         "extra_info": remedy.trackingData ?? ""])
+                    } else if remedy.highRisk != nil {
+                        remedies.append(["index": 0,
+                                         "type": "kyc_request",
+                                         "extra_info": remedy.trackingData ?? ""])
+                    }
+                }
+                properties["remedies"] = remedies
+            }
+
+            return properties
     }
     
     func getDidShowRemedyErrorModal() -> [String: Any] {
