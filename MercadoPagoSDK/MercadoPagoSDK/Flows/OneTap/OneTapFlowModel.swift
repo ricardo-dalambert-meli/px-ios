@@ -315,20 +315,11 @@ internal extension OneTapFlowModel {
     }
     
     func needCreateOptionalToken() -> Bool {
-        guard let paymentMethod = self.paymentData.getPaymentMethod() else {
-            return false
-        }
-
-        guard let paymentOptionSelected = paymentOptionSelected else {
-            return false
-        }
-
-        if !readyToPay {
-            return false
-        }
-        
-        if paymentData.hasToken() {
-           return false
+        guard let paymentMethod = self.paymentData.getPaymentMethod(),
+                let paymentOptionSelected = paymentOptionSelected,
+                readyToPay,
+                !paymentData.hasToken() else {
+          return false
         }
         
         let hasInstallmentsIfNeeded = paymentData.hasPayerCost() || !paymentMethod.isCreditCard
