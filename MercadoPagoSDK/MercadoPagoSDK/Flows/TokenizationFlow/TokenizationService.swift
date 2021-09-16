@@ -63,6 +63,17 @@ internal class TokenizationService {
             createSavedCardToken(cardInformation: cardInfo, securityCode: securityCode)
         }
     }
+    
+    func createCardTokenWithoutCVV() {
+        // New Card Token
+        guard let cardInfo = paymentOptionSelected as? PXCardInformation else {
+            createNewCardToken()
+            return
+        }
+
+        let savedESCCardToken = PXSavedESCCardToken(cardId: cardInfo.getCardId(), securityCode: nil, requireESC: false)
+        createSavedESCCardToken(savedESCCardToken: savedESCCardToken)
+    }
 
     private func createNewCardToken() {
         guard let cardToken = cardToken else {
