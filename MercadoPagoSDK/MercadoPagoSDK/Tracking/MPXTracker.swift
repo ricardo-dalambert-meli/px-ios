@@ -80,11 +80,16 @@ extension MPXTracker {
         return false
     }
     
+    private func appendFlow(to metadata: [String: Any]) -> [String: Any] {
+        var metadata = metadata
+        
+        metadata["flow"] = flowName ?? "PX"
+        
+        return metadata
+    }
+    
     private func appendExternalData(to metadata: [String: Any]) -> [String: Any] {
         var metadata = metadata
-        if let flowName = flowName {
-            metadata["flow"] = flowName
-        }
         
         if let flowDetails = flowDetails {
             metadata["flow_detail"] = flowDetails
@@ -114,40 +119,28 @@ extension MPXTracker {
 extension MPXTracker {
     func trackScreen(event: TrackingEvents) {
         if let trackListenerInterfase = trackListener {
-            var metadata = event.properties
+            var metadata = appendFlow(to: event.properties)
             
             if event.needsExternalData {
                 metadata = appendExternalData(to: metadata)
             }
             
             trackListenerInterfase.trackScreen(screenName: event.name, extraParams: metadata)
-            #if DEBUG
-            print(flowName)
-            print("\nview - \(event.name)\n\(metadata as AnyObject)\n")
-            #endif
         }
     }
 
     func trackEvent(event: TrackingEvents) {
         if let trackListenerInterfase = trackListener {
-            var metadata = event.properties
-            let checkoutType: String? = PXTrackingStore.sharedInstance.getChoType()
+            var metadata = appendFlow(to: event.properties)
+            
             if event.name == TrackingPaths.Events.getErrorPath() {
+                var frictionExtraInfo: [String: Any] = [:]
                 if let extraInfo = metadata["extra_info"] as? [String: Any] {
-                    var frictionExtraInfo: [String: Any] = extraInfo
-                    frictionExtraInfo["flow_detail"] = flowDetails
-                    frictionExtraInfo["flow"] = flowName
-                    frictionExtraInfo[SessionService.SESSION_ID_KEY] = getSessionID()
-                    frictionExtraInfo["checkout_type"] = checkoutType
-                    metadata["extra_info"] = frictionExtraInfo
-                } else {
-                    var frictionExtraInfo: [String: Any] = [:]
-                    frictionExtraInfo["flow_detail"] = flowDetails
-                    frictionExtraInfo["flow"] = flowName
-                    frictionExtraInfo[SessionService.SESSION_ID_KEY] = getSessionID()
-                    frictionExtraInfo["checkout_type"] = checkoutType
-                    metadata["extra_info"] = frictionExtraInfo
+                    frictionExtraInfo = extraInfo
                 }
+                
+                metadata["extra_info"] = appendExternalData(to: frictionExtraInfo)
+                
                 if let experiments = experiments {
                     metadata["experiments"] = PXExperiment.getExperimentsForTracking(experiments)
                 }
@@ -160,10 +153,6 @@ extension MPXTracker {
             }
             
             trackListenerInterfase.trackEvent(screenName: event.name, action: "", result: "", extraParams: metadata)
-            #if DEBUG
-            print(flowName)
-            print("\nevent - \(event.name)\n\(metadata as AnyObject)\n")
-            #endif
         }
     }
 }
