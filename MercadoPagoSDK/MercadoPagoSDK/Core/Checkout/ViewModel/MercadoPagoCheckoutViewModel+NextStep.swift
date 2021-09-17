@@ -217,14 +217,7 @@ extension MercadoPagoCheckoutViewModel {
             self.paymentOptionSelected = customOption as? PaymentMethodOption
         } else if !paymentMethod.isOnlinePaymentMethod {
             // Medios off
-            if let paymentTypeId = PXPaymentTypes(rawValue: paymentMethod.paymentTypeId) {
-                self.paymentOptionSelected = Utils.findPaymentMethodSearchItemInGroups(self.search!, paymentMethodId: paymentMethod.id, paymentTypeId: paymentTypeId)
-            }
-        } else {
-            // Tarjetas, efectivo, crédito, debito
-            if let paymentTypeId = PXPaymentTypes(rawValue: paymentMethod.paymentTypeId) {
-                self.paymentOptionSelected = Utils.findPaymentMethodTypeId(self.search!.groups, paymentTypeId: paymentTypeId)
-            }
+            self.paymentOptionSelected = search?.payerPaymentMethods.first
         }
     }
 

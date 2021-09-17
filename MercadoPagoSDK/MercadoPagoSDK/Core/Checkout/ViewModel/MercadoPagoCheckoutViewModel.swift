@@ -401,9 +401,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
 
         var paymentOptionSelected: PaymentMethodOption?
 
-        if !Array.isNullOrEmpty(search.groups) && search.groups.count == 1 {
-            paymentOptionSelected = search.groups.first
-        } else if !Array.isNullOrEmpty(search.payerPaymentMethods) && search.payerPaymentMethods.count == 1 {
+        if !Array.isNullOrEmpty(search.payerPaymentMethods) && search.payerPaymentMethods.count == 1 {
             paymentOptionSelected = search.payerPaymentMethods.first
         }
 
@@ -456,7 +454,6 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
             return
         }
 
-        self.rootPaymentMethodOptions = paymentMethodSearch.groups
         self.paymentMethodOptions = self.rootPaymentMethodOptions
         self.availablePaymentMethods = paymentMethodSearch.availablePaymentMethods
         customPaymentOptions?.removeAll()

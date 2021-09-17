@@ -32,8 +32,8 @@ final class PXInitDTO: NSObject, Codable {
     public var site: PXSite
     public var generalCoupon: String
     public var coupons: [String: PXDiscountConfiguration]
-    @available(*, deprecated, message: "Groups flow will no longer be available")
-    public var groups: [PXPaymentMethodSearchItem] = []
+//    @available(*, deprecated, message: "Groups flow will no longer be available")
+//    public var groups: [PXPaymentMethodSearchItem] = []
     public var payerPaymentMethods: [PXCustomOptionSearchItem] = []
     public var availablePaymentMethods: [PXPaymentMethod] = []
     public var selectedDiscountConfiguration: PXDiscountConfiguration?
@@ -43,7 +43,7 @@ final class PXInitDTO: NSObject, Codable {
     var modals: [String: PXModal]?
     public var customCharges: PXCustomCharges?
 
-    public init(preference: PXCheckoutPreference?, oneTap: [PXOneTapDto]?, currency: PXCurrency, site: PXSite, generalCoupon: String, coupons: [String: PXDiscountConfiguration], groups: [PXPaymentMethodSearchItem], payerPaymentMethods: [PXCustomOptionSearchItem], availablePaymentMethods: [PXPaymentMethod], experiments: [PXExperiment]?, payerCompliance: PXPayerCompliance?, configurations: PXInitConfigurations?, modals: [String: PXModal], customCharges: PXCustomCharges?) {
+    public init(preference: PXCheckoutPreference?, oneTap: [PXOneTapDto]?, currency: PXCurrency, site: PXSite, generalCoupon: String, coupons: [String: PXDiscountConfiguration], payerPaymentMethods: [PXCustomOptionSearchItem], availablePaymentMethods: [PXPaymentMethod], experiments: [PXExperiment]?, payerCompliance: PXPayerCompliance?, configurations: PXInitConfigurations?, modals: [String: PXModal], customCharges: PXCustomCharges?) {
         self.preference = preference
         self.oneTap = oneTap
         self.payerCompliance = payerCompliance
@@ -51,7 +51,7 @@ final class PXInitDTO: NSObject, Codable {
         self.site = site
         self.generalCoupon = generalCoupon
         self.coupons = coupons
-        self.groups = groups
+//        self.groups = groups
         self.payerPaymentMethods = payerPaymentMethods
         self.availablePaymentMethods = availablePaymentMethods
         self.experiments = experiments
@@ -72,7 +72,7 @@ final class PXInitDTO: NSObject, Codable {
         case site
         case generalCoupon = "general_coupon"
         case coupons
-        case groups = "groups"
+//        case groups = "groups"
         case payerPaymentMethods = "payer_payment_methods"
         case availablePaymentMethods = "available_payment_methods"
         case experiments
@@ -82,9 +82,7 @@ final class PXInitDTO: NSObject, Codable {
     }
 
     func getPaymentOptionsCount() -> Int {
-        let payerOptionsCount = payerPaymentMethods.count
-        let groupsOptionsCount = groups.count
-        return payerOptionsCount + groupsOptionsCount
+        return payerPaymentMethods.count
     }
 
     func hasCheckoutDefaultOption() -> Bool {
