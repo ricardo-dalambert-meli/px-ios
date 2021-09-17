@@ -5,7 +5,7 @@
 //  Created by Matheus Leandro Martins on 15/07/21.
 //
 
-protocol RemedyServices {
+protocol RemedyService {
     func getRemedy(paymentMethodId: String,
                    privateKey: String?,
                    oneTap: Bool,
@@ -13,12 +13,12 @@ protocol RemedyServices {
                    completion: @escaping (Swift.Result<PXRemedy, PXError>) -> Void)
 }
 
-final class RemedyServicesImpl: RemedyServices {
+final class RemedyServiceImpl: RemedyService {
     // MARK: - Private properties
-    private let service: Requesting<RemedyRequestInfos>
+    private let service: Request<RemedyRequestInfos>
 
     // MARK: - Initialization
-    init(service: Requesting<RemedyRequestInfos> = Requesting<RemedyRequestInfos>()) {
+    init(service: Request<RemedyRequestInfos> = Request<RemedyRequestInfos>()) {
         self.service = service
     }
 
