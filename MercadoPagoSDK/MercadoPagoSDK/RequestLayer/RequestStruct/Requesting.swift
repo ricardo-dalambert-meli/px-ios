@@ -29,6 +29,7 @@ enum HeaderFields: String {
     case locationEnabled = "X-Location-Enabled"
     case accessToken = "Authorization"
     case isPublic = "X-public"
+    case profileID = "X-Meli-Session-Id"
 }
 
 final class Requesting<Target: RequestInfos> : RequestProtocol {

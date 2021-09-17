@@ -18,7 +18,7 @@ final class ParameterEncodingImpl: ParameterEncode {
         }
 
         guard let parameters = parameters,
-            let httpMethod = HTTPMethod(rawValue: urlRequest.httpMethod ?? "GET"),
+            let httpMethod = HTTPMethodType(rawValue: urlRequest.httpMethod ?? "GET"),
             (httpMethod == .get || httpMethod == .delete),
             var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return urlRequest }
 
