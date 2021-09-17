@@ -798,7 +798,7 @@ extension PXNewResultViewController {
     
     func itsPaidMarket(){
         if viewModel.selectPaymentMethodConsumerCredits(){
-          MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didResultRemedyError(viewModel.getDidShowRemedyErrorModal()))
+          MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didShowRemedyErrorModal(viewModel.getDidShowRemedyErrorModal()))
         } else {
            MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didResultRemedyError(viewModel.getTrackingRemediesProperties()))
         }
