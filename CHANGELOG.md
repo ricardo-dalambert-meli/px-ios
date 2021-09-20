@@ -1,3 +1,10 @@
+# v4.46.0
+🚀Private Release - 4.46.0 date: 16/09/2021 🚀
+- Showing modal when remedies card option given from BE is Mercado Creditos (disabled until tracks are done)
+- Card size on remedies dynamic according to BE response (disabled until tracks are done)
+- Tokenizing without cvv/ESC
+- Terms of use removed from customCard and added to top of payButton
+
 # v4.45.0
 🚀Private Release - 4.45.0 🚀
 - Fixed decimal calculation for getRawAmount
