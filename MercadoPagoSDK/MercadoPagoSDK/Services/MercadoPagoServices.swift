@@ -17,10 +17,10 @@ internal class MercadoPagoServices: NSObject {
     private var gatewayBaseURL: String!
     private var language: String = NSLocale.preferredLanguages[0]
 
-    private let customService: CustomServices
-    private let remedyService: RemedyServices
+    private let customService: CustomService
+    private let remedyService: RemedyService
     private let gatewayService: TokenService
-    private let paymentService: PaymentServices
+    private let paymentService: PaymentService
 
     // MARK: - Internal properties
     var reachability: Reachability?
@@ -34,10 +34,10 @@ internal class MercadoPagoServices: NSObject {
     init(
         publicKey: String,
         privateKey: String? = nil,
-        customService: CustomServices = CustomServicesImpl(),
-        remedyService: RemedyServices = RemedyServicesImpl(),
+        customService: CustomService = CustomServiceImpl(),
+        remedyService: RemedyService = RemedyServiceImpl(),
         gatewayService: TokenService = TokenServiceImpl(),
-        paymentService: PaymentServices = PaymentServicesImpl()
+        paymentService: PaymentService = PaymentServiceImpl()
     ) {
         self.publicKey = publicKey
         self.privateKey = privateKey

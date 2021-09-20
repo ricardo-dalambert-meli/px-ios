@@ -5,7 +5,7 @@
 //  Created by Matheus Leandro Martins on 15/07/21.
 //
 
-protocol PaymentServices {
+protocol PaymentService {
     func getInit(preferenceId: String?,
                  privateKey: String?,
                  body: Data?,
@@ -13,12 +13,12 @@ protocol PaymentServices {
                  completion: @escaping (Swift.Result<PXInitDTO, PXError>) -> Void)
 }
 
-final class PaymentServicesImpl: PaymentServices {
+final class PaymentServiceImpl: PaymentService {
     // MARK: - Private properties
-    private let service: Requesting<PaymentRequestInfos>
+    private let service: Request<PaymentRequestInfos>
 
     // MARK: - Initialization
-    init(service: Requesting<PaymentRequestInfos> = Requesting<PaymentRequestInfos>()) {
+    init(service: Request<PaymentRequestInfos> = Request<PaymentRequestInfos>()) {
         self.service = service
     }
 

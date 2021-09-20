@@ -29,17 +29,25 @@ enum HeaderFields: String {
     case locationEnabled = "X-Location-Enabled"
     case accessToken = "Authorization"
     case isPublic = "X-public"
+    case profileID = "X-Meli-Session-Id"
 }
 
-final class Requesting<Target: RequestInfos> : RequestProtocol {
+final class Request<Target: RequestInfos> : RequestProtocol {
     // MARK: - Perivate properties
     private let defaultProductId = "BJEO9TFBF6RG01IIIOU0"
     //MARK: - Public methods
     func requestObject<Model>(model: Model.Type, _ target: Target, completionHandler: @escaping (Swift.Result<Model, Error>) -> Void) where Model : Codable {
-        guard let url = URL(string: "\(target.baseURL)\(target.shouldSetEnvironment ?  target.environment.rawValue : "")\(target.endpoint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")") else {
+        
+        guard let targetURL = URL(string: "\(target.baseURL)\(target.shouldSetEnvironment ?  target.environment.rawValue : "")\(target.endpoint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")") else {
             completionHandler(.failure(NSError()))
             return
         }
+        
+        #if DEBUG
+        let url = target.mockURL ?? targetURL
+        #else
+        let url = targetURL
+        #endif
         
         var request = URLRequest(url: url)
         

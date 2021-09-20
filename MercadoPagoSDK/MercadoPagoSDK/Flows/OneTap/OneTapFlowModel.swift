@@ -13,6 +13,7 @@ final internal class OneTapFlowModel: PXFlowModel {
         case finish
         case screenOneTap
         case screenSecurityCode
+        case serviceCreateOptionalToken
         case serviceCreateESCCardToken
         case serviceCreateWebPayCardToken
         case screenKyC
@@ -141,6 +142,7 @@ final internal class OneTapFlowModel: PXFlowModel {
     public func nextStep() -> Steps {
         if needShowOneTap() { return .screenOneTap }
         if needSecurityCode() { return .screenSecurityCode }
+        if needCreateOptionalToken() { return .serviceCreateOptionalToken }
         if needCreateESCToken() { return .serviceCreateESCCardToken }
         if needCreateWebPayToken() { return .serviceCreateWebPayCardToken }
         if needKyC() { return .screenKyC }
@@ -256,7 +258,7 @@ internal extension OneTapFlowModel {
         return true
     }
 
-    func needSecurityCode() -> Bool {
+    func needSecurityCode() -> Bool {        
         guard let paymentMethod = self.paymentData.getPaymentMethod() else {
             return false
         }
@@ -310,6 +312,29 @@ internal extension OneTapFlowModel {
         let savedCardWithESC = !paymentData.hasToken() && paymentMethod.isCard && hasSavedESC() && hasInstallmentsIfNeeded
 
         return savedCardWithESC
+    }
+    
+    func needCreateOptionalToken() -> Bool {
+        guard let paymentMethod = self.paymentData.getPaymentMethod(),
+                let paymentOptionSelected = paymentOptionSelected,
+                readyToPay,
+                !paymentData.hasToken() else {
+          return false
+        }
+        
+        let hasInstallmentsIfNeeded = paymentData.hasPayerCost() || !paymentMethod.isCreditCard
+        let paymentOptionSelectedId = paymentOptionSelected.getId()
+        let isCustomerCard = paymentOptionSelected.isCustomerPaymentMethod() && paymentOptionSelectedId != PXPaymentTypes.ACCOUNT_MONEY.rawValue && paymentOptionSelectedId != PXPaymentTypes.CONSUMER_CREDITS.rawValue
+        
+        if isCustomerCard &&
+            !paymentData.hasToken() &&
+            hasInstallmentsIfNeeded &&
+            hasSecurityCode(),
+           search.oneTap?.first(where: { $0.oneTapCard?.cardId == paymentOptionSelected.getId()})?.oneTapCard?.cardUI?.securityCode?.mode == .optional {
+            return true
+        }
+        
+        return false
     }
 
     func needCreateWebPayToken() -> Bool {

@@ -8,7 +8,7 @@
 import XCTest
 @testable import MercadoPagoSDKV4
 
-class CustomServiceMock: CustomServices {
+class CustomServiceMock: CustomService {
     var successResponse = true
     var calledGetPointsAndDiscounts = false
     var calledResetESCCap = false
@@ -44,7 +44,7 @@ class CustomServiceMock: CustomServices {
     }
 }
 
-class RemedyServicesMock: RemedyServices {
+class RemedyServicesMock: RemedyService {
     var successResponse = true
     var calledGetRemedy = false
     
@@ -76,7 +76,7 @@ class GatewayServicesMock: TokenService {
     }
 }
 
-class PaymentServicesMock: PaymentServices {
+class PaymentServicesMock: PaymentService {
     var successResponse = true
     var calledGetInit = false
     
