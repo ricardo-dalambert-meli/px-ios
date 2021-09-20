@@ -763,11 +763,7 @@ extension PXNewResultViewController: PXRemedyViewDelegate {
     
     func trackingChangeMethod(isModal: Bool){
         let from: String
-        if isModal {
-            from = "modal"
-        } else {
-            from = "view"
-        }
+        from = isModal == true ? "modal" : "view"
         MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.changePaymentMethod(isFrom: from))
     }
 }
@@ -797,11 +793,8 @@ extension PXNewResultViewController {
     }
     
     func itsPaidMarket(){
-        if viewModel.selectPaymentMethodConsumerCredits(){
-          MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didShowRemedyErrorModal(viewModel.getDidShowRemedyErrorModal()))
-        } else {
-           MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didResultRemedyError(viewModel.getTrackingRemediesProperties()))
-        }
+        let consumerCredits: Bool = viewModel.selectPaymentMethodConsumerCredits()
+            consumerCredits == true ? MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didShowRemedyErrorModal(viewModel.getDidShowRemedyErrorModal())) : MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didResultRemedyError(viewModel.getTrackingRemediesProperties()))
     }
 }
 
