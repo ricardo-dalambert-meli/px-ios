@@ -29,9 +29,10 @@ enum HeaderFields: String {
     case locationEnabled = "X-Location-Enabled"
     case accessToken = "Authorization"
     case isPublic = "X-public"
+    case profileID = "X-Meli-Session-Id"
 }
 
-final class Requesting<Target: RequestInfos> : RequestProtocol {
+final class Request<Target: RequestInfos> : RequestProtocol {
     // MARK: - Perivate properties
     private let defaultProductId = "BJEO9TFBF6RG01IIIOU0"
     //MARK: - Public methods
