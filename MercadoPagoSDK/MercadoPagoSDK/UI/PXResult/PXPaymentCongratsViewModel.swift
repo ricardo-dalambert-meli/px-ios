@@ -379,9 +379,4 @@ extension PXPaymentCongratsViewModel {
         }
         return properties
     }
-    //"/px_checkout/result/error/abort" -> enviar somente o externalData - ok
-    //"/px_checkout/result/error/change_payment_method  -> enviar somente o externalData - ok
-    //"/px_checkout/result/error" -> envair uma lista do nó de remedies - ok
-    //"/px_checkout/result/error/remedy -> enviar o externalData + 5 atributos - ok
-    //"/px_checkout/result/error/remedy/modal -> enviar remedies/:paymentId no nó de modal
 }

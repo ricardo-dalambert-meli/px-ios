@@ -248,8 +248,8 @@ final class PXRemedyView: UIView {
         case .large: cardSize = .large
         }
 
-        let controller = MLCardDrawerController(cardUI: cardUI, .medium, cardData, false)
-        controller.view.frame = CGRect(origin: CGPoint.zero, size: CardSizeManager.getSizeByGoldenAspectRatio(width: PXLayout.getScreenWidth(applyingMarginFactor: CONTENT_WIDTH_PERCENT), type: .medium))
+        let controller = MLCardDrawerController(cardUI: cardUI, cardSize, cardData, false)
+        controller.view.frame = CGRect(origin: CGPoint.zero, size: CardSizeManager.getSizeByGoldenAspectRatio(width: PXLayout.getScreenWidth(applyingMarginFactor: CONTENT_WIDTH_PERCENT), type: cardSize))
         controller.view.translatesAutoresizingMaskIntoConstraints = false
         controller.animated(false)
         controller.show()
