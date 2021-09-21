@@ -94,8 +94,6 @@ extension MPXTracker {
         if let flowDetails = flowDetails {
             metadata["flow_detail"] = flowDetails
         }
-        
-//            metadata["collector_id"] =
 
         metadata[SessionService.SESSION_ID_KEY] = getSessionID()
         metadata["session_time"] = PXTrackingStore.sharedInstance.getSecondsAfterInit()
@@ -105,8 +103,6 @@ extension MPXTracker {
         }
         
         metadata["security_enabled"] = PXConfiguratorManager.hasSecurityValidation()
-        
-//            externalData["device_secured"] =
         
         if let experiments = experiments {
             metadata["experiments"] = PXExperiment.getExperimentsForTracking(experiments)
