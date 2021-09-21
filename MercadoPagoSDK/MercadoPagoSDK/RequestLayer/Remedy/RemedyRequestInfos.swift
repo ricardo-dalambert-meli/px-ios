@@ -15,7 +15,15 @@ extension RemedyRequestInfos: RequestInfos {
         case .getRemedy(let paymentId, _, _, _): return "px_mobile/v1/remedies/\(paymentId)"
         }
     }
-
+    
+    var environment: BackendEnvironment {
+        .gamma
+    }
+    
+    var mockURL: URL? {
+        URL(string: "https://run.mocky.io/v3/f5cfc842-2e97-42d7-b1e5-84780f01118e")
+    }
+    
     var method: HTTPMethodType {
         .post
     }

@@ -64,8 +64,7 @@ final class PXRemedyView: UIView {
         button.setTitle(normalText, for: .normal)
         button.layer.cornerRadius = 4
         button.add(for: .touchUpInside, { [weak self] in
-//            self?.data.remedy.suggestedPaymentMethod?.modal != nil ? self?.showModal() : self?.handlePayment()
-            self?.handlePayment()
+            self?.data.remedy.suggestedPaymentMethod?.modal != nil ? self?.showModal() : self?.handlePayment()
         })
         if shouldShowTextField() {
             button.setDisabled()
@@ -240,14 +239,14 @@ final class PXRemedyView: UIView {
         } else {
             return nil
         }
-//        let cardSize: MLCardDrawerTypeV3
-//        switch data.remedy.suggestedPaymentMethod?.alternativePaymentMethod?.cardSize {
-//        case .mini: cardSize = .mini
-//        case .small: cardSize = .small
-//        case .xSmall: cardSize = .xSmall
-//        case .medium, .none: cardSize = .medium
-//        case .large: cardSize = .large
-//        }
+        let cardSize: MLCardDrawerTypeV3
+        switch data.remedy.suggestedPaymentMethod?.alternativePaymentMethod?.cardSize {
+        case .mini: cardSize = .mini
+        case .small: cardSize = .small
+        case .xSmall: cardSize = .xSmall
+        case .medium, .none: cardSize = .medium
+        case .large: cardSize = .large
+        }
 
         let controller = MLCardDrawerController(cardUI: cardUI, .medium, cardData, false)
         controller.view.frame = CGRect(origin: CGPoint.zero, size: CardSizeManager.getSizeByGoldenAspectRatio(width: PXLayout.getScreenWidth(applyingMarginFactor: CONTENT_WIDTH_PERCENT), type: .medium))
