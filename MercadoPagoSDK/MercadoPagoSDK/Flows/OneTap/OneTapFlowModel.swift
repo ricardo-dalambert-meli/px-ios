@@ -13,6 +13,7 @@ final internal class OneTapFlowModel: PXFlowModel {
         case finish
         case screenOneTap
         case screenSecurityCode
+        case serviceCreateOptionalToken
         case serviceCreateESCCardToken
         case serviceCreateWebPayCardToken
         case screenKyC
@@ -69,10 +70,58 @@ final internal class OneTapFlowModel: PXFlowModel {
         self.search = search
         self.paymentOptionSelected = paymentOptionSelected
         advancedConfiguration = checkoutViewModel.getAdvancedConfiguration()
-        chargeRules = checkoutViewModel.chargeRules
         mercadoPagoServices = checkoutViewModel.mercadoPagoServices
         paymentConfigurationService = checkoutViewModel.paymentConfigurationService
         disabledOption = checkoutViewModel.disabledOption
+        
+        // Process custom charges and charge rules
+        
+        var mergedChargeRules : [PXPaymentTypeChargeRule] = []
+        
+        if let customCharges = search.customCharges {
+            // If there is custom charges iterate each one
+            customCharges.keys.forEach { customChargeKey in
+                if let customCharge = customCharges[customChargeKey] as? PXCustomCharge {
+                    if let chargeRule = checkoutViewModel.chargeRules?.first(where: { chargeRule -> Bool in
+                        return chargeRule.paymentTypeId == customChargeKey
+                    }) {
+                        var newChargeRule: PXPaymentTypeChargeRule
+                        // If a chargeRule for this custom charge already exists, then override its properties
+                        if let detailModal = chargeRule.detailModal {
+                            // If the chargeRule has detailModal, create the new one using the modal
+                            newChargeRule = PXPaymentTypeChargeRule(paymentTypeId: chargeRule.paymentTypeId, amountCharge: customCharge.charge, detailModal: detailModal)
+                        } else if let message = chargeRule.message, customCharge.charge == 0 {
+                            // If the chargeRule has message and the customCharge charge is still 0, use the message
+                            newChargeRule = PXPaymentTypeChargeRule(paymentTypeId: chargeRule.paymentTypeId, message: message)
+                        } else {
+                            // If the original chargeRule don't have detailModal nor message use the basic init
+                            newChargeRule = PXPaymentTypeChargeRule(paymentTypeId: chargeRule.paymentTypeId, amountCharge: customCharge.charge)
+                        }
+                        
+                        if let label = customCharge.label {
+                            newChargeRule.label = label
+                        }
+                        
+                        mergedChargeRules.append(newChargeRule)
+                    } else {
+                        // If there isn't a chargeRule for this customCharge then create one and add it to the mergedChargeRules array
+                        var newChargeRule = PXPaymentTypeChargeRule(paymentTypeId: customChargeKey, amountCharge: customCharge.charge)
+                        
+                        if let label = customCharge.label {
+                            newChargeRule.label = label
+                        }
+                        
+                        mergedChargeRules.append(newChargeRule)
+                    }
+                }
+            }
+            self.chargeRules = mergedChargeRules
+            checkoutViewModel.chargeRules = mergedChargeRules
+        } else {
+            // TODO: Remove when IDC is fully implemented
+            // If customCharges is nil then use the integrator provided chargeRules
+            self.chargeRules = checkoutViewModel.chargeRules
+        }
 
         // Payer cost pre selection.
         let firstOneTapItem = search.oneTap?.first
@@ -93,6 +142,7 @@ final internal class OneTapFlowModel: PXFlowModel {
     public func nextStep() -> Steps {
         if needShowOneTap() { return .screenOneTap }
         if needSecurityCode() { return .screenSecurityCode }
+        if needCreateOptionalToken() { return .serviceCreateOptionalToken }
         if needCreateESCToken() { return .serviceCreateESCCardToken }
         if needCreateWebPayToken() { return .serviceCreateWebPayCardToken }
         if needKyC() { return .screenKyC }
@@ -208,7 +258,7 @@ internal extension OneTapFlowModel {
         return true
     }
 
-    func needSecurityCode() -> Bool {
+    func needSecurityCode() -> Bool {        
         guard let paymentMethod = self.paymentData.getPaymentMethod() else {
             return false
         }
@@ -262,6 +312,29 @@ internal extension OneTapFlowModel {
         let savedCardWithESC = !paymentData.hasToken() && paymentMethod.isCard && hasSavedESC() && hasInstallmentsIfNeeded
 
         return savedCardWithESC
+    }
+    
+    func needCreateOptionalToken() -> Bool {
+        guard let paymentMethod = self.paymentData.getPaymentMethod(),
+                let paymentOptionSelected = paymentOptionSelected,
+                readyToPay,
+                !paymentData.hasToken() else {
+          return false
+        }
+        
+        let hasInstallmentsIfNeeded = paymentData.hasPayerCost() || !paymentMethod.isCreditCard
+        let paymentOptionSelectedId = paymentOptionSelected.getId()
+        let isCustomerCard = paymentOptionSelected.isCustomerPaymentMethod() && paymentOptionSelectedId != PXPaymentTypes.ACCOUNT_MONEY.rawValue && paymentOptionSelectedId != PXPaymentTypes.CONSUMER_CREDITS.rawValue
+        
+        if isCustomerCard &&
+            !paymentData.hasToken() &&
+            hasInstallmentsIfNeeded &&
+            hasSecurityCode(),
+           search.oneTap?.first(where: { $0.oneTapCard?.cardId == paymentOptionSelected.getId()})?.oneTapCard?.cardUI?.securityCode?.mode == .optional {
+            return true
+        }
+        
+        return false
     }
 
     func needCreateWebPayToken() -> Bool {

@@ -41,18 +41,34 @@ internal struct PXAmountHelper {
     }
 
     var preferenceAmountWithCharges: Double {
-        return preferenceAmount + chargeRuleAmount
+        // preferenceAmount + chargeRuleAmount
+        let decimalPreferenceAmount = PXAmountHelper.getRoundedAmountAsNsDecimalNumber(amount: preferenceAmount)
+        let decimalChargeRuleAmount = PXAmountHelper.getRoundedAmountAsNsDecimalNumber(amount: chargeRuleAmount)
+        
+        let sum = decimalPreferenceAmount.adding(decimalChargeRuleAmount)
+        
+        guard let doubleSum = Double(sum.stringValue) else { return preferenceAmount + chargeRuleAmount }
+        
+        return doubleSum
+    }
+    
+    var amount: Double? {
+        return paymentData.amount
+    }
+    
+    var taxFreeAmount: Double? {
+        return paymentData.taxFreeAmount
+    }
+    
+    var noDiscountAmount: Double? {
+        return paymentData.noDiscountAmount
     }
 
     var amountToPay: Double {
         if let payerCost = paymentData.payerCost {
             return payerCost.totalAmount
         }
-        if let couponAmount = paymentData.discount?.couponAmount {
-            return preferenceAmount - couponAmount + chargeRuleAmount
-        } else {
-            return preferenceAmount + chargeRuleAmount
-        }
+        return amountToPayWithoutPayerCost
     }
 
     var isSplitPayment: Bool {
@@ -69,9 +85,19 @@ internal struct PXAmountHelper {
 
     private var amountToPayWithoutPayerCost: Double {
         if let couponAmount = paymentData.discount?.couponAmount {
-            return preferenceAmount - couponAmount + chargeRuleAmount
+            // preferenceAmount - couponAmount + chargeRuleAmount
+            let decimalPreferenceAmount = PXAmountHelper.getRoundedAmountAsNsDecimalNumber(amount: preferenceAmount)
+            let decimalCouponAmount = PXAmountHelper.getRoundedAmountAsNsDecimalNumber(amount: couponAmount)
+            let decimalChargeRuleAmount = PXAmountHelper.getRoundedAmountAsNsDecimalNumber(amount: chargeRuleAmount)
+            
+            let sum = (decimalPreferenceAmount.subtracting(decimalCouponAmount)).adding(decimalChargeRuleAmount)
+            
+            guard let doubleSum = Double(sum.stringValue) else { return preferenceAmount + chargeRuleAmount }
+            
+            return doubleSum
         } else {
-            return preferenceAmount + chargeRuleAmount
+            // preferenceAmount + chargeRuleAmount
+            return preferenceAmountWithCharges
         }
     }
 
@@ -101,11 +127,35 @@ internal struct PXAmountHelper {
         return 0
     }
 
+    internal var chargeRuleLabel: String? {
+        guard let rules = chargeRules else {
+            return nil
+        }
+        
+        for rule in rules {
+            if rule.paymentTypeId == paymentData.paymentMethod?.paymentTypeId {
+                return rule.label
+            }
+        }
+        return nil
+    }
+    
     internal func getPaymentData() -> PXPaymentData {
-
         // Set total card amount with charges without discount
         if paymentData.transactionAmount == nil || paymentData.transactionAmount == 0 {
-            self.paymentData.transactionAmount = NSDecimalNumber(floatLiteral: preferenceAmountWithCharges)
+            
+            if let paymentMethod = paymentData.paymentMethod,
+               let paymentOptionId = paymentData.paymentOptionId,
+               let amount = paymentConfigurationService.getAmount(paymentOptionId: paymentOptionId, paymentMethodId: paymentMethod.id, paymentTypeId: paymentMethod.paymentTypeId),
+               let taxFreeAmount = paymentConfigurationService.getTaxFreeAmount(paymentOptionId: paymentOptionId, paymentMethodId: paymentMethod.id, paymentTypeId: paymentMethod.paymentTypeId),
+               let noDiscountAmount = paymentConfigurationService.getNoDiscountAmount(paymentOptionId: paymentOptionId, paymentMethodId: paymentMethod.id, paymentTypeId: paymentMethod.paymentTypeId) {
+                self.paymentData.transactionAmount = NSDecimalNumber(floatLiteral: taxFreeAmount)
+                self.paymentData.amount = amount
+                self.paymentData.taxFreeAmount = taxFreeAmount
+                self.paymentData.noDiscountAmount = noDiscountAmount
+            } else {
+                self.paymentData.transactionAmount = NSDecimalNumber(floatLiteral: preferenceAmountWithCharges)
+            }
         }
         return paymentData
     }

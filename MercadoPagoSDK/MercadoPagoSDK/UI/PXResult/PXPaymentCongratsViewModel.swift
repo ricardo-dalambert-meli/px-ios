@@ -38,6 +38,10 @@ class PXPaymentCongratsViewModel {
 }
 
 extension PXPaymentCongratsViewModel: PXNewResultViewModelInterface {
+    func getAndesMessage() -> InfoOperation? {
+        return paymentCongrats.infoOperation
+    }
+    
     // HEADER
     func getHeaderColor() -> UIColor {
         guard let color = paymentCongrats.headerColor else {
@@ -193,11 +197,11 @@ extension PXPaymentCongratsViewModel: PXNewResultViewModelInterface {
         return paymentCongrats.errorBodyView
     }
 
-    func getRemedyView(animatedButtonDelegate: PXAnimatedButtonDelegate?, remedyViewProtocol: PXRemedyViewProtocol?) -> UIView? {
+    func getRemedyView(animatedButtonDelegate: PXAnimatedButtonDelegate?, termsAndCondDelegate: PXTermsAndConditionViewDelegate?, remedyViewProtocol: PXRemedyViewDelegate?) -> UIView? {
         if isPaymentResultRejectedWithRemedy(), var remedyViewData = paymentCongrats.remedyViewData {
             remedyViewData.animatedButtonDelegate = animatedButtonDelegate
             remedyViewData.remedyViewProtocol = remedyViewProtocol
-            return PXRemedyView(data: remedyViewData)
+            return PXRemedyView(data: remedyViewData, termsAndCondDelegate: termsAndCondDelegate)
         }
         return nil
     }

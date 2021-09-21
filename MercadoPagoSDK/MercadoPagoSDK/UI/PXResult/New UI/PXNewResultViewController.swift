@@ -16,6 +16,7 @@ class PXNewResultViewController: MercadoPagoUIViewController {
     private lazy var elasticHeader = UIView()
     private let statusBarHeight = PXLayout.getStatusBarHeight()
     private var contentViewHeightConstraint: NSLayoutConstraint?
+    internal var modalTeste: MLModal?
     let scrollView = UIScrollView()
     let contentView = UIView()
     let viewModel: PXNewResultViewModelInterface
@@ -264,7 +265,7 @@ extension PXNewResultViewController {
         views.append(ResultViewData(view: view))
 
         //Remedy body View
-        if let view = viewModel.getRemedyView(animatedButtonDelegate: self, remedyViewProtocol: self) {
+        if let view = viewModel.getRemedyView(animatedButtonDelegate: self, termsAndCondDelegate: self, remedyViewProtocol: self) {
             subscribeToKeyboardNotifications()
             views.append(ResultViewData(view: view))
             // If payment has remedy don't show anything else in congrats
@@ -292,6 +293,15 @@ extension PXNewResultViewController {
         /// Top Custom View
         if customOrder == true {
             views.append(contentsOf: addReceiptAndPaymentViews(customOrder))
+        }
+        
+        //AndesMessage
+        if let message = viewModel.getAndesMessage() {
+            views.append(ResultViewData(view: AndesMessage(hierarchy: message.andesHierarchy,
+                                                           type: message.andesType,
+                                                           title: "",
+                                                           body: message.body), verticalMargin: PXLayout.S_MARGIN, horizontalMargin: PXLayout.L_MARGIN))
+            
         }
 
         //Points and Discounts
@@ -421,7 +431,7 @@ extension PXNewResultViewController {
 
     private func getRemedyViewAnimatedButton() -> PXAnimatedButton? {
         if let remedyView = scrollView.subviews.first?.subviews.first(where: { $0 is PXRemedyView }) as? PXRemedyView? {
-            return remedyView?.button
+            return remedyView?.payButton
         }
         return nil
     }
@@ -725,7 +735,20 @@ extension PXNewResultViewController: PXAnimatedButtonDelegate {
     }
 }
 
-extension PXNewResultViewController: PXRemedyViewProtocol {
+// MARK: PXRemedyViewDelegate
+extension PXNewResultViewController: PXRemedyViewDelegate {
+    func selectAnotherPaymentMethod() {
+        viewModel.getFooterSecondaryAction()?.action()
+    }
+    
+    func dismissModal() {
+        modalTeste?.dismiss()
+    }
+    
+    func showModal(modalInfos: PXOneTapDisabledViewController) {
+        modalTeste = PXComponentFactory.Modal.show(viewController: modalInfos, title: nil)
+    }
+    
     func remedyViewButtonTouchUpInside(_ sender: PXAnimatedButton) {
         subscribeToAnimatedButtonNotifications(button: sender)
         sender.startLoading()
@@ -782,3 +805,6 @@ extension PXNewResultViewController: ActionViewDelegate {
 
     }
 }
+
+// MARK: PXTermsAndConditionViewDelegate
+extension PXNewResultViewController: PXTermsAndConditionViewDelegate { }

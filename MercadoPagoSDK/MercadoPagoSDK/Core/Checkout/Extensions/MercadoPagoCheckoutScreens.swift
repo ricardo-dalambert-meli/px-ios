@@ -156,36 +156,14 @@ extension MercadoPagoCheckout {
     }
 
     func startOneTapFlow() {
-        guard let search = viewModel.search else {
-            return
-        }
+        guard let search = viewModel.search else { return }
 
         let paymentFlow = viewModel.createPaymentFlow(paymentErrorHandler: self)
-
-        if shouldUpdateOnetapFlow(), let onetapFlow = viewModel.onetapFlow {
-            // This is to refresh the payment methods in onetap after adding a new card
-            if let cardId = InitFlowRefresh.cardId {
-                if let newAddedCard = search.oneTap?.first(where: { $0.oneTapCard?.cardId == cardId }) {
-                    if let retryNeeded = newAddedCard.oneTapCard?.retry?.isNeeded, retryNeeded == true {
-                        // If the card need to retry because it has to be tokenized
-                        asyncRefreshInitFlow(cardId: cardId)
-                        return
-                    } else {
-                        // If the card was successfully added and it's not necessary to retry
-                        onetapFlow.update(checkoutViewModel: viewModel, search: search, paymentOptionSelected: viewModel.paymentOptionSelected)
-                    }
-                } else {
-                    // Sometimes the new card doesn't come right away from the api, so we do a few retries
-                    // New card didn't return. Refresh Init again
-                    asyncRefreshInitFlow(cardId: cardId)
-                    return
-                }
-            }
-        } else if InitFlowRefresh.hasReachedMaxRetries {
-            trackInitFlowRefreshFriction(cardId: InitFlowRefresh.cardId ?? "")
-            viewModel.onetapFlow?.update(checkoutViewModel: viewModel, search: search, paymentOptionSelected: viewModel.paymentOptionSelected)
-        } else {
+        
+        if viewModel.onetapFlow == nil {
             viewModel.onetapFlow = OneTapFlow(checkoutViewModel: viewModel, search: search, paymentOptionSelected: viewModel.paymentOptionSelected, oneTapResultHandler: self)
+        } else {
+            viewModel.onetapFlow?.update(checkoutViewModel: viewModel, search: search, paymentOptionSelected: viewModel.paymentOptionSelected)
         }
 
         guard let onetapFlow = viewModel.onetapFlow else {
@@ -196,7 +174,7 @@ extension MercadoPagoCheckout {
         onetapFlow.setCustomerPaymentMethods(viewModel.customPaymentOptions)
         onetapFlow.setPaymentFlow(paymentFlow: paymentFlow)
 
-        if shouldUpdateOnetapFlow() || InitFlowRefresh.hasReachedMaxRetries {
+        if shouldUpdateOnetapFlow() {
             onetapFlow.updateOneTapViewModel(cardId: InitFlowRefresh.cardId ?? "")
         } else {
             onetapFlow.start()
@@ -207,9 +185,7 @@ extension MercadoPagoCheckout {
     private func shouldUpdateOnetapFlow() -> Bool {
         if viewModel.onetapFlow != nil,
             let cardId = InitFlowRefresh.cardId,
-            cardId.isNotEmpty,
-            InitFlowRefresh.countRetries <= InitFlowRefresh.maxRetries {
-            InitFlowRefresh.countRetries += 1
+            cardId.isNotEmpty {
             return true
         }
         // Card should not be updated or number of retries has reached max number

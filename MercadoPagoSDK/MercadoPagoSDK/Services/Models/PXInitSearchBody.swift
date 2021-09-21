@@ -12,12 +12,13 @@ struct PXInitBody: Codable {
     let preference: PXCheckoutPreference?
     let publicKey: String
     let flow: String?
+    let newCardId: String?
     let cardsWithESC: [String]
     let charges: [PXPaymentTypeChargeRule]
     let discountConfiguration: PXDiscountParamsConfiguration?
     let features: PXInitFeatures
 
-    init(preference: PXCheckoutPreference?, publicKey: String, flow: String?, cardsWithESC: [String], charges: [PXPaymentTypeChargeRule], discountConfiguration: PXDiscountParamsConfiguration?, features: PXInitFeatures) {
+    init(preference: PXCheckoutPreference?, publicKey: String, flow: String?, cardsWithESC: [String], charges: [PXPaymentTypeChargeRule], discountConfiguration: PXDiscountParamsConfiguration?, features: PXInitFeatures, newCardId: String?) {
         self.preference = preference
         self.publicKey = publicKey
         self.flow = flow
@@ -25,6 +26,7 @@ struct PXInitBody: Codable {
         self.charges = charges
         self.discountConfiguration = discountConfiguration
         self.features = features
+        self.newCardId = newCardId
     }
 
     enum CodingKeys: String, CodingKey {
@@ -35,6 +37,7 @@ struct PXInitBody: Codable {
         case charges
         case discountConfiguration = "discount_configuration"
         case features
+        case newCardId = "new_card_id"
     }
 
     public func toJSON() throws -> Data {
@@ -51,8 +54,9 @@ struct PXInitFeatures: Codable {
     let hybridCard: Bool
     let validationPrograms: [String]
     let pix: Bool
+    let customTaxesCharges: Bool
 
-    init(oneTap: Bool = true, split: Bool, odr: Bool = true, comboCard: Bool = false, hybridCard: Bool = false, validationPrograms: [String] = [], pix: Bool = true) {
+    init(oneTap: Bool = true, split: Bool, odr: Bool = true, comboCard: Bool = false, hybridCard: Bool = false, validationPrograms: [String] = [], pix: Bool = true, customTaxesCharges: Bool = true) {
         self.oneTap = oneTap
         self.split = split
         self.odr = odr
@@ -60,6 +64,7 @@ struct PXInitFeatures: Codable {
         self.hybridCard = hybridCard
         self.validationPrograms = validationPrograms
         self.pix = pix
+        self.customTaxesCharges = customTaxesCharges
     }
 
     enum CodingKeys: String, CodingKey {
@@ -70,5 +75,6 @@ struct PXInitFeatures: Codable {
         case hybridCard = "hybrid_card"
         case validationPrograms = "validations_programs"
         case pix
+        case customTaxesCharges = "custom_taxes_charges"
     }
 }

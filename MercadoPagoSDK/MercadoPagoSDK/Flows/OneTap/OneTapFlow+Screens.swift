@@ -38,9 +38,52 @@ extension OneTapFlow {
         let finishButtonAnimation: (() -> Void) = { [weak self] in
             self?.executeNextStep()
         }
+        
         let viewModel = model.oneTapViewModel()
         model.pxOneTapViewModel = viewModel
-        let viewController = PXOneTapViewController(viewModel: viewModel, timeOutPayButton: model.getTimeoutForOneTapReviewController(), callbackPaymentData: callbackPaymentData, callbackConfirm: callbackConfirm, callbackUpdatePaymentOption: callbackUpdatePaymentOption, callbackRefreshInit: callbackRefreshInit, callbackExit: callbackExit, finishButtonAnimation: finishButtonAnimation)
+        
+        let hasInstallments = model.search.payerPaymentMethods.contains { payerPaymentMethod -> Bool in
+             
+            guard let paymentOptions = payerPaymentMethod.paymentOptions else { return false }
+            
+            return paymentOptions.contains { (key: String, amountConfiguration: PXAmountConfiguration) -> Bool in
+                
+                guard let payerCostsCount = amountConfiguration.payerCosts?.count else { return false }
+                
+                return  payerCostsCount > 1
+                
+            }
+        }
+        
+        let hasSplit = model.search.payerPaymentMethods.contains { payerPaymentMethod -> Bool in
+            
+            guard let paymentOptions = payerPaymentMethod.paymentOptions else { return false }
+            
+            return paymentOptions.contains { (key: String, amountConfiguration: PXAmountConfiguration) -> Bool in
+                
+                guard let _ = amountConfiguration.splitConfiguration else { return false }
+                
+                return true
+                
+            }
+        }
+        
+        let hasDiscounts = model.search.coupons.filter { ( key: String, value: PXDiscountConfiguration ) -> Bool in
+            return key != "hash_no_discount"
+        }.count > 0
+        
+        var hasCharges : Bool = false
+        
+        if let chargeRules = model.chargeRules,
+           chargeRules.contains(where: { (chargeRule) -> Bool in
+            return chargeRule.amountCharge != 0
+           }) {
+            hasCharges = true
+        }
+        
+        let pxOneTapContext = PXOneTapContext(hasInstallments: hasInstallments, hasSplit: hasSplit, hasCharges: hasCharges, hasDiscounts: hasDiscounts)
+        
+        let viewController = PXOneTapViewController(viewModel: viewModel, pxOneTapContext: pxOneTapContext, timeOutPayButton: model.getTimeoutForOneTapReviewController(), callbackPaymentData: callbackPaymentData, callbackConfirm: callbackConfirm, callbackUpdatePaymentOption: callbackUpdatePaymentOption, callbackRefreshInit: callbackRefreshInit, callbackExit: callbackExit, finishButtonAnimation: finishButtonAnimation)
 
         pxNavigationHandler.pushViewController(viewController: viewController, animated: true)
     }

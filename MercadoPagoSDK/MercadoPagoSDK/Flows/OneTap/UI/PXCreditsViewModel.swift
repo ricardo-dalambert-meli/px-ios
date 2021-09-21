@@ -10,9 +10,11 @@ import Foundation
 struct PXCreditsViewModel {
 
     let displayInfo: PXDisplayInfoDto
+    let needsTermsAndConditions: Bool
 
-    init(_ withModel: PXOneTapCreditsDto) {
+    init(_ withModel: PXOneTapCreditsDto, needsTermsAndConditions: Bool = true) {
         self.displayInfo = withModel.displayInfo
+        self.needsTermsAndConditions = needsTermsAndConditions
     }
 }
 

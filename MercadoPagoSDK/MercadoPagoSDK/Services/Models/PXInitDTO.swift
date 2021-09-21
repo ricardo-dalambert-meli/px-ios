@@ -25,7 +25,7 @@ public struct PXModal: Codable {
 
 import Foundation
 /// :nodoc:
-final class PXInitDTO: NSObject, Decodable {
+final class PXInitDTO: NSObject, Codable {
     public var preference: PXCheckoutPreference?
     public var oneTap: [PXOneTapDto]?
     public var currency: PXCurrency
@@ -41,8 +41,9 @@ final class PXInitDTO: NSObject, Decodable {
     public var payerCompliance: PXPayerCompliance?
     public var configurations: PXInitConfigurations?
     var modals: [String: PXModal]?
+    public var customCharges: PXCustomCharges?
 
-    public init(preference: PXCheckoutPreference?, oneTap: [PXOneTapDto]?, currency: PXCurrency, site: PXSite, generalCoupon: String, coupons: [String: PXDiscountConfiguration], groups: [PXPaymentMethodSearchItem], payerPaymentMethods: [PXCustomOptionSearchItem], availablePaymentMethods: [PXPaymentMethod], experiments: [PXExperiment]?, payerCompliance: PXPayerCompliance?, configurations: PXInitConfigurations?, modals: [String: PXModal]) {
+    public init(preference: PXCheckoutPreference?, oneTap: [PXOneTapDto]?, currency: PXCurrency, site: PXSite, generalCoupon: String, coupons: [String: PXDiscountConfiguration], groups: [PXPaymentMethodSearchItem], payerPaymentMethods: [PXCustomOptionSearchItem], availablePaymentMethods: [PXPaymentMethod], experiments: [PXExperiment]?, payerCompliance: PXPayerCompliance?, configurations: PXInitConfigurations?, modals: [String: PXModal], customCharges: PXCustomCharges?) {
         self.preference = preference
         self.oneTap = oneTap
         self.payerCompliance = payerCompliance
@@ -56,6 +57,7 @@ final class PXInitDTO: NSObject, Decodable {
         self.experiments = experiments
         self.configurations = configurations
         self.modals = modals
+        self.customCharges = customCharges
 
         if let selectedDiscountConfiguration = coupons[generalCoupon] {
             self.selectedDiscountConfiguration = selectedDiscountConfiguration
@@ -76,6 +78,7 @@ final class PXInitDTO: NSObject, Decodable {
         case experiments
         case configurations
         case modals
+        case customCharges = "custom_charges"
     }
 
     func getPaymentOptionsCount() -> Int {

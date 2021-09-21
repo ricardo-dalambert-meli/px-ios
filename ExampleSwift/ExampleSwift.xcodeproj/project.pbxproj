@@ -17,6 +17,7 @@
 		5A8250B825FBFE6900B64357 /* AlphaConfig.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 5A8250B525FBFE6900B64357 /* AlphaConfig.xcconfig */; };
 		5A8250B925FBFE6900B64357 /* DebugConfig.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 5A8250B625FBFE6900B64357 /* DebugConfig.xcconfig */; };
 		5A8250BA25FBFE6900B64357 /* ReleaseConfig.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 5A8250B725FBFE6900B64357 /* ReleaseConfig.xcconfig */; };
+		5AACB1102641B1CA00A20ED5 /* CustomSplitPaymentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AACB10F2641B1CA00A20ED5 /* CustomSplitPaymentProcessor.swift */; };
 		5AE825FD2590C8D1002C7F74 /* CustomPaymentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE825FC2590C8D1002C7F74 /* CustomPaymentProcessor.swift */; };
 		5AE826012590C8FB002C7F74 /* CustomPXDynamicComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE826002590C8FB002C7F74 /* CustomPXDynamicComponent.swift */; };
 		5AE826232590D100002C7F74 /* CustomPXDynamicComponentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AE826222590D100002C7F74 /* CustomPXDynamicComponentView.xib */; };
@@ -37,6 +38,7 @@
 		5A8250B525FBFE6900B64357 /* AlphaConfig.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = AlphaConfig.xcconfig; sourceTree = "<group>"; };
 		5A8250B625FBFE6900B64357 /* DebugConfig.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = DebugConfig.xcconfig; sourceTree = "<group>"; };
 		5A8250B725FBFE6900B64357 /* ReleaseConfig.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ReleaseConfig.xcconfig; sourceTree = "<group>"; };
+		5AACB10F2641B1CA00A20ED5 /* CustomSplitPaymentProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSplitPaymentProcessor.swift; sourceTree = "<group>"; };
 		5AE825FC2590C8D1002C7F74 /* CustomPaymentProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPaymentProcessor.swift; sourceTree = "<group>"; };
 		5AE826002590C8FB002C7F74 /* CustomPXDynamicComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPXDynamicComponent.swift; sourceTree = "<group>"; };
 		5AE826222590D100002C7F74 /* CustomPXDynamicComponentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomPXDynamicComponentView.xib; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				5AE825FC2590C8D1002C7F74 /* CustomPaymentProcessor.swift */,
 				5AE826002590C8FB002C7F74 /* CustomPXDynamicComponent.swift */,
 				129B9D452615195E00127DC6 /* DataExtensions.swift */,
+				5AACB10F2641B1CA00A20ED5 /* CustomSplitPaymentProcessor.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -163,7 +166,7 @@
 				23EDA1302147DFC90085CA7A /* Frameworks */,
 				23EDA1312147DFC90085CA7A /* Resources */,
 				F1FA247132DA0A1B83FD456D /* [CP] Embed Pods Frameworks */,
-				855B09AF40508C67EAD0559B /* [CP] Copy Pods Resources */,
+				D462B6759FF0A41393585416 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -244,7 +247,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		855B09AF40508C67EAD0559B /* [CP] Copy Pods Resources */ = {
+		D462B6759FF0A41393585416 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -293,6 +296,7 @@
 				5AE825FD2590C8D1002C7F74 /* CustomPaymentProcessor.swift in Sources */,
 				A36F0F1B24DC3E7D00F3457D /* CongratsSelectorViewController.swift in Sources */,
 				23EDA1392147DFC90085CA7A /* ViewController.swift in Sources */,
+				5AACB1102641B1CA00A20ED5 /* CustomSplitPaymentProcessor.swift in Sources */,
 				23EDA1372147DFC90085CA7A /* AppDelegate.swift in Sources */,
 				129B9D462615195E00127DC6 /* DataExtensions.swift in Sources */,
 				5AE826012590C8FB002C7F74 /* CustomPXDynamicComponent.swift in Sources */,

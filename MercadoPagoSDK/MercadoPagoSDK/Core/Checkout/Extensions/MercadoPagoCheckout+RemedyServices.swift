@@ -26,7 +26,8 @@ extension MercadoPagoCheckout {
                                                                       securityCodeLocation: oneTapCard?.cardUI?.securityCode?.cardLocation,
                                                                       securityCodeLength: oneTapCard?.cardUI?.securityCode?.length,
                                                                       installmentsList: installments,
-                                                                      installment: nil)
+                                                                      installment: nil,
+                                                                      cardSize: nil)
             alternativePayerPaymentMethods.append(alternativePayerPaymentMethod)
         }
         return alternativePayerPaymentMethods

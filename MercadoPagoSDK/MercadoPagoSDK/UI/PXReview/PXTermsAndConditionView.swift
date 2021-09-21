@@ -6,12 +6,6 @@
 //  Copyright © 2018 MercadoPago. All rights reserved.
 //
 
-import Foundation
-
-protocol PXTermsAndConditionViewDelegate: NSObjectProtocol {
-    func shouldOpenTermsCondition(_ title: String, url: URL)
-}
-
 class PXTermsAndConditionView: PXComponentView {
     var SCREEN_TITLE = "terms_and_conditions_title"
     internal let DEFAULT_CREDITS_HEIGHT = CGFloat(80)

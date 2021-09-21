@@ -27,17 +27,10 @@ open class MercadoPagoCheckout: NSObject {
     // until the init flow is refreshed with this new payment method
     internal struct InitFlowRefresh {
         static var cardId: String?
-        static var countRetries: Int = 0
-        static let maxRetries: Int = 3
         static let retryDelay: Double = 0.5
-
-        static var hasReachedMaxRetries: Bool {
-            return countRetries >= maxRetries
-        }
 
         static func resetValues() {
             cardId = nil
-            countRetries = 0
         }
     }
 
@@ -147,30 +140,32 @@ extension MercadoPagoCheckout {
     }
 
     internal func executeNextStep() {
-        switch self.viewModel.nextStep() {
-        case .START :
-            startTracking() { [weak self] in
-                guard let self = self else { return }
-                self.initialize()
+        DispatchQueue.main.async {
+            switch self.viewModel.nextStep() {
+            case .START :
+                self.startTracking() { [weak self] in
+                    guard let self = self else { return }
+                    self.initialize()
+                }
+            case .SERVICE_CREATE_CARD_TOKEN:
+                self.createCardToken()
+            case .SCREEN_SECURITY_CODE:
+                self.showSecurityCodeScreen()
+            case .SERVICE_POST_PAYMENT:
+                self.createPayment()
+            case .SERVICE_GET_REMEDY:
+                self.getRemedy()
+            case .SCREEN_PAYMENT_RESULT:
+                self.showPaymentResultScreen()
+            case .ACTION_FINISH:
+                self.finish()
+            case .SCREEN_ERROR:
+                self.showErrorScreen()
+            case .SCREEN_PAYMENT_METHOD_PLUGIN_CONFIG:
+                self.showPaymentMethodPluginConfigScreen()
+            case .FLOW_ONE_TAP:
+                self.startOneTapFlow()
             }
-        case .SERVICE_CREATE_CARD_TOKEN:
-            self.createCardToken()
-        case .SCREEN_SECURITY_CODE:
-            self.showSecurityCodeScreen()
-        case .SERVICE_POST_PAYMENT:
-            self.createPayment()
-        case .SERVICE_GET_REMEDY:
-            self.getRemedy()
-        case .SCREEN_PAYMENT_RESULT:
-            self.showPaymentResultScreen()
-        case .ACTION_FINISH:
-            self.finish()
-        case .SCREEN_ERROR:
-            self.showErrorScreen()
-        case .SCREEN_PAYMENT_METHOD_PLUGIN_CONFIG:
-            self.showPaymentMethodPluginConfigScreen()
-        case .FLOW_ONE_TAP:
-            self.startOneTapFlow()
         }
     }
 

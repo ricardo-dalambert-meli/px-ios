@@ -71,7 +71,7 @@ class HybridAMCard: NSObject, CustomCardDrawerUI {
 }
 
 extension HybridAMCard {
-    func render(containerView: UIView, isDisabled: Bool, size: CGSize) {
+    func render(containerView: UIView, isDisabled: Bool, size: CGSize, cardType: MLCardDrawerTypeV3? = .large) {
         // Image
         let amImage = UIImageView()
         amImage.backgroundColor = .clear

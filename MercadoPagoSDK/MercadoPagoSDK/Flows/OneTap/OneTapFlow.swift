@@ -45,24 +45,28 @@ final class OneTapFlow: NSObject, PXFlow {
     }
 
     func executeNextStep() {
-        switch self.model.nextStep() {
-        case .screenOneTap:
-            self.showOneTapViewController()
-        case .screenSecurityCode:
-            self.showSecurityCodeScreen()
-        case .serviceCreateESCCardToken:
-            self.getTokenizationService().createCardToken()
-        case .serviceCreateWebPayCardToken:
-            self.getTokenizationService().createCardToken(securityCode: "")
-        case .screenKyC:
-            self.showKyCScreen()
-        case .service3DS:
-            guard let program = model.getProgramValidation(), let cardHolderName = model.getCardHolderName() else { return }
-            self.getThreeDSService().authorize3DS(programUsed: program, cardHolderName: cardHolderName)
-        case .payment:
-            self.startPaymentFlow()
-        case .finish:
-            self.finishFlow()
+        DispatchQueue.main.async {
+            switch self.model.nextStep() {
+            case .screenOneTap:
+                self.showOneTapViewController()
+            case .screenSecurityCode:
+                self.showSecurityCodeScreen()
+            case .serviceCreateOptionalToken:
+                self.getTokenizationService().createCardTokenWithoutCVV()
+            case .serviceCreateESCCardToken:
+                self.getTokenizationService().createCardToken()
+            case .serviceCreateWebPayCardToken:
+                self.getTokenizationService().createCardToken(securityCode: "")
+            case .screenKyC:
+                self.showKyCScreen()
+            case .service3DS:
+                guard let program = self.model.getProgramValidation(), let cardHolderName = self.model.getCardHolderName() else { return }
+                self.getThreeDSService().authorize3DS(programUsed: program, cardHolderName: cardHolderName)
+            case .payment:
+                self.startPaymentFlow()
+            case .finish:
+                self.finishFlow()
+            }
         }
     }
 

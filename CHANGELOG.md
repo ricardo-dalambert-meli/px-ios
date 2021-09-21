@@ -1,3 +1,49 @@
+# v4.46.0
+🚀Private Release - 4.46.0 date: 16/09/2021 🚀
+- Showing modal when remedies card option given from BE is Mercado Creditos (disabled until tracks are done)
+- Card size on remedies dynamic according to BE response (disabled until tracks are done)
+- Tokenizing without cvv/ESC
+- Terms of use removed from customCard and added to top of payButton
+
+# v4.45.0
+🚀Private Release - 4.45.0 🚀
+- Fixed decimal calculation for getRawAmount
+
+# v4.44.0
+🚀Private Release - 4.44.0 🚀
+- Added new network layer with access token in header instead query param
+- Added AndesMessage on congrats screen
+- Fix label on oneTap header to limit its characters and not invading value label
+- Fix on OneTapFlow where OneTapFlow instance was being killed intead of being updated
+
+# v4.43.2
+🚀Private Release - 4.43.2 🚀
+- Added ProfileID protocol, default and header key-value for payments call with default processor
+- Adds a parameter on congrats request
+
+# v4.42.0
+🚀Private Release - 4.42.0 🚀
+- IDC regulation improvements
+- Fix BCRA retries
+
+# v4.41.1
+🚀Private Release - 4.41.1 🚀
+- IDC regulation 
+
+# v4.41.0
+🚀Private Release - 4.41.0 🚀
+- BCRA regulation
+
+# v4.40.1
+🚀Private Release - 4.40.1 🚀
+- Fixed header merchant view cornerRadius
+
+# v4.40.0
+🚀Private Release - 4.40.0 🚀
+- Added the new installments v2.1 component on OneTap
+- Added support for the new MLCardDrawerV3 card types
+- Improved ComboSwitch behaviour on small devices 
+
 # v4.39.5
 🚀Private Release - 4.39.5 🚀
 - Fix crashes caused because of mapToJSON() method on PaymentMethodSearchService class
