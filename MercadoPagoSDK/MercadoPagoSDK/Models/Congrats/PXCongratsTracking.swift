@@ -22,7 +22,7 @@ protocol PXViewModelTrackingDataProtocol {
     func getTrackingPath() -> PXResultTrackingEvents?
     func getFlowBehaviourResult() -> PXResultKey
     func getTrackingProperties() -> [String: Any]
-    func getTrackingRemediesProperties() -> [String: Any]
+    func getTrackingRemediesProperties(isFrom: String?) -> [String: Any]
     func getViewErrorPaymentResult() -> [String: Any]
     func getDidShowRemedyErrorModal() -> [String: Any]
 

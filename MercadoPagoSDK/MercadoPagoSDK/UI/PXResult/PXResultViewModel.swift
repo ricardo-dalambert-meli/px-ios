@@ -411,7 +411,7 @@ extension PXResultViewModel: PXViewModelTrackingDataProtocol {
         return properties
     }
     
-    func getTrackingRemediesProperties() -> [String: Any] {
+    func getTrackingRemediesProperties(isFrom: String?) -> [String: Any] {
         var properties: [String: Any] = amountHelper.getPaymentData().getPaymentDataForTracking()
         properties["style"] = "custom"
         if let paymentId = getPaymentId() {

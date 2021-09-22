@@ -49,8 +49,7 @@ class PXNewResultViewController: MercadoPagoUIViewController {
         super.viewDidAppear(animated)
         animateScrollView()
         animateRing()
-
-        self.itsPaidMarket()
+        //self.itsPaidMarket()
         
         PXNewResultUtil.trackScreenAndConversion(viewModel: viewModel)
         if viewModel.shouldAutoReturn() {
@@ -751,14 +750,11 @@ extension PXNewResultViewController: PXRemedyViewDelegate {
     
     func showModal(modalInfos: PXOneTapDisabledViewController) {
         modalTeste = PXComponentFactory.Modal.show(viewController: modalInfos, dismissBlock: {
-            print("Dismissed!")
-            print("Lepe://dismissView")
         })
       }
 
     func remedyViewButtonTouchUpInside(_ sender: PXAnimatedButton) {
         subscribeToAnimatedButtonNotifications(button: sender)
-        self.itsPaidMarket()
         sender.startLoading()
         scrollView.isScrollEnabled = false
         view.isUserInteractionEnabled = false
@@ -766,17 +762,17 @@ extension PXNewResultViewController: PXRemedyViewDelegate {
         hideNavBar()
     }
     
-
-    func trackingChangeMethod(isModal: Bool, action: String){
-        let from: String
-        from = isModal == true ? "modal" : "view"
-        if action == "change_pm" {
+    func trackingChangeMethod(isModal: Bool){
+        let from = isModal == true ? "modal" : "view"
             MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.changePaymentMethod(isFrom: from))
-        } else {
-            MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didResultRemedyError(viewModel.getTrackingRemediesProperties()))
+     }
+    
+    func trackingPay(isModal: Bool){
+        let from = isModal == true ? "modal" : "view"
+            MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didResultRemedyError(viewModel.getTrackingRemediesProperties(isFrom: from)))
         }
-    }
 }
+
 
 // MARK: Notifications
 extension PXNewResultViewController {
@@ -800,11 +796,6 @@ extension PXNewResultViewController {
         if let button = getRemedyViewAnimatedButton() {
             PXNotificationManager.UnsuscribeTo.animateButton(button)
         }
-    }
-    
-    func itsPaidMarket(){
-        let consumerCredits: Bool = viewModel.selectPaymentMethodConsumerCredits()
-            consumerCredits == true ? MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didShowRemedyErrorModal) : MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didResultRemedyError(viewModel.getTrackingRemediesProperties()))
     }
 }
 

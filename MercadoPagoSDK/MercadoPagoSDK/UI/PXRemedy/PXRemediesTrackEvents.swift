@@ -11,6 +11,7 @@ enum PXRemediesTrackEvents: TrackingEvents {
     case changePaymentMethod(isFrom: String)
     case didShowRemedyErrorModal
     case didCloseRemedyModalAbort
+
     
     var name: String {
         switch self {

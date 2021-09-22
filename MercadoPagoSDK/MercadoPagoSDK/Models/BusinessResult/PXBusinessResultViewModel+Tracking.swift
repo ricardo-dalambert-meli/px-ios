@@ -140,7 +140,7 @@ extension PXBusinessResultViewModel: PXViewModelTrackingDataProtocol {
        return properties
     }
     
-    func getTrackingRemediesProperties() -> [String : Any] {
+    func getTrackingRemediesProperties(isFrom: String?) -> [String : Any] {
         var properties: [String: Any] = [:]
         properties["index"] = 0
         properties["type"] = businessResult.getPaymentMethodTypeId()
