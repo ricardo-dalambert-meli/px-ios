@@ -140,12 +140,13 @@ extension PXBusinessResultViewModel: PXViewModelTrackingDataProtocol {
        return properties
     }
     
-    func getTrackingRemediesProperties(isFrom: String?) -> [String : Any] {
+    func getTrackingRemediesProperties(isFromModal: Bool) -> [String : Any] {
         var properties: [String: Any] = [:]
         properties["index"] = 0
         properties["type"] = businessResult.getPaymentMethodTypeId()
         properties["payment_status"] = businessResult.paymentStatus
         properties["payment_status_detail"] = businessResult.getStatusDetail()
+        properties["from"] = isFromModal == true ? "modal" : "view"
         return properties
     }
     

@@ -411,7 +411,7 @@ extension PXResultViewModel: PXViewModelTrackingDataProtocol {
         return properties
     }
     
-    func getTrackingRemediesProperties(isFrom: String?) -> [String: Any] {
+    func getTrackingRemediesProperties(isFromModal: Bool) -> [String: Any] {
         var properties: [String: Any] = amountHelper.getPaymentData().getPaymentDataForTracking()
         properties["style"] = "custom"
         if let paymentId = getPaymentId() {
@@ -422,6 +422,7 @@ extension PXResultViewModel: PXViewModelTrackingDataProtocol {
         properties["has_split_payment"] = amountHelper.isSplitPayment
         properties["currency_id"] = SiteManager.shared.getCurrency().id
         properties["discount_coupon_amount"] = amountHelper.getDiscountCouponAmountForTracking()
+        properties["from"] = isFromModal == true ? "modal" : "view"
         properties = PXCongratsTracking.getProperties(dataProtocol: self, properties: properties)
 
         if let rawAmount = amountHelper.getPaymentData().getRawAmount() {

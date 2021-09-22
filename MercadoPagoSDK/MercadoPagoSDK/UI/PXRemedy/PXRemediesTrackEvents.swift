@@ -8,7 +8,7 @@
 enum PXRemediesTrackEvents: TrackingEvents {
     case didResultRemedyError([String:Any])
     case viewErrorPaymentResult([String:Any])
-    case changePaymentMethod(isFrom: String)
+    case changePaymentMethod(isFromModal: Bool)
     case didShowRemedyErrorModal
     case didCloseRemedyModalAbort
 
@@ -26,7 +26,7 @@ enum PXRemediesTrackEvents: TrackingEvents {
     var properties: [String : Any] {
         switch self {
             case .didResultRemedyError(let properties),.viewErrorPaymentResult(let properties): return properties
-            case .changePaymentMethod(let from): return ["from": from]
+        case .changePaymentMethod(let isFromModal): return ["from": isFromModal ? "modal" : "viem"]
             case .didCloseRemedyModalAbort: return [:]
             case .didShowRemedyErrorModal: return [:]
            

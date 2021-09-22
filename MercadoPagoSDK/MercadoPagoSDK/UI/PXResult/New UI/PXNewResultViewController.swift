@@ -771,13 +771,11 @@ extension PXNewResultViewController: PXRemedyViewDelegate {
     }
     
     func trackingChangeMethod(isModal: Bool){
-        let from = isModal == true ? "modal" : "view"
-            MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.changePaymentMethod(isFrom: from))
+            MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.changePaymentMethod(isFromModal: isModal))
      }
     
     func trackingPay(isModal: Bool){
-        let from = isModal == true ? "modal" : "view"
-            MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didResultRemedyError(viewModel.getTrackingRemediesProperties(isFrom: from)))
+            MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didResultRemedyError(viewModel.getTrackingRemediesProperties(isFromModal: isModal)))
         }
 }
 

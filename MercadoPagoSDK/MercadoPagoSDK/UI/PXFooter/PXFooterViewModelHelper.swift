@@ -102,7 +102,7 @@ internal extension PXResultViewModel {
                 case PXRejectedStatusDetail.CARD_DISABLE.rawValue:
                     callback(PaymentResult.CongratsState.RETRY, nil)
                 default:
-                    MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.changePaymentMethod(isFrom: "view"))
+                    MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.changePaymentMethod(isFromModal: false))
                     callback(PaymentResult.CongratsState.SELECT_OTHER, nil)
                 }
             }
