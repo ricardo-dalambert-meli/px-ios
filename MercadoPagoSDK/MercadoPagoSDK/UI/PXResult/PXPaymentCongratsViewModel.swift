@@ -339,7 +339,6 @@ extension PXPaymentCongratsViewModel: PXNewResultViewModelInterface {
 
 extension PXPaymentCongratsViewModel {
 
-    //"px_checkout/result/error/remedy"
     func getTrackingRemediesProperties(isFrom: String?) -> [String : Any] {
             guard let extConf = paymentCongrats.externalTrackingValues else { return [:] }
             var properties: [String: Any] = [:]
@@ -354,7 +353,6 @@ extension PXPaymentCongratsViewModel {
             return properties
         }
 
-    //"/px_checkout/result/error"
     func getViewErrorPaymentResult() -> [String: Any] {
         guard let extConf = paymentCongrats.externalTrackingValues else { return [:] }
         var properties: [String: Any] = [:]
@@ -368,7 +366,6 @@ extension PXPaymentCongratsViewModel {
         return properties
     }
 
-    //"/px_checkout/result/error/remedy/modal"
     func getDidShowRemedyErrorModal() -> [String: Any] {
         guard let extConf = paymentCongrats.externalTrackingValues else { return [:] }
         var properties: [String: Any] = [:]

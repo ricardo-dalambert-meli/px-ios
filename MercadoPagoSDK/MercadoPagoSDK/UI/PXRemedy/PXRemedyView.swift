@@ -15,7 +15,7 @@ protocol PXRemedyViewDelegate: AnyObject {
     func remedyViewButtonTouchUpInside(_ sender: PXAnimatedButton)
     func showModal(modalInfos: PXOneTapDisabledViewController)
     func selectAnotherPaymentMethod()
-    func dismissModal(closeView: Bool)
+    func dismissModal(fromCloseButton: Bool)
     func trackingChangeMethod(isModal: Bool)
     func trackingPay(isModal: Bool)
 }
@@ -437,12 +437,12 @@ final class PXRemedyView: UIView {
         }
         
         let primaryButton = PXAction(label: modalInfos.mainButton.label) { [weak self] in
-            self?.data.remedyViewProtocol?.dismissModal(closeView: true)
+            self?.data.remedyViewProtocol?.dismissModal(fromCloseButton: false)
             self?.handlePayment(isModal: true)
         }
         
         let secondaryButton = PXAction(label: modalInfos.secondaryButton.label) { [weak self] in
-            self?.data.remedyViewProtocol?.dismissModal(closeView: true) //falta implementar e testar
+            self?.data.remedyViewProtocol?.dismissModal(fromCloseButton: false)
             self?.data.remedyViewProtocol?.selectAnotherPaymentMethod()
             self?.data.remedyViewProtocol?.trackingChangeMethod(isModal: true)
         }

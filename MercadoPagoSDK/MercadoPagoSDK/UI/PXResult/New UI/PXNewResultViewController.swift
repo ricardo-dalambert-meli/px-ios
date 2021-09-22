@@ -23,6 +23,7 @@ class PXNewResultViewController: MercadoPagoUIViewController {
     private var finishButtonAnimation: (() -> Void)?
     private var touchpointView: MLBusinessTouchpointsView?
     private var autoReturnWorkItem: DispatchWorkItem?
+    private var needsTrackCloseModal = true
 
     // Autoreturn
     let autoReturnlabel = UILabel()
@@ -739,17 +740,24 @@ extension PXNewResultViewController: PXAnimatedButtonDelegate {
 
 // MARK: PXRemedyViewDelegate
 extension PXNewResultViewController: PXRemedyViewDelegate {
+    
+    
 
     func selectAnotherPaymentMethod() {
         viewModel.getFooterSecondaryAction()?.action()
     }
     
-    func dismissModal(closeView: Bool) {
+    func dismissModal(fromCloseButton: Bool) {
+        needsTrackCloseModal = fromCloseButton
         modalTeste?.dismiss()
     }
     
     func showModal(modalInfos: PXOneTapDisabledViewController) {
+        needsTrackCloseModal = true
         modalTeste = PXComponentFactory.Modal.show(viewController: modalInfos, dismissBlock: {
+            if self.needsTrackCloseModal {
+                MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didCloseRemedyModalAbort)
+            }
         })
       }
 
