@@ -16,10 +16,6 @@ extension RemedyRequestInfos: RequestInfos {
         }
     }
     
-    var environment: BackendEnvironment {
-        .gamma
-    }
-    
     var mockURL: URL? {
         URL(string: "https://run.mocky.io/v3/f5cfc842-2e97-42d7-b1e5-84780f01118e")
     }
