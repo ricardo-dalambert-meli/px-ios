@@ -5,19 +5,19 @@
 //  Created by Matheus Leandro Martins on 15/07/21.
 //
 
-protocol CustomServices {
+protocol CustomService {
     func getPointsAndDiscounts(data: Data?, parameters: CustomParametersModel, response: @escaping (Swift.Result<PXPointsAndDiscounts, Error>) -> Void)
     func resetESCCap(cardId:String, privateKey: String?, response: @escaping (Swift.Result<Void, PXError>) -> Void)
     func createPayment(privateKey: String?, publicKey: String, data: Data?, header: [String : String]?, response: @escaping (Swift.Result<PXPayment, PXError>) -> Void)
 }
 
 
-final class CustomServicesImpl: CustomServices {
+final class CustomServiceImpl: CustomService {
     // MARK: - private properties
-    private let service: Requesting<CustomRequestInfos>
+    private let service: Request<CustomRequestInfos>
     
     // MARK: - Initialization
-    init(service: Requesting<CustomRequestInfos> = Requesting<CustomRequestInfos>()) {
+    init(service: Request<CustomRequestInfos> = Request<CustomRequestInfos>()) {
         self.service = service
     }
     

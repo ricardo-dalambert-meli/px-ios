@@ -17,10 +17,10 @@ protocol TokenService {
 
 final class TokenServiceImpl: TokenService {
     // MARK: - Private properties
-    private let service: Requesting<TokenRequestInfos>
+    private let service: Request<TokenRequestInfos>
     
     // MARK: - Initialization
-    init(service: Requesting<TokenRequestInfos> = Requesting<TokenRequestInfos>()) {
+    init(service: Request<TokenRequestInfos> = Request<TokenRequestInfos>()) {
         self.service = service
     }
     
