@@ -63,6 +63,13 @@ internal extension PXResultViewModel {
             return PXFooterResultConstants.GENERIC_ERROR_BUTTON_TEXT.localized
         }
     }
+    
+    
+    private func selectOther() {
+        guard let callback = callback else { return }
+        MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.changePaymentMethod(isFromModal: false))
+        callback(PaymentResult.CongratsState.SELECT_OTHER, nil)
+    }
 
     private func getLinkLabel() -> String? {
         if let primaryButton = pointsAndDiscounts?.primaryButton {
@@ -91,10 +98,10 @@ internal extension PXResultViewModel {
                 if self.paymentResult.isHighRisk(), let deepLink = self.remedy?.highRisk?.deepLink {
                     callback(PaymentResult.CongratsState.DEEPLINK, deepLink)
                 } else {
-                    callback(PaymentResult.CongratsState.SELECT_OTHER, nil)
+                    self.selectOther()
                 }
             } else if self.paymentResult.isBadFilled() {
-                callback(PaymentResult.CongratsState.SELECT_OTHER, nil)
+                self.selectOther()
             } else if self.paymentResult.isWarning() {
                 switch self.paymentResult.statusDetail {
                 case PXRejectedStatusDetail.CALL_FOR_AUTH.rawValue:
@@ -102,8 +109,7 @@ internal extension PXResultViewModel {
                 case PXRejectedStatusDetail.CARD_DISABLE.rawValue:
                     callback(PaymentResult.CongratsState.RETRY, nil)
                 default:
-                    MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.changePaymentMethod(isFromModal: false))
-                    callback(PaymentResult.CongratsState.SELECT_OTHER, nil)
+                    self.selectOther()
                 }
             }
         }
@@ -152,7 +158,7 @@ internal extension PXResultViewModel {
             case PXRejectedStatusDetail.DUPLICATED_PAYMENT.rawValue:
                 callback(PaymentResult.CongratsState.EXIT, nil)
             default:
-                callback(PaymentResult.CongratsState.SELECT_OTHER, nil)
+                self.selectOther()
             }
         }
     }
