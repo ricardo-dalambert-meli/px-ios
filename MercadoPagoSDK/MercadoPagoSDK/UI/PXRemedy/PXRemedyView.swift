@@ -15,8 +15,8 @@ protocol PXRemedyViewDelegate: AnyObject {
     func remedyViewButtonTouchUpInside(_ sender: PXAnimatedButton)
     func showModal(modalInfos: PXOneTapDisabledViewController)
     func selectAnotherPaymentMethod()
-    func dismissModal()
-    func trackingChangeMethod(isModal: Bool)
+    func dismissModal(closeView: Bool)
+    func trackingChangeMethod(isModal: Bool, action: String)
 }
 
 struct PXRemedyViewData {
@@ -31,7 +31,7 @@ struct PXRemedyViewData {
 }
 
 final class PXRemedyView: UIView {
-    
+
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -272,7 +272,8 @@ final class PXRemedyView: UIView {
                                                                                          bottomText: consumerCredits.displayInfo.bottomText))
             let creditsViewModel = PXCreditsViewModel(customConsumerCredits, needsTermsAndConditions: false)
             let view = controller.getCardView()
-            consumerCreditsCard.render(containerView: view, creditsViewModel: creditsViewModel, isDisabled: false, size: view.bounds.size, selectedInstallments: data.paymentData?.payerCost?.installments, cardType: .medium)
+     
+            consumerCreditsCard.render(containerView: view, creditsViewModel: creditsViewModel, isDisabled: false, size: view.bounds.size, selectedInstallments: data.paymentData?.payerCost?.installments, cardType: cardSize)
         }
 
         return controller.view
@@ -419,6 +420,7 @@ final class PXRemedyView: UIView {
         return totalView
     }
     private func handlePayment() {
+
         if let remedyButtonTapped = data.remedyButtonTapped {
             remedyButtonTapped(textField.getValue())
         }
@@ -426,23 +428,30 @@ final class PXRemedyView: UIView {
         data.remedyViewProtocol?.remedyViewButtonTouchUpInside(payButton)
     }
     
-    private func showModal() {
+    private func showModal()  {
+        MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didShowRemedyErrorModal)
+        
         guard let modalInfos = data.remedy.suggestedPaymentMethod?.modal else {
             handlePayment()
             return
         }
         
+        //Confirma pago -> event /px_checkout/result/error/remedy,
         let primaryButton = PXAction(label: modalInfos.mainButton.label) { [weak self] in
-            self?.data.remedyViewProtocol?.dismissModal()
+            self?.data.remedyViewProtocol?.dismissModal(closeView: true)
+            self?.data.remedyViewProtocol?.trackingChangeMethod(isModal: true, action: modalInfos.mainButton.action)
             self?.handlePayment()
         }
         
+        
+        //Pagar de outra forma -> event /px_checkout/result/error/change_payment_method
         let secondaryButton = PXAction(label: modalInfos.secondaryButton.label) { [weak self] in
-            self?.data.remedyViewProtocol?.dismissModal()
+            self?.data.remedyViewProtocol?.dismissModal(closeView: true) //falta implementar e testar
             self?.data.remedyViewProtocol?.selectAnotherPaymentMethod()
-            self?.data.remedyViewProtocol?.trackingChangeMethod(isModal: true)
+            self?.data.remedyViewProtocol?.trackingChangeMethod(isModal: true, action: modalInfos.mainButton.action)
         }
         
+
         let modalController = PXOneTapDisabledViewController(title: modalInfos.title,
                                                              description: modalInfos.description,
                                                              primaryButton: primaryButton,
@@ -450,6 +459,7 @@ final class PXRemedyView: UIView {
                                                              iconUrl: nil)
         
         data.remedyViewProtocol?.showModal(modalInfos: modalController)
+
     }
 }
 
