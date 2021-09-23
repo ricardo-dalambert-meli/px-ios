@@ -14,9 +14,8 @@ import MLUI
 protocol PXRemedyViewDelegate: AnyObject {
     func remedyViewButtonTouchUpInside(_ sender: PXAnimatedButton)
     func showModal(modalInfos: PXOneTapDisabledViewController)
-    func selectAnotherPaymentMethod()
+    func selectAnotherPaymentMethod(isModal: Bool)
     func dismissModal(fromCloseButton: Bool)
-    func trackingChangeMethod(isModal: Bool)
     func trackingPay(isModal: Bool)
 }
 
@@ -243,10 +242,7 @@ final class PXRemedyView: UIView {
         let cardSize: MLCardDrawerTypeV3
         switch data.remedy.suggestedPaymentMethod?.alternativePaymentMethod?.cardSize {
         case .mini: cardSize = .mini
-        case .small: cardSize = .small
-        case .xSmall: cardSize = .xSmall
-        case .medium, .none: cardSize = .medium
-        case .large: cardSize = .large
+        default: cardSize = .medium
         }
 
         let controller = MLCardDrawerController(cardUI: cardUI, cardSize, cardData, false)
@@ -443,8 +439,7 @@ final class PXRemedyView: UIView {
         
         let secondaryButton = PXAction(label: modalInfos.secondaryButton.label) { [weak self] in
             self?.data.remedyViewProtocol?.dismissModal(fromCloseButton: false)
-            self?.data.remedyViewProtocol?.selectAnotherPaymentMethod()
-            self?.data.remedyViewProtocol?.trackingChangeMethod(isModal: true)
+            self?.data.remedyViewProtocol?.selectAnotherPaymentMethod(isModal: true)
         }
         
 

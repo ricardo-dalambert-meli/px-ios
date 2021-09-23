@@ -739,11 +739,9 @@ extension PXNewResultViewController: PXAnimatedButtonDelegate {
 
 // MARK: PXRemedyViewDelegate
 extension PXNewResultViewController: PXRemedyViewDelegate {
-    
-    
-
-    func selectAnotherPaymentMethod() {
-        viewModel.getFooterSecondaryAction()?.action()
+    func selectAnotherPaymentMethod(isModal: Bool) {
+        MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.changePaymentMethod(isFromModal: isModal))
+        (viewModel.getFooterSecondaryAction() ?? viewModel.getFooterMainAction())?.action()
     }
     
     func dismissModal(fromCloseButton: Bool) {
@@ -768,10 +766,6 @@ extension PXNewResultViewController: PXRemedyViewDelegate {
         hideBackButton()
         hideNavBar()
     }
-    
-    func trackingChangeMethod(isModal: Bool){
-            MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.changePaymentMethod(isFromModal: isModal))
-     }
     
     func trackingPay(isModal: Bool){
             MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didResultRemedyError(viewModel.getTrackingRemediesProperties(isFromModal: isModal)))
