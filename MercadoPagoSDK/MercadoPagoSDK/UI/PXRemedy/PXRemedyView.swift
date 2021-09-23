@@ -243,10 +243,7 @@ final class PXRemedyView: UIView {
         let cardSize: MLCardDrawerTypeV3
         switch data.remedy.suggestedPaymentMethod?.alternativePaymentMethod?.cardSize {
         case .mini: cardSize = .mini
-        case .small: cardSize = .small
-        case .xSmall: cardSize = .xSmall
-        case .medium, .none: cardSize = .medium
-        case .large: cardSize = .large
+        default: cardSize = .medium
         }
 
         let controller = MLCardDrawerController(cardUI: cardUI, cardSize, cardData, false)
