@@ -23,13 +23,13 @@ enum MercadoPagoUITrackingEvents: TrackingEvents {
         switch self {
         case .didAbort(let screen, _): return "\(screen)/abort"
         case .didGoBack(let screen): return "\(screen)/back"
-        case .appliedDiscount(_): return "/px_checkout/payments/applied_discount"
-        case .termsAndConditions(_): return "/px_checkout/payments/terms_and_conditions"
-        case .secureCode(_): return "/px_checkout/security_code"
-        case .offlineMethodds(_): return "/px_checkout/review/one_tap/offline_methods"
-        case .reviewOneTap(_): return "/px_checkout/review/one_tap"
+        case .appliedDiscount: return "/px_checkout/payments/applied_discount"
+        case .termsAndConditions: return "/px_checkout/payments/terms_and_conditions"
+        case .secureCode: return "/px_checkout/security_code"
+        case .offlineMethodds: return "/px_checkout/review/one_tap/offline_methods"
+        case .reviewOneTap: return "/px_checkout/review/one_tap"
         case .disabledPaymentMethods: return "/px_checkout/review/one_tap/disabled_payment_method_detail"
-        case .installments(_): return "/px_checkout/review/one_tap/installments"
+        case .installments: return "/px_checkout/review/one_tap/installments"
         }
     }
     
@@ -38,7 +38,18 @@ enum MercadoPagoUITrackingEvents: TrackingEvents {
         case .didAbort(_, let properties), .appliedDiscount(let properties), .termsAndConditions(let properties),
              .secureCode(let properties), .offlineMethodds(let properties), .reviewOneTap(let properties),
              .installments(let properties): return properties
-        case .didGoBack(_), .disabledPaymentMethods: return [:]
+        case .didGoBack, .disabledPaymentMethods: return [:]
+        }
+    }
+    
+    var needsExternalData: Bool {
+        switch self {
+        case .appliedDiscount, .termsAndConditions, .offlineMethodds, .installments, .disabledPaymentMethods:
+            return true
+        case .secureCode, .reviewOneTap:
+            return false
+        default:
+            return true
         }
     }
 }
