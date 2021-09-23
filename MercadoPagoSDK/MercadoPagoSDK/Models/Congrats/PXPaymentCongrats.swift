@@ -73,11 +73,6 @@ public final class PXPaymentCongrats: NSObject {
     private(set) var externalTrackingValues: PXPaymentCongratsTracking?
     private(set) var internalTrackingPath: TrackingEvents?
     private(set) var internalFlowBehaviourResult: PXResultKey?
-    
-    // Tracking remedies
-    private(set) var internalTrackingRemedyValues: [String: Any]?
-    private(set) var internalTrackingRemedyErrorValues: [String: Any]?
-    private(set) var internalTrackingRemedyModalValues: [String: Any]?
 
     // Error
     private(set) var errorBodyView: UIView?
@@ -192,31 +187,7 @@ extension PXPaymentCongrats {
         self.internalTrackingPath = event
         return self
     }
-    
-    /**
-    Navigate to another place when closing Remedies
-    - parameter redirectURL: a `URL`
-    - returns: this builder `PXRemedies`
-    */
-    @discardableResult
-    internal func withTrackingRemedies(_ trackingRemedies: [String: Any]) -> PXPaymentCongrats {
-        self.internalTrackingRemedyValues = trackingRemedies
-        return self
-    }
-    
-    @discardableResult
-    internal func withTrackingRemediesModal(_ trackingRemedies: [String: Any]) -> PXPaymentCongrats {
-        self.internalTrackingRemedyModalValues = trackingRemedies
-        return self
-    }
-    
-    @discardableResult
-    internal func withTrackingRemediesError(_ trackingRemedies: [String: Any]) -> PXPaymentCongrats {
-        self.internalTrackingRemedyErrorValues = trackingRemedies
-        return self
-    }
-
-
+  
     /**
     Navigate to another place when closing Congrats
     - parameter redirectURL: a `URL`
