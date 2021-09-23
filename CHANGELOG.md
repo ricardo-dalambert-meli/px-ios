@@ -1,3 +1,8 @@
+# v4.47.1
+🚀Private Release - 4.47.1 date: 23/09/2021 🚀
+- Card size fixing
+- Modal action fix
+
 # v4.47.0
 🚀Private Release - 4.47.0 date: 23/09/2021 🚀
 - Bugfix terms and conditions opening yellow app
