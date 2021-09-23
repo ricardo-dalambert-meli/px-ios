@@ -24,6 +24,7 @@ enum PXResultTrackingEvents: TrackingEvents {
     case congratsPaymentInProcess([String:Any])
     case congratsPaymentRejected([String:Any])
     
+    
     var name: String {
         switch self {
         case .didTapOnAllDiscounts: return "/px_checkout/result/success/tap_see_all_discounts"
@@ -49,6 +50,7 @@ enum PXResultTrackingEvents: TrackingEvents {
              .checkoutPaymentInProcess(let properties), .checkoutPaymentRejected(let properties),
              .congratsPaymentApproved(let properties), .congratsPaymentInProcess(let properties),
              .congratsPaymentRejected(let properties): return properties
+        
         }
     }
     
