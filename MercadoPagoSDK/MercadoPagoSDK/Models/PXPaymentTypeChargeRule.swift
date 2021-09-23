@@ -27,6 +27,7 @@ public final class PXPaymentTypeChargeRule: NSObject, Codable {
     internal let detailModal: UIViewController?
     let message: String?
     var label: String?
+    var taxable: Bool = true
 
     // MARK: Init.
     /**
@@ -72,6 +73,7 @@ public final class PXPaymentTypeChargeRule: NSObject, Codable {
         detailModal = nil
         message = try values.decodeIfPresent(String.self, forKey: .message)
         label = try values.decodeIfPresent(String.self, forKey: .label)
+        taxable = try values.decodeIfPresent(Bool.self, forKey: .taxable) ?? true
     }
 
     public enum PXPaymentTypeChargeRuleKeys: String, CodingKey {
@@ -79,13 +81,21 @@ public final class PXPaymentTypeChargeRule: NSObject, Codable {
         case amountCharge = "charge"
         case message
         case label
+        case taxable
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: PXPaymentTypeChargeRuleKeys.self)
         try container.encodeIfPresent(self.paymentTypeId, forKey: .paymentTypeId)
         try container.encodeIfPresent(self.amountCharge, forKey: .amountCharge)
-        try container.encodeIfPresent(self.message, forKey: .message)
-        try container.encodeIfPresent(self.label, forKey: .label)
+        
+        // TODO: Replace when changed on backend
+        if amountCharge == 0 {
+            try container.encodeIfPresent(self.message, forKey: .message)
+        } else {
+            try container.encodeIfPresent(self.label, forKey: .message)
+        }
+        
+        try container.encodeIfPresent(self.taxable, forKey: .taxable)
     }
 }
