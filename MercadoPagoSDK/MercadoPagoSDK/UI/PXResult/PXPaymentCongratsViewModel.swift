@@ -240,13 +240,6 @@ extension PXPaymentCongratsViewModel: PXNewResultViewModelInterface {
     func getBottomCustomView() -> UIView? {
         return paymentCongrats.bottomView
     }
-    
-    func selectPaymentMethodConsumerCredits() -> Bool {
-        if paymentCongrats.externalTrackingValues?.paymentMethodId == PXPaymentTypes.CONSUMER_CREDITS.rawValue {
-            return true
-        }
-       return false
-    }
 
     //CALLBACKS & TRACKING
     func getTrackingProperties() -> [String: Any] {

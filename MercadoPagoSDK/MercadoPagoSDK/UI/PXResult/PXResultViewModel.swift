@@ -30,13 +30,6 @@ internal class PXResultViewModel: NSObject {
         self.oneTapDto = oneTapDto
     }
     
-    func selectPaymentMethodConsumerCredits() -> Bool {
-        if paymentResult.paymentMethodId == PXPaymentTypes.CONSUMER_CREDITS.rawValue {
-            return true
-        }
-        return false
-    }
-
     func getPaymentData() -> PXPaymentData {
         guard let paymentData = paymentResult.paymentData else {
             fatalError("paymentResult.paymentData cannot be nil")
