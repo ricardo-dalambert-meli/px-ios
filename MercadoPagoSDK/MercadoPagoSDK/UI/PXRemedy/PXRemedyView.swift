@@ -15,7 +15,9 @@ protocol PXRemedyViewDelegate: AnyObject {
     func remedyViewButtonTouchUpInside(_ sender: PXAnimatedButton)
     func showModal(modalInfos: PXOneTapDisabledViewController)
     func selectAnotherPaymentMethod()
-    func dismissModal()
+    func dismissModal(fromCloseButton: Bool)
+    func trackingChangeMethod(isModal: Bool)
+    func trackingPay(isModal: Bool)
 }
 
 struct PXRemedyViewData {
@@ -30,7 +32,7 @@ struct PXRemedyViewData {
 }
 
 final class PXRemedyView: UIView {
-    
+
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -63,8 +65,7 @@ final class PXRemedyView: UIView {
         button.setTitle(normalText, for: .normal)
         button.layer.cornerRadius = 4
         button.add(for: .touchUpInside, { [weak self] in
-//            self?.data.remedy.suggestedPaymentMethod?.modal != nil ? self?.showModal() : self?.handlePayment()
-            self?.handlePayment()
+            self?.data.remedy.suggestedPaymentMethod?.modal != nil ? self?.showModal() : self?.handlePayment(isModal: false)
         })
         if shouldShowTextField() {
             button.setDisabled()
@@ -239,17 +240,17 @@ final class PXRemedyView: UIView {
         } else {
             return nil
         }
-//        let cardSize: MLCardDrawerTypeV3
-//        switch data.remedy.suggestedPaymentMethod?.alternativePaymentMethod?.cardSize {
-//        case .mini: cardSize = .mini
-//        case .small: cardSize = .small
-//        case .xSmall: cardSize = .xSmall
-//        case .medium, .none: cardSize = .medium
-//        case .large: cardSize = .large
-//        }
+        let cardSize: MLCardDrawerTypeV3
+        switch data.remedy.suggestedPaymentMethod?.alternativePaymentMethod?.cardSize {
+        case .mini: cardSize = .mini
+        case .small: cardSize = .small
+        case .xSmall: cardSize = .xSmall
+        case .medium, .none: cardSize = .medium
+        case .large: cardSize = .large
+        }
 
-        let controller = MLCardDrawerController(cardUI: cardUI, .medium, cardData, false)
-        controller.view.frame = CGRect(origin: CGPoint.zero, size: CardSizeManager.getSizeByGoldenAspectRatio(width: PXLayout.getScreenWidth(applyingMarginFactor: CONTENT_WIDTH_PERCENT), type: .medium))
+        let controller = MLCardDrawerController(cardUI: cardUI, cardSize, cardData, false)
+        controller.view.frame = CGRect(origin: CGPoint.zero, size: CardSizeManager.getSizeByGoldenAspectRatio(width: PXLayout.getScreenWidth(applyingMarginFactor: CONTENT_WIDTH_PERCENT), type: cardSize))
         controller.view.translatesAutoresizingMaskIntoConstraints = false
         controller.animated(false)
         controller.show()
@@ -272,7 +273,8 @@ final class PXRemedyView: UIView {
                                                                                          bottomText: consumerCredits.displayInfo.bottomText))
             let creditsViewModel = PXCreditsViewModel(customConsumerCredits, needsTermsAndConditions: false)
             let view = controller.getCardView()
-            consumerCreditsCard.render(containerView: view, creditsViewModel: creditsViewModel, isDisabled: false, size: view.bounds.size, selectedInstallments: data.paymentData?.payerCost?.installments, cardType: .medium)
+     
+            consumerCreditsCard.render(containerView: view, creditsViewModel: creditsViewModel, isDisabled: false, size: view.bounds.size, selectedInstallments: data.paymentData?.payerCost?.installments, cardType: cardSize)
         }
 
         return controller.view
@@ -418,7 +420,8 @@ final class PXRemedyView: UIView {
 
         return totalView
     }
-    private func handlePayment() {
+    private func handlePayment(isModal: Bool) {
+        self.data.remedyViewProtocol?.trackingPay(isModal: isModal)
         if let remedyButtonTapped = data.remedyButtonTapped {
             remedyButtonTapped(textField.getValue())
         }
@@ -426,29 +429,35 @@ final class PXRemedyView: UIView {
         data.remedyViewProtocol?.remedyViewButtonTouchUpInside(payButton)
     }
     
-    private func showModal() {
+    private func showModal()  {
+        
         guard let modalInfos = data.remedy.suggestedPaymentMethod?.modal else {
-            handlePayment()
+            handlePayment(isModal: false)
             return
         }
         
         let primaryButton = PXAction(label: modalInfos.mainButton.label) { [weak self] in
-            self?.data.remedyViewProtocol?.dismissModal()
-            self?.handlePayment()
+            self?.data.remedyViewProtocol?.dismissModal(fromCloseButton: false)
+            self?.handlePayment(isModal: true)
         }
         
         let secondaryButton = PXAction(label: modalInfos.secondaryButton.label) { [weak self] in
-            self?.data.remedyViewProtocol?.dismissModal()
+            self?.data.remedyViewProtocol?.dismissModal(fromCloseButton: false)
             self?.data.remedyViewProtocol?.selectAnotherPaymentMethod()
+            self?.data.remedyViewProtocol?.trackingChangeMethod(isModal: true)
         }
         
+
         let modalController = PXOneTapDisabledViewController(title: modalInfos.title,
                                                              description: modalInfos.description,
                                                              primaryButton: primaryButton,
                                                              secondaryButton: secondaryButton,
                                                              iconUrl: nil)
         
+        MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didShowRemedyErrorModal)
+        
         data.remedyViewProtocol?.showModal(modalInfos: modalController)
+
     }
 }
 

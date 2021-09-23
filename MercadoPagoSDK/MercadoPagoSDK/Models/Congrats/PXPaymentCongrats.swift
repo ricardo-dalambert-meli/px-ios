@@ -57,7 +57,7 @@ public final class PXPaymentCongrats: NSObject {
 
     // Remedies
     private(set) var remedyViewData: PXRemedyViewData?
-
+    
     private(set) var creditsExpectationView: UIView?
 
     // Payment Info
@@ -187,7 +187,7 @@ extension PXPaymentCongrats {
         self.internalTrackingPath = event
         return self
     }
-
+  
     /**
     Navigate to another place when closing Congrats
     - parameter redirectURL: a `URL`

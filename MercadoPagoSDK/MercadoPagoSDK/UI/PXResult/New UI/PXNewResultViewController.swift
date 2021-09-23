@@ -23,6 +23,7 @@ class PXNewResultViewController: MercadoPagoUIViewController {
     private var finishButtonAnimation: (() -> Void)?
     private var touchpointView: MLBusinessTouchpointsView?
     private var autoReturnWorkItem: DispatchWorkItem?
+    private var needsTrackCloseModal = true
 
     // Autoreturn
     let autoReturnlabel = UILabel()
@@ -49,6 +50,7 @@ class PXNewResultViewController: MercadoPagoUIViewController {
         super.viewDidAppear(animated)
         animateScrollView()
         animateRing()
+        
         PXNewResultUtil.trackScreenAndConversion(viewModel: viewModel)
         if viewModel.shouldAutoReturn() {
             autoReturnWorkItem = DispatchWorkItem { [weak self] in
@@ -684,7 +686,7 @@ extension PXNewResultViewController {
         guard let paymentData = viewModel.getSplitPaymentViewData() else { return nil }
         return PXNewCustomView(data: paymentData)
     }
-
+    
     //FOOTER
     func buildFooterView() -> UIView {
         if let primaryButton = viewModel.getPrimaryButton() {
@@ -737,18 +739,27 @@ extension PXNewResultViewController: PXAnimatedButtonDelegate {
 
 // MARK: PXRemedyViewDelegate
 extension PXNewResultViewController: PXRemedyViewDelegate {
+    
+    
+
     func selectAnotherPaymentMethod() {
         viewModel.getFooterSecondaryAction()?.action()
     }
     
-    func dismissModal() {
+    func dismissModal(fromCloseButton: Bool) {
+        needsTrackCloseModal = fromCloseButton
         modalTeste?.dismiss()
     }
     
     func showModal(modalInfos: PXOneTapDisabledViewController) {
-        modalTeste = PXComponentFactory.Modal.show(viewController: modalInfos, title: nil)
-    }
-    
+        needsTrackCloseModal = true
+        modalTeste = PXComponentFactory.Modal.show(viewController: modalInfos, dismissBlock: {
+            if self.needsTrackCloseModal {
+                MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didCloseRemedyModalAbort)
+            }
+        })
+      }
+
     func remedyViewButtonTouchUpInside(_ sender: PXAnimatedButton) {
         subscribeToAnimatedButtonNotifications(button: sender)
         sender.startLoading()
@@ -757,7 +768,16 @@ extension PXNewResultViewController: PXRemedyViewDelegate {
         hideBackButton()
         hideNavBar()
     }
+    
+    func trackingChangeMethod(isModal: Bool){
+            MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.changePaymentMethod(isFromModal: isModal))
+     }
+    
+    func trackingPay(isModal: Bool){
+            MPXTracker.sharedInstance.trackEvent(event: PXRemediesTrackEvents.didResultRemedyError(viewModel.getTrackingRemediesProperties(isFromModal: isModal)))
+        }
 }
+
 
 // MARK: Notifications
 extension PXNewResultViewController {

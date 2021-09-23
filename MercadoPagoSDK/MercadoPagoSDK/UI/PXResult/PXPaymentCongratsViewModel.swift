@@ -38,6 +38,7 @@ class PXPaymentCongratsViewModel {
 }
 
 extension PXPaymentCongratsViewModel: PXNewResultViewModelInterface {
+    
     func getAndesMessage() -> InfoOperation? {
         return paymentCongrats.infoOperation
     }
@@ -298,7 +299,7 @@ extension PXPaymentCongratsViewModel: PXNewResultViewModelInterface {
             return screenPath
         }
     }
-
+    
     func getFlowBehaviourResult() -> PXResultKey {
         guard let internalResult = paymentCongrats.internalFlowBehaviourResult else {
             switch paymentCongrats.type {
@@ -326,5 +327,49 @@ extension PXPaymentCongratsViewModel: PXNewResultViewModelInterface {
 
     func getAutoReturn() -> PXAutoReturn? {
         return paymentCongrats.autoReturn
+    }
+}
+
+extension PXPaymentCongratsViewModel {
+
+    func getTrackingRemediesProperties(isFromModal: Bool) -> [String : Any] {
+            let from = isFromModal == true ? "modal" : "view"
+            guard let extConf = paymentCongrats.externalTrackingValues else { return ["from": from] }
+            var properties: [String: Any] = [:]
+            properties["index"] = 0
+            properties["type"] = paymentCongrats.type.getRawValue()
+            properties["payment_status"] = paymentCongrats.type.getRawValue()
+            properties["payment_status_detail"] = extConf.paymentStatusDetail
+            if let trackingData = paymentCongrats.remedyViewData?.remedy.trackingData {
+                properties["extra_info"] = trackingData
+            }
+            properties["from"] = from
+            return properties
+        }
+
+    func getViewErrorPaymentResult() -> [String: Any] {
+        guard let extConf = paymentCongrats.externalTrackingValues else { return [:] }
+        var properties: [String: Any] = [:]
+        properties["index"] = 0
+        properties["type"] = paymentCongrats.type.getRawValue()
+        properties["payment_status"] = paymentCongrats.type.getRawValue()
+        properties["payment_status_detail"] = extConf.paymentStatusDetail
+        if let trackingData = paymentCongrats.remedyViewData?.remedy.trackingData {
+            properties["extra_info"] = trackingData
+        }
+        return properties
+    }
+
+    func getDidShowRemedyErrorModal() -> [String: Any] {
+        guard let extConf = paymentCongrats.externalTrackingValues else { return [:] }
+        var properties: [String: Any] = [:]
+        properties["index"] = 0
+        properties["type"] = paymentCongrats.type.getRawValue()
+        properties["payment_status"] = paymentCongrats.type.getRawValue()
+        properties["payment_status_detail"] = extConf.paymentStatusDetail
+        if let trackingData = paymentCongrats.remedyViewData?.remedy.trackingData {
+            properties["extra_info"] = trackingData
+        }
+        return properties
     }
 }

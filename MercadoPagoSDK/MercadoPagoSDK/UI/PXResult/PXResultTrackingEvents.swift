@@ -24,6 +24,7 @@ enum PXResultTrackingEvents: TrackingEvents {
     case congratsPaymentInProcess([String:Any])
     case congratsPaymentRejected([String:Any])
     
+    
     var name: String {
         switch self {
         case .didTapOnAllDiscounts: return "/px_checkout/result/success/tap_see_all_discounts"
@@ -33,12 +34,14 @@ enum PXResultTrackingEvents: TrackingEvents {
         case .didTapOnDeeplink(_): return "/px_checkout/result/success/deep_link"
         case .didTapOnCrossSelling: return "/px_checkout/result/success/tap_cross_selling"
         case .didShowRemedyError(_): return "/px_checkout/result/error/primary_action"
+              
         case .checkoutPaymentApproved(_): return "/px_checkout/result/success"
         case .checkoutPaymentInProcess(_): return "/px_checkout/result/further_action_needed"
         case .checkoutPaymentRejected(_): return "/px_checkout/result/error"
         case .congratsPaymentApproved(_): return "/payment_congrats/result/success"
         case .congratsPaymentInProcess(_): return "/payment_congrats/result/further_action_needed"
         case .congratsPaymentRejected(_): return "/payment_congrats/result/error"
+            
         }
     }
     
@@ -49,6 +52,7 @@ enum PXResultTrackingEvents: TrackingEvents {
              .checkoutPaymentInProcess(let properties), .checkoutPaymentRejected(let properties),
              .congratsPaymentApproved(let properties), .congratsPaymentInProcess(let properties),
              .congratsPaymentRejected(let properties): return properties
+        
         }
     }
 }
