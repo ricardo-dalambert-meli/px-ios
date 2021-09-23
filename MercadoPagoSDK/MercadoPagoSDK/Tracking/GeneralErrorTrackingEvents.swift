@@ -10,7 +10,7 @@ enum GeneralErrorTrackingEvents: TrackingEvents {
     
     var name: String {
         switch self {
-        case .error(_): return "/friction"
+        case .error: return "/friction"
         }
     }
     
@@ -18,5 +18,9 @@ enum GeneralErrorTrackingEvents: TrackingEvents {
         switch self {
         case .error(let properties): return properties
         }
+    }
+    
+    var needsExternalData: Bool {
+        return true
     }
 }
