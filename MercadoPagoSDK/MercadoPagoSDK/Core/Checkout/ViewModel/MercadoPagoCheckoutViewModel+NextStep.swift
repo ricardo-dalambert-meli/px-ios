@@ -207,9 +207,7 @@ extension MercadoPagoCheckoutViewModel {
     }
 
     func setPaymentOptionSelected() {
-        guard let paymentMethod = self.paymentData.getPaymentMethod() else {
-            return
-        }
+        guard let paymentMethod = self.paymentData.getPaymentMethod() else { return }
         let paymentMethodWithESC = paymentData.hasPaymentMethod() && savedESCCardToken != nil
         if (self.paymentData.hasCustomerPaymentOption() || paymentMethodWithESC) && self.customPaymentOptions != nil {
             // Account_money o customer cards
@@ -217,6 +215,9 @@ extension MercadoPagoCheckoutViewModel {
             self.paymentOptionSelected = customOption as? PaymentMethodOption
         } else if !paymentMethod.isOnlinePaymentMethod {
             // Medios off
+            self.paymentOptionSelected = search?.payerPaymentMethods.first
+        } else {
+            // Tarjetas, efectivo, crédito, debito
             self.paymentOptionSelected = search?.payerPaymentMethods.first
         }
     }
