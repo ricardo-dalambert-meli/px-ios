@@ -250,13 +250,6 @@ internal class Utils {
         return ""
     }
 
-//    static internal func findPaymentMethodSearchItemInGroups(_ paymentMethodSearch: PXInitDTO, paymentMethodId: String, paymentTypeId: PXPaymentTypes?) -> PXPaymentMethodSearchItem? {
-//        if let result = Utils.findPaymentMethodSearchItemById(paymentMethodSearch.groups, paymentMethodId: paymentMethodId, paymentTypeId: paymentTypeId) {
-//            return result
-//        }
-//        return nil
-//    }
-
     static internal func findCardInformationIn(customOptions: [PXCardInformation], paymentData: PXPaymentData, savedESCCardToken: PXSavedESCCardToken? = nil) -> PXCardInformation? {
         let customOptionsFound = customOptions.filter { (cardInformation: PXCardInformation) -> Bool in
             if paymentData.getPaymentMethod()!.isAccountMoney {
