@@ -29,7 +29,7 @@ internal class PXResultViewModel: NSObject {
         self.remedy = remedy
         self.oneTapDto = oneTapDto
     }
-
+    
     func getPaymentData() -> PXPaymentData {
         guard let paymentData = paymentResult.paymentData else {
             fatalError("paymentResult.paymentData cannot be nil")
@@ -96,7 +96,7 @@ internal class PXResultViewModel: NSObject {
 
     private func getRemedyViewData() -> PXRemedyViewData? {
         if isPaymentResultRejectedWithRemedy(),
-            let remedy = remedy {
+           let remedy = remedy {
             return PXRemedyViewData(oneTapDto: oneTapDto,
                                     paymentData: paymentResult.paymentData,
                                     amountHelper: amountHelper,
@@ -110,6 +110,7 @@ internal class PXResultViewModel: NSObject {
 
     private func getRemedyButtonAction() -> ((String?) -> Void)? {
         let action = { (text: String?) in
+            
             MPXTracker.sharedInstance.trackEvent(event: PXResultTrackingEvents.didShowRemedyError(self.getRemedyProperties()))
 
             if let callback = self.callback {
@@ -124,7 +125,6 @@ internal class PXResultViewModel: NSObject {
         }
         return action
     }
-
 }
 
 // MARK: PXCongratsTrackingDataProtocol Implementation
@@ -194,7 +194,6 @@ extension PXResultViewModel {
         if let trackingData = remedy.trackingData {
             properties["extra_info"] = trackingData
         }
-
         return properties
     }
 
@@ -404,7 +403,77 @@ extension PXResultViewModel: PXViewModelTrackingDataProtocol {
 
         return properties
     }
+    
+    func getTrackingRemediesProperties(isFromModal: Bool) -> [String: Any] {
+        var properties: [String: Any] = amountHelper.getPaymentData().getPaymentDataForTracking()
+        properties["style"] = "custom"
+        if let paymentId = getPaymentId() {
+            properties["payment_id"] = Int64(paymentId)
+        }
+        properties["payment_status"] = paymentResult.status
+        properties["payment_status_detail"] = paymentResult.statusDetail
+        properties["has_split_payment"] = amountHelper.isSplitPayment
+        properties["currency_id"] = SiteManager.shared.getCurrency().id
+        properties["discount_coupon_amount"] = amountHelper.getDiscountCouponAmountForTracking()
+        properties["from"] = isFromModal == true ? "modal" : "view"
+        properties = PXCongratsTracking.getProperties(dataProtocol: self, properties: properties)
 
+        if let rawAmount = amountHelper.getPaymentData().getRawAmount() {
+            properties["total_amount"] = rawAmount.decimalValue
+        }
+        return properties
+    }
+    
+    func getViewErrorPaymentResult() -> [String: Any] {
+        var properties: [String: Any] = [:]
+            properties["style"] = "generic"
+            if let paymentId = getPaymentId() {
+                properties["payment_id"] = Int64(paymentId)
+            }
+            properties["payment_status"] = paymentResult.status
+            properties["payment_status_detail"] = paymentResult.statusDetail
+
+            properties["has_split_payment"] = amountHelper.isSplitPayment
+            properties["currency_id"] = SiteManager.shared.getCurrency().id
+            properties["discount_coupon_amount"] = amountHelper.getDiscountCouponAmountForTracking()
+            properties = PXCongratsTracking.getProperties(dataProtocol: self, properties: properties)
+
+            if let rawAmount = amountHelper.getPaymentData().getRawAmount() {
+                properties["total_amount"] = rawAmount.decimalValue
+            }
+
+            let paymentStatus = paymentResult.status
+            if paymentStatus == PXPaymentStatus.REJECTED.rawValue {
+                var remedies: [[String: Any]] = []
+                if let remedy = remedy,
+                    !(remedy.isEmpty) {
+                    if remedy.suggestedPaymentMethod != nil {
+                        remedies.append(["index": 0,
+                                         "type": "payment_method_suggestion",
+                                         "extra_info": remedy.trackingData ?? ""])
+                    } else if remedy.cvv != nil {
+                        remedies.append(["index": 0,
+                                         "type": "cvv_request",
+                                         "extra_info": remedy.trackingData ?? ""])
+                    } else if remedy.highRisk != nil {
+                        remedies.append(["index": 0,
+                                         "type": "kyc_request",
+                                         "extra_info": remedy.trackingData ?? ""])
+                    }
+                }
+                properties["remedies"] = remedies
+            }
+
+            return properties
+    }
+    
+    func getDidShowRemedyErrorModal() -> [String: Any] {
+        var properties: [String: Any] = [:]
+        properties["index"] = 0
+        properties["payment_status"] = paymentResult.status
+        properties["payment_status_detail"] = paymentResult.statusDetail
+        return properties
+    }
 }
 
 extension PXResultViewModel {

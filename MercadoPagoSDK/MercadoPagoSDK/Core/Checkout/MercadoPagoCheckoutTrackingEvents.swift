@@ -10,13 +10,19 @@ enum MercadoPagoCheckoutTrackingEvents: TrackingEvents {
     
     var name: String {
         switch self {
-        case .didInitFlow(_): return "/px_checkout/init"
+        case .didInitFlow: return "/px_checkout/init"
         }
     }
     
     var properties: [String : Any] {
         switch self {
         case .didInitFlow(let properties): return properties
+        }
+    }
+    
+    var needsExternalData: Bool {
+        switch self {
+        case .didInitFlow: return false
         }
     }
 }

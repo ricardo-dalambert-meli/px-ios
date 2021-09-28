@@ -7,13 +7,12 @@
 import Foundation
 
 extension PXAmountHelper {
-    func getDiscountForTracking() -> [String: Any] {
-        var dic: [String: Any] = [:]
-
+    func getDiscountForTracking() -> [String: Any]? {
         guard let discount = discount, let campaign = campaign else {
-            return dic
+            return nil
         }
-
+        
+        var dic: [String: Any] = [:]
         dic["percent_off"] = discount.percentOff
         dic["amount_off"] = discount.amountOff
         dic["coupon_amount"] = discount.couponAmount
