@@ -1,3 +1,6 @@
+# v4.48.0
+🚀Private Release - 4.48.0 date: 28/09/2021 🚀
+- Taxable charges support
 # v4.47.1
 🚀Private Release - 4.47.1 date: 23/09/2021 🚀
 - Card size fixing
