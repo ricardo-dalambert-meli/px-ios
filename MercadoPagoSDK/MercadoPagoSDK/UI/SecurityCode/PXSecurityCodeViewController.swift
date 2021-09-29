@@ -152,7 +152,7 @@ extension PXSecurityCodeViewController: PXAnimatedButtonDelegate {
     }
 
     func resetButton() {
-        progressButtonAnimationTimeOut()
+        DispatchQueue.main.async(execute: progressButtonAnimationTimeOut)
     }
 }
 
