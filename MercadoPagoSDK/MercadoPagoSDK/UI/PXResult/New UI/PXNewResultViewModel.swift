@@ -77,6 +77,7 @@ protocol PXNewResultViewModelInterface: PXViewModelTrackingDataProtocol {
     func getErrorBodyView() -> UIView?
 
     //REMEDY
+    var isSecondaryButtonStyle: Bool { get }
     func getRemedyView(animatedButtonDelegate: PXAnimatedButtonDelegate?, termsAndCondDelegate: PXTermsAndConditionViewDelegate?, remedyViewProtocol: PXRemedyViewDelegate?) -> UIView?
     func getRemedyButtonAction() -> ((String?) -> Void)?
     func isPaymentResultRejectedWithRemedy() -> Bool

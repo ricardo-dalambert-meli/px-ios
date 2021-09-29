@@ -36,6 +36,7 @@ class PXNewResultViewController: MercadoPagoUIViewController {
         self.shouldHideNavigationBar = true
     }
 
+    @available(*,unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -694,7 +695,11 @@ extension PXNewResultViewController {
             let footerProps = PXFooterProps(buttonAction: viewModel.getFooterMainAction(), linkAction: viewModel.getFooterSecondaryAction(), useAndesButtonForLinkAction: true, andesButtonConfig: PXAndesButtonConfig(hierarchy: hierarchy, size: .large))
             return PXFooterComponent(props: footerProps).render()
         }
-
+        
+        if viewModel.isSecondaryButtonStyle {
+            let footerProps = PXFooterProps(linkAction: viewModel.getFooterSecondaryAction() ?? viewModel.getFooterMainAction(), useAndesButtonForLinkAction: viewModel.isPaymentResultRejectedWithRemedy())
+            return PXFooterComponent(props: footerProps).render()
+        }
         let footerProps = PXFooterProps(buttonAction: viewModel.getFooterMainAction(), linkAction: viewModel.getFooterSecondaryAction(), useAndesButtonForLinkAction: viewModel.isPaymentResultRejectedWithRemedy())
         return PXFooterComponent(props: footerProps).render()
     }
