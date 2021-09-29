@@ -82,7 +82,7 @@ class PaymentServicesMock: PaymentService {
     
     func getInit(preferenceId: String?, privateKey: String?, body: Data?, headers: [String : String]?, completion: @escaping (Swift.Result<PXInitDTO, PXError>) -> Void) {
         calledGetInit = true
-        successResponse ? completion(.success(PXInitDTO(preference: nil, oneTap: nil, currency: PXCurrency(id: "", description: nil, symbol: nil, decimalPlaces: nil, decimalSeparator: nil, thousandSeparator: nil), site: PXSite(id: "", currencyId: nil, termsAndConditionsUrl: "", shouldWarnAboutBankInterests: nil), generalCoupon: "", coupons: [:], groups: [], payerPaymentMethods: [], availablePaymentMethods: [], experiments: nil, payerCompliance: nil, configurations: nil, modals: [:], customCharges: nil))) : completion(.failure(PXError(domain: "", code: 0)))
+        successResponse ? completion(.success(PXInitDTO(preference: nil, oneTap: nil, currency: PXCurrency(id: "", description: nil, symbol: nil, decimalPlaces: nil, decimalSeparator: nil, thousandSeparator: nil), site: PXSite(id: "", currencyId: nil, termsAndConditionsUrl: "", shouldWarnAboutBankInterests: nil), generalCoupon: "", coupons: [:], payerPaymentMethods: [], availablePaymentMethods: [], experiments: nil, payerCompliance: nil, configurations: nil, modals: [:], customCharges: nil))) : completion(.failure(PXError(domain: "", code: 0)))
     }
 }
 

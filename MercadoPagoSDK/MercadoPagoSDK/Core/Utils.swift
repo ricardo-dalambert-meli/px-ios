@@ -250,13 +250,6 @@ internal class Utils {
         return ""
     }
 
-    static internal func findPaymentMethodSearchItemInGroups(_ paymentMethodSearch: PXInitDTO, paymentMethodId: String, paymentTypeId: PXPaymentTypes?) -> PXPaymentMethodSearchItem? {
-        if let result = Utils.findPaymentMethodSearchItemById(paymentMethodSearch.groups, paymentMethodId: paymentMethodId, paymentTypeId: paymentTypeId) {
-            return result
-        }
-        return nil
-    }
-
     static internal func findCardInformationIn(customOptions: [PXCardInformation], paymentData: PXPaymentData, savedESCCardToken: PXSavedESCCardToken? = nil) -> PXCardInformation? {
         let customOptionsFound = customOptions.filter { (cardInformation: PXCardInformation) -> Bool in
             if paymentData.getPaymentMethod()!.isAccountMoney {
@@ -273,61 +266,6 @@ internal class Utils {
         return !Array.isNullOrEmpty(customOptionsFound) ? customOptionsFound[0] : nil
     }
 
-    static fileprivate func findPaymentMethodSearchItemById(_ paymentMethodSearchList: [PXPaymentMethodSearchItem], paymentMethodId: String, paymentTypeId: PXPaymentTypes?) -> PXPaymentMethodSearchItem? {
-
-        var filterPaymentMethodSearchFound = paymentMethodSearchList.filter { (arg: PXPaymentMethodSearchItem) -> Bool in
-            arg.id == paymentMethodId
-        }
-
-        if filterPaymentMethodSearchFound.count > 0 {
-            return filterPaymentMethodSearchFound[0]
-        } else if paymentTypeId != nil {
-            filterPaymentMethodSearchFound = paymentMethodSearchList.filter { (arg: PXPaymentMethodSearchItem) -> Bool in
-                arg.id == paymentMethodId + "_" + paymentTypeId!.rawValue
-            }
-
-            if filterPaymentMethodSearchFound.count > 0 {
-                return filterPaymentMethodSearchFound[0]
-            }
-        } else {
-            filterPaymentMethodSearchFound = paymentMethodSearchList.filter { (arg: PXPaymentMethodSearchItem) -> Bool in
-                arg.id.startsWith(paymentMethodId)
-            }
-            if filterPaymentMethodSearchFound.count > 0 {
-                return filterPaymentMethodSearchFound[0]
-            }
-        }
-
-        for item in paymentMethodSearchList {
-            if let paymentMethodSearchItemFound = findPaymentMethodSearchItemById(item.children, paymentMethodId: paymentMethodId, paymentTypeId: paymentTypeId) {
-                return paymentMethodSearchItemFound
-            }
-        }
-
-        if paymentMethodSearchList.count == 0 {
-            return nil
-        }
-        return nil
-    }
-
-    static internal func findPaymentMethodTypeId(_ paymentMethodSearchItems: [PXPaymentMethodSearchItem], paymentTypeId: PXPaymentTypes) -> PXPaymentMethodSearchItem? {
-
-        let filterPaymentMethodSearchFound = paymentMethodSearchItems.filter { (arg: PXPaymentMethodSearchItem) -> Bool in
-            arg.id == paymentTypeId.rawValue
-        }
-
-        if !Array.isNullOrEmpty(filterPaymentMethodSearchFound) {
-            return filterPaymentMethodSearchFound[0]
-        }
-
-        for item in paymentMethodSearchItems {
-            if let paymentMethodSearchItemFound = findPaymentMethodTypeId(item.children, paymentTypeId: paymentTypeId) {
-                return paymentMethodSearchItemFound
-            }
-        }
-
-        return nil
-    }
 
     internal static func findPaymentMethod(_ paymentMethods: [PXPaymentMethod], paymentMethodId: String) -> PXPaymentMethod? {
         var paymentTypeSelected = ""
