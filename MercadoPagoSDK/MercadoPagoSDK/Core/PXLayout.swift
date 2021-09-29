@@ -1,14 +1,7 @@
-//
-//  PXLayout.swift
-//  TestAutolayout
-//
-//  Created by Demian Tejo on 10/18/17.
-//  Copyright © 2017 Demian Tejo. All rights reserved.
-//
-
 import UIKit
 
-class PXLayout: NSObject {
+@available(*, deprecated, message: "This has been replaced for the UIView layout extension. Margins and font sizes should be used from AndesUI")
+final class PXLayout: NSObject {
 
     //Margins
     static let ZERO_MARGIN: CGFloat = 0.0
