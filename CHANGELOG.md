@@ -1,3 +1,19 @@
+# v4.48.0
+🚀Private Release - 4.48.0 date: 28/09/2021 🚀
+- Taxable charges support
+# v4.47.1
+🚀Private Release - 4.47.1 date: 23/09/2021 🚀
+- Card size fixing
+- Modal action fix
+
+# v4.47.0
+🚀Private Release - 4.47.0 date: 23/09/2021 🚀
+- Bugfix terms and conditions opening yellow app
+- Removed old network layer
+- Remedy trackings
+- Mercado Créditos payment confirmation modal
+- Tracking external data improvements
+
 # v4.46.0
 🚀Private Release - 4.46.0 date: 16/09/2021 🚀
 - Showing modal when remedies card option given from BE is Mercado Creditos (disabled until tracks are done)

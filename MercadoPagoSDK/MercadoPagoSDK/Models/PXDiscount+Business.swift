@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal extension PXDiscount {
+extension PXDiscount {
     /// :nodoc:
     override open var description: String {
         if getDiscountDescription() != "" {

@@ -55,8 +55,10 @@ struct PXInitFeatures: Codable {
     let validationPrograms: [String]
     let pix: Bool
     let customTaxesCharges: Bool
+    let cardsCustomTaxesCharges: Bool
+    let taxableCharges: Bool
 
-    init(oneTap: Bool = true, split: Bool, odr: Bool = true, comboCard: Bool = false, hybridCard: Bool = false, validationPrograms: [String] = [], pix: Bool = true, customTaxesCharges: Bool = true) {
+    init(oneTap: Bool = true, split: Bool, odr: Bool = true, comboCard: Bool = false, hybridCard: Bool = false, validationPrograms: [String] = [], pix: Bool = true, customTaxesCharges: Bool = true, cardsCustomTaxesCharges: Bool = true, taxableCharges: Bool = true) {
         self.oneTap = oneTap
         self.split = split
         self.odr = odr
@@ -65,6 +67,8 @@ struct PXInitFeatures: Codable {
         self.validationPrograms = validationPrograms
         self.pix = pix
         self.customTaxesCharges = customTaxesCharges
+        self.cardsCustomTaxesCharges = cardsCustomTaxesCharges
+        self.taxableCharges = taxableCharges
     }
 
     enum CodingKeys: String, CodingKey {
@@ -76,5 +80,7 @@ struct PXInitFeatures: Codable {
         case validationPrograms = "validations_programs"
         case pix
         case customTaxesCharges = "custom_taxes_charges"
+        case cardsCustomTaxesCharges = "cards_custom_taxes_charges"
+        case taxableCharges = "taxable_charges"
     }
 }

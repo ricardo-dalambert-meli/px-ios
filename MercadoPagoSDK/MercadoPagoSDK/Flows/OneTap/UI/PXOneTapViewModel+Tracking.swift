@@ -8,8 +8,8 @@
 import Foundation
 // MARK: Tracking
 extension PXOneTapViewModel {
-    func getAvailablePaymentMethodForTracking() -> [Any] {
-        var dic: [Any] = []
+    func getAvailablePaymentMethodForTracking() -> [[String: Any]] {
+        var dic: [[String: Any]] = []
         if let expressData = expressData {
             for expressItem in expressData where expressItem.newCard == nil {
                 
@@ -104,15 +104,14 @@ extension PXOneTapViewModel {
 
     func getOneTapScreenProperties(oneTapApplication: [PXOneTapApplication]) -> [String: Any] {
         var properties: [String: Any] = [:]
-        let availablePaymentMethods = getAvailablePaymentMethodForTracking()
         let availablePMQuantity = getPaymentMethodsQuantityForTracking(enabled: true)
         let disabledPMQuantity = getPaymentMethodsQuantityForTracking(enabled: false)
-        properties["available_methods"] = availablePaymentMethods
+        properties["available_methods"] = getAvailablePaymentMethodForTracking()
         properties["available_methods_quantity"] = availablePMQuantity
         properties["disabled_methods_quantity"] = disabledPMQuantity
         properties["total_amount"] = amountHelper.preferenceAmount
         properties["discount"] = amountHelper.getDiscountForTracking()
-        var itemsDic: [Any] = []
+        var itemsDic: [[String: Any]] = []
         for item in amountHelper.preference.items {
             itemsDic.append(item.getItemForTracking())
         }

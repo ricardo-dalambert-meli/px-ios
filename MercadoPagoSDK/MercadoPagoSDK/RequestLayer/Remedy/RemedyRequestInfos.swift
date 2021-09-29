@@ -15,7 +15,7 @@ extension RemedyRequestInfos: RequestInfos {
         case .getRemedy(let paymentId, _, _, _): return "px_mobile/v1/remedies/\(paymentId)"
         }
     }
-
+    
     var method: HTTPMethodType {
         .post
     }

@@ -103,6 +103,14 @@ extension WebViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         loadingVC.dismiss(animated: false, completion: nil)
     }
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        guard let police =  WKNavigationActionPolicy(rawValue: WKNavigationActionPolicy.allow.rawValue + 2) else {
+            decisionHandler(.allow)
+            return
+        }
+        decisionHandler(police)
+    }
 }
 
 // MARK: Tracking

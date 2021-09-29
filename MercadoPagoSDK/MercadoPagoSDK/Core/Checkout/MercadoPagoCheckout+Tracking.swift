@@ -76,7 +76,7 @@ extension MercadoPagoCheckout {
     private func getCheckoutPrefForTracking(checkoutPreference: PXCheckoutPreference) -> [String: Any] {
         var checkoutPrefDic: [String: Any] = [:]
 
-        var itemsDic: [Any] = []
+        var itemsDic: [[String: Any]] = []
         for item in checkoutPreference.items {
             itemsDic.append(item.getItemForTracking())
         }
