@@ -1,6 +1,13 @@
+# v4.49.0 
+🚀Private Release - 4.49.0 date: 30/09/2021 🚀
+- Removed groups from PXInitDTO
+- RemedyView secondary button layout fixes
+- Security Code screen reset button main thread update fix
+
 # v4.48.0 
 🚀Private Release - 4.48.0 date: 28/09/2021 🚀
 - Taxable charges support
+
 # v4.47.1
 🚀Private Release - 4.47.1 date: 23/09/2021 🚀
 - Card size fixing
