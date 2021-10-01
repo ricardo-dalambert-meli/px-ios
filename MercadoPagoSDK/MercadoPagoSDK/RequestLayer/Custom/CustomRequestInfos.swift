@@ -28,6 +28,13 @@ extension CustomRequestInfos: RequestInfos {
         }
     }
     
+    var environment: BackendEnvironment {
+        switch self {
+        case .resetESCCap, .createPayment: return .prod
+        case .getCongrats(_, _): return .alpha
+        }
+    }
+    
     var shouldSetEnvironment: Bool {
         switch self {
         case .resetESCCap(_, _): return true
