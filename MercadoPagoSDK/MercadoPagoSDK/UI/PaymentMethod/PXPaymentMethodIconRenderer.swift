@@ -1,11 +1,3 @@
-//
-//  PXPaymentMethodIconRenderer.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 12/21/17.
-//  Copyright © 2017 MercadoPago. All rights reserved.
-//
-
 import UIKit
 
 class PXPaymentMethodIconRenderer: NSObject {

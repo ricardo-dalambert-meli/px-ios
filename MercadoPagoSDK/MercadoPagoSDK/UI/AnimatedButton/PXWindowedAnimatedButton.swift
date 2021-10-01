@@ -1,10 +1,3 @@
-//
-//  PXWindowedAnimatedButton.swift
-//  MercadoPagoSDK
-//
-//  Created by Tomi De Lucca on 24/08/2020.
-//
-
 import Foundation
 
 /**

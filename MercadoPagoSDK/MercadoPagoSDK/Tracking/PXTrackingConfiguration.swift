@@ -1,10 +1,3 @@
-//
-//  PXTrackingConfiguration.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Federico Bustos Fierro on 27/05/2019.
-//
-
 import UIKit
 
 @objcMembers

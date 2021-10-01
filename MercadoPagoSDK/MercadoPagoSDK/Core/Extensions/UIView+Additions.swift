@@ -1,11 +1,3 @@
-//
-//  File.swift
-//  MercadoPagoSDK
-//
-//  Created by Demian Tejo on 9/11/17.
-//  Copyright © 2017 MercadoPago. All rights reserved.
-//
-
 internal extension UIView {
 
     //Eventualmente hay que borrar esto. Cuando summary deje de usarlo

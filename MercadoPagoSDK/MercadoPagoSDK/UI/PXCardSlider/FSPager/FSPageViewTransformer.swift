@@ -1,11 +1,3 @@
-//
-//  FSPagerViewTransformer.swift
-//  FSPagerView
-//
-//  Created by Wenchao Ding on 05/01/2017.
-//  Copyright © 2017 Wenchao Ding. All rights reserved.
-//
-
 import UIKit
 
 @objc

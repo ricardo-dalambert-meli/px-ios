@@ -1,10 +1,3 @@
-//
-//  PXTermsAndConditionViewDelegate.swift
-//  MercadoPagoSDK
-//
-//  Created by Victor Pereira De Paula on 02/09/21.
-//
-
 import Foundation
 
 protocol PXTermsAndConditionViewDelegate: NSObjectProtocol {

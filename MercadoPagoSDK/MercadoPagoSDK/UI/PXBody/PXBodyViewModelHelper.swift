@@ -1,11 +1,3 @@
-//
-//  PXBodyViewModelHelper.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 11/27/17.
-//  Copyright © 2017 MercadoPago. All rights reserved.
-//
-
 import UIKit
 
 internal extension PXResultViewModel {

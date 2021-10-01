@@ -1,10 +1,3 @@
-//
-//  PXSensitiveInformation.swift
-//  MercadoPagoSDK
-//
-//  Created by Esteban Adrian Boffa on 21/01/2020.
-//
-
 import Foundation
 
 /// :nodoc:

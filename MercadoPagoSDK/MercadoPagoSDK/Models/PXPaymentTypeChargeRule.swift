@@ -1,11 +1,3 @@
-//
-//  PXPaymentTypeChargeRule.swift
-//  MercadoPagoSDK
-//
-//  Created by Demian Tejo on 13/6/18.
-//  Copyright © 2018 MercadoPago. All rights reserved.
-//
-
 import UIKit
 
 /**

@@ -1,10 +1,3 @@
-//
-//  PXOneTapHeaderViewModel.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 5/11/18.
-//
-
 import UIKit
 
 class PXOneTapHeaderViewModel {

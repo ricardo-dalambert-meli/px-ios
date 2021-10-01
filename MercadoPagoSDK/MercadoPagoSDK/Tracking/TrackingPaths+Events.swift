@@ -1,10 +1,3 @@
-//
-//  TrackingPaths+Events.swift
-//  MercadoPagoSDK
-//
-//  Created by Eden Torres on 29/10/2018.
-//
-
 import Foundation
 
 // MARK: Events

@@ -1,11 +1,3 @@
-//
-//  PXTermsAndConditionView.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 5/3/18.
-//  Copyright © 2018 MercadoPago. All rights reserved.
-//
-
 class PXTermsAndConditionView: PXComponentView {
     var SCREEN_TITLE = "terms_and_conditions_title"
     internal let DEFAULT_CREDITS_HEIGHT = CGFloat(80)

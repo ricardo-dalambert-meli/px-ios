@@ -1,11 +1,3 @@
-//
-//  PXDiscountConfiguration.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 10/8/18.
-//  Copyright © 2018 MercadoPago. All rights reserved.
-//
-
 import Foundation
 
 internal typealias PXDiscountConfigurationType = (discount: PXDiscount?, campaign: PXCampaign?, isAvailable: Bool, reason: PXDiscountReason?, discountDescription: PXDiscountDescription?, discountOverview: PXDiscountOverview?)

@@ -1,10 +1,3 @@
-//
-//  PXExperiment.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 31/10/2019.
-//
-
 import Foundation
 
 struct PXExperiment: Codable {

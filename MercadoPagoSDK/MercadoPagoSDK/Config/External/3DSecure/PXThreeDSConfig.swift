@@ -1,10 +1,3 @@
-//
-//  PXThreeDSConfig.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Eric Ertl on 04/03/2021.
-//
-
 import Foundation
 
 /**

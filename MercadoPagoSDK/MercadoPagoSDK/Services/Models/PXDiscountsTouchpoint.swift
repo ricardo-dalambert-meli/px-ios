@@ -1,10 +1,3 @@
-//
-//  PXDiscountsTouchpoint.swift
-//  MercadoPagoSDK
-//
-//  Created by Vicente Veltri on 09/05/2020.
-//
-
 import Foundation
 
 @objcMembers

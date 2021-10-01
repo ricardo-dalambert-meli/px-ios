@@ -1,10 +1,3 @@
-//
-//  PXOneTapCreditsDto.swift
-//  Bugsnag
-//
-//  Created by Federico Bustos Fierro on 24/06/2019.
-//
-
 import UIKit
 
 /// :nodoc:

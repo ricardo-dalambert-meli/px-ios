@@ -1,10 +1,3 @@
-//
-//  ISPageControl.swift
-//  ISPageControl
-//
-//  Created by gwangbeom on 2017. 11. 26..
-//  Copyright © 2017년 gwangbeom. All rights reserved.
-//
 import UIKit
 
 class ISPageControl: UIControl {

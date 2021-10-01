@@ -1,10 +1,3 @@
-//
-//  PXOneTapInstallmentsSelectorView.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 16/10/18.
-//
-
 import UIKit
 
 final class PXOneTapInstallmentsSelectorView: PXComponentView {

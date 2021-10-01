@@ -1,9 +1,3 @@
-//
-//  PXCardSliderSizeManager.swift
-//
-//  Created by Juan sebastian Sanzone on 12/10/18.
-//
-
 import UIKit
 import MLCardDrawer
 

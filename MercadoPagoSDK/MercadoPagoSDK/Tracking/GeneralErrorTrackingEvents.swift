@@ -1,10 +1,3 @@
-//
-//  TokenizationTrackingEvents.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 06/05/21.
-//
-
 enum GeneralErrorTrackingEvents: TrackingEvents {
     case error([String:Any])
     

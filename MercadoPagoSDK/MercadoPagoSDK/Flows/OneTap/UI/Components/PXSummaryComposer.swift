@@ -1,10 +1,3 @@
-//
-//  PXSummaryComposer.swift
-//  MercadoPagoSDK
-//
-//  Created by Federico Bustos Fierro on 13/05/2019.
-//
-
 import UIKit
 
 struct PXSummaryComposer {

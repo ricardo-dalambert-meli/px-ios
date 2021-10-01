@@ -1,11 +1,3 @@
-//
-//  PXInitDTO.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 18/10/19.
-//  Copyright © 2019 MercadoPago. All rights reserved.
-//
-
 public struct PXModal: Codable {
     let title: PXText?
     let description: PXText?

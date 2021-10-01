@@ -1,10 +1,3 @@
-//
-//  PXExpenseSplit.swift
-//  MercadoPagoSDK
-//
-//  Created by Esteban Adrian Boffa on 22/06/2020.
-//
-
 import Foundation
 
 @objcMembers

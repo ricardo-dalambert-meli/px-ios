@@ -1,10 +1,3 @@
-//
-//  PXRingViewData.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 13/09/2019.
-//
-
 import UIKit
 import MLBusinessComponents
 

@@ -1,11 +1,3 @@
-//
-//  AppDecorationKeeper.swift
-//  MercadoPagoSDK
-//
-//  Created by Demian Tejo on 2/24/17.
-//  Copyright © 2017 MercadoPago. All rights reserved.
-//
-
 import Foundation
 
 internal class NavigationControllerMemento {

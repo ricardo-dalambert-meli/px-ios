@@ -1,11 +1,3 @@
-//
-//  ErrorViewController.swift
-//  MercadoPagoSDK
-//
-//  Created by Maria cristina rodriguez on 17/5/16.
-//  Copyright © 2016 MercadoPago. All rights reserved.
-//
-
 import UIKit
 
 internal class ErrorViewController: MercadoPagoUIViewController {

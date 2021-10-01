@@ -1,10 +1,3 @@
-//
-//  PXOneTapSheetOptionsDto.swift
-//  MercadoPagoSDK
-//
-//  Created by Eric Ertl on 29/10/2020.
-//
-
 import Foundation
 
 open class PXOneTapSheetOptionsDto: NSObject, Codable {

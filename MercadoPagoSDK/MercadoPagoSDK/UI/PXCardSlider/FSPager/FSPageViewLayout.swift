@@ -1,11 +1,3 @@
-//
-//  FSPagerViewLayout.swift
-//  FSPagerView
-//
-//  Created by Wenchao Ding on 20/12/2016.
-//  Copyright © 2016 Wenchao Ding. All rights reserved.
-//
-
 import UIKit
 
 class FSPagerViewLayout: UICollectionViewLayout {

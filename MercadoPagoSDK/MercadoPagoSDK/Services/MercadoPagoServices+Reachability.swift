@@ -1,10 +1,3 @@
-//
-//  MercadoPagoServices+Reachability.swift
-//  MercadoPagoSDK
-//
-//  Created by Esteban Adrian Boffa on 03/09/2020.
-//
-
 import Foundation
 // Se importa MLCardForm para reutilizar la clase de Reachability
 import MLCardForm

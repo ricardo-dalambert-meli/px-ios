@@ -1,10 +1,3 @@
-//
-//  PXDifferentialPricing.swift
-//  MercadoPagoServicesV4
-//
-//  Created by Demian Tejo on 30/7/18.
-//
-
 import Foundation
 /// :nodoc:
 open class PXDifferentialPricing: NSObject, Codable {

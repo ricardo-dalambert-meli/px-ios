@@ -1,9 +1,3 @@
-//
-//  PXOneTapApplication.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Jonathan Scaramal on 16/03/2021.
-//
 public struct PXApplicationPaymentMethod: Codable {
     var id: String?
     var type: String?

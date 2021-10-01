@@ -1,10 +1,3 @@
-//
-//  PXCardDisplayInfoDto.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 23/10/18.
-//
-
 import Foundation
 
 public enum PXCardDisplayTypes: String, Codable {

@@ -1,10 +1,3 @@
-//
-//  PXHeaderView.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 21/02/2019.
-//
-
 import UIKit
 
 internal final class PXHeaderView: PXComponentView {

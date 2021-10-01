@@ -1,10 +1,3 @@
-//
-//  PXOneTapSummaryRowView.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 18/12/2018.
-//
-
 import UIKit
 
 class PXOneTapSummaryRowView: UIView {

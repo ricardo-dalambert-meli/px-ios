@@ -1,10 +1,3 @@
-//
-//  PXTermsAndConditionsTextView.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Victor Pereira De Paula on 09/09/21.
-//
-
 import MLCardDrawer
 
 final class PXTermsAndConditionsTextView: UITextView {

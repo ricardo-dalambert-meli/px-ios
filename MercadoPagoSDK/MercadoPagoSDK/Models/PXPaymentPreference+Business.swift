@@ -1,10 +1,3 @@
-//
-//  PXPaymentPreference+Business.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Eden Torres on 04/09/2018.
-//
-
 import Foundation
 
 private func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {

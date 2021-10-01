@@ -1,10 +1,3 @@
-//
-//  CongratsTrackingEvents.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 06/05/21.
-//
-
 enum CongratsTrackingEvents: TrackingEvents {
     case didTapDiscount([String:Any])
     

@@ -1,11 +1,3 @@
-//
-//  PXDiscountDetailViewController.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 28/5/18.
-//  Copyright © 2018 MercadoPago. All rights reserved.
-//
-
 import UIKit
 
 final class PXDiscountDetailViewController: MercadoPagoUIViewController {

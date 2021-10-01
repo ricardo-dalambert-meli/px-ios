@@ -1,10 +1,3 @@
-//
-//  PXCustomTranslationKey.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 5/28/19.
-//
-
 import Foundation
 
 /// :nodoc

@@ -1,10 +1,3 @@
-//
-//  PXPointsAndDiscounts.swift
-//  MercadoPagoSDK
-//
-//  Created by Esteban Adrian Boffa on 22/08/2019.
-//
-
 import Foundation
 
 struct PXPointsAndDiscounts: Codable {

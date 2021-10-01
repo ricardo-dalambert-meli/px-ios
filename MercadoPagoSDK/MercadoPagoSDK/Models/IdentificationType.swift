@@ -1,11 +1,3 @@
-//
-//  IdentificationType.swift
-//  MercadoPagoSDK
-//
-//  Created by Matias Gualino on 2/2/15.
-//  Copyright (c) 2015 com.mercadopago. All rights reserved.
-//
-
 import Foundation
 
 /** :nodoc: */

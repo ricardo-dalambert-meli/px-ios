@@ -1,10 +1,3 @@
-//
-//  PXNewResultViewController.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 27/08/2019.
-//
-
 import UIKit
 import MLBusinessComponents
 import AndesUI

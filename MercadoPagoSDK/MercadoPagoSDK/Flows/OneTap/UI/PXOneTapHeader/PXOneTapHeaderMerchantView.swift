@@ -1,10 +1,3 @@
-//
-//  PXOneTapHeaderMerchantView.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 11/10/18.
-//
-
 import UIKit
 
 class PXOneTapHeaderMerchantView: UIStackView {

@@ -1,10 +1,3 @@
-//
-//  UIImageView+Extension.swift
-//  MercadoPagoSDK
-//
-//  Created by Esteban Adrian Boffa on 11/07/2020.
-//
-
 import Foundation
 
 extension UIImageView {

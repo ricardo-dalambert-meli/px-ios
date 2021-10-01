@@ -1,10 +1,3 @@
-//
-//  MercadoPagoCheckoutViewModel+SkipSteps.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 3/2/19.
-//
-
 import Foundation
 
 internal extension MercadoPagoCheckoutViewModel {

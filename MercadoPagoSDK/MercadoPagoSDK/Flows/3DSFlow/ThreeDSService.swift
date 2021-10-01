@@ -1,10 +1,3 @@
-//
-//  ThreeDSService.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Eric Ertl on 05/03/2021.
-//
-
 import Foundation
 
 internal class ThreeDSService {

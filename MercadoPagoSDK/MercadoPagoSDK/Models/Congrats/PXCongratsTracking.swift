@@ -1,10 +1,3 @@
-//
-//  PXCongratsTracking.swift
-//  MercadoPagoSDK
-//
-//  Created by Esteban Adrian Boffa on 24/09/2019.
-//
-
 import Foundation
 
 protocol PXCongratsTrackingDataProtocol: NSObjectProtocol {

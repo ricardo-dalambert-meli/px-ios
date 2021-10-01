@@ -1,10 +1,3 @@
-//
-//  NSMutableAttributedString.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 26/04/21.
-//
-
 extension NSMutableAttributedString {
     func with(font: UIFont) -> NSMutableAttributedString {
         self.enumerateAttribute(.font, in: NSMakeRange(0, self.length), options: .longestEffectiveRangeNotRequired) { (value, range, stop) in

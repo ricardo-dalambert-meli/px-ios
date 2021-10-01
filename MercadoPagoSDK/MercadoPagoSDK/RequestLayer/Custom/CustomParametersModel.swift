@@ -1,10 +1,3 @@
-//
-//  CustomParametersModel.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 15/07/21.
-//
-
 struct CustomParametersModel {
     let privateKey: String?
     let publicKey: String

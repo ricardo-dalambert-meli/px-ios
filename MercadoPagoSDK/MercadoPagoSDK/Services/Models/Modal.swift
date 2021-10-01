@@ -1,10 +1,3 @@
-//
-//  Modal.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 30/08/21.
-//
-
 import Foundation
 
 struct Modal: Codable {

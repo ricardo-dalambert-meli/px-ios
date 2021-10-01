@@ -1,11 +1,3 @@
-//
-//  PXError.swift
-//  MercadoPagoServices
-//
-//  Created by Eden Torres on 11/9/17.
-//  Copyright © 2017 Mercado Pago. All rights reserved.
-//
-
 import Foundation
 /// :nodoc:
 open class PXError: NSError {

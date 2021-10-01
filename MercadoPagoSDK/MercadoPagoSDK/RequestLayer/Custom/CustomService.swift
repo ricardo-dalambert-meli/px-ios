@@ -1,10 +1,3 @@
-//
-//  CustomServices.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 15/07/21.
-//
-
 protocol CustomService {
     func getPointsAndDiscounts(data: Data?, parameters: CustomParametersModel, response: @escaping (Swift.Result<PXPointsAndDiscounts, Error>) -> Void)
     func resetESCCap(cardId:String, privateKey: String?, response: @escaping (Swift.Result<Void, PXError>) -> Void)

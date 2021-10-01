@@ -1,10 +1,3 @@
-//
-//  PXCardDataFactory.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 16/10/18.
-//
-
 import Foundation
 import MLCardDrawer
 

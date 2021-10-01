@@ -1,11 +1,3 @@
-//
-//  SecurityCodeViewModel.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 7/17/17.
-//  Copyright © 2017 MercadoPago. All rights reserved.
-//
-
 import Foundation
 
 internal class SecurityCodeViewModel {

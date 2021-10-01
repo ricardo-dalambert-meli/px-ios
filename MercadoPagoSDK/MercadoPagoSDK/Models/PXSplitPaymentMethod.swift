@@ -1,10 +1,3 @@
-//
-//  PXSplitPaymentMethod.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Eden Torres on 28/01/2019.
-//
-
 import Foundation
 
 /// :nodoc:

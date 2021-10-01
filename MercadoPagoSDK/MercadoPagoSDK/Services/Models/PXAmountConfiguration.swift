@@ -1,10 +1,3 @@
-//
-//  PXAmountConfiguration.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 29/11/2018.
-//
-
 import UIKit
 
 // payment_option

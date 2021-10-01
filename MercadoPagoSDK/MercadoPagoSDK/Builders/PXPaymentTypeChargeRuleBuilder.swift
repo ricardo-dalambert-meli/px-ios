@@ -1,10 +1,3 @@
-//
-//  PXPaymentTypeChargeRuleBuilder.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Jonathan Scaramal on 21/09/2021.
-//
-
 import Foundation
 
 public class PXPaymentTypeChargeRuleBuilder {

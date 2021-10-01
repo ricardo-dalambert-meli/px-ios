@@ -1,10 +1,3 @@
-//
-//  PXConfiguratorManager.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 8/7/19.
-//
-
 import Foundation
 
 /// :nodoc

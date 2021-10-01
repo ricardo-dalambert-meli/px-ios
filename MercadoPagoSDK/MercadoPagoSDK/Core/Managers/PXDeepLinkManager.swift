@@ -1,10 +1,3 @@
-//
-//  PXDeepLinkManager.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 9/23/19.
-//
-
 import Foundation
 
 struct PXDeepLinkManager {

@@ -1,10 +1,3 @@
-//
-//  PXNewCustomView.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 29/08/2019.
-//
-
 import UIKit
 
 open class PXNewCustomViewData {

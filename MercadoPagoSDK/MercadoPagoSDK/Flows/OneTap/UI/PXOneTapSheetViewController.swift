@@ -1,10 +1,3 @@
-//
-//  PXOneTapSheetViewController.swift
-//  MercadoPagoSDK
-//
-//  Created by Eric Ertl on 30/10/2020.
-//
-
 import Foundation
 
 internal protocol PXOneTapSheetViewControllerProtocol: class {

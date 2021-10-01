@@ -1,10 +1,3 @@
-//
-//  PXAccountMoneyDto+Business.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 12/12/18.
-//
-
 import Foundation
 
 /// :nodoc:

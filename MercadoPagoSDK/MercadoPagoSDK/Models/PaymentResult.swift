@@ -1,11 +1,3 @@
-//
-//  PaymentResult.swift
-//  MercadoPagoSDK
-//
-//  Created by Eden Torres on 2/14/17.
-//  Copyright © 2017 MercadoPago. All rights reserved.
-//
-
 import Foundation
 
 internal class PaymentResult {

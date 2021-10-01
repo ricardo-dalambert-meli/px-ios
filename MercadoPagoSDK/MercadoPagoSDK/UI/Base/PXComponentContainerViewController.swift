@@ -1,11 +1,3 @@
-//
-//  PXComponentContainerViewController.swift
-//  MercadoPagoSDK
-//
-//  Created by Demian Tejo on 11/8/17.
-//  Copyright © 2017 MercadoPago. All rights reserved.
-//
-
 import UIKit
 
 class PXComponentContainerViewController: MercadoPagoUIViewController {

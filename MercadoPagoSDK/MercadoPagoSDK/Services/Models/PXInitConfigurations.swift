@@ -1,10 +1,3 @@
-//
-//  PXInitConfigurations.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 27/02/2020.
-//
-
 import Foundation
 
 final class PXInitConfigurations: Codable {

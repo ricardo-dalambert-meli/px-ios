@@ -1,10 +1,3 @@
-//
-//  PXESCStatus.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Eric Ertl on 30/01/2020.
-//
-
 import Foundation
 
 public enum PXESCStatus: String {

@@ -1,11 +1,3 @@
-//
-//  ThemeManager+NavigationController.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 15/1/18.
-//  Copyright © 2018 MercadoPago. All rights reserved.
-//
-
 import Foundation
 
 extension ThemeManager {

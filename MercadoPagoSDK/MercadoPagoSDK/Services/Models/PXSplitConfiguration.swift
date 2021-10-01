@@ -1,10 +1,3 @@
-//
-//  PXSplitConfiguration.swift
-//  MercadoPagoSDK
-//
-//  Created by Eden Torres on 08/01/2019.
-//
-
 import Foundation
 /// :nodoc:
 open class PXSplitConfiguration: NSObject, Codable {

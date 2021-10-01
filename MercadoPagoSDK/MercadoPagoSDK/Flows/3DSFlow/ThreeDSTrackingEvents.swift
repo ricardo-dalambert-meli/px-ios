@@ -1,10 +1,3 @@
-//
-//  ThreeDSTrackingEvents.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 06/05/21.
-//
-
 enum ThreeDSTrackingEvents: TrackingEvents {
     case didGetProgramValidation([String:Any])
     

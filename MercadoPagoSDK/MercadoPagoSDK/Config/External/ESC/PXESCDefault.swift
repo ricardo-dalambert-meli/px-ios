@@ -1,10 +1,3 @@
-//
-//  PXESCDefault.swift
-//  MercadoPagoSDK
-//
-//  Created by Eric Ertl on 20/08/2020.
-//
-
 import Foundation
 
 /**

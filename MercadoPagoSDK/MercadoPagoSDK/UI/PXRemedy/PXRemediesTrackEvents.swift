@@ -1,10 +1,3 @@
-//
-//  PXRemediesTrackEvents.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Pedro Silva Dos Santos on 15/09/21.
-//
-
 enum PXRemediesTrackEvents: TrackingEvents {
     case didResultRemedyError([String:Any])
     case viewErrorPaymentResult([String:Any])

@@ -1,11 +1,3 @@
-//
-//  PXDeviceId.swift
-//  MercadoPagoServices
-//
-//  Created by Eden Torres on 10/27/17.
-//  Copyright © 2017 Mercado Pago. All rights reserved.
-//
-
 import Foundation
 /// :nodoc:
 open class PXDeviceId: NSObject, Codable {

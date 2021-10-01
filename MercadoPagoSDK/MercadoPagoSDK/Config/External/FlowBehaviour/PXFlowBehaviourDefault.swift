@@ -1,10 +1,3 @@
-//
-//  PXFlowBehaviourDefault.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 11/02/2020.
-//
-
 import Foundation
 
 /**

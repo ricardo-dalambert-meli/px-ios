@@ -1,11 +1,3 @@
-//
-//  PXServicesURLConfigs.swift
-//  MercadoPagoServices
-//
-//  Created by Eden Torres on 11/8/17.
-//  Copyright © 2017 Mercado Pago. All rights reserved.
-//
-
 import Foundation
 
 enum PX_ENVIRONMENTS : CaseIterable {

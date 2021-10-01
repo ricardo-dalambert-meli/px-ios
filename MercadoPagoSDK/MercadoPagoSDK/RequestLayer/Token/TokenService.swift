@@ -1,10 +1,3 @@
-//
-//  TokenServices.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 15/07/21.
-//
-
 protocol TokenService {
     func getToken(accessToken: String?,
                   publicKey: String,

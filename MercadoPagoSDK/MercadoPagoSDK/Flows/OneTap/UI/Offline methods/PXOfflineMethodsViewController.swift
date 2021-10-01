@@ -1,10 +1,3 @@
-//
-//  PXOfflineMethodsViewController.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 18/12/2019.
-//
-
 import Foundation
 import MLUI
 

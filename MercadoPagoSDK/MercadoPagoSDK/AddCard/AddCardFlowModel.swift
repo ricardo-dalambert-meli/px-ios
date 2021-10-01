@@ -1,11 +1,3 @@
-//
-//  AddCardFlowModel.swift
-//  MercadoPagoSDK
-//
-//  Created by Diego Flores Domenech on 6/9/18.
-//  Copyright © 2018 MercadoPago. All rights reserved.
-//
-
 import UIKit
 
 class AddCardFlowModel: NSObject, PXFlowModel {

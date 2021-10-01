@@ -1,10 +1,3 @@
-//
-//  MLBusinessAppDataService.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 17/09/2019.
-//
-
 import Foundation
 
 struct MLBusinessAppDataService {

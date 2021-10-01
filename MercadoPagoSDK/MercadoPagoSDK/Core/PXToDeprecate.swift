@@ -1,11 +1,3 @@
-//
-//  PXToDeprecate.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 31/7/18.
-//  Copyright © 2018 MercadoPago. All rights reserved.
-//
-
 import Foundation
 
 extension MercadoPagoCheckout {

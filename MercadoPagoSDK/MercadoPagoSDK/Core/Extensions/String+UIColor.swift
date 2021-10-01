@@ -1,10 +1,3 @@
-//
-//  String+UIColor.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 25/10/18.
-//
-
 import UIKit
 
 internal extension String {

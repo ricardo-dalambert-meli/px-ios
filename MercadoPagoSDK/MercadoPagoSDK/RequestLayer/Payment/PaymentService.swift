@@ -1,10 +1,3 @@
-//
-//  PaymentServices.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 15/07/21.
-//
-
 protocol PaymentService {
     func getInit(preferenceId: String?,
                  privateKey: String?,

@@ -1,10 +1,3 @@
-//
-//  PXDynamicViewControllerProtocol.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 22/10/18.
-//
-
 import Foundation
 
 @objc public enum PXDynamicViewControllerPosition: Int {

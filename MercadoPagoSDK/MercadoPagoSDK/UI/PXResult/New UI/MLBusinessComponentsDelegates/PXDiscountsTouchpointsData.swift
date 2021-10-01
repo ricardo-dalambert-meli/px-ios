@@ -1,10 +1,3 @@
-//
-//  PXDiscountsTouchpointsData.swift
-//  MercadoPagoSDK
-//
-//  Created by Vicente Veltri on 08/05/2020.
-//
-
 import UIKit
 import MLBusinessComponents
 

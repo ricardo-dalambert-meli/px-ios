@@ -1,11 +1,3 @@
-//
-//  PXPaymentData.swift
-//  MercadoPagoSDK
-//
-//  Created by Maria cristina rodriguez on 2/1/17.
-//  Copyright © 2017 MercadoPago. All rights reserved.
-//
-
 import UIKit
 
 /**

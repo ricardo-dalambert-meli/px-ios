@@ -1,11 +1,3 @@
-//
-//  MercadoPagoCheckout+Screens+Plugins.swift
-//  MercadoPagoSDK
-//
-//  Created by Eden Torres on 12/14/17.
-//  Copyright © 2017 MercadoPago. All rights reserved.
-//
-
 import Foundation
 extension MercadoPagoCheckout {
     func showPaymentMethodPluginConfigScreen() {

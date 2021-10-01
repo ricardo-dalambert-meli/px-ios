@@ -1,11 +1,3 @@
-//
-//  JSONHandler.swift
-//  MPTracker
-//
-//  Created by Demian Tejo on 9/26/16.
-//  Copyright © 2016 Demian Tejo. All rights reserved.
-//
-
 import UIKit
 
 internal class JSONHandler: NSObject {

@@ -1,11 +1,3 @@
-//
-//  PXHeaderRenderer.swift
-//  TestAutolayout
-//
-//  Created by Demian Tejo on 10/18/17.
-//  Copyright © 2017 Demian Tejo. All rights reserved.
-//
-
 import UIKit
 
 internal final class PXHeaderRenderer: NSObject {

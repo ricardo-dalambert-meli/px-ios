@@ -1,10 +1,3 @@
-//
-//  RemedyRequestInfos.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 15/07/21.
-//
-
 enum RemedyRequestInfos {
     case getRemedy(paymentMethodId: String, privateKey: String?, oneTap: Bool, body: Data?)
 }

@@ -1,10 +1,3 @@
-//
-//  PXPaymentCongratsTracking.swift
-//  MercadoPagoSDK
-//
-//  Created by Daniel Alexander Silva on 8/18/20.
-//
-
 import Foundation
 
 @objcMembers

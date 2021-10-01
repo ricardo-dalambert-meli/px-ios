@@ -1,10 +1,3 @@
-//
-//  MercadoPagoServicesTest.swift
-//  MercadoPagoSDKV4-Unit-MercadoPagoSDKTests
-//
-//  Created by Matheus Leandro Martins on 11/08/21.
-//
-
 import XCTest
 @testable import MercadoPagoSDKV4
 

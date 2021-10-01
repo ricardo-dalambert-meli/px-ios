@@ -1,10 +1,3 @@
-//
-//  PXPulseView.swift
-//  MercadoPagoSDK
-//
-//  Created by Esteban Adrian Boffa on 28/05/2020.
-//
-
 import Foundation
 
 final class PXPulseView: UIView {

@@ -1,10 +1,3 @@
-//
-//  TokenRequestInfos.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 15/07/21.
-//
-
 enum TokenRequestInfos {
     case getToken(accessToken: String?, publicKey: String, cardTokenJSON: Data?)
     case cloneToken(tokenId: String, publicKey: String)

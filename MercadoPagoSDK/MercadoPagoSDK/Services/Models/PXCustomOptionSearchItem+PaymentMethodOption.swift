@@ -1,10 +1,3 @@
-//
-//  PXCustomOptionSearchItem+PaymentMethod.swift
-//  MercadoPagoSDK
-//
-//  Created by Federico Bustos Fierro on 06/02/2019.
-//
-
 import UIKit
 
 extension PXCustomOptionSearchItem: PaymentMethodOption {

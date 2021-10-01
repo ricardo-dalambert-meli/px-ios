@@ -1,10 +1,3 @@
-//
-//  PXPaymentMethodConfiguration.swift
-//  MercadoPagoSDK
-//
-//  Created by Demian Tejo on 27/11/18.
-//
-
 import UIKit
 
 class PXPaymentMethodConfiguration: NSObject {

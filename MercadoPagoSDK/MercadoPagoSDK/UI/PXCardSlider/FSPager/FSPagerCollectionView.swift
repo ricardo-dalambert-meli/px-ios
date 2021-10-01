@@ -1,13 +1,3 @@
-//
-//  FSPagerViewCollectionView.swift
-//  FSPagerView
-//
-//  Created by Wenchao Ding on 24/12/2016.
-//  Copyright © 2016 Wenchao Ding. All rights reserved.
-//
-//  1. Reject -[UIScrollView(UIScrollViewInternal) _adjustContentOffsetIfNecessary]
-//  2. Group initialized features
-
 import UIKit
 
 class FSPagerViewCollectionView: UICollectionView {

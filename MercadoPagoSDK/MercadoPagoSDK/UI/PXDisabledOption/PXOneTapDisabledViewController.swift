@@ -1,10 +1,3 @@
-//
-//  PXOneTapDisabledViewController.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 04/12/2019.
-//
-
 import UIKit
 import MLUI
 import AndesUI

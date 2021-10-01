@@ -1,11 +1,3 @@
-//
-//  MPTextView.swift
-//  MercadoPagoSDK
-//
-//  Created by Maria cristina rodriguez on 12/4/16.
-//  Copyright © 2016 MercadoPago. All rights reserved.
-//
-
 import UIKit
 
 internal class MPTextView: UITextView {

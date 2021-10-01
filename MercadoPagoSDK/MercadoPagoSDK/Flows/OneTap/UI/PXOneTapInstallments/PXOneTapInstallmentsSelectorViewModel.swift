@@ -1,10 +1,3 @@
-//
-//  PXOneTapInstallmentsSelectorViewModel.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 30/10/18.
-//
-
 import Foundation
 
 typealias PXOneTapInstallmentsSelectorData = (title: NSAttributedString, topValue: NSAttributedString?, bottomValue: NSAttributedString?, isSelected: Bool)

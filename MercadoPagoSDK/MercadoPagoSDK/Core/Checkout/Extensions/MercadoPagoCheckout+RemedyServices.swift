@@ -1,10 +1,3 @@
-//
-//  MercadoPagoCheckout+RemedyServices.swift
-//  MercadoPagoSDK
-//
-//  Created by Eric Ertl on 17/03/2020.
-//
-
 import Foundation
 
 extension MercadoPagoCheckout {

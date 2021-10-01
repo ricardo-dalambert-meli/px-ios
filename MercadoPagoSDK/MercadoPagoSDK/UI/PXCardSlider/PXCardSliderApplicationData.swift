@@ -1,10 +1,3 @@
-//
-//  PXCardSliderApplicationData.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Jonathan Scaramal on 09/03/2021.
-//
-
 import MLCardDrawer
 
 final class PXCardSliderApplicationData {

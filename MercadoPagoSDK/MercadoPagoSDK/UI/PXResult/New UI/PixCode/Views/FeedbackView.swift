@@ -1,10 +1,3 @@
-//
-//  FeedbackView.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 13/05/21.
-//
-
 import UIKit
 import AndesUI
 

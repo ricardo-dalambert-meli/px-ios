@@ -1,10 +1,3 @@
-//
-//  PXCardSliderTrackingEvents.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 06/05/21.
-//
-
 enum PXCardSliderTrackingEvents: TrackingEvents {
     case comboSwitch(String)
     

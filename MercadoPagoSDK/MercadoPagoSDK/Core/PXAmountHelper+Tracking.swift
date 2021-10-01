@@ -1,9 +1,3 @@
-//
-//  PXAmountHelper+Tracking.swift
-//  MercadoPagoSDK
-//
-//  Created by Eden Torres on 25/10/2018.
-//
 import Foundation
 
 extension PXAmountHelper {

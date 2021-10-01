@@ -1,10 +1,3 @@
-//
-//  MercadoPagoUIViewController+Tracking.swift
-//  MercadoPagoSDK
-//
-//  Created by Eden Torres on 03/12/2018.
-//
-
 import Foundation
 // MARK: Tracking
 extension MercadoPagoUIViewController {

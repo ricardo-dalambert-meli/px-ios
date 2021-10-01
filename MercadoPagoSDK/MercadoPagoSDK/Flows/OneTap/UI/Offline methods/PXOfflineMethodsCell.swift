@@ -1,10 +1,3 @@
-//
-//  PXOfflineMethodsCell.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 18/12/2019.
-//
-
 import Foundation
 
 internal typealias PXOfflineMethodsCellData = (title: PXText?, subtitle: PXText?, imageUrl: String?, isSelected: Bool)

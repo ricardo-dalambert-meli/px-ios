@@ -1,10 +1,3 @@
-//
-//  PXCVVInfo.swift
-//  MercadoPagoSDK
-//
-//  Created by Esteban Adrian Boffa on 08/05/2020.
-//
-
 import Foundation
 
 public struct PXCVVInfo: Codable {

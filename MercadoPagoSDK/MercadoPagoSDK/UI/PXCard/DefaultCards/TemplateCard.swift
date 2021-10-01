@@ -1,10 +1,3 @@
-//
-//  TemplateCard.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 25/10/18.
-//
-
 import Foundation
 import MLCardDrawer
 

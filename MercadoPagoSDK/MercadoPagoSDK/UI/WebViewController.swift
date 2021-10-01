@@ -1,11 +1,3 @@
-//
-//  WebViewController.swift
-//  MercadoPagoSDK
-//
-//  Created by Maria cristina rodriguez on 22/5/16.
-//  Copyright © 2016 MercadoPago. All rights reserved.
-//
-
 import UIKit
 import WebKit
 

@@ -1,10 +1,3 @@
-//
-//  PXCardSliderViewModel.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 31/10/18.
-//
-
 import UIKit
 import MLCardDrawer
 

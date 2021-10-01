@@ -1,11 +1,3 @@
-//
-//  PXNotificationManager.swift
-//  MercadoPagoSDK
-//
-//  Created by Demian Tejo on 25/4/18.
-//  Copyright © 2018 MercadoPago. All rights reserved.
-//
-
 import Foundation
 
 struct PXAnimatedButtonNotificationObject {

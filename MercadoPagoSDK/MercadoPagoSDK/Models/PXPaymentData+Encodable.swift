@@ -1,10 +1,3 @@
-//
-//  PXPaymentData+Encodable.swift
-//  MercadoPagoSDK
-//
-//  Created by Esteban Adrian Boffa on 26/06/2019.
-//
-
 import Foundation
 
 extension PXPaymentData: Encodable {

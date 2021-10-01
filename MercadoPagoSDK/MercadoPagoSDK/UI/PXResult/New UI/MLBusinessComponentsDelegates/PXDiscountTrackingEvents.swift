@@ -1,10 +1,3 @@
-//
-//  PXDiscountTrackingEvents.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 06/05/21.
-//
-
 enum PXDiscountTrackingEvents: TrackingEvents {
     case discount(String, String, [String : Any])
     

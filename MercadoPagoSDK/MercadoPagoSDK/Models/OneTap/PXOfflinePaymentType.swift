@@ -1,10 +1,3 @@
-//
-//  PXOfflinePaymentType.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 18/12/2019.
-//
-
 import Foundation
 
 public struct PXOfflinePaymentType: Codable {

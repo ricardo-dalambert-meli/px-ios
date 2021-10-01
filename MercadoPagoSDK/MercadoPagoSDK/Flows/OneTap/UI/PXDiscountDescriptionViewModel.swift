@@ -1,10 +1,3 @@
-//
-//  PXDiscountDescriptionViewModel.swift
-//  MercadoPagoSDK
-//
-//  Created by Esteban Adrian Boffa on 14/07/2020.
-//
-
 import Foundation
 
 final class PXDiscountDescriptionViewModel {

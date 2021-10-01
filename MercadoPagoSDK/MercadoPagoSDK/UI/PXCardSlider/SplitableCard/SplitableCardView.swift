@@ -1,10 +1,3 @@
-//
-//  SplitableCardView.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 05/07/21.
-//
-
 import UIKit
 
 final class SplitableCardView: UIView {

@@ -1,10 +1,3 @@
-//
-//  PXOneTapSummaryRow.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 26/08/2019.
-//
-
 import UIKit
 
 class PXOneTapSummaryRow: Equatable {

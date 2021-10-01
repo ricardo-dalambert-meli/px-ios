@@ -1,10 +1,3 @@
-//
-//  PixCodeView.swift
-//  AndesUI
-//
-//  Created by Matheus Leandro Martins on 22/04/21.
-//
-
 import UIKit
 
 final class InstructionView: UIView {

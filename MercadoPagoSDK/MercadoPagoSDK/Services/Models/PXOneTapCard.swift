@@ -1,11 +1,3 @@
-//
-//  PXOneTapCard.swift
-//  MercadoPagoServices
-//
-//  Created by Eden Torres on 09/05/2018.
-//  Copyright © 2018 Mercado Pago. All rights reserved.
-//
-
 import Foundation
 /// :nodoc:
 open class PXOneTapCard: NSObject, Codable {

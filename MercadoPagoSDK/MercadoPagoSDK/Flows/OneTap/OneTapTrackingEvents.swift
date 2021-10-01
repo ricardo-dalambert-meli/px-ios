@@ -1,10 +1,3 @@
-//
-//  OneTapTrackingEvents.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 06/05/21.
-//
-
 enum OneTapTrackingEvents: TrackingEvents {
     case didTapOnOfflineMethods
     case didGetTargetBehaviour([String:Any])

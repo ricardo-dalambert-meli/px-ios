@@ -1,10 +1,3 @@
-//
-//  LogHelper.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Federico Bustos Fierro on 16/05/2019.
-//
-
 import Foundation
 
 //will only execute the print action if running in debug

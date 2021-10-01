@@ -1,10 +1,3 @@
-//
-//  MercadoPagoCheckout+Tracking.swift
-//  MercadoPagoSDK
-//
-//  Created by Eden Torres on 13/12/2018.
-//
-
 import Foundation
 
 // MARK: Tracking

@@ -1,10 +1,3 @@
-//
-//  PXExperimentsViewModel.swift
-//  MercadoPagoSDK
-//
-//  Created by Esteban Adrian Boffa on 01/06/2020.
-//
-
 import Foundation
 
 struct PXExperimentsViewModel {

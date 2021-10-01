@@ -1,10 +1,3 @@
-//
-//  PXOneTapInstallmentsSelectorCell.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 30/10/18.
-//
-
 import UIKit
 
 final class PXOneTapInstallmentsSelectorCell: UITableViewCell {

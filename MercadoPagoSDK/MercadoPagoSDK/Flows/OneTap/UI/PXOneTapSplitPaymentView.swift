@@ -1,10 +1,3 @@
-//
-//  PXOneTapSplitPaymentView.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 09/01/2019.
-//
-
 import UIKit
 
 class PXOneTapSplitPaymentView: PXComponentView {

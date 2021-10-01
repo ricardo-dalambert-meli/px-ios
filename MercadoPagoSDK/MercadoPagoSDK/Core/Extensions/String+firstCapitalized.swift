@@ -1,10 +1,3 @@
-//
-//  String+firstCapitalized.swift
-//  MercadoPagoSDK
-//
-//  Created by Esteban Adrian Boffa on 15/01/2020.
-//
-
 import Foundation
 
 extension String {

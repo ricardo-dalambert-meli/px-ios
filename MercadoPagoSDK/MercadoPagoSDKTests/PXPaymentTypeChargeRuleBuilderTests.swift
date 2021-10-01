@@ -1,10 +1,3 @@
-//
-//  PXPaymentTypeChargeRuleBuilderTests.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Jonathan Scaramal on 22/09/2021.
-//
-
 import XCTest
 @testable import MercadoPagoSDKV4
 

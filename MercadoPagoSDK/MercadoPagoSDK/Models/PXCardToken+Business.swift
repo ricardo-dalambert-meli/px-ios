@@ -1,10 +1,3 @@
-//
-//  PXCardToken+Business.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Eden Torres on 04/09/2018.
-//
-
 import Foundation
 /// :nodoc:
 extension PXCardToken: PXCardInformationForm {

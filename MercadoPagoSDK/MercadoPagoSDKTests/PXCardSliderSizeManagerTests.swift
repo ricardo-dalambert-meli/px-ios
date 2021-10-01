@@ -1,10 +1,3 @@
-//
-//  PXCardSliderSizeManagerTests.swift
-//  MercadoPagoSDKV4-Unit-MercadoPagoSDKTests
-//
-//  Created by Jonathan Scaramal on 14/05/2021.
-//
-
 import XCTest
 @testable import MercadoPagoSDKV4
 @testable import MLCardDrawer

@@ -1,10 +1,3 @@
-//
-//  HybridAMCard.swift
-//  MercadoPagoSDK
-//
-//  Created by Jonathan Scaramal on 11/11/2020.
-//
-
 import Foundation
 import MLCardDrawer
 

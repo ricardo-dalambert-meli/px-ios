@@ -1,11 +1,3 @@
-//
-//  NextStepHelper.swift
-//  MercadoPagoSDK
-//
-//  Created by Demian Tejo on 2/3/17.
-//  Copyright © 2017 MercadoPago. All rights reserved.
-//
-
 import Foundation
 
 extension MercadoPagoCheckoutViewModel {

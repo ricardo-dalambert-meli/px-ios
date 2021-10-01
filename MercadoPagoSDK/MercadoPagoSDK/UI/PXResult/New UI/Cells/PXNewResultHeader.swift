@@ -1,10 +1,3 @@
-//
-//  PXNewResultHeader.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 28/08/2019.
-//
-
 import UIKit
 
 struct PXNewResultHeaderData {

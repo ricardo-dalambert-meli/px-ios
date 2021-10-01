@@ -1,11 +1,3 @@
-//
-//  PXComponentView.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 12/13/17.
-//  Copyright © 2017 MercadoPago. All rights reserved.
-//
-
 import Foundation
 
 @objcMembers internal class PXComponentView: UIView {

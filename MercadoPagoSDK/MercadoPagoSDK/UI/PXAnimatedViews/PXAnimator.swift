@@ -1,10 +1,3 @@
-//
-//  PXAnimator.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 23/10/18.
-//
-
 import UIKit
 
 typealias PXAnimation = (animation: () -> Void, delay: CGFloat)

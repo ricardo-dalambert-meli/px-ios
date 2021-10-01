@@ -1,10 +1,3 @@
-//
-//  PXFeedbackGenerator.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 23/10/18.
-//
-
 import Foundation
 
 struct PXFeedbackGenerator {

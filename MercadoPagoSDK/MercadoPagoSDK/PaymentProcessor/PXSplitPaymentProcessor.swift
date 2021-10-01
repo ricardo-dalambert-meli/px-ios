@@ -1,10 +1,3 @@
-//
-//  PXSplitPaymentProcessor.swift
-//  MercadoPagoSDK
-//
-//  Created by Eden Torres on 22/01/2019.
-//
-
 import Foundation
 
 @objc public protocol PXSplitPaymentProcessor: NSObjectProtocol {

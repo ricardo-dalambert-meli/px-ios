@@ -1,10 +1,3 @@
-//
-//  PXOneTapHeaderMerchantLayout.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 3/23/19.
-//
-
 import Foundation
 
 struct PXOneTapHeaderMerchantLayout {

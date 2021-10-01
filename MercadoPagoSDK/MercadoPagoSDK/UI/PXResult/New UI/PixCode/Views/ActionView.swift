@@ -1,10 +1,3 @@
-//
-//  ActionView.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 14/05/21.
-//
-
 import UIKit
 
 protocol ActionViewDelegate: class {

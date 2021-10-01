@@ -1,10 +1,3 @@
-//
-//  UIDevice+Extension.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 11/10/18.
-//
-
 import Foundation
 
 internal extension UIDevice {

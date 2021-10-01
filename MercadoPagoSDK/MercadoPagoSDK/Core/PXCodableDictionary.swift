@@ -1,10 +1,3 @@
-//
-//  PXCodableDictionary.swift
-//  MercadoPagoSDK
-//
-//  Created by Vicente Veltri on 11/05/2020.
-//
-
 import Foundation
 
 public class PXCodableDictionary: Codable, CustomStringConvertible {

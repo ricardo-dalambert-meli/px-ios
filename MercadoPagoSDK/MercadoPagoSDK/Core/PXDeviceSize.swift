@@ -1,10 +1,3 @@
-//
-//  PXDeviceSize.swift
-//  MercadoPagoSDK
-//
-//  Created by Jonathan Scaramal on 13/05/2021.
-//
-
 import UIKit
 
 public class PXDeviceSize {

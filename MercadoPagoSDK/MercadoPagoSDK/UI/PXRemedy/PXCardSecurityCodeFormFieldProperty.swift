@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Eric Ertl on 31/07/2020.
-//
-
 import MLCardForm
 
 struct PXCardFormFieldSetting {

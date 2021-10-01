@@ -1,10 +1,3 @@
-//
-//  PXCheckoutPreference+Gateway.swift
-//  MercadoPagoSDK
-//
-//  Created by Federico Bustos Fierro on 31/05/2019.
-//
-
 import UIKit
 
 // MARK: Gateway mode

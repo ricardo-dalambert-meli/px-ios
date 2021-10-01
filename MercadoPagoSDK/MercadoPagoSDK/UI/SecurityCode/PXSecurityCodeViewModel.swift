@@ -1,10 +1,3 @@
-//
-//  PXSecurityCodeViewModel.swift
-//  MercadoPagoSDK
-//
-//  Created by Esteban Adrian Boffa on 02/09/2020.
-//
-
 import Foundation
 import MLCardDrawer
 import AndesUI

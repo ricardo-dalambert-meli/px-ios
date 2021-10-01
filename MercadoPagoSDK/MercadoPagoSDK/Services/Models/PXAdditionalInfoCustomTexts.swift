@@ -1,10 +1,3 @@
-//
-//  PXAdditionalInfoCustomTexts.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Eric Ertl on 24/07/2020.
-//
-
 import Foundation
 
 final class PXAdditionalInfoCustomTexts: NSObject, Codable {

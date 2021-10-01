@@ -1,10 +1,3 @@
-//
-//  MercadoPagoUITrackingEvents.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 06/05/21.
-//
-
 enum MercadoPagoUITrackingEvents: TrackingEvents {
     // MARK: - Events
     case didAbort(String, [String:Any])

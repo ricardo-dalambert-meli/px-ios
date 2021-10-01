@@ -1,10 +1,3 @@
-//
-//  PXOneTapViewControllerTransition.swift
-//  MercadoPagoSDK
-//
-//  Created by Eric Ertl on 24/10/2019.
-//
-
 import Foundation
 import MLCardForm
 

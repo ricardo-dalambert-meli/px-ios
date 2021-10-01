@@ -1,11 +1,3 @@
-//
-//  PXFlow.swift
-//  MercadoPagoSDK
-//
-//  Created by Eden Torres on 15/05/2018.
-//  Copyright © 2018 MercadoPago. All rights reserved.
-//
-
 import Foundation
 
 enum PXFlowStatus {

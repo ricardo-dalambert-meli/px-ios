@@ -1,11 +1,3 @@
-//
-//  UILabel+Additions.swift
-//  MercadoPagoSDK
-//
-//  Created by Demian Tejo on 29/10/16.
-//  Copyright © 2016 MercadoPago. All rights reserved.
-//
-
 import Foundation
 
 internal extension UILabel {

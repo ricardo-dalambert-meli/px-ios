@@ -1,11 +1,3 @@
-//
-//  SessionService.swift
-//  MercadoPagoPXTracking
-//
-//  Created by Juan sebastian Sanzone on 9/3/18.
-//  Copyright © 2018 Mercado Pago. All rights reserved.
-//
-
 import Foundation
 
 final internal class SessionService {

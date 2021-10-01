@@ -1,15 +1,3 @@
-//
-//  FSPagerView.swift
-//  FSPagerView
-//
-//  Created by Wenchao Ding on 17/12/2016.
-//  Copyright © 2016 Wenchao Ding. All rights reserved.
-//
-//  https://github.com/WenchaoD
-//
-//  FSPagerView is an elegant Screen Slide Library implemented primarily with UICollectionView. It is extremely helpful for making Banner、Product Show、Welcome/Guide Pages、Screen/ViewController Sliders.
-//
-
 import UIKit
 
 @objc

@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  MercadoPagoSDK
-//
-//  Created by Eden Torres on 22/01/2019.
-//
-
 import Foundation
 
 // MARK: PaymentHandlerProtocol implementation

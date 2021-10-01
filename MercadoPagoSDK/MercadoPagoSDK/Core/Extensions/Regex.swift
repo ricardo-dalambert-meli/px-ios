@@ -1,11 +1,3 @@
-//
-//  Regex.swift
-//  MercadoPagoSDK
-//
-//  Created by Matias Gualino on 30/1/15.
-//  Copyright (c) 2015 com.mercadopago. All rights reserved.
-//
-
 import Foundation
 
 @objcMembers

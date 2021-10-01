@@ -1,10 +1,3 @@
-//
-//  PXAgreement.swift
-//  MercadoPagoSDK
-//
-//  Created by Federico Bustos Fierro on 28/05/2019.
-//
-
 import UIKit
 
 /**

@@ -1,11 +1,3 @@
-//
-//  PXReceiptComponent.swift
-//  MercadoPagoSDK
-//
-//  Created by Demian Tejo on 4/12/17.
-//  Copyright © 2017 MercadoPago. All rights reserved.
-//
-
 import UIKit
 
 internal class PXReceiptComponent: PXComponentizable {

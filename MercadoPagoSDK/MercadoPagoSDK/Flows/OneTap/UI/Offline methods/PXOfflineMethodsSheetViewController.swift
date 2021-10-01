@@ -1,10 +1,3 @@
-//
-//  PXOfflineMethodsSheetViewController.swift
-//  MercadoPagoSDK
-//
-//  Created by Tomi De Lucca on 23/08/2020.
-//
-
 import UIKit
 import MLBusinessComponents
 

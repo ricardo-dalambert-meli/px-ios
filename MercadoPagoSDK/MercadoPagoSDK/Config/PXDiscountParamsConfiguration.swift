@@ -1,10 +1,3 @@
-//
-//  PXDiscountParamsConfiguration.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 10/12/2018.
-//
-
 import UIKit
 
 @objcMembers

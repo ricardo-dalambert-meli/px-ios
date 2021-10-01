@@ -1,10 +1,3 @@
-//
-//  PXSummaryComposer+AddRow.swift
-//  MercadoPagoSDK
-//
-//  Created by Federico Bustos Fierro on 14/05/2019.
-//
-
 import Foundation
 
 extension PXSummaryComposer {

@@ -1,10 +1,3 @@
-//
-//  InstructionActionView.swift
-//  AndesUI
-//
-//  Created by Matheus Leandro Martins on 10/05/21.
-//
-
 import UIKit
 
 final class InstructionActionView: UIView {

@@ -1,11 +1,3 @@
-//
-//  InitFlowModel.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 27/6/18.
-//  Copyright © 2018 MercadoPago. All rights reserved.
-//
-
 import Foundation
 
 internal typealias InitFlowProperties = (paymentData: PXPaymentData, checkoutPreference: PXCheckoutPreference, paymentPlugin: PXSplitPaymentProcessor?, paymentMethodSearchResult: PXInitDTO?, chargeRules: [PXPaymentTypeChargeRule]?, serviceAdapter: MercadoPagoServices, advancedConfig: PXAdvancedConfiguration, paymentConfigurationService: PXPaymentConfigurationServices, privateKey: String?, productId: String?)

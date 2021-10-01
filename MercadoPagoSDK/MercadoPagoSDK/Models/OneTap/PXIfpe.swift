@@ -1,10 +1,3 @@
-//
-//  PXIfpe.swift
-//  MercadoPagoSDK
-//
-//  Created by Esteban Adrian Boffa on 27/03/2020.
-//
-
 import Foundation
 
 public struct PXIfpe: Codable {

@@ -1,10 +1,3 @@
-//
-//  CustomRequestInfos.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 15/07/21.
-//
-
 enum CustomRequestInfos {
     case resetESCCap(cardId: String, privateKey: String?)
     case getCongrats(data: Data?, congratsModel: CustomParametersModel)

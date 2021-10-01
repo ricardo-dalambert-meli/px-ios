@@ -1,11 +1,3 @@
-//
-//  MercadopagoCheckout+InitFlow.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 4/7/18.
-//  Copyright © 2018 MercadoPago. All rights reserved.
-//
-
 import Foundation
 
 // MARK: Init flow Protocol

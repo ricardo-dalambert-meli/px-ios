@@ -1,10 +1,3 @@
-//
-//  MercadoPagoBundle.swift
-//  MercadoPagoSDK
-//
-//  Created by Eric Ertl on 18/08/2020.
-//
-
 import Foundation
 
 internal class MercadoPagoBundle {

@@ -1,11 +1,3 @@
-//
-//  CongratsTests.swift
-//  CongratsTests
-//
-//  Created by Vinicius De Andrade Silva on 08/02/21.
-//  Copyright © 2021 Juan Sebastian Sanzone. All rights reserved.
-//
-
 import XCTest
 @testable import MercadoPagoSDKV4
 

@@ -1,10 +1,3 @@
-//
-//  PXCheckbox.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Jonathan Scaramal on 08/06/2021.
-//
-
 import UIKit
 
 class PXCheckbox: UIView {

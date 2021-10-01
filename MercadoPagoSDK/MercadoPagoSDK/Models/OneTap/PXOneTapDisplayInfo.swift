@@ -1,10 +1,3 @@
-//
-//  PXOneTapDisplayInfo.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Jonathan Scaramal on 04/02/2021.
-//
-
 import Foundation
 import MLCardDrawer
 

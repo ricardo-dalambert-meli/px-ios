@@ -1,10 +1,3 @@
-//
-//  PXPaymentMethodSearchPaymentType.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Eden Torres on 03/09/2018.
-//
-
 import Foundation
 internal enum PXPaymentMethodSearchItemType: String {
     case GROUP = "group"

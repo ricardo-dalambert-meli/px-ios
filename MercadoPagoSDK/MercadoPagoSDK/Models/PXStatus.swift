@@ -1,10 +1,3 @@
-//
-//  PXStatus.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 19/11/2019.
-//
-
 import Foundation
 
 public struct PXStatus: Codable {

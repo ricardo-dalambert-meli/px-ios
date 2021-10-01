@@ -1,10 +1,3 @@
-//
-//  PXPaymentConfigurationServices.swift
-//  MercadoPagoSDK
-//
-//  Created by Demian Tejo on 27/11/18.
-//
-
 import UIKit
 
 internal class PXPaymentConfigurationServices {

@@ -1,11 +1,3 @@
-//
-//  PXErrorRenderer.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 12/4/17.
-//  Copyright © 2017 MercadoPago. All rights reserved.
-//
-
 import UIKit
 
 class PXErrorRenderer: NSObject {

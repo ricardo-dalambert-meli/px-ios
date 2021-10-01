@@ -1,10 +1,3 @@
-//
-//  PXInstructionInteraction.swift
-//  MercadoPagoSDK
-//
-//  Created by Marcelo Oscar José on 24/10/2018.
-//
-
 import Foundation
 /// :nodoc:
 open class PXInstructionInteraction: NSObject, Codable {

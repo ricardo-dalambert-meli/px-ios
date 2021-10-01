@@ -1,11 +1,3 @@
-//
-//  PXDefaultTheme.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 10/1/18.
-//  Copyright © 2018 MercadoPago. All rights reserved.
-//
-
 import Foundation
 
 class PXDefaultTheme: NSObject {

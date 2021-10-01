@@ -1,10 +1,3 @@
-//
-//  PXOneTapHeaderView.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 11/10/18.
-//
-
 import UIKit
 
 enum OneTapHeaderAnimationDirection: Int {

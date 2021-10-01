@@ -1,10 +1,3 @@
-//
-//  PXOneTapInstallmentInfoView.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 15/10/18.
-//
-
 import UIKit
 
 final class PXOneTapInstallmentInfoView: PXComponentView {

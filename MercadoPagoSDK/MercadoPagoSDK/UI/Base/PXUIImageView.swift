@@ -1,11 +1,3 @@
-//
-//  PXUIImageView.swift
-//  MercadoPagoSDK
-//
-//  Created by AUGUSTO COLLERONE ALFONSO on 11/5/18.
-//  Copyright © 2018 MercadoPago. All rights reserved.
-//
-
 import UIKit
 
 class PXUIImageView: UIImageView {

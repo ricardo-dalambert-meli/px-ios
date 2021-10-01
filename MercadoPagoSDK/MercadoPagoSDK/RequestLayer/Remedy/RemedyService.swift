@@ -1,10 +1,3 @@
-//
-//  RemedyServices.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 15/07/21.
-//
-
 protocol RemedyService {
     func getRemedy(paymentMethodId: String,
                    privateKey: String?,

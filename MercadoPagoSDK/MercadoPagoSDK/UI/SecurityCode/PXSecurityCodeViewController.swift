@@ -1,10 +1,3 @@
-//
-//  PXSecurityCodeViewController.swift
-//  MercadoPagoSDK
-//
-//  Created by Esteban Adrian Boffa on 04/08/2020.
-//
-
 import Foundation
 import MLUI
 import MLCardDrawer

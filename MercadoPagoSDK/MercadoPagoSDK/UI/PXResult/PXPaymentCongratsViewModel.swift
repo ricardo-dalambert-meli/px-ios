@@ -1,10 +1,3 @@
-//
-//  PXPaymentCongratsViewModel.swift
-//  Pods
-//
-//  Created by Franco Risma on 28/07/2020.
-//
-
 import Foundation
 
 class PXPaymentCongratsViewModel {

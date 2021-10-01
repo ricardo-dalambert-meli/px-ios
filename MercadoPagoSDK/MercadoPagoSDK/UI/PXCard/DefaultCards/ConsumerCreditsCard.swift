@@ -1,10 +1,3 @@
-//
-//  ConsumerCreditsCard.swift
-//  MercadoPagoSDK
-//
-//  Created by Esteban Adrian Boffa on 03/07/2019.
-//
-
 import MLCardDrawer
 
 final class ConsumerCreditsCard: NSObject, CustomCardDrawerUI {

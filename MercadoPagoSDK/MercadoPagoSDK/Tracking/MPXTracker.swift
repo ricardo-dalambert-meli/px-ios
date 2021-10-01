@@ -1,11 +1,3 @@
-//
-//  MPXTracker.swift
-//  MercadoPagoSDK
-//
-//  Created by Demian Tejo on 6/1/17.
-//  Copyright © 2017 MercadoPago. All rights reserved.
-//
-
 import UIKit
 
 @objc class MPXTracker: NSObject {

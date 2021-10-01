@@ -1,11 +1,3 @@
-//
-//  PXAmountHelper.swift
-//  MercadoPagoSDK
-//
-//  Created by Demian Tejo on 29/5/18.
-//  Copyright © 2018 MercadoPago. All rights reserved.
-//
-
 import Foundation
 
 internal struct PXAmountHelper {

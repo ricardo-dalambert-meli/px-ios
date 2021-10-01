@@ -1,10 +1,3 @@
-//
-//  PXRemedy.swift
-//  MercadoPagoSDK
-//
-//  Created by Eric Ertl on 16/03/2020.
-//
-
 import Foundation
 
 enum CardSize: String, Codable {

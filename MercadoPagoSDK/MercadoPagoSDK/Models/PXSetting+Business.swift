@@ -1,10 +1,3 @@
-//
-//  PXSetting+Business.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Eden Torres on 30/07/2018.
-//
-
 import Foundation
 
 internal extension PXSetting {

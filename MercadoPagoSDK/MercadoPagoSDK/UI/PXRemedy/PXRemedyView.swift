@@ -1,10 +1,3 @@
-//
-//  PXRemedyView.swift
-//  MercadoPagoSDK
-//
-//  Created by Eric Ertl on 21/04/2020.
-//
-
 import UIKit
 import AndesUI
 import MLCardDrawer

@@ -1,10 +1,3 @@
-//
-//  PXOfflineMethodsCompliance.swift
-//  MercadoPagoSDK
-//
-//  Created by Esteban Adrian Boffa on 17/01/2020.
-//
-
 import Foundation
 
 /// :nodoc:

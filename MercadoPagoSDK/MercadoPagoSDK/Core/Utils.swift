@@ -1,11 +1,3 @@
-//
-//  Utils.swift
-//  MercadoPagoSDK
-//
-//  Created by Matias Gualino on 21/4/15.
-//  Copyright (c) 2015 MercadoPago. All rights reserved.
-//
-
 import Foundation
 import UIKit
 

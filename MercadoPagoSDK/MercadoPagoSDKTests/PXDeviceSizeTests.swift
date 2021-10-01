@@ -1,10 +1,3 @@
-//
-//  PXDeviceSize.tests.swift
-//  MercadoPagoSDKV4-Unit-MercadoPagoSDKTests
-//
-//  Created by Jonathan Scaramal on 13/05/2021.
-//
-
 
 import XCTest
 @testable import MercadoPagoSDKV4

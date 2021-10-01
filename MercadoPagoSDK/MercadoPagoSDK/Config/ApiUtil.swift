@@ -1,11 +1,3 @@
-//
-//  ApiUtil.swift
-//  MercadoPagoSDK
-//
-//  Created by Mauro Reverter on 6/14/17.
-//  Copyright © 2017 MercadoPago. All rights reserved.
-//
-
 import Foundation
 
 internal class ApiUtil {

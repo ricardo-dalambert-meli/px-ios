@@ -1,10 +1,3 @@
-//
-//  InfoOperation.swift
-//  MercadoPagoSDKV4
-//
-//  Created by Matheus Leandro Martins on 09/08/21.
-//
-
 import AndesUI
 
 struct InfoOperation: Codable {

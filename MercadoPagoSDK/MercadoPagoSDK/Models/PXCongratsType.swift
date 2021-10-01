@@ -1,10 +1,3 @@
-//
-//  PXCongratsType.swift
-//  MercadoPagoSDK
-//
-//  Created by Daniel Alexander Silva on 8/12/20.
-//
-
 import Foundation
 
 @objc public enum PXCongratsType: Int {

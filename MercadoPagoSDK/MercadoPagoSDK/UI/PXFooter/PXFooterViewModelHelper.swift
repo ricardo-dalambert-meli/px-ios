@@ -1,11 +1,3 @@
-//
-//  PXFooterViewModelHelper.swift
-//  MercadoPagoSDK
-//
-//  Created by Demian Tejo on 11/15/17.
-//  Copyright © 2017 MercadoPago. All rights reserved.
-//
-
 import UIKit
 
 // MARK: Build Helpers

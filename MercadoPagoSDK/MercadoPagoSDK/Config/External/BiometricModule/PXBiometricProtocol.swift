@@ -1,10 +1,3 @@
-//
-//  PXBiometricProtocol.swift
-//  MercadoPagoSDK
-//
-//  Created by Juan sebastian Sanzone on 8/8/19.
-//
-
 import Foundation
 
 /**

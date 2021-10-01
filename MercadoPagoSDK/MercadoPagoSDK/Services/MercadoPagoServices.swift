@@ -1,11 +1,3 @@
-//
-//  MercadoPagoServices.swift
-//  MercadoPagoSDK
-//
-//  Created by Demian Tejo on 1/7/16.
-//  Copyright © 2016 MercadoPago. All rights reserved.
-//
-
 import Foundation
 // Se importa MLCardForm para reutilizar la clase de Reachability
 import MLCardForm
