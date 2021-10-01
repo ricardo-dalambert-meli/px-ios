@@ -4,7 +4,7 @@ import MLUI
 import AndesUI
 import MLCardDrawer
 
-final class PXOneTapViewController: PXComponentContainerViewController {
+final class PXOneTapViewController: MercadoPagoUIViewController {
 
     // MARK: Definitions
     lazy var itemViews = [UIView]()
@@ -61,17 +61,17 @@ final class PXOneTapViewController: PXComponentContainerViewController {
         
         // Define card type to use
         self.cardType = PXCardSliderSizeManager.getCardTypeForContext(deviceSize: deviceSize, hasCharges: pxOneTapContext.hasCharges, hasDiscounts: pxOneTapContext.hasDiscounts, hasInstallments: pxOneTapContext.hasInstallments, hasSplit: pxOneTapContext.hasSplit)
-        
-        super.init(adjustInsets: false)
+        super.init(nibName: nil, bundle: nil)
+//        super.init(adjustInsets: false)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationBar()
+        hideNavBar()
         setupUI()
         isUIEnabled(true)
         addPulseViewNotifications()
@@ -150,20 +150,20 @@ final class PXOneTapViewController: PXComponentContainerViewController {
 // MARK: UI Methods.
 extension PXOneTapViewController {
     private func setupNavigationBar() {
-        setBackground(color: ThemeManager.shared.navigationBar().backgroundColor)
-        navBarTextColor = ThemeManager.shared.labelTintColor()
+        view.backgroundColor = UIColor.white//(color: ThemeManager.shared.navigationBar().backgroundColor)
+        navBarTextColor = UIColor.fromHex("E0000000")//ThemeManager.shared.labelTintColor()
         loadMPStyles()
         navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.barTintColor = ThemeManager.shared.whiteColor()
-        navigationItem.leftBarButtonItem?.tintColor = ThemeManager.shared.navigationBar().getTintColor()
-        navigationController?.navigationBar.backgroundColor = ThemeManager.shared.highlightBackgroundColor()
+        navigationController?.navigationBar.barTintColor = UIColor.fromHex("E0000000")//ThemeManager.shared.whiteColor()
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.fromHex("E0000000")//ThemeManager.shared.navigationBar().getTintColor()
+//        navigationController?.navigationBar.backgroundColor = ThemeManager.shared.highlightBackgroundColor()
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationController?.navigationBar.backgroundColor = .clear
         addNavigationTapGesture()
     }
 
     private func setupUI() {
-        if contentView.getSubviews().isEmpty {
+        if view.subviews.isEmpty {
             viewModel.createCardSliderViewModel(cardType: cardType)
             if let preSelectedCard = viewModel.getCardSliderViewModel().first {
                 selectedCard = preSelectedCard
@@ -176,30 +176,25 @@ extension PXOneTapViewController {
         }
     }
 
-    private func renderViews() {
-        contentView.prepareForRender()
-        
-        scrollView.isScrollEnabled = false
-        scrollView.showsVerticalScrollIndicator = false
-        
+    private func renderViews() {        
         // Set contentView height and position
         let contentViewHeight = PXLayout.getAvailabelScreenHeight(in: self)
+
         
-        contentView.fixHeight(height: contentViewHeight)
+        let contentView = UIStackView()
+        contentView.axis = .vertical
+        contentView.alignment = .fill
+        contentView.distribution = .fill
+        view.addSubview(contentView)
+        
+        PXLayout.setHeight(owner: contentView, height: contentViewHeight)
         PXLayout.pinBottom(view: contentView)
-        
-        let contentWrappedView = UIStackView()
-        contentWrappedView.axis = .vertical
-        contentWrappedView.alignment = .fill
-        contentWrappedView.distribution = .fill
-        contentView.addSubview(contentWrappedView)
-        
-        PXLayout.pinAllEdges(view: contentWrappedView)
         
         // Add header view.
         let headerView = getHeaderView(selectedCard: selectedCard, pxOneTapContext: self.pxOneTapContext)
         self.headerView = headerView
-        contentWrappedView.addArrangedSubview(headerView)
+        contentView.addArrangedSubview(headerView)
+        
         
         headerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50.0).isActive = true
         
@@ -209,11 +204,11 @@ extension PXOneTapViewController {
         // Add whiteView to contentView
         let whiteView = getWhiteView()
         self.whiteView = whiteView
-        contentWrappedView.addArrangedSubview(whiteView)
+        contentView.addArrangedSubview(whiteView)
         
         view.layoutIfNeeded()
         
-        PXLayout.matchWidth(ofView: whiteView, toView: contentView).isActive = true
+        PXLayout.matchWidth(ofView: whiteView, toView: view).isActive = true
         PXLayout.centerHorizontally(view: whiteView).isActive = true
         
         //Add installmentsWrapperView to whiteView
@@ -853,7 +848,7 @@ extension PXOneTapViewController: PXOneTapInstallmentInfoViewProtocol, PXOneTapI
         // Show installmentRow
         installmentRow.isHidden = false
         
-        contentView.layoutIfNeeded()
+        view.layoutIfNeeded()
     }
 
     func showInstallments(installmentData: PXInstallment?, selectedPayerCost: PXPayerCost?, interest: PXInstallmentsConfiguration?, reimbursement: PXInstallmentsConfiguration?) {
@@ -901,7 +896,7 @@ extension PXOneTapViewController: PXOneTapInstallmentInfoViewProtocol, PXOneTapI
         
         installmentsWrapperView.layoutIfNeeded()
         
-        self.contentView.layoutIfNeeded()
+        self.view.layoutIfNeeded()
         installmentsSelectorView.tableView.reloadData()
     }
 }

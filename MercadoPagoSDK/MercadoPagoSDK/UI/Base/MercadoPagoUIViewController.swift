@@ -159,7 +159,7 @@ internal class MercadoPagoUIViewController: UIViewController, UIGestureRecognize
         return false
     }
 
-    func showNavBar() {
+    func showNavBar() {        
         if navigationController != nil {
             self.title = self.getNavigationBarTitle()
             self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)

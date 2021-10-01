@@ -90,6 +90,8 @@ class PXOneTapHeaderMerchantView: UIStackView {
         PXLayout.setHeight(owner: imageView, height: layout.IMAGE_SIZE).isActive = true
         imageView.enableFadeIn()
         imageView.backgroundColor = .white
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.fromHex("12000000").cgColor
         imageView.image = image
         imageContainerView.addArrangedSubview(imageView)
         
@@ -104,7 +106,7 @@ class PXOneTapHeaderMerchantView: UIStackView {
         titleLabel.numberOfLines = 2
         titleLabel.lineBreakMode = .byTruncatingTail
         titleLabel.font = UIFont.ml_semiboldSystemFont(ofSize: PXLayout.M_FONT)
-        titleLabel.textColor = ThemeManager.shared.statusBarStyle() == UIStatusBarStyle.default ? UIColor.black : ThemeManager.shared.whiteColor()
+        titleLabel.textColor = UIColor.fromHex("E5000000")//ThemeManager.shared.statusBarStyle() == UIStatusBarStyle.default ? UIColor.black : ThemeManager.shared.whiteColor()
         titleLabel.textAlignment = .center
         titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
 
@@ -119,7 +121,7 @@ class PXOneTapHeaderMerchantView: UIStackView {
         subTitleLabel.lineBreakMode = .byTruncatingTail
         subTitleLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
         subTitleLabel.font = UIFont.ml_regularSystemFont(ofSize: PXLayout.XXXS_FONT)
-        subTitleLabel.textColor = ThemeManager.shared.statusBarStyle() == UIStatusBarStyle.default ? UIColor.black : ThemeManager.shared.whiteColor()
+        subTitleLabel.textColor = UIColor.fromHex("E5000000")//ThemeManager.shared.statusBarStyle() == UIStatusBarStyle.default ? UIColor.black : ThemeManager.shared.whiteColor()
         subTitleLabel.textAlignment = .center
         return subTitleLabel
     }

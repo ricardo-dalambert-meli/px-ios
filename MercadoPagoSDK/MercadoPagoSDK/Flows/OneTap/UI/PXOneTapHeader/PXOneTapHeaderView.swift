@@ -168,7 +168,7 @@ private extension PXOneTapHeaderView {
     func render() {
         removeAllSubviews()
         
-        backgroundColor = ThemeManager.shared.navigationBar().backgroundColor
+        backgroundColor = UIColor.white//ThemeManager.shared.navigationBar().backgroundColor
 
         self.axis = .vertical
         self.alignment = .fill
