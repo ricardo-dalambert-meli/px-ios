@@ -326,6 +326,22 @@ final class PXRemedyView: UIView {
                 let string = Utils.getAmountFormated(amount: payerCost.totalAmount, forCurrency: currency)
                 let attributedTitle = NSAttributedString(string: string, attributes: PXNewCustomView.titleAttributes)
                 firstString.append(attributedTitle)
+                
+                if let interestRate = payerCost.interestRate, let message = interestRate.message {
+                    let foregroundColor: UIColor
+                    if let textColor = interestRate.textColor {
+                        foregroundColor = UIColor.fromHex(textColor)
+                    } else {
+                        foregroundColor = UIColor.black.withAlphaComponent(0.65)
+                    }
+                    
+                    let attributedInsterest = NSAttributedString(string: message,
+                                                                 attributes: [
+                                                                    .font: UIFont.ml_semiboldSystemFont(ofSize: PXLayout.XS_FONT),
+                                                                    .foregroundColor: foregroundColor
+                                                                 ])
+                    firstString.appendWithSpace(attributedInsterest)
+                }
             }
         } else {
             // Caso account money
