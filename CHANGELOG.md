@@ -1,3 +1,7 @@
+# v4.49.1 
+🚀Private Release - 4.49.1 date: 14/10/2021 🚀
+- Include CFTEA when remedy is a credit
+
 # v4.49.0 
 🚀Private Release - 4.49.0 date: 30/09/2021 🚀
 - Removed groups from PXInitDTO
