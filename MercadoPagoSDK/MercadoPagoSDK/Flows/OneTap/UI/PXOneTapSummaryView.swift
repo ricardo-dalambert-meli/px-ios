@@ -37,7 +37,7 @@ class PXOneTapSummaryView: PXComponentView {
     func render() {
         self.removeAllSubviews()
         self.pinContentViewToBottom()
-        self.backgroundColor = ThemeManager.shared.navigationBar().backgroundColor
+        self.backgroundColor = UIColor.Andes.white
 
         var offset: CGFloat = 0
         

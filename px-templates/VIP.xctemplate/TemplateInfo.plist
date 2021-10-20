@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Kind</key>
+	<string>Xcode.IDEKit.TextSubstitutionFileTemplateKind</string>
+	<key>Platforms</key>
+	<array>
+		<string>com.apple.platform.iphoneos</string>
+	</array>
+    <key>Options</key>
+	<array>
+		<dict>
+			<key>Identifier</key>
+			<string>productName</string>
+			<key>Required</key>
+			<true/>
+			<key>Name</key>
+			<string>Name:</string>
+			<key>Type</key>
+			<string>text</string>
+			<key>NotPersisted</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Identifier</key>
+			<string>headerType</string>
+			<key>Required</key>
+			<true/>
+			<key>Name</key>
+			<string>Header type:</string>
+			<key>Description</key>
+			<string>The files can be created with or without header</string>
+			<key>Type</key>
+			<string>popup</string>
+			<key>Default</key>
+			<string>Without header</string>
+			<key>Values</key>
+			<array>
+				<string>Without header</string>
+				<string>With header</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Identifier</key>
+			<key>factoryName</key>
+			<key>Type</key>
+			<string>static</string>
+			<key>Default</key>
+			<string>___VARIABLE_productName:identifier___Factory.swift</string>
+			<key>Name</key>
+			<string>Files:</string>
+		</dict>
+		<dict>
+			<key>Identifier</key>
+			<key>repositoryName</key>
+			<key>Type</key>
+			<string>static</string>
+			<key>Default</key>
+			<string>___VARIABLE_productName:identifier___Repository.swift</string>
+			<key>Name</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>Identifier</key>
+			<key>interactorName</key>
+			<key>Type</key>
+			<string>static</string>
+			<key>Default</key>
+			<string>___VARIABLE_productName:identifier___Interactor.swift</string>
+			<key>Name</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>Identifier</key>
+			<key>presenterName</key>
+			<key>Type</key>
+			<string>static</string>
+			<key>Default</key>
+			<string>___VARIABLE_productName:identifier___Presenter.swift</string>
+			<key>Name</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>Identifier</key>
+			<key>viewControllerName</key>
+			<key>Type</key>
+			<string>static</string>
+			<key>Default</key>
+			<string>___VARIABLE_productName:identifier___ViewController.swift</string>
+			<key>Name</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>Identifier</key>
+			<key>viewName</key>
+			<key>Type</key>
+			<string>static</string>
+			<key>Default</key>
+			<string>___VARIABLE_productName:identifier___View.swift</string>
+			<key>Name</key>
+			<string></string>
+		</dict>
+    </array>
+</dict>
+</plist>

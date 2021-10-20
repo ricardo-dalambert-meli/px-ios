@@ -87,7 +87,7 @@ class PXOneTapSummaryRowView: UIView {
             
             titleLabel.text = data.title
             titleLabel.textColor = data.highlightedColor
-            titleLabel.font = data.isTotal ? UIFont.ml_regularSystemFont(ofSize: PXLayout.S_FONT) : UIFont.ml_regularSystemFont(ofSize: PXLayout.XXS_FONT)
+            titleLabel.font = data.isTotal ? UIFont.ml_semiboldSystemFont(ofSize: PXLayout.S_FONT) : UIFont.ml_regularSystemFont(ofSize: PXLayout.XS_FONT)
             
             if iconImageView == nil, data.image != nil {
                 buildAndAddIconImageView()
@@ -97,7 +97,7 @@ class PXOneTapSummaryRowView: UIView {
             
             valueLabel.text = data.value
             valueLabel.textColor = data.highlightedColor
-            valueLabel.font = data.isTotal ? UIFont.ml_semiboldSystemFont(ofSize: PXLayout.S_FONT) : UIFont.ml_regularSystemFont(ofSize: PXLayout.XXS_FONT)
+            valueLabel.font = data.isTotal ? UIFont.ml_semiboldSystemFont(ofSize: PXLayout.S_FONT) : UIFont.ml_regularSystemFont(ofSize: PXLayout.XS_FONT)
         } else {
             clearIconImageView()
             titleLabel.attributedText = data.getDescriptionText()
@@ -151,7 +151,7 @@ class PXOneTapSummaryRowView: UIView {
         let shouldAnimate = data.isTotal ? false : true
         
         if data.isTotal {
-            self.backgroundColor = ThemeManager.shared.navigationBar().backgroundColor
+            self.backgroundColor = UIColor.Andes.white
         }
         
         self.translatesAutoresizingMaskIntoConstraints = false
@@ -224,7 +224,7 @@ private extension PXOneTapSummaryRowView {
             titleLabel.heightAnchor.constraint(equalToConstant: 16),
             verStackView.topAnchor.constraint(equalTo: topAnchor),
             verStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: PXLayout.L_MARGIN),
-            verStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -100),
+            verStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: PXLayout.L_MARGIN),
             verStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
         
