@@ -67,8 +67,19 @@ final class PXOfflineMethodsViewController: MercadoPagoUIViewController {
     }
 
     func render() {
-        view.backgroundColor = ThemeManager.shared.whiteColor()
-
+        view.layer.borderWidth = 1.5
+        view.layer.borderColor = UIColor.Andes.graySolid070.cgColor
+        view.layer.cornerRadius = 10
+        view.backgroundColor = UIColor.Andes.white
+        
+        tableView.layer.cornerRadius = 10
+        tableView.layer.masksToBounds = true
+        
+        if #available(iOS 11.0, *) {
+            view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+            tableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        }
+        
         let footerView = getFooterView()
         view.addSubview(footerView)
 
@@ -322,16 +333,30 @@ extension PXOfflineMethodsViewController: UITableViewDelegate, UITableViewDataSo
         let title = viewModel.headerTitleForSection(section)
         let view = UIView()
         view.backgroundColor = .white
+        view.layer.cornerRadius = 10
+        
+        if #available(iOS 11.0, *) {
+            view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        }
+        
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.attributedText = title?.getAttributedString(fontSize: PXLayout.XXS_FONT)
+        
+        if title?.weight == nil {
+            label.text = title?.message
+            label.font = UIFont.ml_semiboldSystemFont(ofSize: PXLayout.M_FONT)
+            label.textColor = UIColor.Andes.gray900
+        } else {
+            label.attributedText = title?.getAttributedString(fontSize: PXLayout.M_FONT)
+        }
+
         view.addSubview(label)
 
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: PXLayout.S_MARGIN),
             label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: PXLayout.S_MARGIN),
             label.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            label.topAnchor.constraint(equalTo: view.topAnchor)
+            label.topAnchor.constraint(equalTo: view.topAnchor, constant: 20)
         ])
 
         return view
