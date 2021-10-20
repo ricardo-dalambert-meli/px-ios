@@ -356,7 +356,7 @@ extension PXOfflineMethodsViewController: UITableViewDelegate, UITableViewDataSo
             label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: PXLayout.S_MARGIN),
             label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: PXLayout.S_MARGIN),
             label.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            label.topAnchor.constraint(equalTo: view.topAnchor, constant: 20)
+            label.topAnchor.constraint(equalTo: view.topAnchor)
         ])
 
         return view
