@@ -9,20 +9,33 @@ struct PXOneTapHeaderMerchantLayout {
     private let layoutType: LayoutType
     private var horizontalLayoutConstraints: [NSLayoutConstraint] = []
     private var verticalLayoutConstraints: [NSLayoutConstraint] = []
+    
+    private let showHorizontally: Bool
 
     internal let IMAGE_NAV_SIZE: CGFloat = 40
     internal var IMAGE_SIZE: CGFloat {
-        if UIDevice.isSmallDevice() {
-            return IMAGE_NAV_SIZE
-        } else if UIDevice.isLargeDevice() || UIDevice.isExtraLargeDevice() {
-            return 65
+        if showHorizontally {
+            return 40
         } else {
-            return 55
+            // Define device size
+            let deviceSize = PXDeviceSize.getDeviceSize(deviceHeight: UIScreen.main.bounds.height)
+            
+            switch deviceSize {
+                case .small:
+                    return 48
+                case .regular:
+                    return 48
+                case .large:
+                    return 55
+                case .extraLarge:
+                    return 65
+            }
         }
     }
 
-    init(layoutType: PXOneTapHeaderMerchantLayout.LayoutType) {
+    init(layoutType: PXOneTapHeaderMerchantLayout.LayoutType, showHorizontally: Bool = false) {
         self.layoutType = layoutType
+        self.showHorizontally = showHorizontally
     }
 }
 

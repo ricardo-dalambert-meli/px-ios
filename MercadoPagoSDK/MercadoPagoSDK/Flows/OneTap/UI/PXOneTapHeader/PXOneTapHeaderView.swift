@@ -168,7 +168,7 @@ private extension PXOneTapHeaderView {
     func render() {
         removeAllSubviews()
         
-        backgroundColor = UIColor.white//ThemeManager.shared.navigationBar().backgroundColor
+        backgroundColor = UIColor.Andes.white
 
         self.axis = .vertical
         self.alignment = .fill
@@ -188,19 +188,17 @@ private extension PXOneTapHeaderView {
         PXLayout.matchWidth(ofView: merchantView).isActive = true
         PXLayout.centerHorizontally(view: merchantView).isActive = true
         
-        merchantView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50.0).isActive = true
-        
         // Add Summary
         let summaryView = PXOneTapSummaryView(data: model.data, delegate: self, splitMoney: model.splitConfiguration != nil)
         
         self.summaryView = summaryView
-
+        
+        summaryView.removeMargins()
+        
         addArrangedSubview(summaryView)
         
         PXLayout.matchWidth(ofView: summaryView).isActive = true
         PXLayout.centerHorizontally(view: summaryView).isActive = true
-        
-        summaryView.heightAnchor.constraint(greaterThanOrEqualToConstant: 1.0).isActive = true
         
         // Add SplitPaymentView
         let splitPaymentView = PXOneTapSplitPaymentView(splitConfiguration: model.splitConfiguration) { (isOn, isUserSelection) in

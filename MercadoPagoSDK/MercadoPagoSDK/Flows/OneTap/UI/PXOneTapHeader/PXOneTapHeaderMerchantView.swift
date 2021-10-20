@@ -1,4 +1,5 @@
 import UIKit
+import AndesUI
 
 class PXOneTapHeaderMerchantView: UIStackView {
     let image: UIImage
@@ -14,7 +15,7 @@ class PXOneTapHeaderMerchantView: UIStackView {
         self.title = title
         self.showHorizontally = showHorizontally
         self.subTitle = subTitle
-        self.layout = PXOneTapHeaderMerchantLayout(layoutType: subTitle == nil ? .onlyTitle : .titleSubtitle)
+        self.layout = PXOneTapHeaderMerchantLayout(layoutType: subTitle == nil ? .onlyTitle : .titleSubtitle, showHorizontally: showHorizontally)
         super.init(frame: CGRect.init(x: 0, y: 0, width: 0, height: 0))
         render()
     }
@@ -25,26 +26,43 @@ class PXOneTapHeaderMerchantView: UIStackView {
 
     private func render() {
         
+        // Setup root StackView
         self.axis = .vertical
-        self.alignment = .fill
-        self.distribution = .fill
+        self.alignment = showHorizontally ? .leading : .center
+        self.distribution = showHorizontally ? .fill : .equalSpacing
         
+        // If it shows vertically, then add top separator to center innerContainer
+        if !showHorizontally {
+            let emptyTopSeparator = UIStackView()
+            emptyTopSeparator.axis = .vertical
+            self.addArrangedSubview(emptyTopSeparator)
+        }
+        
+        // Create inner container
         let innerContainer = UIStackView()
-        
+
         innerContainer.axis = showHorizontally ? .horizontal : .vertical
-        innerContainer.alignment = showHorizontally ? .leading : .fill
-        innerContainer.distribution = showHorizontally ? .fillProportionally : .fill
+        innerContainer.alignment = showHorizontally ? .center : .fill
+        innerContainer.distribution = showHorizontally ? .equalSpacing : .fill
+        
+        innerContainer.spacing = 8
+        
+        // If showing horizontally add insets and spacing
+        if showHorizontally {
+            innerContainer.spacing = 16
+            innerContainer.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+            innerContainer.isLayoutMarginsRelativeArrangement = true
+        }
         
         self.addArrangedSubview(innerContainer)
-        
-        
+
         // Add the image of the merchant
         let imageContainerView = buildImageContainerView(image: image)
         innerContainer.addArrangedSubview(imageContainerView)
         
+        // Create title container
         let titleContainer = UIStackView()
         titleContainer.axis = .vertical
-        
         titleContainer.alignment = showHorizontally ? .leading : .center
         
         // Add the title
@@ -63,7 +81,6 @@ class PXOneTapHeaderMerchantView: UIStackView {
         
         let emptyBottomSeparator = UIStackView()
         emptyBottomSeparator.axis = .vertical
-        emptyBottomSeparator.heightAnchor.constraint(greaterThanOrEqualToConstant: 1.0).isActive = true
         self.addArrangedSubview(emptyBottomSeparator)
         
         self.layoutIfNeeded()
@@ -91,7 +108,7 @@ class PXOneTapHeaderMerchantView: UIStackView {
         imageView.enableFadeIn()
         imageView.backgroundColor = .white
         imageView.layer.borderWidth = 1
-        imageView.layer.borderColor = UIColor.fromHex("12000000").cgColor
+        imageView.layer.borderColor = UIColor.Andes.gray070.cgColor
         imageView.image = image
         imageContainerView.addArrangedSubview(imageView)
         
@@ -101,27 +118,23 @@ class PXOneTapHeaderMerchantView: UIStackView {
 
     private func buildTitleLabel(text: String) -> UILabel {
         let titleLabel = UILabel()
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.text = text
         titleLabel.numberOfLines = 2
         titleLabel.lineBreakMode = .byTruncatingTail
-        titleLabel.font = UIFont.ml_semiboldSystemFont(ofSize: PXLayout.M_FONT)
-        titleLabel.textColor = UIColor.fromHex("E5000000")//ThemeManager.shared.statusBarStyle() == UIStatusBarStyle.default ? UIColor.black : ThemeManager.shared.whiteColor()
-        titleLabel.textAlignment = .center
-        titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        titleLabel.font = UIFont.ml_semiboldSystemFont(ofSize: PXLayout.S_FONT)
+        titleLabel.textColor = UIColor.Andes.gray900
+        titleLabel.textAlignment = showHorizontally ? .left : .center
 
         return titleLabel
     }
 
     private func buildSubTitleLabel(text: String?) -> UILabel {
         let subTitleLabel = UILabel()
-        subTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         subTitleLabel.text = text ?? ""
         subTitleLabel.numberOfLines = 1
         subTitleLabel.lineBreakMode = .byTruncatingTail
-        subTitleLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
-        subTitleLabel.font = UIFont.ml_regularSystemFont(ofSize: PXLayout.XXXS_FONT)
-        subTitleLabel.textColor = UIColor.fromHex("E5000000")//ThemeManager.shared.statusBarStyle() == UIStatusBarStyle.default ? UIColor.black : ThemeManager.shared.whiteColor()
+        subTitleLabel.font = UIFont.ml_regularSystemFont(ofSize: PXLayout.XXS_FONT)
+        subTitleLabel.textColor = UIColor.Andes.gray900
         subTitleLabel.textAlignment = .center
         return subTitleLabel
     }

@@ -150,13 +150,12 @@ final class PXOneTapViewController: MercadoPagoUIViewController {
 // MARK: UI Methods.
 extension PXOneTapViewController {
     private func setupNavigationBar() {
-        view.backgroundColor = UIColor.white//(color: ThemeManager.shared.navigationBar().backgroundColor)
-        navBarTextColor = UIColor.fromHex("E0000000")//ThemeManager.shared.labelTintColor()
+        view.backgroundColor = UIColor.Andes.white
+        navBarTextColor = UIColor.Andes.gray900
         loadMPStyles()
         navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.barTintColor = UIColor.fromHex("E0000000")//ThemeManager.shared.whiteColor()
-        navigationItem.leftBarButtonItem?.tintColor = UIColor.fromHex("E0000000")//ThemeManager.shared.navigationBar().getTintColor()
-//        navigationController?.navigationBar.backgroundColor = ThemeManager.shared.highlightBackgroundColor()
+        navigationController?.navigationBar.barTintColor = UIColor.Andes.gray900
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.Andes.gray900
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationController?.navigationBar.backgroundColor = .clear
         addNavigationTapGesture()
@@ -183,7 +182,7 @@ extension PXOneTapViewController {
         
         let contentView = UIStackView()
         contentView.axis = .vertical
-        contentView.alignment = .fill
+        contentView.alignment = .center
         contentView.distribution = .fill
         view.addSubview(contentView)
         
@@ -192,11 +191,9 @@ extension PXOneTapViewController {
         
         // Add header view.
         let headerView = getHeaderView(selectedCard: selectedCard, pxOneTapContext: self.pxOneTapContext)
+        
         self.headerView = headerView
-        contentView.addArrangedSubview(headerView)
-        
-        
-        headerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50.0).isActive = true
+        contentView.addArrangedSubview(headerView)        
         
         PXLayout.centerHorizontally(view: headerView).isActive = true
         PXLayout.matchWidth(ofView: headerView).isActive = true
@@ -255,6 +252,8 @@ extension PXOneTapViewController {
         // Add footer payment button.
         guard let footerView = getFooterView() else { return }
         self.footerView = footerView
+        
+//        whiteView.setContentCompressionResistancePriority(UILayoutPriority(800), for: .vertical)
         
         whiteView.addArrangedSubview(footerView)
         
@@ -331,7 +330,6 @@ extension PXOneTapViewController {
     private func getWhiteView() -> UIStackView {
         let whiteView = UIStackView()//UIView()
         whiteView.axis = .vertical
-        whiteView.distribution = .equalSpacing
         
         if #available(iOS 14.0, *) {
             whiteView.backgroundColor = .white
