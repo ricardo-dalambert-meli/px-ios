@@ -46,18 +46,15 @@ class CustomCheckoutViewController: UIViewController {
         let col2 = UIColor(red: 145/255.0, green: 72.0/255.0, blue: 203/255.0, alpha: 1)
         gradient.colors = [col1.cgColor, col2.cgColor]
         view.layer.insertSublayer(gradient, at: 0)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if localeTextField.text?.count ?? 0 == 0,
-            publicKeyTextField.text?.count ?? 0 == 0,
-            preferenceIdTextField.text?.count ?? 0 == 0 {
-            localeTextField.text = "es-AR"
-            publicKeyTextField.text = "APP_USR-88bd636f-ef87-441d-a018-def0c3a3741a"
-            preferenceIdTextField.text = "566676612-3bbb117b-1f3f-49c9-915d-565a785837d0"
-            accessTokenTextField.text = "APP_USR-7092-060212-76d203ae7f1945924284191b71d5f01b-578132250"
+        
+        if let path = Bundle.main.path(forResource: "Info", ofType: "plist"), let infoPlist = NSDictionary(contentsOfFile: path) {
+            // Initialize values from config
+            publicKeyTextField.text = infoPlist["PX_COLLECTOR_PUBLIC_KEY"] as? String
+            accessTokenTextField.text = infoPlist["PX_PAYER_PRIVATE_KEY"] as? String
         }
+        
+        localeTextField.text = "es-AR"
+        preferenceIdTextField.text = "737302974-34e65c90-62ad-4b06-9f81-0aa08528ec53"
     }
 
     private func runMercadoPagoCheckoutWithLifecycle() {
