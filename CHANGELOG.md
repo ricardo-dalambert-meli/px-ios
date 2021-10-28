@@ -1,3 +1,7 @@
+# v4.49.2
+🚀Private Release - 4.49.2 date: 28/10/2021 🚀
+- Fixed error screen when there is no payer payment methods but offline methods
+
 # v4.49.1 
 🚀Private Release - 4.49.1 date: 19/10/2021 🚀
 - Include CFTEA when remedy is a credit
