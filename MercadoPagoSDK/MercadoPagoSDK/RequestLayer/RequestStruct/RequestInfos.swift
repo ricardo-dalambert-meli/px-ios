@@ -50,7 +50,7 @@ extension RequestInfos {
     }
 
     var environment: BackendEnvironment {
-        return .prod
+        return .beta
     }
 
     var shouldSetEnvironment: Bool {
