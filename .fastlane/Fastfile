@@ -109,7 +109,14 @@ lane :deploy_private do
     communicate_build_to_slack(
       enviroment: "Private"
     )
+end
 
+lane :danger_pr do
+  danger(
+    danger_id: "danger_pr",
+    verbose: true,
+    github_api_token: ENV["GITHUB_API_TOKEN"]
+  )
 end
 
 lane :communicate_build_to_slack do |options|
