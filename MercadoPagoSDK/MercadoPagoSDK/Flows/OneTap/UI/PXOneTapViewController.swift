@@ -63,6 +63,8 @@ final class PXOneTapViewController: MercadoPagoUIViewController {
         self.cardType = PXCardSliderSizeManager.getCardTypeForContext(deviceSize: deviceSize, hasCharges: pxOneTapContext.hasCharges, hasDiscounts: pxOneTapContext.hasDiscounts, hasInstallments: pxOneTapContext.hasInstallments, hasSplit: pxOneTapContext.hasSplit)
         super.init(nibName: nil, bundle: nil)
 //        super.init(adjustInsets: false)
+        super.shouldHideNavigationBar = true
+        super.shouldShowBackArrow = false
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -73,6 +75,7 @@ final class PXOneTapViewController: MercadoPagoUIViewController {
         setupNavigationBar()
         hideNavBar()
         setupUI()
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
         isUIEnabled(true)
         addPulseViewNotifications()
         setLoadingButtonState()
@@ -150,7 +153,7 @@ final class PXOneTapViewController: MercadoPagoUIViewController {
 // MARK: UI Methods.
 extension PXOneTapViewController {
     private func setupNavigationBar() {
-        view.backgroundColor = UIColor.Andes.white
+        view.backgroundColor = .clear
         navBarTextColor = UIColor.Andes.gray900
         loadMPStyles()
         navigationController?.navigationBar.isTranslucent = true
@@ -178,17 +181,22 @@ extension PXOneTapViewController {
     private func renderViews() {        
         // Set contentView height and position
         let contentViewHeight = PXLayout.getAvailabelScreenHeight(in: self)
-
+        view.layer.masksToBounds = true
         
         let contentView = UIStackView()
         contentView.axis = .vertical
         contentView.alignment = .center
         contentView.distribution = .fill
+        contentView.addBackground(color: UIColor.Andes.white)
         view.addSubview(contentView)
         
         PXLayout.setHeight(owner: contentView, height: contentViewHeight)
         PXLayout.pinBottom(view: contentView)
-        
+        if #available(iOS 11.0, *) {
+            NSLayoutConstraint.activate([
+                contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+            ])
+        } 
         // Add header view.
         let headerView = getHeaderView(selectedCard: selectedCard, pxOneTapContext: self.pxOneTapContext)
         
@@ -225,6 +233,19 @@ extension PXOneTapViewController {
         installmentRow.isHidden = true
         whiteView.addArrangedSubview(installmentRow)
 
+        if cardType == .small {
+            let spacerView = UIView()
+            spacerView.translatesAutoresizingMaskIntoConstraints = false
+            spacerView.backgroundColor = .white
+            whiteView.addArrangedSubview(spacerView)
+            NSLayoutConstraint.activate([
+                spacerView.heightAnchor.constraint(equalToConstant: 10),
+                spacerView.leadingAnchor.constraint(equalTo: whiteView.leadingAnchor),
+                spacerView.trailingAnchor.constraint(equalTo: whiteView.trailingAnchor)
+            ])
+        }
+
+        
         //Add cardSliderContentView to whiteView
         let cardSliderContentView = UIStackView()
         
@@ -242,8 +263,9 @@ extension PXOneTapViewController {
         
         view.layoutIfNeeded()
         
-        let heightSlider: NSLayoutConstraint = cardSliderContentView.heightAnchor.constraint(equalTo: cardSliderContentView.widthAnchor, multiplier: PXCardSliderSizeManager.aspectRatio(forType: cardType))
-        heightSlider.isActive = true
+        NSLayoutConstraint.activate([
+            cardSliderContentView.heightAnchor.constraint(equalTo: cardSliderContentView.widthAnchor, multiplier: PXCardSliderSizeManager.aspectRatio(forType: cardType))
+        ])
         
         // Render installmentInfoRow based on cardSlider known width
         let installmentRowWidth: CGFloat = slider.getItemSize(cardSliderContentView).width
@@ -252,9 +274,7 @@ extension PXOneTapViewController {
         // Add footer payment button.
         guard let footerView = getFooterView() else { return }
         self.footerView = footerView
-        
-//        whiteView.setContentCompressionResistancePriority(UILayoutPriority(800), for: .vertical)
-        
+                
         whiteView.addArrangedSubview(footerView)
         
         view.layoutIfNeeded()
@@ -524,7 +544,10 @@ extension PXOneTapViewController {
 
 // MARK: Summary delegate.
 extension PXOneTapViewController: PXOneTapHeaderProtocol {
-
+    func didTapBackButton() {
+        executeBack()
+    }
+    
     func splitPaymentSwitchChangedValue(isOn: Bool, isUserSelection: Bool) {
         if isUserSelection, let selectedCard = getSuspendedCardSliderViewModel(), let selectedApplication = selectedCard.selectedApplication, let splitConfiguration = selectedApplication.amountConfiguration?.splitConfiguration, let switchSplitBehaviour = selectedApplication.behaviours?[PXBehaviour.Behaviours.switchSplit.rawValue] {
             handleBehaviour(switchSplitBehaviour, isSplit: true)
@@ -720,6 +743,8 @@ extension PXOneTapViewController: PXCardSliderProtocol {
         if viewModel.shouldUseOldCardForm() {
             callbackPaymentData(viewModel.getClearPaymentData())
         } else {
+            self.view.backgroundColor = UIColor(red: 0.22, green: 0.54, blue: 0.82, alpha: 1)
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
             if let newCard = viewModel.expressData?.compactMap({ $0.newCard }).first {
                 if newCard.sheetOptions != nil {
                     // Present sheet to pick standard card form or webpay

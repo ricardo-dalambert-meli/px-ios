@@ -1,6 +1,10 @@
 import UIKit
 import AndesUI
 
+protocol PXOneTapHeaderMerchantViewDelegate: NSObjectProtocol {
+    func tappedBackButton()
+}
+
 class PXOneTapHeaderMerchantView: UIStackView {
     let image: UIImage
     let title: String
@@ -9,6 +13,7 @@ class PXOneTapHeaderMerchantView: UIStackView {
     private var layout: PXOneTapHeaderMerchantLayout
     private var imageView: PXUIImageView?
     private var merchantTitleLabel: UILabel?
+    var delegate: PXOneTapHeaderMerchantViewDelegate?
 
     init(image: UIImage, title: String, subTitle: String? = nil, showHorizontally: Bool) {
         self.image = image
@@ -23,13 +28,19 @@ class PXOneTapHeaderMerchantView: UIStackView {
     required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    //MARK: Borrar
+    @objc
+    func tappedBackButton() {
+        delegate?.tappedBackButton()
+    }
 
     private func render() {
         
         // Setup root StackView
         self.axis = .vertical
         self.alignment = showHorizontally ? .leading : .center
-        self.distribution = showHorizontally ? .fill : .equalSpacing
+        self.distribution = .fill
         
         // If it shows vertically, then add top separator to center innerContainer
         if !showHorizontally {
@@ -38,24 +49,107 @@ class PXOneTapHeaderMerchantView: UIStackView {
             self.addArrangedSubview(emptyTopSeparator)
         }
         
+        let stackView = UIStackView()
+        stackView.axis = showHorizontally ? .horizontal : .vertical
+        stackView.alignment = showHorizontally ? .leading : .fill
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addBackground(color: UIColor.Andes.white)
+        
+        let backButtonContainer = UIStackView()
+        backButtonContainer.translatesAutoresizingMaskIntoConstraints = false
+        backButtonContainer.axis = .vertical
+        backButtonContainer.alignment = .leading
+        
+        let backButton = UIButton()
+        let backButtonImage = ResourceManager.shared.getImage("back")
+        
+        backButton.setImage(backButtonImage?.mask(color: UIColor.Andes.gray900), for: .normal)
+        backButton.addTarget(self, action: #selector(tappedBackButton), for: .touchUpInside)
+        backButton.accessibilityLabel = "atrás".localized
+        
+        // Create top and bottom filler views
+        
+        let topFillerView = UIView()
+        topFillerView.backgroundColor = UIColor.Andes.white
+        topFillerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let bottomFillerView = UIView()
+        bottomFillerView.backgroundColor = UIColor.Andes.white
+        bottomFillerView.translatesAutoresizingMaskIntoConstraints = false
+        
         // Create inner container
         let innerContainer = UIStackView()
-
         innerContainer.axis = showHorizontally ? .horizontal : .vertical
         innerContainer.alignment = showHorizontally ? .center : .fill
-        innerContainer.distribution = showHorizontally ? .equalSpacing : .fill
-        
+        innerContainer.distribution = .fill
         innerContainer.spacing = 8
+                
+        self.addArrangedSubview(stackView)
+
+        backButtonContainer.addArrangedSubview(backButton)
+        stackView.addArrangedSubview(backButtonContainer)
+        
+        if !showHorizontally {
+            stackView.addArrangedSubview(topFillerView)
+        }
+        
+        stackView.addArrangedSubview(innerContainer)
+        
+        if !showHorizontally {
+            stackView.addArrangedSubview(bottomFillerView)
+        }
         
         // If showing horizontally add insets and spacing
         if showHorizontally {
             innerContainer.spacing = 16
             innerContainer.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
             innerContainer.isLayoutMarginsRelativeArrangement = true
-        }
-        
-        self.addArrangedSubview(innerContainer)
 
+            NSLayoutConstraint.activate([
+                backButtonContainer.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: PXLayout.S_MARGIN),
+                backButtonContainer.trailingAnchor.constraint(equalTo: innerContainer.leadingAnchor),
+                backButtonContainer.centerYAnchor.constraint(equalTo: innerContainer.centerYAnchor),
+                backButtonContainer.heightAnchor.constraint(equalToConstant: PXLayout.S_MARGIN),
+                
+                stackView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+                stackView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+                stackView.heightAnchor.constraint(equalToConstant: layout.IMAGE_SIZE + 10),
+                stackView.topAnchor.constraint(equalTo: stackView.topAnchor, constant: PXLayout.XXXS_MARGIN),
+                
+                innerContainer.topAnchor.constraint(equalTo: stackView.topAnchor),
+                innerContainer.centerYAnchor.constraint(equalTo: stackView.centerYAnchor),
+                
+                backButton.trailingAnchor.constraint(equalTo: backButtonContainer.trailingAnchor)
+            ])
+        } else {
+            NSLayoutConstraint.activate([
+                topFillerView.topAnchor.constraint(equalTo: backButtonContainer.bottomAnchor),
+                topFillerView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+                topFillerView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+                topFillerView.bottomAnchor.constraint(equalTo: innerContainer.topAnchor),
+                topFillerView.heightAnchor.constraint(equalTo: bottomFillerView.heightAnchor),
+                
+                bottomFillerView.topAnchor.constraint(equalTo: innerContainer.bottomAnchor),
+                bottomFillerView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor),
+                bottomFillerView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+                bottomFillerView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+                bottomFillerView.heightAnchor.constraint(equalTo: topFillerView.heightAnchor),
+                
+                backButtonContainer.heightAnchor.constraint(equalToConstant: PXLayout.S_MARGIN),
+                backButtonContainer.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: PXLayout.S_MARGIN),
+                backButtonContainer.topAnchor.constraint(equalTo: stackView.topAnchor),
+                backButtonContainer.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+                
+                backButton.leadingAnchor.constraint(equalTo: backButtonContainer.leadingAnchor),
+
+                stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: PXLayout.XS_MARGIN),
+                stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+                stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+                stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            ])
+        }
+    
         // Add the image of the merchant
         let imageContainerView = buildImageContainerView(image: image)
         innerContainer.addArrangedSubview(imageContainerView)
@@ -82,6 +176,20 @@ class PXOneTapHeaderMerchantView: UIStackView {
         let emptyBottomSeparator = UIStackView()
         emptyBottomSeparator.axis = .vertical
         self.addArrangedSubview(emptyBottomSeparator)
+        
+        if showHorizontally {
+            NSLayoutConstraint.activate([
+                titleContainer.centerYAnchor.constraint(equalTo: innerContainer.centerYAnchor),
+                imageContainerView.centerYAnchor.constraint(equalTo: innerContainer.centerYAnchor)
+            ])
+        } else {
+            NSLayoutConstraint.activate([
+                imageContainerView.bottomAnchor.constraint(equalTo: titleContainer.topAnchor, constant: -4)
+            ])
+        }
+        
+        PXLayout.setHeight(owner: backButton, height: 20).isActive = true
+        PXLayout.setWidth(owner: backButton, width: 20).isActive = true
         
         self.layoutIfNeeded()
 
@@ -111,6 +219,10 @@ class PXOneTapHeaderMerchantView: UIStackView {
         imageView.layer.borderColor = UIColor.Andes.gray070.cgColor
         imageView.image = image
         imageContainerView.addArrangedSubview(imageView)
+        
+        if showHorizontally {
+            PXLayout.pinLeft(view: imageView).isActive = true
+        }
         
         self.imageView = imageView
         return imageContainerView

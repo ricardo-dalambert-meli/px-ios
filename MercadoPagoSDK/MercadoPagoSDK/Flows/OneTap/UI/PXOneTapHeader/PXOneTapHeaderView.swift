@@ -5,7 +5,7 @@ enum OneTapHeaderAnimationDirection: Int {
     case vertical
 }
 
-class PXOneTapHeaderView: UIStackView {
+class PXOneTapHeaderView: UIStackView, PXOneTapHeaderMerchantViewDelegate {
     private var model: PXOneTapHeaderViewModel {
         willSet(newModel) {
             updateLayout(newModel: newModel, oldModel: model)
@@ -97,7 +97,7 @@ private extension PXOneTapHeaderView {
             }
         case .extraLarge:
             // On extra-large devices always use vertical header
-            return false
+            return pxOneTapContext.hasInstallments && pxOneTapContext.hasSplit && pxOneTapContext.hasCharges && pxOneTapContext.hasDiscounts
         default:
             return true
         }
@@ -183,6 +183,7 @@ private extension PXOneTapHeaderView {
         merchantView.addGestureRecognizer(headerTapGesture)
 
         self.merchantView = merchantView
+        self.merchantView?.delegate = self
         self.addArrangedSubview(merchantView)
 
         PXLayout.matchWidth(ofView: merchantView).isActive = true
@@ -206,12 +207,21 @@ private extension PXOneTapHeaderView {
         }
 
         self.splitPaymentView = splitPaymentView
+        splitPaymentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            splitPaymentView.heightAnchor.constraint(equalToConstant: PXLayout.XXXL_MARGIN)
+        ])
 
         addArrangedSubview(splitPaymentView)
         
         PXLayout.matchWidth(ofView: splitPaymentView).isActive = true
         self.splitPaymentView?.isHidden = model.splitConfiguration == nil
 
+    }
+    
+    internal func tappedBackButton() {
+        delegate?.didTapBackButton()
     }
 }
 

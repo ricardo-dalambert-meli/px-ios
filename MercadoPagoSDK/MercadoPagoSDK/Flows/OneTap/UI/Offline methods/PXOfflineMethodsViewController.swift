@@ -102,7 +102,7 @@ final class PXOfflineMethodsViewController: MercadoPagoUIViewController {
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
             tableView.bottomAnchor.constraint(equalTo: footerView.topAnchor)
         ])
         tableView.reloadData()

@@ -55,6 +55,7 @@ class PXOfflineMethodsSheetViewController: SheetViewController {
         totalLabel.translatesAutoresizingMaskIntoConstraints = false
         totalLabel.attributedText = viewModel.getTotalTitle().getAttributedString(fontSize: PXLayout.S_FONT, textColor: UIColor.Andes.gray900)
         totalLabel.textAlignment = .right
+        totalLabel.backgroundColor = .white
 
         totalView.addSubview(totalLabel)
 
@@ -66,6 +67,7 @@ class PXOfflineMethodsSheetViewController: SheetViewController {
         let closeButton = UIButton(type: .custom)
         let closeImage = ResourceManager.shared.getImage("result-close-button")?.imageWithOverlayTint(tintColor: UIColor.Andes.gray900)
         closeButton.setImage(closeImage, for: .normal)
+        closeButton.backgroundColor = .white
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         closeButton.add(for: .touchUpInside) { [weak self] in
             PXFeedbackGenerator.mediumImpactFeedback()

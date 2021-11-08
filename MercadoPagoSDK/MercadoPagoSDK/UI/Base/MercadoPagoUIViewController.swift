@@ -71,7 +71,9 @@ internal class MercadoPagoUIViewController: UIViewController, UIGestureRecognize
             if titleDict.count > 0 {
                 self.navigationController!.navigationBar.titleTextAttributes = titleDict
             }
+            
             self.navigationItem.hidesBackButton = true
+            
             self.navigationController?.navigationBar.tintColor = navBarBackgroundColor
             self.navigationController?.navigationBar.barTintColor = navBarBackgroundColor
             self.navigationController?.navigationBar.removeBottomLine()

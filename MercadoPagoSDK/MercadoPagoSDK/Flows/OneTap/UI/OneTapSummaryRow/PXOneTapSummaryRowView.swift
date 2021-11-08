@@ -11,7 +11,7 @@ class PXOneTapSummaryRowView: UIView {
     }
     
     static let DEFAULT_HEIGHT: CGFloat = 16
-    static let TOTAL_ROW_DEFAULT_HEIGHT: CGFloat = 52
+    static let TOTAL_ROW_DEFAULT_HEIGHT: CGFloat = 43
     static let MARGIN: CGFloat = 8
     private var data: PXOneTapSummaryRowData
     
@@ -265,16 +265,19 @@ private extension PXOneTapSummaryRowView {
         brief.translatesAutoresizingMaskIntoConstraints = false
         brief.textAlignment = .left
         brief.numberOfLines = 2
+        brief.lineBreakMode = .byWordWrapping
         brief.attributedText = data.getBriefText()
         
         let containerView = UIView()
         containerView.addSubview(brief)
+        
         if let verStackView = verStackView {
             verStackView.addArrangedSubview(containerView)
         }
+        
         NSLayoutConstraint.activate([
             brief.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            brief.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            brief.widthAnchor.constraint(equalToConstant: 250),
             brief.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5)
         ])
     }
