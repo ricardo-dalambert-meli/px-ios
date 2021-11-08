@@ -15,12 +15,14 @@ dir = "#{Dir.pwd}/"
 swiftlint.lint_files(inline_mode: true, fail_on_error: true) { |violation|
     diff_filename = violation['file'].gsub(dir, '')
     patch = diff.find_patch_by_file(diff_filename)
-    patch != nil && patch.changed_lines.any? { |line| 
+    message(diff_filename)
+    patch != nil && patch.changed_lines.any? { |line|
+      message(line.changed?, line.number)
       !line.changed? && line.number == violation['line']
     }
 }
 
- # Verify if PR title contains Jira ta`sk
+ # Verify if PR title contains Jira task
 tickets = github.pr_title.scan(/\[(\w{1,10}-\d+)\]/)
 if tickets.empty?
   message('This PR does not include any JIRA tasks in the title. (e.g. [TICKET-1234])')
