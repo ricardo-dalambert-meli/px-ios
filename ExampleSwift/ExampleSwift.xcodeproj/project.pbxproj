@@ -270,8 +270,6 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ExampleSwift/Pods-ExampleSwift-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AndesUI/AndesUI.framework",
-				"${BUILT_PRODUCTS_DIR}/Bagel/Bagel.framework",
-				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
 				"${BUILT_PRODUCTS_DIR}/FXBlurView/FXBlurView.framework",
 				"${BUILT_PRODUCTS_DIR}/JRSwizzle/JRSwizzle.framework",
 				"${BUILT_PRODUCTS_DIR}/MLUI/MLUI.framework",
@@ -279,8 +277,6 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AndesUI.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bagel.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FXBlurView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JRSwizzle.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MLUI.framework",
