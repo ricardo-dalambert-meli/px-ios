@@ -1,6 +1,6 @@
 import UIKit
 
-internal enum CheckoutStep: String {
+internal enum CheckoutStep: String  {
     case START
     case ACTION_FINISH
     case SCREEN_SECURITY_CODE
