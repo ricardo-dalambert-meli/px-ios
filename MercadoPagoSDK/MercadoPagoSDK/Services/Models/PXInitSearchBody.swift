@@ -63,7 +63,7 @@ struct PXInitFeatures: Codable {
         customTaxesCharges: Bool = true,
         cardsCustomTaxesCharges: Bool = true,
         taxableCharges: Bool = true,
-        threedsSdkVersion: String = "v1") ) {
+        threedsSdkVersion: String = "v1") {
         self.oneTap = oneTap
         self.split = split
         self.odr = odr
