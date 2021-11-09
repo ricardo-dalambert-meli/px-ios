@@ -52,17 +52,18 @@ struct PXInitFeatures: Codable {
     let taxableCharges: Bool
     let threedsSdkVersion: String
 
-    init(oneTap: Bool = true,
-         split: Bool,
-         odr: Bool = true,
-         comboCard: Bool = false,
-         hybridCard: Bool = false,
-         validationPrograms: [String] = [],
-         pix: Bool = true,
-         customTaxesCharges: Bool = true,
-         cardsCustomTaxesCharges: Bool = true,
-         taxableCharges: Bool = true,
-         threedsSdkVersion: String = "v1") {
+    init(
+        oneTap: Bool = true,
+        split: Bool,
+        odr: Bool = true,
+        comboCard: Bool = true,
+        hybridCard: Bool = true,
+        validationPrograms: [String] = ["stp"],
+        pix: Bool = true,
+        customTaxesCharges: Bool = true,
+        cardsCustomTaxesCharges: Bool = true,
+        taxableCharges: Bool = true,
+        threedsSdkVersion: String = "v1") ) {
         self.oneTap = oneTap
         self.split = split
         self.odr = odr
