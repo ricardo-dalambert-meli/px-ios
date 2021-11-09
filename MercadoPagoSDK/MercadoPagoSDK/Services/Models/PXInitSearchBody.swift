@@ -51,7 +51,17 @@ struct PXInitFeatures: Codable {
     let cardsCustomTaxesCharges: Bool
     let taxableCharges: Bool
 
-    init(oneTap: Bool = true, split: Bool, odr: Bool = true, comboCard: Bool = false, hybridCard: Bool = false, validationPrograms: [String] = [], pix: Bool = true, customTaxesCharges: Bool = true, cardsCustomTaxesCharges: Bool = true, taxableCharges: Bool = true) {
+    init(
+        oneTap: Bool = true,
+        split: Bool,
+        odr: Bool = true,
+        comboCard: Bool = true,
+        hybridCard: Bool = true,
+        validationPrograms: [String] = ["stp"],
+        pix: Bool = true,
+        customTaxesCharges: Bool = true,
+        cardsCustomTaxesCharges: Bool = true,
+        taxableCharges: Bool = true ) {
         self.oneTap = oneTap
         self.split = split
         self.odr = odr
