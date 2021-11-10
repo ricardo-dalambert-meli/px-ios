@@ -21,11 +21,13 @@ internal class MercadoPagoServices: NSObject {
     // MARK: - Open perperties
     open var publicKey: String
     open var privateKey: String?
+    open var checkout_type: String?
 
     // MARK: - Initialization
     init(
         publicKey: String,
         privateKey: String? = nil,
+        checkout_type: String? = nil,
         customService: CustomService = CustomServiceImpl(),
         remedyService: RemedyService = RemedyServiceImpl(),
         gatewayService: TokenService = TokenServiceImpl(),
@@ -90,7 +92,7 @@ internal class MercadoPagoServices: NSObject {
     }
 
     func createPayment(url: String, uri: String, transactionId: String? = nil, paymentDataJSON: Data, query: [String: String]? = nil, headers: [String: String]? = nil, callback : @escaping (PXPayment) -> Void, failure: @escaping ((_ error: PXError) -> Void)) {
-        customService.createPayment(privateKey: privateKey, publicKey: publicKey, data: paymentDataJSON, header: headers) { apiResponse in
+        customService.createPayment(privateKey: privateKey, publicKey: publicKey, checkout_type: checkout_type, data: paymentDataJSON, header: headers) { apiResponse in
             switch apiResponse {
             case .success(let payment): callback(payment)
             case .failure(let error): failure(error)

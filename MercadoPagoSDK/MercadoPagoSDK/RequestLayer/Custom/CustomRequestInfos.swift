@@ -1,7 +1,7 @@
 enum CustomRequestInfos {
     case resetESCCap(cardId: String, privateKey: String?)
     case getCongrats(data: Data?, congratsModel: CustomParametersModel)
-    case createPayment(privateKey: String?, publicKey: String, data: Data?, header: [String : String]?)
+    case createPayment(privateKey: String?, publicKey: String, checkout_type: String?, data: Data?, header: [String : String]?)
 }
 
 extension CustomRequestInfos: RequestInfos {
@@ -9,7 +9,7 @@ extension CustomRequestInfos: RequestInfos {
         switch self {
         case .resetESCCap(let cardId, _): return "px_mobile/v1/esc_cap/\(cardId)"
         case .getCongrats(_, _): return "v1/px_mobile/congrats"
-        case .createPayment(_, _, _, _): return "v1/px_mobile/payments"
+        case .createPayment(_, _, _, _,_): return "v1/px_mobile/payments"
         }
     }
     
@@ -17,14 +17,14 @@ extension CustomRequestInfos: RequestInfos {
         switch self {
         case .resetESCCap(_, _): return .delete
         case .getCongrats(_, _): return .get
-        case .createPayment(_, _, _, _): return .post
+        case .createPayment(_, _, _, _,_): return .post
         }
     }
     
     var shouldSetEnvironment: Bool {
         switch self {
         case .resetESCCap(_, _): return true
-        case .createPayment(_, _, _, _), .getCongrats(_, _): return false
+        case .createPayment(_, _, _, _,_), .getCongrats(_, _): return false
         }
     }
     
@@ -32,7 +32,7 @@ extension CustomRequestInfos: RequestInfos {
         switch self {
         case .resetESCCap(_, _): return nil
         case .getCongrats(_, let parameters): return organizeParameters(parameters: parameters)
-        case .createPayment(_, let publicKey, _, _):
+        case .createPayment(_, let publicKey, _, _,_):
             return [
                 "public_key" : publicKey,
                 "api_version" : "2.0"
@@ -44,7 +44,7 @@ extension CustomRequestInfos: RequestInfos {
     var headers: [String : String]? {
         switch self {
         case .resetESCCap(_, _), .getCongrats(_, _): return nil
-        case .createPayment(_, _, _, let header): return header
+        case .createPayment(_, _, _, _, let header): return header
         }
     }
     
@@ -52,7 +52,7 @@ extension CustomRequestInfos: RequestInfos {
         switch self {
         case .resetESCCap(_, _): return nil
         case .getCongrats(let data, _): return data
-        case .createPayment(_, _, let data, _): return data
+        case .createPayment(_, _, _, let data, _): return data
         }
     }
     
@@ -60,7 +60,7 @@ extension CustomRequestInfos: RequestInfos {
         switch self {
         case .resetESCCap(_, let privateKey): return privateKey
         case .getCongrats(_, let parameters): return parameters.privateKey
-        case .createPayment(let privateKey, _, _, _): return privateKey
+        case .createPayment(let privateKey, _, _, _, _): return privateKey
         }
     }
 }

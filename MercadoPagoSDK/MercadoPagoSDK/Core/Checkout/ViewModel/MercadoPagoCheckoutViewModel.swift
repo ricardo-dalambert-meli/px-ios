@@ -19,6 +19,7 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
 
     internal var publicKey: String
     internal var privateKey: String?
+    internal let checkout_type: String?
 
     var lifecycleProtocol: PXLifeCycleProtocol?
 
@@ -97,16 +98,17 @@ internal class MercadoPagoCheckoutViewModel: NSObject, NSCopying {
 
     lazy var pxNavigationHandler: PXNavigationHandler = PXNavigationHandler.getDefault()
 
-    init(checkoutPreference: PXCheckoutPreference, publicKey: String, privateKey: String?, advancedConfig: PXAdvancedConfiguration? = nil, trackingConfig: PXTrackingConfiguration? = nil) {
+    init(checkoutPreference: PXCheckoutPreference, publicKey: String, privateKey: String?, advancedConfig: PXAdvancedConfiguration? = nil, trackingConfig: PXTrackingConfiguration? = nil, checkout_type: String? = nil) {
         self.publicKey = publicKey
         self.privateKey = privateKey
+        self.checkout_type = checkout_type
         self.checkoutPreference = checkoutPreference
 
         if let advancedConfig = advancedConfig {
             self.advancedConfig = advancedConfig
         }
         self.trackingConfig = trackingConfig
-        mercadoPagoServices = MercadoPagoServices(publicKey: publicKey, privateKey: privateKey)
+        mercadoPagoServices = MercadoPagoServices(publicKey: publicKey, privateKey: privateKey,checkout_type: checkout_type)
         super.init()
         if String.isNullOrEmpty(checkoutPreference.id), checkoutPreference.payer != nil {
             paymentData.updatePaymentDataWith(payer: checkoutPreference.getPayer())

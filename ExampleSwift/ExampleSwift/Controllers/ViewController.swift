@@ -20,6 +20,9 @@ class ViewController: UIViewController {
     // Payer private key
     private var privateKey : String = ""
     
+    // Payer private type de recurring payment
+    private var checkout_type: String = ""
+    
     // Preference ID
     private var preferenceId : String = "656525290-10485f3d-0c25-4d1f-9619-f16b34376e0a"
     
@@ -43,12 +46,13 @@ class ViewController: UIViewController {
             // Initialize values from config
             publicKey = infoPlist["PX_COLLECTOR_PUBLIC_KEY"] as? String ?? ""
             privateKey = infoPlist["PX_PAYER_PRIVATE_KEY"] as? String ?? ""
+            checkout_type = infoPlist[""] as? String ?? ""
         }
     }
 
     private func runMercadoPagoCheckout() {
         // 1) Create Builder with your publicKey and preferenceId.
-        let builder = MercadoPagoCheckoutBuilder(publicKey: publicKey, preferenceId: preferenceId).setLanguage("es")
+        let builder = MercadoPagoCheckoutBuilder(publicKey: publicKey, preferenceId: preferenceId, checkout_type: checkout_type).setLanguage("es")
 
         // 2) Create Checkout reference
         checkout = MercadoPagoCheckout(builder: builder)
@@ -96,7 +100,7 @@ class ViewController: UIViewController {
 //        checkoutPreference.addExcludedPaymentMethod(PXPaymentTypes.CONSUMER_CREDITS.rawValue)
         checkoutPreference.addExcludedPaymentMethod("master")
 
-        let builder = MercadoPagoCheckoutBuilder.init(publicKey: publicKey, checkoutPreference: checkoutPreference, paymentConfiguration: paymentConfiguration)
+        let builder = MercadoPagoCheckoutBuilder.init(publicKey: publicKey, checkoutPreference: checkoutPreference, paymentConfiguration: paymentConfiguration, checkout_type: checkout_type)
         
         // Instantiate a configuration object
         let configuration = PXAdvancedConfiguration()
@@ -121,7 +125,7 @@ class ViewController: UIViewController {
 
     private func runMercadoPagoCheckoutWithLifecycle() {
         // Create Builder with your publicKey and preferenceId.
-        let builder = MercadoPagoCheckoutBuilder(publicKey: publicKey, preferenceId: preferenceId).setLanguage("es")
+        let builder = MercadoPagoCheckoutBuilder(publicKey: publicKey, preferenceId: preferenceId, checkout_type: checkout_type).setLanguage("es")
         
         let configuration = PXAdvancedConfiguration()
         

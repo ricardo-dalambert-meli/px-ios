@@ -7,6 +7,7 @@ import Foundation
 open class MercadoPagoCheckoutBuilder: NSObject {
     internal let publicKey: String
     internal var preferenceId: String?
+    internal let checkout_type: String?
     internal var checkoutPreference: PXCheckoutPreference?
 
     internal var privateKey: String?
@@ -22,20 +23,23 @@ open class MercadoPagoCheckoutBuilder: NSObject {
      Mandatory init.
      - parameter publicKey: Merchant public key / collector public key
      - parameter preferenceId: The preference id that represents the payment information.
+     - parameter checkoutType: The preference id that represents the payment information.
      */
-    public init(publicKey: String, preferenceId: String) {
+    public init(publicKey: String, preferenceId: String, checkout_type: String? = nil) {
         self.publicKey = publicKey
         self.preferenceId = preferenceId
+        self.checkout_type = checkout_type
     }
 
     /**
      Mandatory init.
      - parameter publicKey: Merchant public key / collector public key.
      - parameter preferenceId: The preference id that represents the payment information.
+     - parameter checkoutType: The preference id that represents the payment information.
      - parameter paymentConfiguration: The payment configuration object for this checkout.
      */
-    public convenience init(publicKey: String, preferenceId: String, paymentConfiguration: PXPaymentConfiguration) {
-        self.init(publicKey: publicKey, preferenceId: preferenceId)
+    public convenience init(publicKey: String, preferenceId: String, checkout_type: String, paymentConfiguration: PXPaymentConfiguration) {
+        self.init(publicKey: publicKey, preferenceId: preferenceId, checkout_type: checkout_type)
         self.paymentConfig = paymentConfiguration
     }
 
@@ -45,10 +49,11 @@ open class MercadoPagoCheckoutBuilder: NSObject {
      - parameter checkoutPreference: The preference that represents the payment information.
      - parameter paymentConfiguration: The payment configuration for this checkout.
      */
-    public init(publicKey: String, checkoutPreference: PXCheckoutPreference, paymentConfiguration: PXPaymentConfiguration) {
+    public init(publicKey: String, checkoutPreference: PXCheckoutPreference, paymentConfiguration: PXPaymentConfiguration, checkout_type: String) {
         self.publicKey = publicKey
         self.checkoutPreference = checkoutPreference
         self.paymentConfig = paymentConfiguration
+        self.checkout_type = checkout_type
     }
 }
 

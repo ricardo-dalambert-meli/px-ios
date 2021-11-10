@@ -1,7 +1,7 @@
 protocol CustomService {
     func getPointsAndDiscounts(data: Data?, parameters: CustomParametersModel, response: @escaping (Swift.Result<PXPointsAndDiscounts, Error>) -> Void)
     func resetESCCap(cardId:String, privateKey: String?, response: @escaping (Swift.Result<Void, PXError>) -> Void)
-    func createPayment(privateKey: String?, publicKey: String, data: Data?, header: [String : String]?, response: @escaping (Swift.Result<PXPayment, PXError>) -> Void)
+    func createPayment(privateKey: String?, publicKey: String, checkout_type: String?, data: Data?, header: [String : String]?, response: @escaping (Swift.Result<PXPayment, PXError>) -> Void)
 }
 
 
@@ -37,8 +37,8 @@ final class CustomServiceImpl: CustomService {
         }
     }
     
-    func createPayment(privateKey: String?, publicKey: String, data: Data?, header: [String : String]?, response: @escaping (Swift.Result<PXPayment, PXError>) -> Void) {
-        service.requestObject(model: PXPayment.self, .createPayment(privateKey: privateKey, publicKey: publicKey, data: data, header: header)) { apiResponse in
+    func createPayment(privateKey: String?, publicKey: String, checkout_type: String? ,data: Data?, header: [String : String]?, response: @escaping (Swift.Result<PXPayment, PXError>) -> Void) {
+        service.requestObject(model: PXPayment.self, .createPayment(privateKey: privateKey, publicKey: publicKey, checkout_type: checkout_type, data: data, header: header)) { apiResponse in
             switch apiResponse {
             case .success(let payment): response(.success(payment))
             case .failure: response(.failure(PXError(domain: ApiDomain.CREATE_PAYMENT, code: ErrorTypes.API_UNKNOWN_ERROR, userInfo: ["message": "PAYMENT_ERROR"])))
