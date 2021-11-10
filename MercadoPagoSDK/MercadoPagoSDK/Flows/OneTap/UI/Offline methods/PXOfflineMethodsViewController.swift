@@ -80,7 +80,7 @@ final class PXOfflineMethodsViewController: MercadoPagoUIViewController {
         tableView.layer.cornerRadius = 10
         tableView.layer.masksToBounds = true
         
-        if #available(iOS 11.0, *) {
+        if #available(iOS 12.0, *) {
             view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
             tableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         }
@@ -340,7 +340,7 @@ extension PXOfflineMethodsViewController: UITableViewDelegate, UITableViewDataSo
         view.backgroundColor = UIColor.Andes.white
         view.layer.cornerRadius = Constants.viewCornerRadius
         
-        if #available(iOS 11.0, *) {
+        if #available(iOS 12.0, *) {
             view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         }
         
