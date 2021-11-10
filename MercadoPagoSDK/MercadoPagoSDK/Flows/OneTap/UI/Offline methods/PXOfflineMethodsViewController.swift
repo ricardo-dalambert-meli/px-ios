@@ -23,7 +23,7 @@ final class PXOfflineMethodsViewController: MercadoPagoUIViewController {
 
     var userDidScroll = false
     
-    struct Constants {
+    private struct Constants {
         static let viewBorderWidth: CGFloat = 1.5
         static let viewCornerRadius: CGFloat = 10
     }
