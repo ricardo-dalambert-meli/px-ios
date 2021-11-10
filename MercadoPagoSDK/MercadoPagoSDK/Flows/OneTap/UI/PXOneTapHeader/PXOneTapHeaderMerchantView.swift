@@ -95,22 +95,7 @@ class PXOneTapHeaderMerchantView: UIStackView {
         let imageContainerView = buildImageContainerView(image: image)
         innerContainer.addArrangedSubview(imageContainerView)
         
-        // Create title container
-        let titleContainer = UIStackView()
-        titleContainer.axis = .vertical
-        titleContainer.alignment = showHorizontally ? .leading : .center
-        
-        // Add the title
-        merchantTitleLabel = buildTitleLabel(text: title)
-        if let titleLabel = merchantTitleLabel {
-            titleContainer.addArrangedSubview(titleLabel)
-        }
-        
-        // Add the subtitle
-        if layout.getLayoutType() == .titleSubtitle {
-            let subTitleLabel = buildSubTitleLabel(text: subTitle)
-            titleContainer.addArrangedSubview(subTitleLabel)
-        }
+        let titleContainer = createTitleAndSubtitleContainer()
         
         innerContainer.addArrangedSubview(titleContainer)
         
@@ -137,7 +122,32 @@ class PXOneTapHeaderMerchantView: UIStackView {
         isUserInteractionEnabled = true
     }
     
-    func createInnerContainer() -> UIStackView {
+    private func createTitleAndSubtitleContainer() -> UIStackView {
+        let titleContainer = UIStackView()
+        titleContainer.axis = .vertical
+        titleContainer.alignment = showHorizontally ? .leading : .center
+        
+        addTitleLabel(in: titleContainer)
+        addSubtitleLabel(in: titleContainer)
+    
+        return titleContainer
+    }
+    
+    private func addTitleLabel(in container: UIStackView) {
+        merchantTitleLabel = buildTitleLabel(text: title)
+        if let titleLabel = merchantTitleLabel {
+            container.addArrangedSubview(titleLabel)
+        }
+    }
+    
+    private func addSubtitleLabel(in container: UIStackView) {
+        if layout.getLayoutType() == .titleSubtitle {
+            let subTitleLabel = buildSubTitleLabel(text: subTitle)
+            container.addArrangedSubview(subTitleLabel)
+        }
+    }
+    
+    private func createInnerContainer() -> UIStackView {
         let innerContainer = UIStackView()
         innerContainer.axis = showHorizontally ? .horizontal : .vertical
         innerContainer.alignment = showHorizontally ? .center : .fill

@@ -6,7 +6,7 @@ struct PXOneTapHeaderMerchantLayout {
         case titleSubtitle
     }
     
-    struct Constants {
+    private struct Constants {
         static let smallDeviceSize: CGFloat = 48
         static let regularDeviceSize: CGFloat = 48
         static let largeDeviceSize: CGFloat = 55

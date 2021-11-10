@@ -42,7 +42,7 @@ class PXOneTapSummaryRowView: UIView {
         render()
     }
     
-    struct Constants {
+    private struct Constants {
         static let briefWidth: CGFloat = 250
     }
     
