@@ -55,7 +55,7 @@ class PXOfflineMethodsSheetViewController: SheetViewController {
         totalLabel.translatesAutoresizingMaskIntoConstraints = false
         totalLabel.attributedText = viewModel.getTotalTitle().getAttributedString(fontSize: PXLayout.S_FONT, textColor: UIColor.Andes.gray900)
         totalLabel.textAlignment = .right
-        totalLabel.backgroundColor = .white
+        totalLabel.backgroundColor = UIColor.Andes.white
 
         totalView.addSubview(totalLabel)
 

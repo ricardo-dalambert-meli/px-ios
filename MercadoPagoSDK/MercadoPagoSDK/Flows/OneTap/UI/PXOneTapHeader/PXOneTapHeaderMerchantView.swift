@@ -49,24 +49,11 @@ class PXOneTapHeaderMerchantView: UIStackView {
             self.addArrangedSubview(emptyTopSeparator)
         }
         
-        let stackView = UIStackView()
-        stackView.axis = showHorizontally ? .horizontal : .vertical
-        stackView.alignment = showHorizontally ? .leading : .fill
-        stackView.distribution = .fill
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.addBackground(color: UIColor.Andes.white)
+        let stackView = createHeaderContainer()
         
-        let backButtonContainer = UIStackView()
-        backButtonContainer.translatesAutoresizingMaskIntoConstraints = false
-        backButtonContainer.axis = .vertical
-        backButtonContainer.alignment = .leading
-        
-        let backButton = UIButton()
-        let backButtonImage = ResourceManager.shared.getImage("back")
-        
-        backButton.setImage(backButtonImage?.mask(color: UIColor.Andes.gray900), for: .normal)
-        backButton.addTarget(self, action: #selector(tappedBackButton), for: .touchUpInside)
-        backButton.accessibilityLabel = "atrás".localized
+        let backButtonContainer = createBackButtonContainer()
+
+        let backButton = createBackButton()
         
         // Create top and bottom filler views
         
@@ -79,11 +66,7 @@ class PXOneTapHeaderMerchantView: UIStackView {
         bottomFillerView.translatesAutoresizingMaskIntoConstraints = false
         
         // Create inner container
-        let innerContainer = UIStackView()
-        innerContainer.axis = showHorizontally ? .horizontal : .vertical
-        innerContainer.alignment = showHorizontally ? .center : .fill
-        innerContainer.distribution = .fill
-        innerContainer.spacing = 8
+        let innerContainer = createInnerContainer()
                 
         self.addArrangedSubview(stackView)
 
@@ -101,55 +84,13 @@ class PXOneTapHeaderMerchantView: UIStackView {
         }
         
         // If showing horizontally add insets and spacing
-        if showHorizontally {
-            innerContainer.spacing = 16
-            innerContainer.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-            innerContainer.isLayoutMarginsRelativeArrangement = true
-
-            NSLayoutConstraint.activate([
-                backButtonContainer.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: PXLayout.S_MARGIN),
-                backButtonContainer.trailingAnchor.constraint(equalTo: innerContainer.leadingAnchor),
-                backButtonContainer.centerYAnchor.constraint(equalTo: innerContainer.centerYAnchor),
-                backButtonContainer.heightAnchor.constraint(equalToConstant: PXLayout.S_MARGIN),
-                
-                stackView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
-                stackView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
-                stackView.heightAnchor.constraint(equalToConstant: layout.IMAGE_SIZE + 10),
-                stackView.topAnchor.constraint(equalTo: stackView.topAnchor, constant: PXLayout.XXXS_MARGIN),
-                
-                innerContainer.topAnchor.constraint(equalTo: stackView.topAnchor),
-                innerContainer.centerYAnchor.constraint(equalTo: stackView.centerYAnchor),
-                
-                backButton.trailingAnchor.constraint(equalTo: backButtonContainer.trailingAnchor)
-            ])
-        } else {
-            NSLayoutConstraint.activate([
-                topFillerView.topAnchor.constraint(equalTo: backButtonContainer.bottomAnchor),
-                topFillerView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
-                topFillerView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
-                topFillerView.bottomAnchor.constraint(equalTo: innerContainer.topAnchor),
-                topFillerView.heightAnchor.constraint(equalTo: bottomFillerView.heightAnchor),
-                
-                bottomFillerView.topAnchor.constraint(equalTo: innerContainer.bottomAnchor),
-                bottomFillerView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor),
-                bottomFillerView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
-                bottomFillerView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
-                bottomFillerView.heightAnchor.constraint(equalTo: topFillerView.heightAnchor),
-                
-                backButtonContainer.heightAnchor.constraint(equalToConstant: PXLayout.S_MARGIN),
-                backButtonContainer.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: PXLayout.S_MARGIN),
-                backButtonContainer.topAnchor.constraint(equalTo: stackView.topAnchor),
-                backButtonContainer.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
-                
-                backButton.leadingAnchor.constraint(equalTo: backButtonContainer.leadingAnchor),
-
-                stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: PXLayout.XS_MARGIN),
-                stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-                stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-                stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-            ])
-        }
-    
+        setUpHeaderConstraints(backButtonContainer: backButtonContainer,
+                               stackView: stackView,
+                               innerContainer: innerContainer,
+                               backButton: backButton,
+                               topFillerView: topFillerView,
+                               bottomFillerView: bottomFillerView)
+            
         // Add the image of the merchant
         let imageContainerView = buildImageContainerView(image: image)
         innerContainer.addArrangedSubview(imageContainerView)
@@ -194,6 +135,97 @@ class PXOneTapHeaderMerchantView: UIStackView {
         self.layoutIfNeeded()
 
         isUserInteractionEnabled = true
+    }
+    
+    func createInnerContainer() -> UIStackView {
+        let innerContainer = UIStackView()
+        innerContainer.axis = showHorizontally ? .horizontal : .vertical
+        innerContainer.alignment = showHorizontally ? .center : .fill
+        innerContainer.distribution = .fill
+        innerContainer.spacing = 8
+        
+        return innerContainer
+    }
+    
+    private func createBackButtonContainer() -> UIStackView {
+        let backButtonContainer = UIStackView()
+        backButtonContainer.translatesAutoresizingMaskIntoConstraints = false
+        backButtonContainer.axis = .vertical
+        backButtonContainer.alignment = .leading
+        
+        return backButtonContainer
+    }
+    
+    private func createBackButton() -> UIButton {
+        let backButton = UIButton()
+        let backButtonImage = ResourceManager.shared.getImage("back")
+        
+        backButton.setImage(backButtonImage?.mask(color: UIColor.Andes.gray900), for: .normal)
+        backButton.addTarget(self, action: #selector(tappedBackButton), for: .touchUpInside)
+        backButton.accessibilityLabel = "atrás".localized
+        
+        return backButton
+    }
+    
+    private func createHeaderContainer() -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = showHorizontally ? .horizontal : .vertical
+        stackView.alignment = showHorizontally ? .leading : .fill
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addBackground(color: UIColor.Andes.white)
+        
+        return stackView
+    }
+    
+    private func setUpHeaderConstraints(backButtonContainer: UIStackView, stackView: UIStackView, innerContainer: UIStackView, backButton: UIButton, topFillerView: UIView, bottomFillerView: UIView) {
+        if showHorizontally {
+            innerContainer.spacing = 16
+            innerContainer.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+            innerContainer.isLayoutMarginsRelativeArrangement = true
+            NSLayoutConstraint.activate([
+                backButtonContainer.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: PXLayout.S_MARGIN),
+                backButtonContainer.trailingAnchor.constraint(equalTo: innerContainer.leadingAnchor),
+                backButtonContainer.centerYAnchor.constraint(equalTo: innerContainer.centerYAnchor),
+                backButtonContainer.heightAnchor.constraint(equalToConstant: PXLayout.S_MARGIN),
+                
+                stackView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+                stackView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+                stackView.heightAnchor.constraint(equalToConstant: layout.IMAGE_SIZE + 10),
+                stackView.topAnchor.constraint(equalTo: stackView.topAnchor, constant: PXLayout.XXXS_MARGIN),
+                
+                innerContainer.topAnchor.constraint(equalTo: stackView.topAnchor),
+                innerContainer.centerYAnchor.constraint(equalTo: stackView.centerYAnchor),
+                
+                backButton.trailingAnchor.constraint(equalTo: backButtonContainer.trailingAnchor)
+            ])
+        } else {
+            NSLayoutConstraint.activate([
+                topFillerView.topAnchor.constraint(equalTo: backButtonContainer.bottomAnchor),
+                topFillerView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+                topFillerView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+                topFillerView.bottomAnchor.constraint(equalTo: innerContainer.topAnchor),
+                topFillerView.heightAnchor.constraint(equalTo: bottomFillerView.heightAnchor),
+                
+                bottomFillerView.topAnchor.constraint(equalTo: innerContainer.bottomAnchor),
+                bottomFillerView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor),
+                bottomFillerView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+                bottomFillerView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+                bottomFillerView.heightAnchor.constraint(equalTo: topFillerView.heightAnchor),
+                
+                backButtonContainer.heightAnchor.constraint(equalToConstant: PXLayout.S_MARGIN),
+                backButtonContainer.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: PXLayout.S_MARGIN),
+                backButtonContainer.topAnchor.constraint(equalTo: stackView.topAnchor),
+                backButtonContainer.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+                
+                backButton.leadingAnchor.constraint(equalTo: backButtonContainer.leadingAnchor),
+
+                stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: PXLayout.XS_MARGIN),
+                stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+                stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+                stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            ])
+        }
     }
 
     private func buildImageContainerView(image: UIImage) -> UIView {

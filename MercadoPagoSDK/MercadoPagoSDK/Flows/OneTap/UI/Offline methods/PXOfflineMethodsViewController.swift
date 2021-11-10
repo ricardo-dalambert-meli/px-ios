@@ -22,6 +22,11 @@ final class PXOfflineMethodsViewController: MercadoPagoUIViewController {
     weak var delegate: PXOfflineMethodsViewControllerDelegate?
 
     var userDidScroll = false
+    
+    struct Constants {
+        static let viewBorderWidth: CGFloat = 1.5
+        static let viewCornerRadius: CGFloat = 10
+    }
 
     init(viewModel: PXOfflineMethodsViewModel, callbackConfirm: @escaping ((PXPaymentData, Bool) -> Void), callbackUpdatePaymentOption: @escaping ((PaymentMethodOption) -> Void), finishButtonAnimation: @escaping (() -> Void), callbackFinishCheckout: @escaping (() -> Void)) {
         self.viewModel = viewModel
@@ -67,7 +72,7 @@ final class PXOfflineMethodsViewController: MercadoPagoUIViewController {
     }
 
     func render() {
-        view.layer.borderWidth = 1.5
+        view.layer.borderWidth = Constants.viewBorderWidth
         view.layer.borderColor = UIColor.Andes.graySolid070.cgColor
         view.layer.cornerRadius = 10
         view.backgroundColor = UIColor.Andes.white
@@ -102,7 +107,7 @@ final class PXOfflineMethodsViewController: MercadoPagoUIViewController {
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: PXLayout.L_MARGIN),
             tableView.bottomAnchor.constraint(equalTo: footerView.topAnchor)
         ])
         tableView.reloadData()
@@ -332,8 +337,8 @@ extension PXOfflineMethodsViewController: UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let title = viewModel.headerTitleForSection(section)
         let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 10
+        view.backgroundColor = UIColor.Andes.white
+        view.layer.cornerRadius = Constants.viewCornerRadius
         
         if #available(iOS 11.0, *) {
             view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]

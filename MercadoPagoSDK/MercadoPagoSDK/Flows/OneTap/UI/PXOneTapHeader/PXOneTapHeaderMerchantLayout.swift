@@ -5,6 +5,13 @@ struct PXOneTapHeaderMerchantLayout {
         case onlyTitle
         case titleSubtitle
     }
+    
+    struct Constants {
+        static let smallDeviceSize: CGFloat = 48
+        static let regularDeviceSize: CGFloat = 48
+        static let largeDeviceSize: CGFloat = 55
+        static let extraLargeDeviceSize: CGFloat = 65
+    }
 
     private let layoutType: LayoutType
     private var horizontalLayoutConstraints: [NSLayoutConstraint] = []
@@ -15,20 +22,20 @@ struct PXOneTapHeaderMerchantLayout {
     internal let IMAGE_NAV_SIZE: CGFloat = 40
     internal var IMAGE_SIZE: CGFloat {
         if showHorizontally {
-            return 40
+            return IMAGE_NAV_SIZE
         } else {
             // Define device size
             let deviceSize = PXDeviceSize.getDeviceSize(deviceHeight: UIScreen.main.bounds.height)
             
             switch deviceSize {
                 case .small:
-                    return 48
+                    return Constants.smallDeviceSize
                 case .regular:
-                    return 48
+                    return Constants.regularDeviceSize
                 case .large:
-                    return 55
+                    return Constants.largeDeviceSize
                 case .extraLarge:
-                    return 65
+                    return Constants.extraLargeDeviceSize
             }
         }
     }

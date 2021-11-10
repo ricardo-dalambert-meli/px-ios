@@ -42,6 +42,10 @@ class PXOneTapSummaryRowView: UIView {
         render()
     }
     
+    struct Constants {
+        static let briefWidth: CGFloat = 250
+    }
+    
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -277,7 +281,7 @@ private extension PXOneTapSummaryRowView {
         
         NSLayoutConstraint.activate([
             brief.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            brief.widthAnchor.constraint(equalToConstant: 250),
+            brief.widthAnchor.constraint(equalToConstant: Constants.briefWidth),
             brief.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5)
         ])
     }
