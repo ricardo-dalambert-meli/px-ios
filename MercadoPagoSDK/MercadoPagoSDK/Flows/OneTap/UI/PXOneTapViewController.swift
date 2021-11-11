@@ -153,18 +153,13 @@ final class PXOneTapViewController: MercadoPagoUIViewController {
 // MARK: UI Methods.
 extension PXOneTapViewController {
     private func setupNavigationBar() {
-        view.backgroundColor = .clear
         navBarTextColor = UIColor.Andes.gray900
         loadMPStyles()
-        navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.barTintColor = UIColor.Andes.gray900
-        navigationItem.leftBarButtonItem?.tintColor = UIColor.Andes.gray900
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        navigationController?.navigationBar.backgroundColor = .clear
         addNavigationTapGesture()
     }
 
     private func setupUI() {
+        view.backgroundColor = ThemeManager.shared.navigationBar().backgroundColor
         if view.subviews.isEmpty {
             viewModel.createCardSliderViewModel(cardType: cardType)
             if let preSelectedCard = viewModel.getCardSliderViewModel().first {
@@ -180,7 +175,7 @@ extension PXOneTapViewController {
 
     private func renderViews() {        
         // Set contentView height and position
-        let contentViewHeight = PXLayout.getAvailabelScreenHeight(in: self)
+        let contentViewHeight = PXLayout.getAvailabelScreenHeightWithStatusBarOnly(in: self)
         view.layer.masksToBounds = true
         
         let contentView = UIStackView()
@@ -192,11 +187,7 @@ extension PXOneTapViewController {
         
         PXLayout.setHeight(owner: contentView, height: contentViewHeight)
         PXLayout.pinBottom(view: contentView)
-        if #available(iOS 11.0, *) {
-            NSLayoutConstraint.activate([
-                contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-            ])
-        } 
+
         // Add header view.
         let headerView = getHeaderView(selectedCard: selectedCard, pxOneTapContext: self.pxOneTapContext)
         
@@ -744,7 +735,6 @@ extension PXOneTapViewController: PXCardSliderProtocol {
             callbackPaymentData(viewModel.getClearPaymentData())
         } else {
             self.view.backgroundColor = UIColor(red: 0.22, green: 0.54, blue: 0.82, alpha: 1)
-            self.navigationController?.setNavigationBarHidden(false, animated: true)
             if let newCard = viewModel.expressData?.compactMap({ $0.newCard }).first {
                 if newCard.sheetOptions != nil {
                     // Present sheet to pick standard card form or webpay
@@ -799,6 +789,12 @@ extension PXOneTapViewController: PXCardSliderProtocol {
             builder.setAnimated(true)
             cardFormVC = MLCardForm(builder: builder).setupController()
         }
+        
+        super.shouldHideNavigationBar = false
+        super.shouldShowBackArrow = true
+        
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        
         navigationController?.pushViewController(cardFormVC, animated: true)
     }
 
